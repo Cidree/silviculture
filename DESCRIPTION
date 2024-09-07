@@ -3,10 +3,13 @@ Type: Package
 Title: Tools for forest technicians
 Version: 0.1.0
 Authors@R: person("Adrián", "Cidre González", email = "adrian.cidre@gmail.com", role = c("aut", "cre"))
-Description: Common dendrometry operations
+Description: A package for common dendrometry operations such as inventory preparing, and inventory data analysis.
 License: GPL (>= 3)
 Encoding: UTF-8
 LazyData: true
 RoxygenNote: 7.3.2
 Imports: 
+    dplyr,
     glue
+Depends: 
+    R (>= 2.10)
