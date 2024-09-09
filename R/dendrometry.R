@@ -462,7 +462,7 @@ silv_summary <- function(data,
       ntrees_ha = silv_ntrees_ha(ntrees, plot_size, plot_shape),
       h0        = silv_dominant_height(dclass, height, ntrees_ha, which = which_h0),
       dg        = silv_sqrmean_diameter(dclass, ntrees_ha),
-      g_ha      = silv_basal_area(dg, ntrees_ha),
+      g_ha      = silv_basal_area(dclass, ntrees_ha),
       .by       = .groups
     ) |>
     dplyr::arrange(dplyr::across(.groups))
