@@ -33,7 +33,7 @@ silv_diametric_class <- function(x,
   # 1. Create intervals depending on user input
   ## - If dmax is NULL, use max diameter from data
   if (is.null(dmax)) {
-    cuts_vec <- seq(dmin, max(x) + class_length, class_length)
+    cuts_vec <- seq(dmin, max(x, na.rm = TRUE) + class_length, class_length)
   } else {
     message(
       glue::glue("There are {length(x[x > dmax])} diameter values greater than `dmax = {dmax}`. They will be included in the greatest class.")
