@@ -4,15 +4,15 @@
 \alias{silv_dominant_height}
 \title{Calculates the dominant height}
 \usage{
-silv_dominant_height(diameter, height, ntrees, which = "assman")
+silv_dominant_height(diameter, height, ntrees = NULL, which = "assman")
 }
 \arguments{
 \item{diameter}{Numeric vector with diameter classes}
 
 \item{height}{Numeric vector with averaged heights by diameter class}
 
-\item{ntrees}{Numeric vector with number of trees per hectare. Calculated with
-[silv_ntrees_ha()]}
+\item{ntrees}{Optional. Numeric vector with number of trees per hectare.
+Use this argument when you have aggregated data by diametric classes (see details).}
 
 \item{which}{The method to calculate the dominant height (see details)}
 }
@@ -31,6 +31,10 @@ trees per hectare
 
 - \bold{Hart}: calculates the \eqn{H_0} as the mean height of the 100 tallest
 trees per hectare
+
+When \code{ntrees = NULL}, the function will assume that each diameter and height
+belongs to only one trees. If you have data aggregated by hectare, you'll use the
+number of trees per hectare in this argument.
 }
 \examples{
 ## calculate h0 for inventory data groupped by plot_id and species

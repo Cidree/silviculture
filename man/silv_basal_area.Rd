@@ -29,7 +29,7 @@ The function uses the next formula:
 
 where G is the basal area in \eqn{m^2}, and D is the diameter in the `units`
 specified in the function. It is recommended to use the squared mean diameter
-calculated with [silv_sqrmean_diameter()]
+calculated with [silv_sqrmean_diameter]
 }
 \examples{
 ## calculate G for inventory data grouped by plot_id and species

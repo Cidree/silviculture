@@ -29,6 +29,17 @@ and also to determine how intense it should be.
 
 - \bold{Hart-Brecking Index}: it assumes triangular planting pattern.
 }
+\examples{
+inventory_samples |>
+  summarise(
+    h0     = silv_dominant_height(diameter, height),
+    ntrees = n(),
+    .by    = plot_id
+  ) |>
+  ## calculate number of trees per hectare
+  mutate(ntrees_ha = silv_ntrees_ha(ntrees, plot_size = 14.1)) |>
+  mutate(spacing = silv_spacing_index(h0, ntrees_ha))
+}
 \references{
 Assmann, E. (1970) The principles of forest yield study: Studies in the
 organic production, structure, increment, and yield of forest stands. Pergamon Press, Oxford.
