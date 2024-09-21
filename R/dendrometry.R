@@ -144,8 +144,8 @@ silv_ntrees_ha <- function(x,
 #'
 #' @param diameter Numeric vector with diameter classes
 #' @param height Numeric vector with averaged heights by diameter class
-#' @param ntrees Numeric vector with number of trees per hectare. Calculated with
-#'    [silv_ntrees_ha()]
+#' @param ntrees Optional. Numeric vector with number of trees per hectare.
+#' Use this argument when you have aggregated data by diametric classes (see details).
 #' @param which The method to calculate the dominant height (see details)
 #'
 #' @details
@@ -164,6 +164,12 @@ silv_ntrees_ha <- function(x,
 #' @return A numeric vector
 #' @export
 #'
+#' @details
+#' When \code{ntrees = NULL}, the function will assume that each diameter and height
+#' belongs to only one trees. If you have data aggregated by hectare, you'll use the
+#' number of trees per hectare in this argument.
+#'
+#'
 #' @examples
 #' ## calculate h0 for inventory data groupped by plot_id and species
 #' library(dplyr)
@@ -181,7 +187,7 @@ silv_ntrees_ha <- function(x,
 #'   )
 silv_dominant_height <- function(diameter,
                                  height,
-                                 ntrees,
+                                 ntrees = NULL,
                                  which = "assman") {
 
   # 0. Handle errors and setup
@@ -189,15 +195,24 @@ silv_dominant_height <- function(diameter,
   if (!tolower(which) %in% c("assman", "hart")) stop("The argument `which` must be either <assman> or <hart>.")
 
   # 1. Create a data frame with input variables
-  data <- data.frame(
-    d  = diameter,
-    h  = height,
-    nt = ntrees
-  )
+  if (is.null(ntrees)) {
+    data <- data.frame(
+      d  = diameter,
+      h  = height,
+      nt = 1
+    )
+  } else {
+    data <- data.frame(
+      d  = diameter,
+      h  = height,
+      nt = ntrees
+    )
+  }
+
 
   # 2. Calculate dominant height
   if (tolower(which) == "assman") {
-    data |>
+    d0 <- data |>
       ## sort descending by diameter class
       dplyr::arrange(dplyr::desc(d)) |>
       dplyr::mutate(
@@ -208,7 +223,7 @@ silv_dominant_height <- function(diameter,
       ) |>
       dplyr::pull(.do)
   } else {
-    data |>
+    d0 <- data |>
       ## sort descending by height
       dplyr::arrange(dplyr::desc(h)) |>
       dplyr::mutate(
@@ -220,8 +235,55 @@ silv_dominant_height <- function(diameter,
       dplyr::pull(.do)
   }
 
+  # 3. If it's not vectorized, retrieve just one value
+  if (is.null(ntrees)) d0[1] else d0
+
 }
 
+
+
+
+
+#' Calculates Lorey's Height
+#'
+#' Tree's mean height weighted by basal area
+#'
+#' @param height Numeric vector of heights
+#' @param g Numeric vector of basal areas
+#' @param ntrees Optional. Numeric vector of number of trees per hectare.
+#' Use this argument when you have aggregated data by diametric classes (see details).
+#'
+#' @return A numeric vector
+#' @export
+#'
+#' @details
+#' The function calculates Lorey's mean height according to:
+#'
+#' \deqn{h_L = \frac{\sum n_i g_i h_i}{\sum n_i g_i}}
+#'
+#' When ntrees is not provided (i.e. \code{ntrees = NULL}) the formula is simply
+#' the weighted mean of the provided heights and basal areas:
+#'
+#' \deqn{h_L = \frac{\sum g_i h_i}{\sum g_i}}
+#'
+#' @examples
+#' ## Calculate Lorey's Height by plot and species
+#' library(dplyr)
+#  inventory_samples |>
+#'  mutate(g = silv_basal_area(diameter)) |>
+#'  summarise(
+#'    lh  = silv_lorey_height(height, g),
+#'    .by = c(plot_id, species)
+#'  )
+silv_lorey_height <- function(height, g, ntrees = NULL) {
+
+  if (is.null(ntrees)) {
+    weighted.mean(height, g)
+  } else {
+    weighted.mean(height, g * ntrees)
+  }
+
+}
 
 
 
@@ -305,7 +367,7 @@ silv_sqrmean_diameter <- function(diameter,
 #'
 #' where G is the basal area in \eqn{m^2}, and D is the diameter in the `units`
 #' specified in the function. It is recommended to use the squared mean diameter
-#' calculated with [silv_sqrmean_diameter()]
+#' calculated with [silv_sqrmean_diameter]
 #'
 #' @examples
 #' ## calculate G for inventory data grouped by plot_id and species
@@ -339,7 +401,7 @@ silv_basal_area <- function(diameter,
     "cm" = (pi / 4) * (diameter / 100)**2 * ntrees,
     "mm" = (pi / 4) * (diameter / 1000)**2 * ntrees,
     "m"  = (pi / 4) * diameter**2 * ntrees,
-    stop("Invalid units")
+    stop("Invalid `units`.")
   )
 
 }
@@ -374,9 +436,21 @@ silv_basal_area <- function(diameter,
 #' organic production, structure, increment, and yield of forest stands. Pergamon Press, Oxford.
 #'
 #' @examples
+#' inventory_samples |>
+#'   summarise(
+#'     h0     = silv_dominant_height(diameter, height),
+#'     ntrees = n(),
+#'     .by    = plot_id
+#'   ) |>
+#'   ## calculate number of trees per hectare
+#'   mutate(ntrees_ha = silv_ntrees_ha(ntrees, plot_size = 14.1)) |>
+#'   mutate(spacing = silv_spacing_index(h0, ntrees_ha))
 silv_spacing_index <- function(h0,
                                ntrees,
                                which = "hart") {
+
+  # 0. Errors
+  if (!any(is.numeric(h0), is.numeric(ntrees))) stop("`h0` and `ntrees` must be numeric")
 
   # 1. Calculate spacing index
   switch(which,
@@ -388,8 +462,6 @@ silv_spacing_index <- function(h0,
 }
 
 
-
-
 #' Calculates a bunch of forest metrics
 #'
 #' Summarize forest inventory data calculating most typical variables
@@ -397,7 +469,7 @@ silv_spacing_index <- function(h0,
 #' @param data A tibble
 #' @param diameter A column with inventory diameters
 #' @param height A column with inventory heights
-#' @param plot_size The size of the plot. See [silv_ntrees_ha()]
+#' @param plot_size The size of the plot. See \link{silv_ntrees_ha}
 #' @param .groups A character vector with variables to group by (e.g. plot id, tree
 #'    species, etc)
 #' @param dmin The minimum inventory diameter in centimeters
@@ -407,9 +479,9 @@ silv_spacing_index <- function(h0,
 #' @param include_lowest Logical. If TRUE (the default), the intervals are
 #'    `[dim1, dim2)`. If FALSE, the intervals are `(dim1, dim2]`
 #' @param plot_shape The shape of the sampling plot. Either `circular` or `rectangular`
-#' @param which_h0 The method to calculate the dominant height. See [silv_dominant_height()]
+#' @param which_h0 The method to calculate the dominant height. See \link{silv_dominant_height}
 #' @param which_spacing A character with the name of the index (either `hart` or `hart-brecking`).
-#'    See [silv_spacing_index()]
+#'    See \link{silv_spacing_index}
 #'
 #' @return A list with two tibbles
 #' @export
@@ -428,7 +500,7 @@ silv_spacing_index <- function(h0,
 #'   diameter  = diameter,
 #'   height    = height,
 #'   plot_size = 10,
-#'   .groups    = c("plot_id", "species")
+#'   .groups   = c("plot_id", "species")
 #'  )
 silv_summary <- function(data,
                          diameter,
@@ -456,7 +528,7 @@ silv_summary <- function(data,
     dplyr::summarise(
       height = mean({{ height }}, na.rm = TRUE),
       ntrees = dplyr::n(),
-      .by    = c(.groups, dclass)
+      .by    = dplyr::all_of(c(.groups, "dclass"))
     ) |>
     dplyr::mutate(
       ntrees_ha = silv_ntrees_ha(ntrees, plot_size, plot_shape),
@@ -476,10 +548,11 @@ silv_summary <- function(data,
       h_mean    = weighted.mean(height, ntrees_ha),
       h_median  = weighted_median(height, ntrees_ha),
       h_sd      = weighted_sd(height, ntrees_ha),
+      h_lorey   = silv_lorey_height(height, g_ha, ntrees_ha),
       ntrees    = sum(ntrees),
       ntrees_ha = sum(ntrees_ha),
       g_ha      = sum(g_ha),
-      .by       = c(.groups, h0, dg)
+      .by       = dplyr::all_of(c(.groups, "h0", "dg"))
     ) |>
     dplyr::mutate(
       spacing   = silv_spacing_index(h0, ntrees_ha, which = which_spacing)
