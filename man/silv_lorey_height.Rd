@@ -33,6 +33,7 @@ the weighted mean of the provided heights and basal areas:
 \examples{
 ## Calculate Lorey's Height by plot and species
 library(dplyr)
+inventory_samples |>
  mutate(g = silv_basal_area(diameter)) |>
  summarise(
    lh  = silv_lorey_height(height, g),

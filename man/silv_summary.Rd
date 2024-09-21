@@ -26,7 +26,7 @@ silv_summary(
 
 \item{height}{A column with inventory heights}
 
-\item{plot_size}{The size of the plot. See [silv_ntrees_ha]}
+\item{plot_size}{The size of the plot. See \link{silv_ntrees_ha}}
 
 \item{.groups}{A character vector with variables to group by (e.g. plot id, tree
 species, etc)}
@@ -43,7 +43,7 @@ are greater than `dmax` are included in the greatest class}
 \item{include_lowest}{Logical. If TRUE (the default), the intervals are
 `[dim1, dim2)`. If FALSE, the intervals are `(dim1, dim2]`}
 
-\item{which_h0}{The method to calculate the dominant height. See [silv_dominant_height]}
+\item{which_h0}{The method to calculate the dominant height. See \link{silv_dominant_height}}
 
 \item{which_spacing}{A character with the name of the index (either `hart` or `hart-brecking`).
 See \link{silv_spacing_index}}

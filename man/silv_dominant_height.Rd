@@ -37,7 +37,7 @@ belongs to only one trees. If you have data aggregated by hectare, you'll use th
 number of trees per hectare in this argument.
 }
 \examples{
-## calculate h0 for inventory data groupped by plot_id and species
+## calculate h0 for inventory data grouped by plot_id and species
 library(dplyr)
 inventory_samples |>
 mutate(dclass = silv_diametric_class(diameter)) |>
