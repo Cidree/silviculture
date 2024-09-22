@@ -1,5 +1,5 @@
 
-# silviculture
+# silviculture <a href="https://cidree.github.io/silviculture/"><img src="man/figures/logo.png" align="right" height="138" alt="silviculture website" /></a>
 
 <!-- badges: start -->
 [![CRAN status](https://www.r-pkg.org/badges/version/silviculture)](https://CRAN.R-project.org/package=silviculture)
@@ -12,7 +12,7 @@ The goal of `silviculture` is to provide functions that accelerate the analysis 
 
 ## Installation
 
-You can install the development version of silviculture from [GitHub](https://github.com/) with:
+You can install the development version of `silviculture` from [GitHub](https://github.com/) with:
 
 ``` r
 # install.packages("pak")
