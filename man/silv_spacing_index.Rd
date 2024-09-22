@@ -2,7 +2,7 @@
 % Please edit documentation in R/dendrometry.R
 \name{silv_spacing_index}
 \alias{silv_spacing_index}
-\title{Hart or Hart-Brecking spacing index}
+\title{Hart or Hart-Becking spacing index}
 \usage{
 silv_spacing_index(h0, ntrees, which = "hart")
 }
@@ -19,7 +19,7 @@ See details}
 A numeric vector
 }
 \description{
-Calculate the index of Hart or the index of Hart-Brecking for even-aged stands
+Calculates the Hart Index or the Hart-Becking Index for even-aged stands
 }
 \details{
 The spacing index can be used to determine whether a thinning is needed or not,
@@ -30,6 +30,8 @@ and also to determine how intense it should be.
 - \bold{Hart-Brecking Index}: it assumes triangular planting pattern.
 }
 \examples{
+library(dplyr)
+## Calculate spacing index for each plot
 inventory_samples |>
   summarise(
     h0     = silv_dominant_height(diameter, height),
