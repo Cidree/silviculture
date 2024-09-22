@@ -1,4 +1,4 @@
-# silviculture <a href="https://cidree.github.io/silviculture/"><img src="man/figures/logo.png" alt="silviculture website" align="right" height="138"/></a>
+# silviculture <a href="https://github.com/Cidree/silviculture"><img src="man/figures/logo.png" alt="silviculture website" align="right" height="138"/></a>
 
 <!-- badges: start -->
 
