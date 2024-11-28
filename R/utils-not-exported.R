@@ -35,10 +35,10 @@ calc_dominant_height <- function(nmax, ntress, height) {
   first_elements <- sapply(l, function(x) x[1])
 
   # Calculate the weighted sum
-  weighted_sum <- sum(sapply(l, function(x) x[1] * x[2]))
+  weighted_sum <- sum(sapply(l, function(x) x[1] * x[2]), na.rm = TRUE)
 
   # Calculate the weighted mean
-  weighted_sum / sum(first_elements)
+  weighted_sum / sum(first_elements, na.rm = TRUE)
 
 }
 
