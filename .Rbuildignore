@@ -2,3 +2,7 @@
 ^\.Rproj\.user$
 ^LICENSE\.md$
 scrap.R
+^README\.Rmd$
+^_pkgdown\.yml$
+^docs$
+^pkgdown$
