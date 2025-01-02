@@ -27,6 +27,10 @@ reference:
     - silv_spacing_index
     - silv_sqrmean_diameter
     - silv_summary
+  - title: "LiDAR metrics"
+    contents:
+    - lid_fcov
+    - lid_lhdi
   - title: "Data"
     contents:
     - inventory_samples
