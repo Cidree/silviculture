@@ -1,0 +1,51 @@
+url: https://cidree.github.io/silviculture/
+template:
+  bootstrap: 5
+  bslib:
+    bg: "#F5F7FA"       # page background
+    fg: "#202123"       # foreground (text colour)
+    primary: "#333C4A"  # link colour, translucent color
+    secondary: "#ff5733"
+    pkgdown-nav-height: 75px
+    base_font: {google: "Roboto"}
+    heading_font: {google: "Merriweather"}
+    code_font: {google: "Source Code Pro"}
+  theme: pygments
+
+authors:
+  Adrián Cidre González:
+    href: https://adrian-cidre.com/
+
+reference:
+  - title: "Dendrometry"
+    contents:
+    - silv_basal_area
+    - silv_diametric_class
+    - silv_dominant_height
+    - silv_lorey_height
+    - silv_ntrees_ha
+    - silv_spacing_index
+    - silv_sqrmean_diameter
+    - silv_summary
+  - title: "Data"
+    contents:
+    - inventory_samples
+
+navbar:
+  title: "silviculture"
+  bg: dark
+  left:
+    - icon: fa-home
+      href: index.html
+    - text: "Reference"
+      href: reference/index.html
+    - text: "News"
+      href: news/index.html
+  structure:
+    right: [search, github]
+  components:
+    github:
+      icon: fa-github
+      href: https://github.com/Cidree/silviculture
+      aria-label: GitHub
+
