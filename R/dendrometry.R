@@ -29,27 +29,27 @@ silv_diametric_class <- function(x,
 
   # 0. Setup and handle errors
   ## 0.1. Handle data type
-  if (!is.logical(return_intervals)) stop("The argument `return_intervals` must be TRUE or FALSE")
-  if (!is.logical(include_lowest)) stop("The argument `include_lowest` must be TRUE or FALSE")
-  if (!is.numeric(x)) stop("`x` must be a numeric vector")
-  if (!is.numeric(dmin)) stop("`dmin` must be a numeric vector")
-  if (!is.numeric(dmax) && !is.null(dmax)) stop("`dmax` must be a numeric vector or NULL")
-  if (!is.numeric(class_length)) stop("`class_length` must be a numeric vector")
+  if (!is.logical(return_intervals)) cli::cli_abort("The argument `return_intervals` must be TRUE or FALSE")
+  if (!is.logical(include_lowest)) cli::cli_abort("The argument `include_lowest` must be TRUE or FALSE")
+  if (!is.numeric(x)) cli::cli_abort("`x` must be a numeric vector")
+  if (!is.numeric(dmin)) cli::cli_abort("`dmin` must be a numeric vector")
+  if (!is.numeric(dmax) && !is.null(dmax)) cli::cli_abort("`dmax` must be a numeric vector or NULL")
+  if (!is.numeric(class_length)) cli::cli_abort("`class_length` must be a numeric vector")
   ## 0.2. Invalid values
-  if (any(x < 0)) warning("Any value in `x` is less than 0. Review your data.")
-  if (dmin <= 0) stop("`dmin` must be greater than 0")
-  if (dmax <= 0 && !is.null(dmax)) stop("`dmax` must be greater than 0")
-  if (class_length <= 0) stop("`class_length` must be greater than 0")
+  if (any(x < 0)) cli::cli_warn("Any value in `x` is less than 0. Review your data.")
+  if (dmin <= 0) cli::cli_abort("`dmin` must be greater than 0")
+  if (dmax <= 0 && !is.null(dmax)) cli::cli_abort("`dmax` must be greater than 0")
+  if (class_length <= 0) cli::cli_abort("`class_length` must be greater than 0")
   ## 0.3. dmax must be > than dmin
-  if (dmin >= dmax && is.numeric(dmax)) stop("`dmax` has to be greater than `dmin`")
+  if (dmin >= dmax && is.numeric(dmax)) cli::cli_abort("`dmax` has to be greater than `dmin`")
 
   # 1. Create intervals depending on user input
   ## - If dmax is NULL, use max diameter from data
   if (is.null(dmax)) {
     cuts_vec <- seq(dmin, max(x, na.rm = TRUE) + class_length, class_length)
   } else {
-    message(
-      glue::glue("There are {length(x[x > dmax])} diameter values greater than `dmax = {dmax}`. They will be included in the greatest class.")
+    cli::cli_alert_info(
+      "There are {length(x[x > dmax])} diameter values greater than `dmax = {dmax}`. They will be included in the greatest class."
     )
     x[x > dmax] <- dmax
     cuts_vec <- c(seq(dmin, dmax, class_length), Inf)
@@ -126,7 +126,7 @@ silv_ntrees_ha <- function(x,
 
   # 0. Handle errors
   stopifnot(plot_shape %in% c("circular", "rectangular"))
-  if (length(plot_size) == 1 && plot_size <= 0) stop("`plot_size` has to be greater than 0")
+  if (length(plot_size) == 1 && plot_size <= 0) cli::cli_abort("`plot_size` has to be greater than 0")
 
   # 1. Calculate ntrees in ha
   if (plot_shape == "circular") {
@@ -204,12 +204,12 @@ silv_dominant_height <- function(diameter,
 
   # 0. Handle errors and setup
   ## 0.1. Errors
-  if (!tolower(which) %in% c("assman", "hart")) stop("`which` must be either <assman> or <hart>.")
-  if (!is.numeric(diameter)) stop("`diameter` must be a numeric vector")
-  if (!is.numeric(height)) stop("`height` must be a numeric vector")
+  if (!tolower(which) %in% c("assman", "hart")) cli::cli_abort("`which` must be either <assman> or <hart>.")
+  if (!is.numeric(diameter)) cli::cli_abort("`diameter` must be a numeric vector")
+  if (!is.numeric(height)) cli::cli_abort("`height` must be a numeric vector")
   ## 0.2. Invalid values
-  if (any(diameter <= 0)) warning("Any value in `diameter` is less than 0. Review your data.")
-  if (any(height <= 0)) warning("Any value in `height` is less than 0. Review your data.")
+  if (any(diameter <= 0)) cli::cli_warn("Any value in `diameter` is less than 0. Review your data.")
+  if (any(height <= 0)) cli::cli_warn("Any value in `height` is less than 0. Review your data.")
 
   # 1. Create a data frame with input variables
   if (is.null(ntrees)) {
@@ -295,8 +295,8 @@ silv_dominant_height <- function(diameter,
 silv_lorey_height <- function(height, g, ntrees = NULL) {
 
   # 0. Handle errors
-  if (length(height) != length(g)) stop("`height` and `g` must have the same length")
-  if (is.numeric(ntrees) && length(ntrees) != length(g)) stop("`ntrees` must have the same length as `height` and `g`, or be NULL")
+  if (length(height) != length(g)) cli::cli_abort("`height` and `g` must have the same length")
+  if (is.numeric(ntrees) && length(ntrees) != length(g)) cli::cli_abort("`ntrees` must have the same length as `height` and `g`, or be NULL")
 
   # 1. Calculate
   if (is.null(ntrees)) {
@@ -344,10 +344,10 @@ silv_sqrmean_diameter <- function(diameter,
                                   ntrees = NULL) {
 
   # 0. Handle errors and setup
-  if (is.numeric(ntrees) && length(ntrees) != length(diameter)) stop("`ntrees` must have the same length as `diameter` or be NULL")
-  if (!is.numeric(diameter)) stop("`diameter` must be a numeric vector")
+  if (is.numeric(ntrees) && length(ntrees) != length(diameter)) cli::cli_abort("`ntrees` must have the same length as `diameter` or be NULL")
+  if (!is.numeric(diameter)) cli::cli_abort("`diameter` must be a numeric vector")
   ## 0.2. Invalid values
-  if (any(diameter <= 0)) warning("Any value in `diameter` is less than 0. Review your data.")
+  if (any(diameter <= 0)) cli::cli_warn("Any value in `diameter` is less than 0. Review your data.")
 
   # 1. Calculate squared mean diameter
   if (is.null(ntrees)) {
@@ -419,10 +419,10 @@ silv_basal_area <- function(diameter,
                             units = "cm") {
 
   # 0. Handle errors and set-up
-  if (is.numeric(ntrees) && length(ntrees) != length(diameter)) stop("`ntrees` must have the same length as `diameter` or be NULL")
-  if (!is.numeric(diameter)) stop("`diameter` must be a numeric vector")
+  if (is.numeric(ntrees) && length(ntrees) != length(diameter)) cli::cli_abort("`ntrees` must have the same length as `diameter` or be NULL")
+  if (!is.numeric(diameter)) cli::cli_abort("`diameter` must be a numeric vector")
   ## 0.2. Invalid values
-  if (any(diameter <= 0)) warning("Any value in `diameter` is less than 0. Review your data.")
+  if (any(diameter <= 0)) cli::cli_warn("Any value in `diameter` is less than 0. Review your data.")
   ## 0.3. If ntrees = NULL, only one tree assumed
   if (is.null(ntrees)) ntrees <- rep(1, length(diameter))
 
@@ -431,7 +431,7 @@ silv_basal_area <- function(diameter,
     "cm" = (pi / 4) * (diameter / 100)**2 * ntrees,
     "mm" = (pi / 4) * (diameter / 1000)**2 * ntrees,
     "m"  = (pi / 4) * diameter**2 * ntrees,
-    stop("Invalid `units`. Use <cm>, <mm>, or <m>")
+    cli::cli_abort("Invalid `units`. Use <cm>, <mm>, or <m>")
   )
 
 }
@@ -482,15 +482,15 @@ silv_spacing_index <- function(h0,
                                which = "hart") {
 
   # 0. Errors
-  if (!is.numeric(ntrees)) stop("ntrees` must be numeric")
-  if (!is.numeric(h0)) stop("`h0` must be numeric")
-  if (length(h0) != length(ntrees)) stop("`h0` and `ntrees` must have the same length")
+  if (!is.numeric(ntrees)) cli::cli_abort("ntrees` must be numeric")
+  if (!is.numeric(h0)) cli::cli_abort("`h0` must be numeric")
+  if (length(h0) != length(ntrees)) cli::cli_abort("`h0` and `ntrees` must have the same length")
 
   # 1. Calculate spacing index
   switch(which,
     "hart"         = 10000 / h0 / sqrt(ntrees),
     "hart-becking" = sqrt(20000 / (ntrees * sqrt(3))) / h0 * 100,
-    stop("`which` must be either <hart> or <hart-becking>")
+    cli::cli_abort("`which` must be either <hart> or <hart-becking>")
   )
 
 }
@@ -551,8 +551,8 @@ silv_summary <- function(data,
 
   # 0. Handle errors and setup
   ## 0.1. Errors
-  if (!which_h0 %in% c("assman", "hart")) stop("The argument `which_h0` must be either <assman> or <hart>.")
-  if (!which_spacing %in% c("hart", "hart-brecking")) stop("The argument `which_spacing` must be either <hart-brecking> or <hart>.")
+  if (!which_h0 %in% c("assman", "hart")) cli::cli_abort("The argument `which_h0` must be either <assman> or <hart>.")
+  if (!which_spacing %in% c("hart", "hart-brecking")) cli::cli_abort("The argument `which_spacing` must be either <hart-brecking> or <hart>.")
 
   # calculate metrics
   dclass_group_metrics <- data |>
