@@ -1,6 +1,6 @@
 Package: silviculture
 Type: Package
-Title: Tools for forest technicians
+Title: Utility functions for forest inventory and silviculture
 Version: 0.1.0
 Authors@R: person("Adrián", "Cidre González", email = "adrian.cidre@gmail.com", role = c("aut", "cre"))
 Description: A package for common dendrometry operations such as inventory preparing, and inventory data analysis.
@@ -9,10 +9,10 @@ Encoding: UTF-8
 LazyData: true
 RoxygenNote: 7.3.2
 Imports: 
-    dplyr,
-    glue
+  cli,
+  dplyr
 Depends: 
-    R (>= 2.10)
+  R (>= 2.10)
 Suggests: 
-    testthat (>= 3.0.0)
+  testthat (>= 3.0.0)
 Config/testthat/edition: 3
