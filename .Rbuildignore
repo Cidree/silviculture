@@ -6,3 +6,4 @@ scrap.R
 ^_pkgdown\.yml$
 ^docs$
 ^pkgdown$
+^\.github$
