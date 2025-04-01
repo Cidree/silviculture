@@ -2,7 +2,7 @@ pandoc: 3.1.11
 pkgdown: 2.1.1
 pkgdown_sha: ~
 articles: {}
-last_built: 2025-04-01T21:38Z
+last_built: 2025-04-01T22:03Z
 urls:
   reference: https://cidree.github.io/silviculture/reference
   article: https://cidree.github.io/silviculture/articles

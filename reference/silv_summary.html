@@ -60,7 +60,7 @@
 
 
 <dl><dt id="arg-data">data<a class="anchor" aria-label="anchor" href="#arg-data"></a></dt>
-<dd><p>A tibble</p></dd>
+<dd><p>A tibble of inventory data</p></dd>
 
 
 <dt id="arg-diameter">diameter<a class="anchor" aria-label="anchor" href="#arg-diameter"></a></dt>
@@ -113,7 +113,7 @@ See <a href="silv_spacing_index.html">silv_spacing_index</a></p></dd>
 </dl></div>
     <div class="section level2">
     <h2 id="value">Value<a class="anchor" aria-label="anchor" href="#value"></a></h2>
-    <p>A list with two tibbles</p>
+    <p>an S7 `Inventory` list with 2 `tibbles`</p>
     </div>
     <div class="section level2">
     <h2 id="details">Details<a class="anchor" aria-label="anchor" href="#details"></a></h2>
@@ -131,43 +131,33 @@ See <a href="silv_spacing_index.html">silv_spacing_index</a></p></dd>
 <span class="r-in"><span>  plot_size <span class="op">=</span> <span class="fl">10</span>,</span></span>
 <span class="r-in"><span>  .groups   <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"plot_id"</span>, <span class="st">"species"</span><span class="op">)</span></span></span>
 <span class="r-in"><span> <span class="op">)</span></span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> $dclass_metrics</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #949494;"># A tibble: 57 × 9</span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>    plot_id species dclass height ntrees ntrees_ha    h0    dg  g_ha</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>      <span style="color: #949494; font-style: italic;">&lt;int&gt;</span>   <span style="color: #949494; font-style: italic;">&lt;int&gt;</span>  <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span>  <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span>  <span style="color: #949494; font-style: italic;">&lt;int&gt;</span>     <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 1</span>       7      27     50  18         3      95.5 19.7   57.9 18.8 </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 2</span>       7      27     55  17.6       5     159.  19.7   57.9 37.8 </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 3</span>       7      27     35  16.5       1      31.8 19.7   57.9  3.06</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 4</span>       7      27     45  14.6       2      63.7 19.7   57.9 10.1 </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 5</span>       7      27     60  19.1       3      95.5 19.7   57.9 27   </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 6</span>       7      27     25  12.9       1      31.8 19.7   57.9  1.56</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 7</span>       7      27    120  20.9       1      31.8 19.7   57.9 36   </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 8</span>       8      28     55  15.5       1      31.8 17.5   57.6  7.56</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 9</span>       8      28     60  19.5       1      31.8 17.5   57.6  9   </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">10</span>       8      81     10   5.87      3      95.5  6.39  16.2  0.75</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #949494;"># ℹ 47 more rows</span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> $group_metrics</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #949494;"># A tibble: 14 × 15</span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>    plot_id species d_mean d_median  d_sd    dg h_mean h_median  h_sd h_lorey</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>      <span style="color: #949494; font-style: italic;">&lt;int&gt;</span>   <span style="color: #949494; font-style: italic;">&lt;int&gt;</span>  <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span>    <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span>  <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span>    <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span>   <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 1</span>       7      27   54.7       55 19.2   57.9  17.4     17.6  1.92    18.1 </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 2</span>       8      28   57.5       55  2.5   57.6  17.5     15.5  2       17.7 </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 3</span>       8      81   15         15  6.12  16.2   6.29     5.87 0.525    6.43</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 4</span>       8      83   14.3       10  4.95  15.1   5.67     6.10 0.495    5.41</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 5</span>       8     294   14         15  2     14.1   6.74     7.12 0.770    7.07</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 6</span>      10      27   86.7       85 16.5   88.2  27.7     28.4  4.03    28.5 </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 7</span>      10      72   41.2       35  6.50  41.8  13.4     10.8  2.75    13.2 </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 8</span>      10      81   13.5       15  3.20  13.9   7.38     7.64 0.379    7.50</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 9</span>      10      83   15         15  3.16  15.3   6.4      6.30 0.155    6.33</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">10</span>      53      27   41.8       40 11.5   43.4  21.3     19.3  5.11    23.0 </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">11</span>     189      81   20.7       20  6.51  21.7  11.5     12.6  2.26    12.4 </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">12</span>     189      82   17.3       15  3.73  17.7  10.2      9.33 1.30     9.85</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">13</span>     189      83   14.5       15  3.34  14.9   9.18     9.08 0.751    9.26</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">14</span>     189      84   20.2       20  6.72  21.3  11.6     11.2  1.93    11.6 </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #949494;"># ℹ 5 more variables: h0 &lt;dbl&gt;, ntrees &lt;int&gt;, ntrees_ha &lt;dbl&gt;, g_ha &lt;dbl&gt;,</span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #949494;">#   spacing &lt;dbl&gt;</span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> &lt;silviculture::Inventory&gt;</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>  @ dclass_metrics: tibble [57 × 9] (S3: tbl_df/tbl/data.frame)</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>  $ plot_id  : int [1:57] 7 7 7 7 7 7 7 8 8 8 ...</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>  $ species  : int [1:57] 27 27 27 27 27 27 27 28 28 81 ...</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>  $ dclass   : num [1:57] 50 55 35 45 60 25 120 55 60 10 ...</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>  $ height   : num [1:57] 18 17.6 16.5 14.6 19.1 ...</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>  $ ntrees   : int [1:57] 3 5 1 2 3 1 1 1 1 3 ...</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>  $ ntrees_ha: num [1:57] 95.5 159.2 31.8 63.7 95.5 ...</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>  $ h0       : num [1:57] 19.7 19.7 19.7 19.7 19.7 ...</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>  $ dg       : num [1:57] 57.9 57.9 57.9 57.9 57.9 ...</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>  $ g_ha     : num [1:57] 18.75 37.81 3.06 10.12 27 ...</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>  @ group_metrics : tibble [14 × 15] (S3: tbl_df/tbl/data.frame)</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>  $ plot_id  : int [1:14] 7 8 8 8 8 10 10 10 10 53 ...</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>  $ species  : int [1:14] 27 28 81 83 294 27 72 81 83 27 ...</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>  $ d_mean   : num [1:14] 54.7 57.5 15 14.3 14 ...</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>  $ d_median : num [1:14] 55 55 15 10 15 85 35 15 15 40 ...</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>  $ d_sd     : num [1:14] 19.16 2.5 6.12 4.95 2 ...</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>  $ dg       : num [1:14] 57.9 57.6 16.2 15.1 14.1 ...</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>  $ h_mean   : num [1:14] 17.42 17.5 6.29 5.67 6.74 ...</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>  $ h_median : num [1:14] 17.64 15.5 5.87 6.1 7.12 ...</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>  $ h_sd     : num [1:14] 1.924 2 0.525 0.495 0.77 ...</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>  $ h_lorey  : num [1:14] 18.1 17.67 6.43 5.41 7.07 ...</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>  $ h0       : num [1:14] 19.65 17.5 6.39 5.15 7.12 ...</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>  $ ntrees   : int [1:14] 16 2 8 7 5 6 4 10 5 19 ...</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>  $ ntrees_ha: num [1:14] 509.3 63.7 254.6 222.8 159.2 ...</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>  $ g_ha     : num [1:14] 134.31 16.56 5.25 4 2.5 ...</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>  $ spacing  : num [1:14] 22.6 71.6 98.1 130.2 111.3 ...</span>
 </code></pre></div>
     </div>
   </main><aside class="col-md-3"><nav id="toc" aria-label="Table of contents"><h2>On this page</h2>
