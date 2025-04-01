@@ -16,6 +16,7 @@
 #' Indicators, 57, 268–279. \url{https://doi.org/10.1016/j.ecolind.2015.04.017}
 #'
 #' @examples
+#' 1 + 1 ## TODO
 lid_lhdi <- function(z) {
 
   ## LDHI = -Σ [(pi) × ln (pi)]
@@ -55,7 +56,7 @@ lid_lhdi <- function(z) {
 #' Calculate Forest Fraction Cover from LiDAR Data
 #'
 #' This function calculates the forest fraction cover (Fcov) from LiDAR data.
-#' The Fcov is defined as the proportion of first returns above a specified
+#' The Fcov in LiDAR is defined as the proportion of first returns above a specified
 #' height threshold (default: 5 meters) relative to the total number of first returns.
 #'
 #' @param z A numeric vector representing the heights of LiDAR returns

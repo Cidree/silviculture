@@ -20,7 +20,7 @@ A numeric value representing the forest fraction cover,
 }
 \description{
 This function calculates the forest fraction cover (Fcov) from LiDAR data.
-The Fcov is defined as the proportion of first returns above a specified
+The Fcov in LiDAR is defined as the proportion of first returns above a specified
 height threshold (default: 5 meters) relative to the total number of first returns.
 }
 \examples{
