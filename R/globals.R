@@ -1,5 +1,6 @@
 utils::globalVariables(
   c(
+    "biomass_models",
     "d",
     "dclass",
     "dg",
