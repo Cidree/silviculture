@@ -21,7 +21,3 @@ An S7 `Inventory` object, which contains the inventory data.
 A list containing forest inventory data summaries. It includes data by
 diametric class (`dclass_metrics`) and by plot and species (`group_metrics`).
 }
-\examples{
-1 + 1 #TODO
-
-}

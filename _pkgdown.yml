@@ -1,6 +1,7 @@
 url: https://cidree.github.io/silviculture/
 template:
   bootstrap: 5
+  mathjax: true
   bslib:
     bg: "#F5F7FA"       # page background
     fg: "#202123"       # foreground (text colour)
@@ -17,9 +18,12 @@ authors:
     href: https://adrian-cidre.com/
 
 reference:
-  - title: "Dasometry & Dendrometry"
+
+  - title: "Structural forest metrics"
+    desc: Functions for calculating key forest inventory metrics like basal area, dominant height, and tree count, as well as analyzing tree size distribution and stand spacing
     contents:
     - silv_basal_area
+    - silv_biomass
     - silv_diametric_class
     - silv_dominant_height
     - silv_lorey_height
@@ -27,13 +31,23 @@ reference:
     - silv_spacing_index
     - silv_sqrmean_diameter
     - silv_summary
+
   - title: "LiDAR metrics"
+    desc: Functions for extracting and calculating forest structural metrics using LiDAR data.
     contents:
     - lid_fcov
     - lid_lhdi
+
   - title: "Data"
+    desc: Datasets included in the package
     contents:
+    - biomass_models
     - inventory_samples
+
+  - title: Objects
+    desc: S7 classes
+    contents:
+    - Inventory
 
 navbar:
   title: "silviculture"

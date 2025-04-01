@@ -2,12 +2,14 @@
 % Please edit documentation in R/lidar.R
 \name{lid_lhdi}
 \alias{lid_lhdi}
-\title{LiDAR-derived Height Diversity Index (LDHI)}
+\title{LiDAR-derived Height Diversity Index (LHDI)}
 \usage{
-lid_lhdi(z)
+lid_lhdi(z, interval = 0.5)
 }
 \arguments{
 \item{z}{coordinate Z (height) of the point}
+
+\item{interval}{height of the intervals to calculate the metric}
 }
 \value{
 numeric

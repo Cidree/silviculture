@@ -12,8 +12,6 @@
 #' h_lorey, h0, ntrees, ntrees_ha, g_ha, and spacing.
 #'
 #' @return An S7 `Inventory` object, which contains the inventory data.
-#' @examples
-#' 1 + 1 #TODO
 #'
 Inventory <- S7::new_class(
   name = "Inventory",

@@ -1,11 +1,12 @@
 
 
-#' LiDAR-derived Height Diversity Index (LDHI)
+#' LiDAR-derived Height Diversity Index (LHDI)
 #'
 #' LiDAR metric that calculates the LiDAR Height Diversity Index, which
 #' can be used in \code{lidR} \code{*_metrics} functions
 #'
 #' @param z coordinate Z (height) of the point
+#' @param interval height of the intervals to calculate the metric
 #'
 #' @returns numeric
 #' @export
@@ -17,7 +18,7 @@
 #'
 #' @examples
 #' 1 + 1 ## TODO
-lid_lhdi <- function(z) {
+lid_lhdi <- function(z, interval = 0.5) {
 
   ## LDHI = -Σ [(pi) × ln (pi)]
   ## - pi: proportion of returns within the ith range
@@ -27,9 +28,9 @@ lid_lhdi <- function(z) {
   zmax <- max(z)
   zmin <- min(z)
   ## Round zmin down to the nearest multiple of 0.5
-  zmin <- floor(zmin / .5) * .5
+  zmin <- floor(zmin / interval) * interval
   ## nparts: number of full 0.5m layers
-  zparts <- seq(zmin, zmax, .5)
+  zparts <- seq(zmin, zmax, interval)
   # Total number of points
   n <- length(z)
   ## Loop starter
@@ -39,7 +40,7 @@ lid_lhdi <- function(z) {
     ## Part that we have to review in this iteration
     zpart <- zparts[id]
     ## N points whose height fall between the range (0-0.5, 0.5-1...)
-    npoints_i <- length(which(z > zpart - 0.5 & z < zpart))
+    npoints_i <- length(which(z > zpart - interval & z < zpart))
     ## When we have points
     if (npoints_i > 0) {
       ldhi <- (ldhi + ((npoints_i / n) * log(npoints_i / n)))
