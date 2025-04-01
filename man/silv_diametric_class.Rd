@@ -5,7 +5,7 @@
 \title{Classify diameters in classes}
 \usage{
 silv_diametric_class(
-  x,
+  diameter,
   dmin = 7.5,
   dmax = NULL,
   class_length = 5,
@@ -14,7 +14,7 @@ silv_diametric_class(
 )
 }
 \arguments{
-\item{x}{A numeric vector of diameters}
+\item{diameter}{A numeric vector of diameters}
 
 \item{dmin}{The minimum inventory diameter in centimeters}
 

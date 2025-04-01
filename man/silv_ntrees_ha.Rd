@@ -4,10 +4,10 @@
 \alias{silv_ntrees_ha}
 \title{Calculates number of trees per hectare}
 \usage{
-silv_ntrees_ha(x, plot_size, plot_shape = "circular")
+silv_ntrees_ha(ntrees, plot_size, plot_shape = "circular")
 }
 \arguments{
-\item{x}{A numeric vector representing the number of trees in a sampling plot}
+\item{ntrees}{A numeric vector representing the number of trees in a sampling plot}
 
 \item{plot_size}{A numeric vector of length one for circular radius in meters;
 or a numeric vector of length two for each side of a rectangular plot shape}

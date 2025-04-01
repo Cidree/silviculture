@@ -3,7 +3,7 @@
 #'
 #' Classifies the measured diameters into classes of a specified length
 #'
-#' @param x A numeric vector of diameters
+#' @param diameter A numeric vector of diameters
 #' @param dmin The minimum inventory diameter in centimeters
 #' @param dmax The maximum inventory diameter in centimeters. Values that
 #'    are greater than `dmax` are included in the greatest class
@@ -20,7 +20,7 @@
 #' library(dplyr)
 #' inventory_samples |>
 #'   mutate(dclass = silv_diametric_class(diameter))
-silv_diametric_class <- function(x,
+silv_diametric_class <- function(diameter,
                                  dmin             = 7.5,
                                  dmax             = NULL,
                                  class_length     = 5,
@@ -31,12 +31,12 @@ silv_diametric_class <- function(x,
   ## 0.1. Handle data type
   if (!is.logical(return_intervals)) cli::cli_abort("The argument `return_intervals` must be TRUE or FALSE")
   if (!is.logical(include_lowest)) cli::cli_abort("The argument `include_lowest` must be TRUE or FALSE")
-  if (!is.numeric(x)) cli::cli_abort("`x` must be a numeric vector")
+  if (!is.numeric(diameter)) cli::cli_abort("`diameter` must be a numeric vector")
   if (!is.numeric(dmin)) cli::cli_abort("`dmin` must be a numeric vector")
   if (!is.numeric(dmax) && !is.null(dmax)) cli::cli_abort("`dmax` must be a numeric vector or NULL")
   if (!is.numeric(class_length)) cli::cli_abort("`class_length` must be a numeric vector")
   ## 0.2. Invalid values
-  if (any(x < 0)) cli::cli_warn("Any value in `x` is less than 0. Review your data.")
+  if (any(diameter < 0)) cli::cli_warn("Any value in `diameter` is less than 0. Review your data.")
   if (dmin <= 0) cli::cli_abort("`dmin` must be greater than 0")
   if (dmax <= 0 && !is.null(dmax)) cli::cli_abort("`dmax` must be greater than 0")
   if (class_length <= 0) cli::cli_abort("`class_length` must be greater than 0")
@@ -46,19 +46,19 @@ silv_diametric_class <- function(x,
   # 1. Create intervals depending on user input
   ## - If dmax is NULL, use max diameter from data
   if (is.null(dmax)) {
-    cuts_vec <- seq(dmin, max(x, na.rm = TRUE) + class_length, class_length)
+    cuts_vec <- seq(dmin, max(diameter, na.rm = TRUE) + class_length, class_length)
   } else {
     cli::cli_alert_info(
-      "There are {length(x[x > dmax])} diameter values greater than `dmax = {dmax}`. They will be included in the greatest class."
+      "There are {length(diameter[diameter > dmax])} diameter values greater than `dmax = {dmax}`. They will be included in the greatest class."
     )
-    x[x > dmax] <- dmax
+    diameter[diameter > dmax] <- dmax
     cuts_vec <- c(seq(dmin, dmax, class_length), Inf)
   }
 
   # 2. Create intervals either ( ] or [ )
   if (include_lowest) {
     intervals_vec <- cut(
-      x              = x,
+      x              = diameter,
       breaks         = cuts_vec,
       right          = FALSE,
       include.lowest = TRUE,
@@ -66,7 +66,7 @@ silv_diametric_class <- function(x,
     )
   } else {
     intervals_vec <- cut(
-      x       = x,
+      x       = diameter,
       breaks  = cuts_vec,
       dig.lab = 10
     )
@@ -93,7 +93,7 @@ silv_diametric_class <- function(x,
 #'
 #' Calculates number of trees per hectare for a given plot size and shape
 #'
-#' @param x A numeric vector representing the number of trees in a sampling plot
+#' @param ntrees A numeric vector representing the number of trees in a sampling plot
 #' @param plot_size A numeric vector of length one for circular radius in meters;
 #'    or a numeric vector of length two for each side of a rectangular plot shape
 #' @param plot_shape The shape of the sampling plot. Either `circular` or `rectangular`
@@ -120,7 +120,7 @@ silv_diametric_class <- function(x,
 #'       plot_shape = "rectangular"
 #'      )
 #'   )
-silv_ntrees_ha <- function(x,
+silv_ntrees_ha <- function(ntrees,
                            plot_size,
                            plot_shape = "circular") {
 
@@ -130,9 +130,9 @@ silv_ntrees_ha <- function(x,
 
   # 1. Calculate ntrees in ha
   if (plot_shape == "circular") {
-    x * 10000 / (pi * plot_size**2)
+    ntrees * 10000 / (pi * plot_size**2)
   } else {
-    x * 10000 / prod(plot_size)
+    ntrees * 10000 / prod(plot_size)
   }
 
   # 2. Convert to ntrees/acres
@@ -175,6 +175,7 @@ silv_ntrees_ha <- function(x,
 #'
 #' @return A numeric vector
 #' @export
+#' @include utils-not-exported.R
 #'
 #' @details
 #' When \code{ntrees = NULL}, the function will assume that each diameter and height
@@ -494,112 +495,4 @@ silv_spacing_index <- function(h0,
   )
 
 }
-
-
-#' Calculates a bunch of forest metrics
-#'
-#' Summarize forest inventory data calculating most typical variables
-#'
-#' @param data A tibble
-#' @param diameter A column with inventory diameters
-#' @param height A column with inventory heights
-#' @param plot_size The size of the plot. See \link{silv_ntrees_ha}
-#' @param .groups A character vector with variables to group by (e.g. plot id, tree
-#'    species, etc)
-#' @param dmin The minimum inventory diameter in centimeters
-#' @param dmax The maximum inventory diameter in centimeters. Values that
-#'    are greater than `dmax` are included in the greatest class
-#' @param class_length The length of the class in centimeters
-#' @param include_lowest Logical. If TRUE (the default), the intervals are
-#'    `[dim1, dim2)`. If FALSE, the intervals are `(dim1, dim2]`
-#' @param plot_shape The shape of the sampling plot. Either `circular` or `rectangular`
-#' @param which_h0 The method to calculate the dominant height. See \link{silv_dominant_height}
-#' @param which_spacing A character with the name of the index (either `hart` or `hart-brecking`).
-#'    See \link{silv_spacing_index}
-#'
-#' @return A list with two tibbles
-#' @export
-#'
-#' @details
-#' The function calculates many inventory parameters and returns two tibbles:
-#'
-#' - \bold{dclass_metrics}: metrics summarized by .groups and diametric classes
-#'
-#' - \bold{group_metrics}: metrics summarized by .groups
-#'
-#'
-#' @examples
-#' silv_summary(
-#'   data      = inventory_samples,
-#'   diameter  = diameter,
-#'   height    = height,
-#'   plot_size = 10,
-#'   .groups   = c("plot_id", "species")
-#'  )
-silv_summary <- function(data,
-                         diameter,
-                         height,
-                         plot_size,
-                         .groups         = NULL,
-                         plot_shape      = "circular",
-                         dmin            = 7.5,
-                         dmax            = NULL,
-                         class_length    = 5,
-                         include_lowest  = TRUE,
-                         which_h0        = "assman",
-                         which_spacing   = "hart") {
-
-  # 0. Handle errors and setup
-  ## 0.1. Errors
-  if (!which_h0 %in% c("assman", "hart")) cli::cli_abort("The argument `which_h0` must be either <assman> or <hart>.")
-  if (!which_spacing %in% c("hart", "hart-brecking")) cli::cli_abort("The argument `which_spacing` must be either <hart-brecking> or <hart>.")
-
-  # calculate metrics
-  dclass_group_metrics <- data |>
-    dplyr::mutate(
-      dclass = silv_diametric_class({{ diameter }}, dmin, dmax, class_length, include_lowest)
-    ) |>
-    dplyr::summarise(
-      height = mean({{ height }}, na.rm = TRUE),
-      ntrees = dplyr::n(),
-      .by    = dplyr::all_of(c(.groups, "dclass"))
-    ) |>
-    dplyr::mutate(
-      ntrees_ha = silv_ntrees_ha(ntrees, plot_size, plot_shape),
-      h0        = silv_dominant_height(dclass, height, ntrees_ha, which = which_h0),
-      dg        = silv_sqrmean_diameter(dclass, ntrees_ha),
-      g_ha      = silv_basal_area(dclass, ntrees_ha),
-      .by       = .groups
-    ) |>
-    dplyr::arrange(dplyr::across(.groups))
-
-  # groups metrics
-  groups_metrics <- dclass_group_metrics |>
-    dplyr::summarise(
-      d_mean    = weighted.mean(dclass, ntrees_ha),
-      d_median  = weighted_median(dclass, ntrees_ha),
-      d_sd      = weighted_sd(dclass, ntrees_ha),
-      h_mean    = weighted.mean(height, ntrees_ha),
-      h_median  = weighted_median(height, ntrees_ha),
-      h_sd      = weighted_sd(height, ntrees_ha),
-      h_lorey   = silv_lorey_height(height, g_ha, ntrees_ha),
-      ntrees    = sum(ntrees),
-      ntrees_ha = sum(ntrees_ha),
-      g_ha      = sum(g_ha),
-      .by       = dplyr::all_of(c(.groups, "h0", "dg"))
-    ) |>
-    dplyr::mutate(
-      spacing   = silv_spacing_index(h0, ntrees_ha, which = which_spacing)
-    ) |>
-    dplyr::select(
-      .groups, dplyr::starts_with("d_"), dg, dplyr::starts_with("h_"), h0, dplyr::everything()
-    )
-
-  # return list
-  list(
-    dclass_metrics = dclass_group_metrics,
-    group_metrics  = groups_metrics
-  )
-}
-
 
