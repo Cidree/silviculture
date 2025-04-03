@@ -5,7 +5,7 @@
 \alias{inventory_samples}
 \title{Forest inventory samples}
 \format{
-A `tibble`
+A \code{tibble}
 }
 \usage{
 inventory_samples

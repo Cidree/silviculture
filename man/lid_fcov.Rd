@@ -10,13 +10,13 @@ lid_fcov(z, rn, th = 5)
 \item{z}{A numeric vector representing the heights of LiDAR returns}
 
 \item{rn}{An integer vector indicating the return number for each LiDAR point.
-First returns are identified by a value of `1`}
+First returns are identified by a value of \code{1}}
 
 \item{th}{a numeric vector of length one specifying the height threshold}
 }
 \value{
 A numeric value representing the forest fraction cover,
-  which is the proportion of first returns with heights greater than 5 meters.
+which is the proportion of first returns with heights greater than 5 meters.
 }
 \description{
 This function calculates the forest fraction cover (Fcov) from LiDAR data.

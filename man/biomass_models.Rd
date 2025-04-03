@@ -5,7 +5,7 @@
 \alias{biomass_models}
 \title{Biomass models}
 \format{
-A `tibble`
+A \code{tibble}
 }
 \usage{
 biomass_models

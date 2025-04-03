@@ -25,12 +25,12 @@ Calculates the dominant height using the Assman equation of the Hart equation
 \details{
 The dominant height \eqn{H_0} is the mean height of dominant trees, which is
 less affected than overall mean height by thinning or other treatments.
-
-- \bold{Assman}: calculates the \eqn{H_0} as the mean height of the 100 thickest
+\itemize{
+\item \bold{Assman}: calculates the \eqn{H_0} as the mean height of the 100 thickest
 trees per hectare
-
-- \bold{Hart}: calculates the \eqn{H_0} as the mean height of the 100 tallest
+\item \bold{Hart}: calculates the \eqn{H_0} as the mean height of the 100 tallest
 trees per hectare
+}
 
 When \code{ntrees = NULL}, the function will assume that each diameter and height
 belongs to only one trees. If you have data aggregated by hectare, you'll use the

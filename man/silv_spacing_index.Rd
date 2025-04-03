@@ -12,7 +12,7 @@ silv_spacing_index(h0, ntrees, which = "hart")
 \item{ntrees}{Numeric vector with number of trees of the dominant height per
 hectare}
 
-\item{which}{A character with the name of the index (either `hart` or `hart-brecking`).
+\item{which}{A character with the name of the index (either \code{hart} or \code{hart-brecking}).
 See details}
 }
 \value{
@@ -24,10 +24,10 @@ Calculates the Hart Index or the Hart-Becking Index for even-aged stands
 \details{
 The spacing index can be used to determine whether a thinning is needed or not,
 and also to determine how intense it should be.
-
-- \bold{Hart Index}: it assumes even-aged stands with square planting pattern.
-
-- \bold{Hart-Brecking Index}: it assumes triangular planting pattern.
+\itemize{
+\item \bold{Hart Index}: it assumes even-aged stands with square planting pattern.
+\item \bold{Hart-Brecking Index}: it assumes triangular planting pattern.
+}
 }
 \examples{
 library(dplyr)

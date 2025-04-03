@@ -10,11 +10,11 @@ silv_basal_area(diameter, ntrees = NULL, units = "cm")
 \item{diameter}{Numeric vector of diameters or diameter classes}
 
 \item{ntrees}{Numeric vector with number of trees of the diameter class per
-hectare. If `ntrees = NULL`, the function will assume that each diameter
+hectare. If \code{ntrees = NULL}, the function will assume that each diameter
 corresponds to only one tree. Therefore, basal area will be calculated
 for each individual tree}
 
-\item{units}{The units of the diameter (one of `cm`, `mm`, or `m`)}
+\item{units}{The units of the diameter (one of \code{cm}, \code{mm}, or \code{m})}
 }
 \value{
 A numeric vector
@@ -27,9 +27,9 @@ The function uses the next formula:
 
 \eqn{G = \frac{\pi}{40000} \cdot D^2}
 
-where G is the basal area in \eqn{m^2}, and D is the diameter in the `units`
+where G is the basal area in \eqn{m^2}, and D is the diameter in the \code{units}
 specified in the function. It is recommended to use the squared mean diameter
-calculated with [silv_sqrmean_diameter]
+calculated with \link{silv_sqrmean_diameter}
 }
 \examples{
 ## calculate G for inventory data grouped by plot_id and species

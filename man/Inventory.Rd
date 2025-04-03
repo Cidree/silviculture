@@ -15,9 +15,9 @@ such as plot_id, species, d_mean, d_median, d_sd, dg, h_mean, h_median, h_sd,
 h_lorey, h0, ntrees, ntrees_ha, g_ha, and spacing.}
 }
 \value{
-An S7 `Inventory` object, which contains the inventory data.
+An S7 \code{Inventory} object, which contains the inventory data.
 }
 \description{
 A list containing forest inventory data summaries. It includes data by
-diametric class (`dclass_metrics`) and by plot and species (`group_metrics`).
+diametric class (\code{dclass_metrics}) and by plot and species (\code{group_metrics}).
 }

@@ -19,12 +19,14 @@ silv_diametric_class(
 \item{dmin}{The minimum inventory diameter in centimeters}
 
 \item{dmax}{The maximum inventory diameter in centimeters. Values that
-are greater than `dmax` are included in the greatest class}
+are greater than \code{dmax} are included in the greatest class}
 
 \item{class_length}{The length of the class in centimeters}
 
 \item{include_lowest}{Logical. If TRUE (the default), the intervals are
-`[dim1, dim2)`. If FALSE, the intervals are `(dim1, dim2]`}
+\verb{[dim1, dim2)}. If FALSE, the intervals are \verb{(dim1, dim2]}
+
+[dim1, dim2)\verb{. If FALSE, the intervals are }(dim1, dim2]: R:dim1,\%20dim2)\%60.\%20If\%20FALSE,\%20the\%20intervals\%20are\%20\%60(dim1,\%20dim2}
 
 \item{return_intervals}{If FALSE, it returns the intervals. Otherwise (the
 default), it returns the class center}

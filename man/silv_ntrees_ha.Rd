@@ -12,7 +12,7 @@ silv_ntrees_ha(ntrees, plot_size, plot_shape = "circular")
 \item{plot_size}{A numeric vector of length one for circular radius in meters;
 or a numeric vector of length two for each side of a rectangular plot shape}
 
-\item{plot_shape}{The shape of the sampling plot. Either `circular` or `rectangular`}
+\item{plot_shape}{The shape of the sampling plot. Either \code{circular} or \code{rectangular}}
 }
 \value{
 A numeric vector

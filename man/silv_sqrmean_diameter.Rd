@@ -10,7 +10,7 @@ silv_sqrmean_diameter(diameter, ntrees = NULL)
 \item{diameter}{Numeric vector of diameters or diameter classes}
 
 \item{ntrees}{Numeric vector with number of trees of the diameter class per
-hectare. If `ntrees = NULL`, the function will assume that each diameter
+hectare. If \code{ntrees = NULL}, the function will assume that each diameter
 corresponds to only one tree. Therefore, basal area will be calculated
 for each individual tree}
 }

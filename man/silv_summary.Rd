@@ -31,35 +31,37 @@ silv_summary(
 \item{.groups}{A character vector with variables to group by (e.g. plot id, tree
 species, etc)}
 
-\item{plot_shape}{The shape of the sampling plot. Either `circular` or `rectangular`}
+\item{plot_shape}{The shape of the sampling plot. Either \code{circular} or \code{rectangular}}
 
 \item{dmin}{The minimum inventory diameter in centimeters}
 
 \item{dmax}{The maximum inventory diameter in centimeters. Values that
-are greater than `dmax` are included in the greatest class}
+are greater than \code{dmax} are included in the greatest class}
 
 \item{class_length}{The length of the class in centimeters}
 
 \item{include_lowest}{Logical. If TRUE (the default), the intervals are
-`[dim1, dim2)`. If FALSE, the intervals are `(dim1, dim2]`}
+\verb{[dim1, dim2)}. If FALSE, the intervals are \verb{(dim1, dim2]}
+
+[dim1, dim2)\verb{. If FALSE, the intervals are }(dim1, dim2]: R:dim1,\%20dim2)\%60.\%20If\%20FALSE,\%20the\%20intervals\%20are\%20\%60(dim1,\%20dim2}
 
 \item{which_h0}{The method to calculate the dominant height. See \link{silv_dominant_height}}
 
-\item{which_spacing}{A character with the name of the index (either `hart` or `hart-brecking`).
+\item{which_spacing}{A character with the name of the index (either \code{hart} or \code{hart-brecking}).
 See \link{silv_spacing_index}}
 }
 \value{
-an S7 `Inventory` list with 2 `tibbles`
+an S7 \code{Inventory} list with 2 \code{tibbles}
 }
 \description{
 Summarize forest inventory data calculating most typical variables
 }
 \details{
 The function calculates many inventory parameters and returns two tibbles:
-
-- \bold{dclass_metrics}: metrics summarized by .groups and diametric classes
-
-- \bold{group_metrics}: metrics summarized by .groups
+\itemize{
+\item \bold{dclass_metrics}: metrics summarized by .groups and diametric classes
+\item \bold{group_metrics}: metrics summarized by .groups
+}
 }
 \examples{
 silv_summary(

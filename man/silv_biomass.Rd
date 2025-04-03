@@ -40,7 +40,7 @@ mean squared error (RMSE) of the selected model instead of the biomass value.}
 \item{quiet}{A logical value. If TRUE, suppresses any informational messages.}
 }
 \value{
-A numeric vector of biomass values (in kg). If `return_rmse = TRUE`, returns the RMSE instead.
+A numeric vector of biomass values (in kg). If \code{return_rmse = TRUE}, returns the RMSE instead.
 }
 \description{
 Computes the biomass of a tree species using species-specific allometric
@@ -49,9 +49,10 @@ equations (in kg).
 \details{
 The function estimates biomass using validated allometric models available in the
 dataset \link{biomass_models}. The available models include:
-
-- **ruiz-peinado-2011**: Developed for softwood species in Spain.
-- **ruiz-peinado-2012**: Developed for hardwood species in Spain.
+\itemize{
+\item \strong{ruiz-peinado-2011}: Developed for softwood species in Spain.
+\item \strong{ruiz-peinado-2012}: Developed for hardwood species in Spain.
+}
 
 Users can check the list of supported species and their corresponding components
 in \link{biomass_models}.
