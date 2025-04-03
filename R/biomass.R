@@ -46,7 +46,6 @@
 #'   species  = "Pinus pinaster",
 #'   model    = "ruiz-peinado-2011"
 #' )
-
 silv_biomass <- function(
     diameter    = NULL,
     height      = NULL,
