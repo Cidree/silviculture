@@ -36,7 +36,7 @@ silv_diametric_class <- function(diameter,
   if (!is.numeric(dmax) && !is.null(dmax)) cli::cli_abort("`dmax` must be a numeric vector or NULL")
   if (!is.numeric(class_length)) cli::cli_abort("`class_length` must be a numeric vector")
   ## 0.2. Invalid values
-  if (any(diameter < 0)) cli::cli_warn("Any value in `diameter` is less than 0. Review your data.")
+  if (any(diameter < 0, na.rm = TRUE)) cli::cli_warn("Any value in `diameter` is less than 0. Review your data.")
   if (dmin <= 0) cli::cli_abort("`dmin` must be greater than 0")
   if (dmax <= 0 && !is.null(dmax)) cli::cli_abort("`dmax` must be greater than 0")
   if (class_length <= 0) cli::cli_abort("`class_length` must be greater than 0")
@@ -209,8 +209,8 @@ silv_dominant_height <- function(diameter,
   if (!is.numeric(diameter)) cli::cli_abort("`diameter` must be a numeric vector")
   if (!is.numeric(height)) cli::cli_abort("`height` must be a numeric vector")
   ## 0.2. Invalid values
-  if (any(diameter <= 0)) cli::cli_warn("Any value in `diameter` is less than 0. Review your data.")
-  if (any(height <= 0)) cli::cli_warn("Any value in `height` is less than 0. Review your data.")
+  if (any(diameter <= 0, na.rm = TRUE)) cli::cli_warn("Any value in `diameter` is less than 0. Review your data.")
+  if (any(height <= 0, na.rm = TRUE)) cli::cli_warn("Any value in `height` is less than 0. Review your data.")
 
   # 1. Create a data frame with input variables
   if (is.null(ntrees)) {
@@ -348,7 +348,7 @@ silv_sqrmean_diameter <- function(diameter,
   if (is.numeric(ntrees) && length(ntrees) != length(diameter)) cli::cli_abort("`ntrees` must have the same length as `diameter` or be NULL")
   if (!is.numeric(diameter)) cli::cli_abort("`diameter` must be a numeric vector")
   ## 0.2. Invalid values
-  if (any(diameter <= 0)) cli::cli_warn("Any value in `diameter` is less than 0. Review your data.")
+  if (any(diameter <= 0, na.rm = TRUE)) cli::cli_warn("Any value in `diameter` is less than 0. Review your data.")
 
   # 1. Calculate squared mean diameter
   if (is.null(ntrees)) {
@@ -423,7 +423,7 @@ silv_basal_area <- function(diameter,
   if (is.numeric(ntrees) && length(ntrees) != length(diameter)) cli::cli_abort("`ntrees` must have the same length as `diameter` or be NULL")
   if (!is.numeric(diameter)) cli::cli_abort("`diameter` must be a numeric vector")
   ## 0.2. Invalid values
-  if (any(diameter <= 0)) cli::cli_warn("Any value in `diameter` is less than 0. Review your data.")
+  if (any(diameter <= 0, na.rm = TRUE)) cli::cli_warn("Any value in `diameter` is less than 0. Review your data.")
   ## 0.3. If ntrees = NULL, only one tree assumed
   if (is.null(ntrees)) ntrees <- rep(1, length(diameter))
 

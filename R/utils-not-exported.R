@@ -90,10 +90,18 @@ weighted_sd <- function(var, wt) {
 
 
 
+#' Calculates number of plots using Student's T
+#'
+#' @param students_t Student's T value
+#' @param max_n maximum number of plots in the area
+#' @param cv coefficient of variation
+#' @param max_error maximum allowed error
+#'
+#' @return A length-one numeric vector
+#' @keywords internal
+calc_n_simple <- function(students_t, max_n, cv, max_error) {
 
-# calc_n_simple <- function(students_t, max_n, cv, max.error) {
-#
-#   ## calculate n
-#   n <- (students_t**2 * cv**2) / ((max.error * 100)**2 + (students_t**2 * cv**2 / max_n))
-#   ceiling(n)
-# }
+  ## calculate n
+  n <- (students_t**2 * cv**2) / ((max_error * 100)**2 + (students_t**2 * cv**2 / max_n))
+  ceiling(n)
+}
