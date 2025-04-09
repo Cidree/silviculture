@@ -24,6 +24,21 @@ SampleSize <- S7::new_class(
 
 
 
+#' Calculate sample size
+#'
+#' @param x vector of field survey
+#' @param plot_size a numeric vector of length one with plot size in squared meters
+#' @param total_area total area of the study area in squared meters
+#' @param max_error maximum allowed error
+#' @param conf_level confidence level
+#' @param max_iter maximum number of iteration to find the plot size
+#' @param quiet if TRUE, messages will be supressed
+#'
+#' @returns SampleSize object
+#' @export
+#'
+#' @examples
+#' 1 + 1 # TODO
 silv_sample_size <- function(x,
                              plot_size  = 100,
                              total_area = 15,
@@ -101,8 +116,34 @@ silv_sample_size <- function(x,
 
 }
 
-plot <- new_generic("plot", "x")
-method(plot, SampleSize) <- function(x, min_error = .01, max_error = .5) {
+
+
+#' Plot an object
+#'
+#' Generic for plotting objects.
+#'
+#' @param x Object to plot.
+#' @param ... Other arguments passed to methods.
+#'
+#' @return Usually called for side-effects (producing a plot).
+#' @export
+plot <- S7::new_generic("plot", "x")
+
+
+
+
+#' Plot Sample Size vs Error
+#'
+#' This method generates a plot showing how the required sample size varies with the maximum allowed relative error.
+#'
+#' @param x An object of class `SampleSize` containing sampling options and results.
+#' @param min_error A numeric value specifying the minimum relative error to consider (default is 0.01).
+#' @param max_error A numeric value specifying the maximum relative error to consider (default is 0.5).
+#'
+#' @return A `ggplot` object representing the relationship between error and sample size.
+#'
+#' @export
+S7::method(plot, SampleSize) <- function(x, min_error = .01, max_error = .5) {
 
   ## create intervals
   intervals_vec <- seq(min_error, max_error, by = 0.01)
