@@ -26,7 +26,7 @@ reference:
     - silv_volume
 
   - title: "Structural forest metrics"
-    desc: Functions for calculating key forest inventory metrics like basal area, dominant height, and tree count, as well as analyzing tree size distribution and stand spacing
+    desc: Calculate key forest inventory metrics like basal area, dominant height, and tree count, as well as analyzing tree size distribution and stand spacing
     contents:
     - silv_basal_area
     - silv_diametric_class
@@ -37,8 +37,13 @@ reference:
     - silv_sqrmean_diameter
     - silv_summary
 
+  - title: "Inventory Sample Size"
+    desc: Calculate and explore forest inventory sample size
+    contents:
+    - silv_sample_size
+
   - title: "LiDAR metrics"
-    desc: Functions for extracting and calculating forest structural metrics using LiDAR data.
+    desc: Extract and calculate forest structural metrics using LiDAR data
     contents:
     - lid_fcov
     - lid_lhdi
@@ -53,6 +58,8 @@ reference:
     desc: S7 classes
     contents:
     - Inventory
+    - SampleSize
+    - plot
 
 navbar:
   title: "silviculture"
