@@ -24,7 +24,7 @@ SampleSize <- S7::new_class(
 
 
 
-#' Calculate sample size
+#' Calculates sample size for a random sampling inventory
 #'
 #' @param x vector of field survey
 #' @param plot_size a numeric vector of length one with plot size in squared meters
@@ -32,16 +32,28 @@ SampleSize <- S7::new_class(
 #' @param max_error maximum allowed error
 #' @param conf_level confidence level
 #' @param max_iter maximum number of iteration to find the plot size
-#' @param quiet if TRUE, messages will be supressed
+#' @param quiet if \code{TRUE}, messages will be supressed
 #'
 #' @returns SampleSize object
 #' @export
 #'
+#' @importFrom stats qt sd
+#'
 #' @examples
-#' 1 + 1 # TODO
+#' ## pilot inventory measuring 4 plots of 25x25 meters
+#' ## total forest area 15 ha
+#' ## measured variable (x): basal area per hectare
+#' silv_sample_size(
+#'   x          = c(33, 37.5, 42, 35.2),
+#'   plot_size  = 25 * 25,  # squared plot of 25x25
+#'   total_area = 15 * 1e4, # 15 ha
+#'   max_error  = 0.05,
+#'   conf_level = 0.95,
+#'   max_iter   = 100
+#' )
 silv_sample_size <- function(x,
                              plot_size  = 100,
-                             total_area = 15,
+                             total_area = 150000,
                              max_error  = 0.05,
                              conf_level = 0.95,
                              max_iter   = 1000,
@@ -52,7 +64,7 @@ silv_sample_size <- function(x,
   cv <- sd(x) / mean(x) * 100
 
   ## population size
-  max_n <- total_area * 10000 / plot_size
+  max_n <- total_area / plot_size
 
   ## calculate Student's t for selected CI
   students_t <- qt((1 + conf_level) / 2, df = max_n)
@@ -62,7 +74,7 @@ silv_sample_size <- function(x,
 
   ## if n equals 1 initially, t-test cannot be computed with 1 - 1 df
   if (n == 1) {
-    cli::cli_alert_warning("The estimated sample size is 1. Consider decreasing the sampling error")
+    if (!quiet) cli::cli_alert_warning("The estimated sample size is 1. Consider decreasing the sampling error")
     return(n)
   }
 
@@ -90,7 +102,7 @@ silv_sample_size <- function(x,
   ## return
   ci_lo <- (mean(x) - mean(x) * max_error) |> round(2)
   ci_up <- (mean(x) + mean(x) * max_error) |> round(2)
-  effort <- (final_n / total_area) |> round(2)
+  effort <- (final_n / total_area * 10000) |> round(2)
   if (!quiet) {
     cli::cli_alert_info("A total of {length(x)} plots were measured in the pilot inventory, each plot measuring {plot_size} squared meters.")
     cli::cli_alert_info("A minimum of {final_n} inventory plots are needed for a maximum sampling error of {max_error * 100}% ({conf_level * 100}% CI [{ci_lo}, {ci_up}]).")
@@ -161,7 +173,12 @@ S7::method(plot, SampleSize) <- function(x, min_error = .01, max_error = .5) {
       quiet      = TRUE
     )
 
-    ssize <- c(ssize, ith_ssize@sampling_res$min_plots)
+    if (inherits(ith_ssize, "S7_object")) {
+      ssize <- c(ssize, ith_ssize@sampling_res$min_plots)
+    } else {
+      ssize <- c(ssize, ith_ssize)
+    }
+
 
   }
 
@@ -180,8 +197,10 @@ S7::method(plot, SampleSize) <- function(x, min_error = .01, max_error = .5) {
       ggplot2::geom_line(
         lwd = 1
       ) +
-      ggplot2::geom_point(
-        ggplot2::aes(x = x@sampling_opts$max_error, y = x@sampling_res$min_plots),
+      ggplot2::annotate(
+        "point",
+        x = x@sampling_opts$max_error,
+        y = x@sampling_res$min_plots,
         color = "#890620",
         size  = 3
       ) +
