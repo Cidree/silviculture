@@ -20,7 +20,7 @@ Use this argument when you have aggregated data by diametric classes (see detail
 A numeric vector
 }
 \description{
-Calculates the dominant height using the Assman equation of the Hart equation
+Calculates the dominant height using the Assman equation or the Hart equation
 }
 \details{
 The dominant height \eqn{H_0} is the mean height of dominant trees, which is

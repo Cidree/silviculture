@@ -2,12 +2,12 @@
 % Please edit documentation in R/inventory.R
 \name{silv_sample_size}
 \alias{silv_sample_size}
-\title{Calculate sample size}
+\title{Calculates sample size for a random sampling inventory}
 \usage{
 silv_sample_size(
   x,
   plot_size = 100,
-  total_area = 15,
+  total_area = 150000,
   max_error = 0.05,
   conf_level = 0.95,
   max_iter = 1000,
@@ -27,14 +27,24 @@ silv_sample_size(
 
 \item{max_iter}{maximum number of iteration to find the plot size}
 
-\item{quiet}{if TRUE, messages will be supressed}
+\item{quiet}{if \code{TRUE}, messages will be supressed}
 }
 \value{
 SampleSize object
 }
 \description{
-Calculate sample size
+Calculates sample size for a random sampling inventory
 }
 \examples{
-1 + 1 # TODO
+## pilot inventory measuring 4 plots of 25x25 meters
+## total forest area 15 ha
+## measured variable (x): basal area per hectare
+silv_sample_size(
+  x          = c(33, 37.5, 42, 35.2),
+  plot_size  = 25 * 25,  # squared plot of 25x25
+  total_area = 15 * 1e4, # 15 ha
+  max_error  = 0.05,
+  conf_level = 0.95,
+  max_iter   = 100
+)
 }
