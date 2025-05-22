@@ -6,17 +6,16 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 <title>Utility Functions for Forest Inventory and Silviculture • silviculture</title>
-<!-- favicons --><link rel="icon" type="image/png" sizes="16x16" href="favicon-16x16.png">
-<link rel="icon" type="image/png" sizes="32x32" href="favicon-32x32.png">
-<link rel="apple-touch-icon" type="image/png" sizes="180x180" href="apple-touch-icon.png">
-<link rel="apple-touch-icon" type="image/png" sizes="120x120" href="apple-touch-icon-120x120.png">
-<link rel="apple-touch-icon" type="image/png" sizes="76x76" href="apple-touch-icon-76x76.png">
-<link rel="apple-touch-icon" type="image/png" sizes="60x60" href="apple-touch-icon-60x60.png">
+<!-- favicons --><link rel="icon" type="image/png" sizes="96x96" href="favicon-96x96.png">
+<link rel="icon" type="”image/svg+xml”" href="favicon.svg">
+<link rel="apple-touch-icon" sizes="180x180" href="apple-touch-icon.png">
+<link rel="icon" sizes="any" href="favicon.ico">
+<link rel="manifest" href="site.webmanifest">
 <script src="deps/jquery-3.6.0/jquery-3.6.0.min.js"></script><meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 <link href="deps/bootstrap-5.3.1/bootstrap.min.css" rel="stylesheet">
-<script src="deps/bootstrap-5.3.1/bootstrap.bundle.min.js"></script><link href="deps/Roboto-0.4.9/font.css" rel="stylesheet">
-<link href="deps/Source_Code_Pro-0.4.9/font.css" rel="stylesheet">
-<link href="deps/Merriweather-0.4.9/font.css" rel="stylesheet">
+<script src="deps/bootstrap-5.3.1/bootstrap.bundle.min.js"></script><link href="deps/Roboto-0.4.10/font.css" rel="stylesheet">
+<link href="deps/Source_Code_Pro-0.4.10/font.css" rel="stylesheet">
+<link href="deps/Merriweather-0.4.10/font.css" rel="stylesheet">
 <link href="deps/font-awesome-6.5.2/css/all.min.css" rel="stylesheet">
 <link href="deps/font-awesome-6.5.2/css/v4-shims.min.css" rel="stylesheet">
 <script src="deps/headroom-0.11.0/headroom.min.js"></script><script src="deps/headroom-0.11.0/jQuery.headroom.min.js"></script><script src="deps/bootstrap-toc-1.0.1/bootstrap-toc.min.js"></script><script src="deps/clipboard.js-2.0.11/clipboard.min.js"></script><script src="deps/search-1.0.0/autocomplete.jquery.min.js"></script><script src="deps/search-1.0.0/fuse.min.js"></script><script src="deps/search-1.0.0/mark.min.js"></script><!-- pkgdown --><script src="pkgdown.js"></script><meta property="og:title" content="Utility Functions for Forest Inventory and Silviculture">
@@ -81,6 +80,23 @@
 <p>This package is currently under active development and may still contain bugs or unstable features. I do not recommend using it in real-world applications at this stage, as it may be prone to errors.</p>
 </div>
 <div class="section level2">
+<h2 id="nomenclature">Nomenclature<a class="anchor" aria-label="anchor" href="#nomenclature"></a>
+</h2>
+<p>The package uses the following terms as function arguments consistently:</p>
+<ul>
+<li><p><code>biomass</code>: mass of the tree or part of the tree in kilograms.</p></li>
+<li><p><code>dclass</code>: the diametric class of the tree. In forestry we typically work with diametric classes instead of raw diameters. Therefore, we often create diametric classes with a range of 5 or 10 centimeters.</p></li>
+<li><p><code>diameter</code>: diameter of the tree, typically refering to the diameter at breast height (1.30 meters) expressed in centimeters.</p></li>
+<li><p><code>h0 (dominant height)</code>: the mean height of the 100 thickest trees per hectare (Assman); or the mean height of the 100 tallest trees per hectare (Hart).</p></li>
+<li><p><code>g (basal area)</code>: the basal area of the tree, which is typically expressed by the symbol <code>G</code>. It is expressed as squared meters per hectare ( m<sup>2</sup>/ha).</p></li>
+<li><p><code>height</code>: it refers to the total height of the tree in meters.</p></li>
+<li><p><code>Lorey's height</code>: tree’s mean height weighted by basal area.</p></li>
+<li><p><code>ntrees</code>: number of trees (typically of the same diameter).</p></li>
+<li><p><code>species</code>: Latin name of the tree species (e.g. <em>Pinus pinaster</em>).</p></li>
+<li><p><code>volume</code>: estimated volume of the tree in cubic meters (m<sup>3</sup>).</p></li>
+</ul>
+</div>
+<div class="section level2">
 <h2 id="contributing">Contributing<a class="anchor" aria-label="anchor" href="#contributing"></a>
 </h2>
 <p>Contributions to <code>silviculture</code> are highly appreciated! If you have ideas for improvements or new features, feel free to:</p>
@@ -116,7 +132,7 @@
 <h2 data-toc-skip>Developers</h2>
 <ul class="list-unstyled">
 <li>
-<a href="https://adrian-cidre.com/" class="external-link">Adrián Cidre González</a> <br><small class="roles"> Author, maintainer </small>  </li>
+<a href="https://adrian-cidre.com/" class="external-link">Adrián Cidre González</a> <br><small class="roles"> Author, maintainer </small>   </li>
 </ul>
 </div>
 
@@ -139,7 +155,7 @@
 </div>
 
 <div class="pkgdown-footer-right">
-  <p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.1.1.</p>
+  <p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.1.2.</p>
 </div>
 
     </footer>
