@@ -9,3 +9,4 @@ scrap.R
 ^\.github$
 
 internal-data/*
+^cran-comments\.md$
