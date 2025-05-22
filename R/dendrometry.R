@@ -152,7 +152,7 @@ silv_ntrees_ha <- function(ntrees,
 
 #' Calculates the dominant height
 #'
-#' Calculates the dominant height using the Assman equation of the Hart equation
+#' Calculates the dominant height using the Assman equation or the Hart equation
 #'
 #' @param diameter Numeric vector with diameter classes
 #' @param height Numeric vector with averaged heights by diameter class
