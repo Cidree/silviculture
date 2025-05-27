@@ -25,5 +25,5 @@ can be used in \code{lidR} \code{*_metrics} functions
 Listopad, C. M. C. S., Masters, R. E., Drake, J., Weishampel, J.,
 & Branquinho, C. (2015). Structural diversity indices based on airborne LiDAR
 as ecological indicators for managing highly dynamic landscapes. Ecological
-Indicators, 57, 268–279. \url{https://doi.org/10.1016/j.ecolind.2015.04.017}
+Indicators, 57, 268–279. \doi{10.1016/j.ecolind.2015.04.017}
 }
