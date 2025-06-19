@@ -22,11 +22,11 @@ Inventory <- S7::new_class(
   ),
 
   validator = function(self) {
-    if (!all(names(self@dclass_metrics) %in% c("plot_id", "species", "dclass", "height", "ntrees", "ntrees_ha", "h0", "dg", "g_ha"))) {
+    if (!all(c("dclass", "height", "ntrees", "ntrees_ha", "h0", "dg", "g_ha") %in% names(self@dclass_metrics))) {
       "self@dclass_metrics variables are incorrect"
-    } else if (!all(names(self@group_metrics) %in% c(
-      "plot_id", "species", "d_mean", "d_median", "d_sd", "dg", "h_mean", "h_median",
-      "h_sd", "h_lorey", "h0", "ntrees", "ntrees_ha", "g_ha", "spacing"))) {
+    } else if (!all(c(
+      "d_mean", "d_median", "d_sd", "dg", "h_mean", "h_median",
+      "h_sd", "h_lorey", "h0", "ntrees", "ntrees_ha", "g_ha", "spacing") %in% names(self@group_metrics))) {
       "self@group_metrics variables are incorrect"
     }
   }
