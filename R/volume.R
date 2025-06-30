@@ -40,12 +40,15 @@ silv_volume <- function(diameter_base   = NULL,
     cli::cli_alert_warning("When using Pressler formula, the height is assumed to be Pressler directrix point (i.e., the height at which the diameter of the stem is half the diameter in the base of the tree).")
   }
 
+  ## feedback about units in 0.2.0
+  cli::cli_alert_info("Since v. 0.2.0 the diameter is assumed to be in centimeters.")
+
   ## Apply formula
   volume_vec <- switch(formula,
-                       "pressler" = if (!is.null(diameter)) (pi / 4) * diameter**2 * (2 / 3) * height else (pi / 4) * diameter_base**2 * (2 / 3) * height,
-                       "huber"   = (pi / 4) * diameter_center**2 * height * ntrees,
-                       "smalian" = (pi / 8) * (diameter_base**2 + diameter_top**2) * height * ntrees,
-                       "newton"  = (pi / 24) * (diameter_base**2 + diameter_top**2 + 4 * diameter_center**2) * height * ntrees
+                       "pressler" = if (!is.null(diameter)) (pi / 4) * (diameter / 100)**2 * (2 / 3) * height * ntrees else (pi / 4) * (diameter_base / 100)**2 * (2 / 3) * height * ntrees,
+                       "huber"   = (pi / 4) * (diameter_center / 100)**2 * height * ntrees,
+                       "smalian" = (pi / 8) * ((diameter_base / 100)**2 + (diameter_top / 100)**2) * height * ntrees,
+                       "newton"  = (pi / 24) * ((diameter_base / 100)**2 + (diameter_top / 100)**2 + 4 * (diameter_center / 100)**2) * height * ntrees
   )
 
   return(volume_vec)
