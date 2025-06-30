@@ -103,11 +103,14 @@ Default is 1.</p></dd>
     <h2 id="ref-examples">Examples<a class="anchor" aria-label="anchor" href="#ref-examples"></a></h2>
     <div class="sourceCode"><pre class="sourceCode r"><code><span class="r-in"><span><span class="fu">silv_volume</span><span class="op">(</span>diameter_base <span class="op">=</span> <span class="fl">30</span>, height <span class="op">=</span> <span class="fl">20</span>, formula <span class="op">=</span> <span class="st">"pressler"</span><span class="op">)</span></span></span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> <span style="color: #BBBB00;">!</span> When using Pressler formula, the height is assumed to be Pressler directrix point (i.e., the height at which the diameter of the stem is half the diameter in the base of the tree).</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [1] 9424.778</span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> <span style="color: #00BBBB;">ℹ</span> Since v. 0.2.0 the diameter is assumed to be in centimeters.</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [1] 0.9424778</span>
 <span class="r-in"><span><span class="fu">silv_volume</span><span class="op">(</span>diameter_center <span class="op">=</span> <span class="fl">25</span>, height <span class="op">=</span> <span class="fl">15</span>, formula <span class="op">=</span> <span class="st">"huber"</span><span class="op">)</span></span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [1] 7363.108</span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> <span style="color: #00BBBB;">ℹ</span> Since v. 0.2.0 the diameter is assumed to be in centimeters.</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [1] 0.7363108</span>
 <span class="r-in"><span><span class="fu">silv_volume</span><span class="op">(</span>diameter_base <span class="op">=</span> <span class="fl">30</span>, diameter_top <span class="op">=</span> <span class="fl">20</span>, height <span class="op">=</span> <span class="fl">20</span>, formula <span class="op">=</span> <span class="st">"smalian"</span><span class="op">)</span></span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [1] 10210.18</span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> <span style="color: #00BBBB;">ℹ</span> Since v. 0.2.0 the diameter is assumed to be in centimeters.</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [1] 1.021018</span>
 <span class="r-in"><span></span></span>
 </code></pre></div>
     </div>
