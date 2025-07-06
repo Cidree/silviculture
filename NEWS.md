@@ -3,7 +3,7 @@
 
 ## Bug Fixes
 
-* Fix an error with the validator of variable names in `silviculture::Inventory` S7 object.
+* Fix an error with the validator of variable names in `silviculture::Inventory` S7 class.
 
 ## Enhancements
 
