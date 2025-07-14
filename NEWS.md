@@ -5,6 +5,8 @@
 
 * Fix an error with the validator of variable names in `silviculture::Inventory` S7 class.
 
+* `biomass_models`: some were failing because the "-" sign was parsed as an em dash.
+
 ## Enhancements
 
 * `silv_volume()`: it assumed diameter to be in meters. Now the diameter must be given in centimeters. An informing message was added to the function.
