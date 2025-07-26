@@ -19,6 +19,8 @@ See details}
 A numeric vector
 }
 \description{
+\ifelse{html}{\href{https://lifecycle.r-lib.org/articles/stages.html#deprecated}{\figure{lifecycle-deprecated.svg}{options: alt='[Deprecated]'}}}{\strong{[Deprecated]}}
+
 Calculates the Hart Index or the Hart-Becking Index for even-aged stands
 }
 \details{

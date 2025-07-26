@@ -18,6 +18,7 @@ or a numeric vector of length two for each side of a rectangular plot shape}
 A numeric vector
 }
 \description{
+\ifelse{html}{\href{https://lifecycle.r-lib.org/articles/stages.html#deprecated}{\figure{lifecycle-deprecated.svg}{options: alt='[Deprecated]'}}}{\strong{[Deprecated]}}
 Calculates number of trees per hectare for a given plot size and shape
 }
 \examples{

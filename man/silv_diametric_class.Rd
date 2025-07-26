@@ -35,6 +35,8 @@ default), it returns the class center}
 A numeric vector
 }
 \description{
+\ifelse{html}{\href{https://lifecycle.r-lib.org/articles/stages.html#deprecated}{\figure{lifecycle-deprecated.svg}{options: alt='[Deprecated]'}}}{\strong{[Deprecated]}}
+
 Classifies the measured diameters into classes of a specified length
 }
 \examples{

@@ -28,24 +28,25 @@ reference:
   - title: "Tree level metrics"
     desc: "Metrics to be calculated tree by tree"
     contents:
-    - silv_basal_area
-    - silv_diametric_class
     - silv_tree_dclass
     - silv_tree_basal_area
+    - silv_tree_volume
+    - silv_basal_area
+    - silv_diametric_class
+    - silv_volume
   
   - title: "Stand level metrics"
     desc: "Metrics to be calculated per stand or plot of trees"
     contents:
-    - silv_dominant_height
-    - silv_lorey_height
-    - silv_ntrees_ha
-    - silv_sqrmean_diameter
     - silv_stand_dominant_height
     - silv_stand_lorey_height
     - silv_stand_ntrees_ha
     - silv_stand_qmean_diameter
     - silv_summary
-    - silv_volume
+    - silv_dominant_height
+    - silv_lorey_height
+    - silv_ntrees_ha
+    - silv_sqrmean_diameter
   
   - title: "Stand density metrics"
     desc: "Stand density and competition metrics"

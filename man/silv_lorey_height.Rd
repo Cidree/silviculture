@@ -18,9 +18,12 @@ Use this argument when you have aggregated data by diametric classes (see detail
 A numeric vector
 }
 \description{
-Tree's mean height weighted by basal area
+#' @description
+\ifelse{html}{\href{https://lifecycle.r-lib.org/articles/stages.html#deprecated}{\figure{lifecycle-deprecated.svg}{options: alt='[Deprecated]'}}}{\strong{[Deprecated]}}
 }
 \details{
+Tree's mean height weighted by basal area
+
 The function calculates Lorey's mean height according to:
 
 \deqn{h_L = \frac{\sum n_i g_i h_i}{\sum n_i g_i}}

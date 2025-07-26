@@ -18,7 +18,7 @@ for each individual tree}
 A numeric vector
 }
 \description{
-Calculates the quadratic mean diameter (QMD)
+\ifelse{html}{\href{https://lifecycle.r-lib.org/articles/stages.html#deprecated}{\figure{lifecycle-deprecated.svg}{options: alt='[Deprecated]'}}}{\strong{[Deprecated]}}
 }
 \examples{
 ## calculate dg for inventory data grouped by plot_id and species

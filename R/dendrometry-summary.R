@@ -84,7 +84,7 @@ silv_summary <- function(data,
   # calculate metrics
   dclass_group_metrics <- data |>
     dplyr::mutate(
-      dclass = silv_diametric_class({{ diameter }}, dmin, dmax, class_length, include_lowest)
+      dclass = silv_tree_dclass({{ diameter }}, dmin, dmax, class_length, include_lowest)
     ) |>
     dplyr::summarise(
       height = mean({{ height }}, na.rm = TRUE),
@@ -92,10 +92,10 @@ silv_summary <- function(data,
       .by    = dplyr::all_of(c(.groups, "dclass"))
     ) |>
     dplyr::mutate(
-      ntrees_ha = silv_ntrees_ha(ntrees, plot_size, plot_shape),
-      h0        = silv_dominant_height(dclass, height, ntrees_ha, which = which_h0),
-      dg        = silv_sqrmean_diameter(dclass, ntrees_ha),
-      g_ha      = silv_basal_area(dclass, ntrees_ha),
+      ntrees_ha = silv_density_ntrees_ha(ntrees, plot_size, plot_shape),
+      h0        = silv_stand_dominant_height(dclass, height, ntrees_ha, which = which_h0),
+      dg        = silv_stand_qmean_diameter(dclass, ntrees_ha),
+      g_ha      = silv_tree_basal_area(dclass, ntrees_ha),
       .by       = .groups
     ) |>
     dplyr::arrange(dplyr::across(.groups))
@@ -109,19 +109,18 @@ silv_summary <- function(data,
       h_mean    = weighted.mean(height, ntrees_ha),
       h_median  = weighted_median(height, ntrees_ha),
       h_sd      = weighted_sd(height, ntrees_ha),
-      h_lorey   = silv_lorey_height(height, g_ha, ntrees_ha),
+      h_lorey   = silv_stand_lorey_height(height, g_ha, ntrees_ha),
       ntrees    = sum(ntrees),
       ntrees_ha = sum(ntrees_ha),
       g_ha      = sum(g_ha),
       .by       = dplyr::all_of(c(.groups, "h0", "dg"))
-      # .by       = c(dplyr::all_of(.groups), "h0", "dg")
     ) |>
     dplyr::mutate(
-      spacing   = silv_spacing_index(h0, ntrees_ha, which = which_spacing)
+      spacing   = silv_density_hart(h0, ntrees_ha, which = which_spacing)
     ) |>
     dplyr::select(
       # dplyr::all_of(.groups), dplyr::starts_with("d_"), dg, dplyr::starts_with("h_"), h0, dplyr::everything()
-      .groups, dplyr::starts_with("d_"), dg, dplyr::starts_with("h_"), h0, dplyr::everything()
+      dplyr::all_of(.groups), dplyr::starts_with("d_"), dg, dplyr::starts_with("h_"), h0, dplyr::everything()
     )
 
   # return list
@@ -130,5 +129,6 @@ silv_summary <- function(data,
     group_metrics = groups_metrics
   )
 }
+
 
 

@@ -114,7 +114,7 @@ silv_tree_dclass <- function(diameter,
 #' specified in the function. It is recommended to use the squared mean diameter
 #' calculated with [silv_stand_qmean_diameter].
 #' 
-#' Although this function is a tree-level metric, when ntrees is specified it will
+#' Although this function is a tree-level metric, when \code{ntrees} is specified it will
 #' be calculated for the group of trees, which can be number of trees per hectare, in
 #' which case the basal area will be \eqn{m^2/ha}, and it can be considered a stand-level
 #' metric
@@ -164,5 +164,58 @@ silv_tree_basal_area <- function(diameter,
 
 
 
+#' Calculate Tree Volume
+#'
+#' This function calculates the volume of a tree or logs using different formulas:
+#' Pressler, Huber, Smalian, and Newton. The appropriate diameter and height
+#' parameters must be provided depending on the selected formula.
+#'
+#' @param diameter_base A numeric vector. The diameter at the base of the tree
+#' (required for Pressler, Smalian, and Newton formulas).
+#' @param diameter_top A numeric vector. The diameter at the top of the tree
+#' (required for Smalian and Newton formulas).
+#' @param diameter_center A numeric vector. The diameter at the center of the
+#' tree (required for Huber and Newton formulas).
+#' @param diameter A numeric vector. The diameter at breast height (used in
+#' Pressler formula if provided instead of `diameter_base`).
+#' @param height A numeric vector. The tree or log height (required for all formulas).
+#' @param formula Character. The volume formula to use. Options: `"pressler"`,
+#' `"huber"`, `"smalian"`, `"newton"`. Default is `"pressler"`.
+#' @param ntrees A numeric vector with number of trees of the same dimensions.
+#' Default is 1.
+#'
+#' @return A numeric value representing the tree volume.
+#' @examples
+#' silv_tree_volume(diameter_base = 30, height = 20, formula = "pressler")
+#' silv_tree_volume(diameter_center = 25, height = 15, formula = "huber")
+#' silv_tree_volume(diameter_base = 30, diameter_top = 20, height = 20, formula = "smalian")
+#'
+#' @export
+silv_tree_volume <- function(diameter_base   = NULL,
+                        diameter_top    = NULL,
+                        diameter_center = NULL,
+                        diameter        = NULL,
+                        height          = NULL,
+                        formula         = "pressler",
+                        ntrees          = NULL) {
 
+  if (is.null(ntrees)) ntrees <- 1
+
+  if (formula == "pressler") {
+    cli::cli_alert_warning("When using Pressler formula, the height is assumed to be Pressler directrix point (i.e., the height at which the diameter of the stem is half the diameter in the base of the tree).")
+  }
+
+  ## feedback about units in 0.2.0
+  cli::cli_alert_info("Since v. 0.2.0 the diameter is assumed to be in centimeters.")
+
+  ## Apply formula
+  volume_vec <- switch(formula,
+                       "pressler" = if (!is.null(diameter)) (pi / 4) * (diameter / 100)**2 * (2 / 3) * height * ntrees else (pi / 4) * (diameter_base / 100)**2 * (2 / 3) * height * ntrees,
+                       "huber"   = (pi / 4) * (diameter_center / 100)**2 * height * ntrees,
+                       "smalian" = (pi / 8) * ((diameter_base / 100)**2 + (diameter_top / 100)**2) * height * ntrees,
+                       "newton"  = (pi / 24) * ((diameter_base / 100)**2 + (diameter_top / 100)**2 + 4 * (diameter_center / 100)**2) * height * ntrees
+  )
+
+  return(volume_vec)
+}
 

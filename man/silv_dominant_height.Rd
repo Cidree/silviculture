@@ -20,6 +20,8 @@ Use this argument when you have aggregated data by diametric classes (see detail
 A numeric vector
 }
 \description{
+\ifelse{html}{\href{https://lifecycle.r-lib.org/articles/stages.html#deprecated}{\figure{lifecycle-deprecated.svg}{options: alt='[Deprecated]'}}}{\strong{[Deprecated]}}
+
 Calculates the dominant height using the Assman equation or the Hart equation
 }
 \details{
