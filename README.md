@@ -13,6 +13,8 @@ coverage](https://codecov.io/gh/Cidree/silviculture/graph/badge.svg)](https://ap
 v3](https://img.shields.io/badge/License-GPLv3-blue.svg)](https://www.gnu.org/licenses/gpl-3.0)
 [![Last Month
 Downloads](https://cranlogs.r-pkg.org/badges/last-month/silviculture?color=green)](https://CRAN.R-project.org/package=silviculture)
+[![Total
+Downloads](https://cranlogs.r-pkg.org/badges/grand-total/silviculture?color=blue)](https://CRAN.R-project.org/package=silviculture)
 <!-- badges: end -->
 
 `silviculture` is an R package designed to streamline the analysis of

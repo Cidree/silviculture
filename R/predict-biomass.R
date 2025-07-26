@@ -1,6 +1,5 @@
 
 
-
 #' Calculate Tree Biomass
 #'
 #' Computes the biomass of a tree species using species-specific allometric
@@ -40,13 +39,13 @@
 #'
 #' @examples
 #' # Calculate biomass for a single tree
-#' silv_biomass(
+#' silv_predict_biomass(
 #'   diameter = 45,
 #'   height   = 22,
 #'   species  = "Pinus pinaster",
 #'   model    = "ruiz-peinado-2011"
 #' )
-silv_biomass <- function(
+silv_predict_biomass <- function(
     diameter    = NULL,
     height      = NULL,
     ntrees      = NULL,
