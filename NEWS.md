@@ -11,6 +11,8 @@
 
 * `silv_volume()`: it assumed diameter to be in meters. Now the diameter must be given in centimeters. An informing message was added to the function.
 
+* `silv_biomass()` deprecated in favour of `silv_predict_biomass()`
+
 # silviculture 0.1.0
 
 * Initial CRAN submission.

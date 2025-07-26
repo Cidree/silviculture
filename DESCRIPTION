@@ -1,7 +1,7 @@
 Package: silviculture
 Type: Package
 Title: Utility Functions for Forest Inventory and Silviculture
-Version: 0.1.0
+Version: 0.2.0
 Authors@R: person("Adrián", "Cidre González", email = "adrian.cidre@gmail.com", role = c("aut", "cre"))
 Description: Perform common dendrometry operations such as inventory preparing, and inventory data analysis.
 License: GPL (>= 3)
@@ -12,6 +12,7 @@ Roxygen: list(markdown = TRUE)
 Imports: 
     cli,
     dplyr,
+    lifecycle,
     S7
 Depends: 
     R (>= 4.1.0)
@@ -28,5 +29,6 @@ Collate:
     'globals.R'
     'inventory.R'
     'lidar.R'
+    'thinning.R'
     'volume.R'
     'zzz.R'

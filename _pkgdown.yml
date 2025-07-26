@@ -19,11 +19,11 @@ authors:
 
 reference:
 
-  - title: "Biomass & Volume Assessment"
-    desc: Functions for estimating forest biomass and volume
+  - title: "Predictions"
+    desc: Functions for estimating forest variables from models or equations
     contents:
     - silv_biomass
-    - silv_volume
+    - silv_predict_biomass
 
   - title: "Structural forest metrics"
     desc: Calculate key forest inventory metrics like basal area, dominant height, and tree count, as well as analyzing tree size distribution and stand spacing
@@ -36,6 +36,7 @@ reference:
     - silv_spacing_index
     - silv_sqrmean_diameter
     - silv_summary
+    - silv_volume
 
   - title: "Inventory Sample Size"
     desc: Calculate and explore forest inventory sample size
