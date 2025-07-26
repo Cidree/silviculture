@@ -24,19 +24,37 @@ reference:
     contents:
     - silv_biomass
     - silv_predict_biomass
-
-  - title: "Structural forest metrics"
-    desc: Calculate key forest inventory metrics like basal area, dominant height, and tree count, as well as analyzing tree size distribution and stand spacing
+  
+  - title: "Tree level metrics"
+    desc: "Metrics to be calculated tree by tree"
     contents:
     - silv_basal_area
     - silv_diametric_class
+    - silv_tree_dclass
+    - silv_tree_basal_area
+  
+  - title: "Stand level metrics"
+    desc: "Metrics to be calculated per stand or plot of trees"
+    contents:
     - silv_dominant_height
     - silv_lorey_height
     - silv_ntrees_ha
-    - silv_spacing_index
     - silv_sqrmean_diameter
+    - silv_stand_dominant_height
+    - silv_stand_lorey_height
+    - silv_stand_ntrees_ha
+    - silv_stand_qmean_diameter
     - silv_summary
     - silv_volume
+  
+  - title: "Stand density metrics"
+    desc: "Stand density and competition metrics"
+    contents:
+    - silv_density_ntrees_ha
+    - silv_density_hart
+    - silv_density_sdi
+    - silv_spacing_index
+    - silv_ntrees_ha
 
   - title: "Inventory Sample Size"
     desc: Calculate and explore forest inventory sample size
@@ -56,7 +74,7 @@ reference:
     - inventory_samples
 
   - title: Objects
-    desc: S7 classes
+    desc: S7 methods
     contents:
     - plot
 

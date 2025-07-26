@@ -1,4 +1,3 @@
-
 #' Classify diameters in classes
 #'
 #' Classifies the measured diameters into classes of a specified length
@@ -26,6 +25,13 @@ silv_diametric_class <- function(diameter,
                                  class_length     = 5,
                                  include_lowest   = TRUE,
                                  return_intervals = FALSE) {
+  
+  ## DEPRECATED ---------------
+  lifecycle::deprecate_warn(
+    when = "0.2.0",
+    what = "silv_diametric_class()",
+    details = "Function `silv_diametric_class() is deprecated in favour of `silv_tree_dclass()`, and it will be removed in the next release."
+  )
 
   # 0. Setup and handle errors
   ## 0.1. Handle data type
@@ -89,67 +95,6 @@ silv_diametric_class <- function(diameter,
 
 
 
-#' Calculates number of trees per hectare
-#'
-#' Calculates number of trees per hectare for a given plot size and shape
-#'
-#' @param ntrees A numeric vector representing the number of trees in a sampling plot
-#' @param plot_size A numeric vector of length one for circular radius in meters;
-#'    or a numeric vector of length two for each side of a rectangular plot shape
-#' @param plot_shape The shape of the sampling plot. Either `circular` or `rectangular`
-#'
-#' @return A numeric vector
-#' @export
-#'
-#' @examples
-#' library(dplyr)
-#' ## Circular plot of 10 meters radius
-#' inventory_samples |>
-#'   count(plot_id, species) |>
-#'   mutate(
-#'     ntrees_ha = silv_ntrees_ha(n, plot_size = 10)
-#'   )
-#'
-#' ## Rectangular plot of 10x15 meters
-#' inventory_samples |>
-#'   count(plot_id, species) |>
-#'   mutate(
-#'     ntrees_ha = silv_ntrees_ha(
-#'       n,
-#'       plot_size = c(10, 15),
-#'       plot_shape = "rectangular"
-#'      )
-#'   )
-silv_ntrees_ha <- function(ntrees,
-                           plot_size,
-                           plot_shape = "circular") {
-
-  # 0. Handle errors
-  stopifnot(plot_shape %in% c("circular", "rectangular"))
-  if (length(plot_size) == 1 && plot_size <= 0) cli::cli_abort("`plot_size` has to be greater than 0")
-
-  # 1. Calculate ntrees in ha
-  if (plot_shape == "circular") {
-    ntrees * 10000 / (pi * plot_size**2)
-  } else {
-    ntrees * 10000 / prod(plot_size)
-  }
-
-  # 2. Convert to ntrees/acres
-  # if (unit == "acres") {
-  #   ntrees <- ntrees / 2.4710538147
-  # }
-
-  # 3. Return object
-  # return(ntrees)
-
-
-}
-
-
-
-
-
 #' Calculates the dominant height
 #'
 #' Calculates the dominant height using the Assman equation or the Hart equation
@@ -169,6 +114,10 @@ silv_ntrees_ha <- function(ntrees,
 #'
 #' - \bold{Hart}: calculates the \eqn{H_0} as the mean height of the 100 tallest
 #' trees per hectare
+#' 
+#' When \code{ntrees = NULL}, the function will assume that each diameter and height
+#' belongs to only one tree. If you have data aggregated by hectare, you'll use the
+#' number of trees per hectare in this argument.
 #'
 #' @references Assmann, E. (1970) The principles of forest yield study: Studies in the
 #' organic production, structure, increment, and yield of forest stands. Pergamon Press, Oxford.
@@ -176,12 +125,6 @@ silv_ntrees_ha <- function(ntrees,
 #' @return A numeric vector
 #' @export
 #' @include utils-not-exported.R
-#'
-#' @details
-#' When \code{ntrees = NULL}, the function will assume that each diameter and height
-#' belongs to only one trees. If you have data aggregated by hectare, you'll use the
-#' number of trees per hectare in this argument.
-#'
 #'
 #' @examples
 #' ## calculate h0 for inventory data grouped by plot_id and species
@@ -202,6 +145,13 @@ silv_dominant_height <- function(diameter,
                                  height,
                                  ntrees = NULL,
                                  which = "assman") {
+  
+  ## DEPRECATED ---------------
+  lifecycle::deprecate_warn(
+    when = "0.2.0",
+    what = "silv_dominant_height()",
+    details = "Function `silv_dominant_height() is deprecated in favour of `silv_stand_dominant_height()`, and it will be removed in the next release."
+  )
 
   # 0. Handle errors and setup
   ## 0.1. Errors
@@ -295,6 +245,13 @@ silv_dominant_height <- function(diameter,
 #'   )
 silv_lorey_height <- function(height, g, ntrees = NULL) {
 
+  ## DEPRECATED ---------------
+  lifecycle::deprecate_warn(
+    when = "0.2.0",
+    what = "silv_lorey_height()",
+    details = "Function `silv_lorey_height() is deprecated in favour of `silv_stand_lorey_height()`, and it will be removed in the next release."
+  )
+
   # 0. Handle errors
   if (length(height) != length(g)) cli::cli_abort("`height` and `g` must have the same length")
   if (is.numeric(ntrees) && length(ntrees) != length(g)) cli::cli_abort("`ntrees` must have the same length as `height` and `g`, or be NULL")
@@ -311,13 +268,14 @@ silv_lorey_height <- function(height, g, ntrees = NULL) {
 
 
 
-#' Calculates the squared mean diameter
+
+#' Calculates the quadratic mean diameter (QMD)
 #'
 #' @param diameter Numeric vector of diameters or diameter classes
 #' @param ntrees Numeric vector with number of trees of the diameter class per
-#'    hectare. If `ntrees = NULL`, the function will assume that each diameter
-#'    corresponds to only one tree. Therefore, basal area will be calculated
-#'    for each individual tree
+#' hectare. If `ntrees = NULL`, the function will assume that each diameter
+#' corresponds to only one tree. Therefore, the QMD will be calculated
+#' for each individual tree
 #'
 #' @return A numeric vector
 #' @export
@@ -343,6 +301,13 @@ silv_lorey_height <- function(height, g, ntrees = NULL) {
 #' silv_sqrmean_diameter(c(12.5, 23.5, 14, 16, 18.5))
 silv_sqrmean_diameter <- function(diameter,
                                   ntrees = NULL) {
+  
+  ## DEPRECATED ---------------
+  lifecycle::deprecate_warn(
+    when = "0.2.0",
+    what = "silv_sqrmean_diameter()",
+    details = "Function `silv_sqrmean_diameter() is deprecated in favour of `silv_stand_qmean_diameter()`, and it will be removed in the next release."
+  )
 
   # 0. Handle errors and setup
   if (is.numeric(ntrees) && length(ntrees) != length(diameter)) cli::cli_abort("`ntrees` must have the same length as `diameter` or be NULL")
@@ -418,6 +383,13 @@ silv_sqrmean_diameter <- function(diameter,
 silv_basal_area <- function(diameter,
                             ntrees = NULL,
                             units = "cm") {
+  
+  ## DEPRECATED ---------------
+  lifecycle::deprecate_warn(
+    when = "0.2.0",
+    what = "silv_basal_area()",
+    details = "Function `silv_basal_area() is deprecated in favour of `silv_tree_basal_area()`, and it will be removed in the next release."
+  )
 
   # 0. Handle errors and set-up
   if (is.numeric(ntrees) && length(ntrees) != length(diameter)) cli::cli_abort("`ntrees` must have the same length as `diameter` or be NULL")
@@ -481,6 +453,13 @@ silv_basal_area <- function(diameter,
 silv_spacing_index <- function(h0,
                                ntrees,
                                which = "hart") {
+  
+  ## DEPRECATED ---------------
+  lifecycle::deprecate_warn(
+    when = "0.2.0",
+    what = "silv_spacing_index()",
+    details = "Function `silv_spacing_index() is deprecated in favour of `silv_density_hart()`, and it will be removed in the next release."
+  )
 
   # 0. Errors
   if (!is.numeric(ntrees)) cli::cli_abort("ntrees` must be numeric")
@@ -496,3 +475,62 @@ silv_spacing_index <- function(h0,
 
 }
 
+
+
+
+
+#' Calculates number of trees per hectare
+#'
+#' Calculates number of trees per hectare for a given plot size and shape
+#'
+#' @param ntrees A numeric vector representing the number of trees in a sampling plot
+#' @param plot_size A numeric vector of length one for circular radius in meters;
+#'    or a numeric vector of length two for each side of a rectangular plot shape
+#' @param plot_shape The shape of the sampling plot. Either `circular` or `rectangular`
+#'
+#' @return A numeric vector
+#' @export
+#'
+#' @examples
+#' library(dplyr)
+#' ## Circular plot of 10 meters radius
+#' inventory_samples |>
+#'   count(plot_id, species) |>
+#'   mutate(
+#'     ntrees_ha = silv_ntrees_ha(n, plot_size = 10)
+#'   )
+#'
+#' ## Rectangular plot of 10x15 meters
+#' inventory_samples |>
+#'   count(plot_id, species) |>
+#'   mutate(
+#'     ntrees_ha = silv_ntrees_ha(
+#'       n,
+#'       plot_size = c(10, 15),
+#'       plot_shape = "rectangular"
+#'      )
+#'   )
+silv_ntrees_ha <- function(ntrees,
+                           plot_size,
+                           plot_shape = "circular") {
+  
+  ## DEPRECATED ---------------
+  lifecycle::deprecate_warn(
+    when    = "0.2.0",
+    what    = "silv_ntrees_ha()",
+    details = "Function `silv_ntrees_ha() is deprecated in favour of `silv_density_ntrees_ha()`, and it will be removed in the next release."
+  )
+
+  # 0. Handle errors
+  stopifnot(plot_shape %in% c("circular", "rectangular"))
+  if (length(plot_size) == 1 && plot_size <= 0) cli::cli_abort("`plot_size` has to be greater than 0")
+
+  # 1. Calculate ntrees in ha
+  if (plot_shape == "circular") {
+    ntrees * 10000 / (pi * plot_size**2)
+  } else {
+    ntrees * 10000 / prod(plot_size)
+  }
+
+
+}
