@@ -1,18 +1,5 @@
 
-#' @title Inventory class
-#'
-#' @description
-#' A list containing forest inventory data summaries. It includes data by
-#' diametric class (`dclass_metrics`) and by plot and species (`group_metrics`).
-#'
-#' @param dclass_metrics A data.frame summarised by diametric class with variables
-#' such as plot_id, species, dclass, height, ntrees, ntrees_ha, h0, dg, and g_ha.
-#' @param group_metrics A data.frame summarised by plot and species with variables
-#' such as plot_id, species, d_mean, d_median, d_sd, dg, h_mean, h_median, h_sd,
-#' h_lorey, h0, ntrees, ntrees_ha, g_ha, and spacing.
-#'
-#' @return An S7 `Inventory` object, which contains the inventory data.
-#'
+
 Inventory <- S7::new_class(
   name = "Inventory",
   package = "silviculture",

@@ -58,8 +58,6 @@ reference:
   - title: Objects
     desc: S7 classes
     contents:
-    - Inventory
-    - SampleSize
     - plot
 
 navbar:

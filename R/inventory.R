@@ -1,16 +1,6 @@
 
 
-#' @title SampleSize class
-#'
-#' @description
-#' A list containing the summary data of \link{silv_sample_size}. It includes input
-#' data (sampling_opts) and output data (sampling_res)
-#'
-#' @param sampling_res A list containing the results of sample size calculations.
-#' @param sampling_opts A list containing the input options of sample size calculations.
-#'
-#' @return An S7 `SampleSize` object
-#'
+
 SampleSize <- S7::new_class(
   name    = "SampleSize",
   package = "silviculture",
