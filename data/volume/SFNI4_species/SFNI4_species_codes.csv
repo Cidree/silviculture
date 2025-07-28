@@ -1,0 +1,381 @@
+Codigo_IFN,Nombre_Especie,Ambito_de_aplicacion,Origen,Arborea_Matorral
+001,Heberdenia bahamensis,,IFN4_MFE25,ARB
+007,Acacia spp.,,IFN4_MFE25,ARB
+008,Phillyrea latifolia,,IFN4_MFE25,ARB
+011,Ailanthus altissima,,IFN4_MFE25,ARB
+012,Malus sylvestris,,IFN4_MFE25,ARB
+013,Celtis australis,,IFN4_MFE25,ARB
+014,Taxus baccata,,IFN4_MFE25,ARB
+015,Crataegus spp.,,IFN4_MFE25,ARB
+016,Pyrus spp.,,IFN4_MFE25,ARB
+017,Cedrus atlantica,,IFN4_MFE25,ARB
+018,Chamaecyparis lawsoniana,,IFN4_MFE25,ARB
+019,Otras coniferas,,IFN4_MFE25,ARB
+021,Pinus sylvestris,,IFN4_MFE25,ARB
+022,Pinus uncinata,,IFN4_MFE25,ARB
+023,Pinus pinea,,IFN4_MFE25,ARB
+024,Pinus halepensis,,IFN4_MFE25,ARB
+025,Pinus nigra,,IFN4_MFE25,ARB
+026,Pinus pinaster,,IFN4_MFE25,ARB
+027,Pinus canariensis,,IFN4_MFE25,ARB
+028,Pinus radiata,,IFN4_MFE25,ARB
+029,Otros pinos,,IFN4_MFE25,ARB
+031,Abies alba,,IFN4_MFE25,ARB
+032,Abies pinsapo,,IFN4_MFE25,ARB
+033,Picea abies,,IFN4_MFE25,ARB
+034,Pseudotsuga menziesii,,IFN4_MFE25,ARB
+035,Larix spp.,,IFN4_MFE25,ARB
+036,Cupressus sempervirens,,IFN4_MFE25,ARB
+037,Juniperus communis,,IFN4_MFE25,ARB
+038,Juniperus thurifera,,IFN4_MFE25,ARB
+039,Juniperus phoenicea,,IFN4_MFE25,ARB
+041,Quercus robur,,IFN4_MFE25,ARB
+042,Quercus petraea,,IFN4_MFE25,ARB
+043,Quercus pyrenaica,,IFN4_MFE25,ARB
+044,Quercus faginea,,IFN4_MFE25,ARB
+045,Quercus ilex ssp. ballota,,MFE25,ARB
+046,Quercus suber,,IFN4_MFE25,ARB
+047,Quercus canariensis,,IFN4_MFE25,ARB
+048,Quercus rubra,,IFN4_MFE25,ARB
+049,Otros quercus,,IFN4_MFE25,ARB
+051,Populus alba,,IFN4_MFE25,ARB
+052,Populus tremula,,IFN4_MFE25,ARB
+053,Tamarix spp.,,IFN4_MFE25,ARB
+054,Alnus glutinosa,,IFN4_MFE25,ARB
+055,Fraxinus angustifolia,,IFN4_MFE25,ARB
+056,Ulmus minor,,IFN4_MFE25,ARB
+057,Salix spp.,,IFN4_MFE25,ARB
+058,Populus nigra,,IFN4_MFE25,ARB
+059,Otros arboles ripicolas,,IFN4_MFE25,ARB
+061,Eucalyptus globulus,,IFN4_MFE25,ARB
+062,Eucalyptus camaldulensis,,IFN4_MFE25,ARB
+063,Otros eucaliptos,,IFN4_MFE25,ARB
+064,Eucalyptus nitens,,IFN4_MFE25,ARB
+065,Ilex aquifolium,,IFN4_MFE25,ARB
+066,Olea europaea,,IFN4_MFE25,ARB
+067,Ceratonia siliqua,,IFN4_MFE25,ARB
+068,Arbutus unedo,,IFN4_MFE25,ARB
+069,Phoenix spp.,,IFN4_MFE25,ARB
+071,Fagus sylvatica,,IFN4_MFE25,ARB
+072,Castanea sativa,,IFN4_MFE25,ARB
+073,Betula spp.,,IFN4_MFE25,ARB
+074,Corylus avellana,,IFN4_MFE25,ARB
+075,Juglans regia,,IFN4_MFE25,ARB
+076,Acer campestre,,IFN4_MFE25,ARB
+077,Tilia spp.,,IFN4_MFE25,ARB
+078,Sorbus spp.,,IFN4_MFE25,ARB
+079,Platanus hispanica,,IFN4_MFE25,ARB
+081,Myrica faya,,IFN4_MFE25,ARB
+082,Ilex canariensis,,IFN4_MFE25,ARB
+083,Erica arborea,,IFN4_MFE25,ARB (Canarias)
+084,Persea indica,,IFN4_MFE25,ARB
+085,Sideroxylon marmulano,,IFN4_MFE25,ARB
+086,Picconia excelsa,,IFN4_MFE25,ARB
+087,Ocotea foetens,,IFN4_MFE25,ARB
+088,Apollonias barbujana,,IFN4_MFE25,ARB
+089,Otras laurisilvas,,IFN4_MFE25,ARB
+092,Robinia pseudoacacia,,IFN4_MFE25,ARB
+094,Laurus nobilis,,IFN4_MFE25,ARB
+095,Prunus spp.,,IFN4_MFE25,ARB
+096,Rhus coriaria,,IFN4_MFE25,ARB
+097,Sambucus nigra,,IFN4_MFE25,ARB
+098,Carpinus betulus,,IFN4_MFE25,ARB
+099,Otras frondosas,,IFN4_MFE25,ARB
+207,Acacia melanoxylon,,IFN4_MFE25,ARB
+215,Crataegus monogyna,,IFN4_MFE25,ARB
+217,Cedrus deodara,,IFN4_MFE25,ARB
+219,Tetraclinis articulata,,IFN4_MFE25,ARB
+235,Larix decidua,,IFN4_MFE25,ARB
+236,Cupressus arizonica,,IFN4_MFE25,ARB
+237,Juniperus oxycedrus,,IFN4_MFE25,ARB
+238,Juniperus turbinata,,IFN4_MFE25,ARB
+243,Quercus pubescens,,IFN4_MFE25,ARB
+244,Quercus lusitanica,,IFN4_MFE25,ARB
+245,Quercus ilex ssp. ilex,,IFN4,ARB
+253,Tamarix canariensis,,IFN4_MFE25,ARB
+255,Fraxinus excelsior,,IFN4_MFE25,ARB
+256,Ulmus glabra,,IFN4_MFE25,ARB
+257,Salix alba,,IFN4_MFE25,ARB
+258,Populus x canadensis,,IFN4_MFE25,ARB
+264,Eucalyptus viminalis,,IFN4_MFE25,ARB
+268,Arbutus canariensis,,IFN4_MFE25,ARB
+273,Betula alba,,IFN4_MFE25,ARB
+275,Juglans nigra,,IFN4_MFE25,ARB
+276,Acer monspessulanum,,IFN4_MFE25,ARB
+277,Tilia cordata,,IFN4_MFE25,ARB
+278,Sorbus aria,,IFN4_MFE25,ARB
+279,Platanus orientalis,,IFN4_MFE25,ARB
+281,Myrica rivas-martinezii,,IFN4_MFE25,ARB
+282,Ilex platyphylla,,IFN4_MFE25,ARB
+283,Erica scoparia,,IFN4_MFE25,ARB (Canarias)
+289,Pleiomeris canariensis,,IFN4_MFE25,ARB
+292,Sophora japonica,,IFN4_MFE25,ARB
+293,Pistacia atlantica,,IFN4_MFE25,ARB
+294,Laurus azorica,,IFN4_MFE25,ARB
+299,Ficus carica,,IFN4_MFE25,ARB
+307,Acacia dealbata,,IFN4_MFE25,ARB
+315,Crataegus laevigata,,IFN4_MFE25,ARB
+317,Cedrus libani,,IFN4_MFE25,ARB
+319,Thuja spp.,,IFN4_MFE25,ARB
+335,Larix leptolepis,,IFN4_MFE25,ARB
+336,Cupressus lusitanica,,IFN4_MFE25,ARB
+337,Juniperus cedrus,,IFN4_MFE25,ARB
+344,Quercus alpestris,,IFN4_MFE25,ARB
+355,Fraxinus ornus,,IFN4_MFE25,ARB
+356,Ulmus pumila,,IFN4_MFE25,ARB
+357,Salix atrocinerea,,IFN4_MFE25,ARB
+364,Eucalyptus gomphocephalus,,IFN4_MFE25,ARB
+373,Betula pendula,,IFN4_MFE25,ARB
+376,Acer negundo,,IFN4_MFE25,ARB
+377,Tilia platyphyllos,,IFN4_MFE25,ARB
+378,Sorbus aucuparia,,IFN4_MFE25,ARB
+389,Rhamnus glandulosa,,IFN4_MFE25,ARB
+392,Gleditsia triacanthos,,IFN4_MFE25,ARB
+395,Prunus avium,,IFN4_MFE25,ARB
+399,Morus spp.,,IFN4_MFE25,ARB
+415,Crataegus laciniata,,IFN4_MFE25,ARB
+435,Larix x eurolepis,,IFN4_MFE25,ARB
+436,Cupressus macrocarpa,,IFN4_MFE25,ARB
+455,Fraxinus spp.,,IFN4_MFE25,ARB
+456,Ulmus spp.,,IFN4_MFE25,ARB
+457,Salix babylonica,,IFN4_MFE25,ARB
+464,Eucalyptus robusta,,IFN4_MFE25,ARB
+469,Phoenix canariensis,,IFN4_MFE25,ARB
+476,Acer opalus,,IFN4_MFE25,ARB
+478,Sorbus domestica,,IFN4_MFE25,ARB
+489,Visnea mocanera,,IFN4_MFE25,ARB
+495,Prunus lusitanica,,IFN4_MFE25,ARB
+499,Morus alba,,IFN4_MFE25,ARB
+515,Crataegus azarolus,,IFN4_MFE25,ARB
+557,Salix cantabrica,,IFN4_MFE25,ARB
+569,Dracaena draco,,IFN4_MFE25,ARB
+576,Acer pseudoplatanus,,IFN4_MFE25,ARB
+578,Sorbus torminalis,,IFN4_MFE25,ARB
+595,Prunus padus,,IFN4_MFE25,ARB
+599,Morus nigra,,IFN4_MFE25,ARB
+657,Salix caprea,,IFN4_MFE25,ARB
+676,Acer platanoides,,IFN4_MFE25,ARB
+678,Sorbus latifolia,,IFN4_MFE25,ARB
+757,Salix elaeagnos,,IFN4_MFE25,ARB
+776,Acer spp.,,IFN4_MFE25,ARB
+778,Sorbus chamaemespilus,,IFN4_MFE25,ARB
+857,Salix fragilis,,IFN4_MFE25,ARB
+858,Salix canariensis,,IFN4_MFE25,ARB
+957,Salix purpurea,,IFN4_MFE25,ARB
+0101,Cistus spp.,C.C.A.A. de Navarra. Galicia. Asturias y Cantabria,IFN4_MFE25,MATO
+0102,Erica spp.,Nacional,IFN4_MFE25,MATO
+0103,Otras papilionoideas altas,C.C.A.A. de Navarra. Galicia. Asturias y Cantabria,IFN4_MFE25,MATO
+0104,Otras papilionoideas bajas,C.C.A.A. de Navarra. Galicia. Asturias y Cantabria,IFN4_MFE25,MATO
+0105,Quercus coccifera,Nacional,IFN4_MFE25,MATO
+0106,Calluna vulgaris,Nacional,IFN4_MFE25,MATO
+0107,Arctostaphylos uva-ursi,Nacional,IFN4_MFE25,MATO
+0109,Lavandula spp.,Nacional,IFN4_MFE25,MATO
+0110,Daphne spp.,Nacional,IFN4_MFE25,MATO
+0111,Pistacia lentiscus,Nacional,IFN4_MFE25,MATO
+0112,Ligustrum vulgare,Nacional,IFN4_MFE25,MATO
+0113,Phillyrea angustifolia,Nacional,IFN4_MFE25,MATO
+0114,Rosmarinus officinalis,Nacional,IFN4_MFE25,MATO
+0115,Viburnum spp.,Nacional,IFN4_MFE25,MATO
+0116,Berberis vulgaris,Nacional,IFN4_MFE25,MATO
+0117,Halimium spp.,Nacional,IFN4_MFE25,MATO
+0118,Cotoneaster spp.,Nacional,IFN4_MFE25,MATO
+0119,Rosa spp.,Nacional,IFN4_MFE25,MATO
+0120,Daboecia cantabrica,Nacional,IFN4_MFE25,MATO
+0121,Rubus spp.,Nacional,IFN4_MFE25,MATO
+0122,Rhamnus spp.,Nacional,IFN4_MFE25,MATO
+0124,Bupleurum spp.,Nacional,IFN4_MFE25,MATO
+0126,Artemisia spp.,Nacional,IFN4_MFE25,MATO
+0127,Santolina rosmarinifolia,Nacional,IFN4_MFE25,MATO
+0128,Helichrysum stoechas,C.C.A.A. de Navarra. Galicia. Asturias y Cantabria,IFN4_MFE25,MATO
+0129,Thymus spp.,Nacional,IFN4_MFE25,MATO
+0130,Ruscus aculeatus,Nacional,IFN4_MFE25,MATO
+0131,Ribes spp.,Nacional,IFN4_MFE25,MATO
+0132,Clematis spp.,Nacional,IFN4_MFE25,MATO
+0133,Atriplex spp.,Nacional,IFN4_MFE25,MATO
+0134,Spiraea spp.,C.C.A.A. de Navarra. Galicia. Asturias y Cantabria,IFN4_MFE25,MATO
+0135,Osyris spp.,C.C.A.A. de Navarra. Galicia. Asturias y Cantabria,IFN4_MFE25,MATO
+0136,Chamaespartium tridentatum,Nacional,IFN4_MFE25,MATO
+0137,Vaccinium myrtillus,Nacional,IFN4_MFE25,MATO
+0138,Asparagus spp.,Nacional,IFN4_MFE25,MATO
+0139,Coriaria myrtifolia,Nacional,IFN4_MFE25,MATO
+0140,Globularia alypum,Nacional,IFN4_MFE25,MATO
+0141,Hedera helix,Nacional,IFN4_MFE25,MATO
+0142,Helianthemum spp.,Nacional,IFN4_MFE25,MATO
+0143,Jasminum fruticans,Nacional,IFN4_MFE25,MATO
+0144,Lonicera spp.,Nacional,IFN4_MFE25,MATO
+0145,Medicago arborea,C.C.A.A. de Navarra. Galicia. Asturias y Cantabria,IFN4_MFE25,MATO
+0146,Nerium oleander,Nacional,IFN4_MFE25,MATO
+0148,Prunus mahaleb,C.C.A.A. de Navarra. Galicia. Asturias y Cantabria,IFN4_MFE25,MATO
+0149,Smilax aspera,Nacional,IFN4_MFE25,MATO
+0151,Thymelaea spp.,Nacional,IFN4_MFE25,MATO
+0152,Coronilla emerus,C.C.A.A. de Navarra. Galicia. Asturias y Cantabria,IFN4_MFE25,MATO
+0153,Cytisophyllum sessilifolium,Nacional,IFN4_MFE25,MATO
+0154,Dorycnium pentaphyllum,Nacional,IFN4_MFE25,MATO
+0155,Genista spp.,Nacional,IFN4_MFE25,MATO
+0156,Ononis tridentata,Nacional,IFN4_MFE25,MATO
+0157,Ulex parviflorus,Nacional,IFN4_MFE25,MATO
+0161,Echium spp.,C.C.A.A. de Navarra. Galicia. Asturias y Cantabria,IFN4_MFE25,MATO
+0162,Euphorbia spp.,C.C.A.A. de Navarra. Galicia. Asturias y Cantabria,IFN4_MFE25,MATO
+0165,Teline spp.,Nacional,IFN4_MFE25,MATO
+0167,Cytisus arboreus,Nacional,IFN4_MFE25,MATO
+0169,Aphyllanthes monspeliensis,Nacional,IFN4_MFE25,MATO
+0171,Phlomis spp.,Nacional,IFN4_MFE25,MATO
+0173,Ephedra spp.,Nacional,IFN4_MFE25,MATO
+0174,Vitis vinifera,C.C.A.A. de Navarra. Galicia. Asturias y Cantabria,IFN4_MFE25,MATO
+0177,Echinospartum spp.,Nacional,IFN4_MFE25,MATO
+0179,Teucrium spp.,Nacional,IFN4_MFE25,MATO
+0180,Sideritis spp.,C.C.A.A. de Navarra. Galicia. Asturias y Cantabria,IFN4_MFE25,MATO
+0181,Securinega tinctoria,Nacional,IFN4_MFE25,MATO
+0182,Lithodora spp.,Nacional,IFN4_MFE25,MATO
+0186,Salsola spp.,C.C.A.A. de Navarra. Galicia. Asturias y Cantabria,IFN4_MFE25,MATO
+0200,Amelanchier ovalis,Nacional,IFN4_MFE25,MATO
+0300,Frangula alnus,Nacional,IFN4_MFE25,MATO
+0400,Rhamnus alaternus,C.C.A.A. de Navarra. Galicia. Asturias y Cantabria,IFN4_MFE25,MATO
+0500,Euonymus europaeus,Nacional,IFN4_MFE25,MATO
+0600,Myrtus communis,Nacional,IFN4_MFE25,MATO
+0900,Cornus sanguinea,Nacional,IFN4_MFE25,MATO
+1095,Prunus mahaleb,Nacional,IFN4_MFE25,MATO
+1101,Cistus ladanifer,Nacional,IFN4_MFE25,MATO
+1102,Erica arborea,Nacional,IFN4_MFE25,MATO
+1103,Ulex spp.,Nacional,IFN4_MFE25,MATO
+1104,Erinacea spp.,C.C.A.A. de Navarra. Galicia. Asturias. Cantabria,IFN4_MFE25,MATO
+1109,Lavandula latifolia,Nacional,IFN4_MFE25,MATO
+1110,Daphne gnidium,Nacional,IFN4_MFE25,MATO
+1117,Halimium halimifolium,Nacional,IFN4_MFE25,MATO
+1121,Rubus caesius,C.C.A.A. de Navarra. Galicia. Asturias y Cantabria,IFN4_MFE25,MATO
+1122,Rhamnus lycioides,Nacional,IFN4_MFE25,MATO
+1124,Bupleurum fruticosum,Nacional,IFN4_MFE25,MATO
+1127,Santolina spp.,Nacional,IFN4_MFE25,MATO
+1129,Thymus mastichina,Nacional,IFN4_MFE25,MATO
+1131,Ribes alpinum,C.C.A.A. de Navarra. Galicia. Asturias y Cantabria,IFN4_MFE25,MATO
+1132,Clematis flammula,Nacional,IFN4_MFE25,MATO
+1134,Spiraea hypericifolia,Nacional,IFN4_MFE25,MATO
+1135,Osyris alba,Nacional,IFN4_MFE25,MATO
+1137,Vaccinium spp.,Nacional,IFN4_MFE25,MATO
+1138,Asparagus acutifolius,Nacional,IFN4_MFE25,MATO
+1139,Juniperus sabina,Nacional,IFN4_MFE25,MATO
+1144,Lonicera etrusca,Nacional,IFN4_MFE25,MATO
+1154,Dorycnium hirsutum,Nacional,IFN4_MFE25,MATO
+1156,Genista hirsuta,Nacional,IFN4_MFE25,MATO
+1163,Adenocarpus decorticans,C.C.A.A. de Navarra. Galicia. Asturias y Cantabria,IFN4_MFE25,MATO
+1165,Retama sphaerocarpa,Nacional,IFN4_MFE25,MATO
+1166,Erinacea anthyllis,Nacional,IFN4_MFE25,MATO
+1167,Cytisus scoparius,Nacional,IFN4_MFE25,MATO
+1170,Vella spinosa,Nacional,IFN4_MFE25,MATO
+1171,Phlomis lychnitis,Nacional,IFN4_MFE25,MATO
+1179,Teucrium fruticans,Nacional,IFN4_MFE25,MATO
+1189,Cytisus striatus,Nacional,IFN4_MFE25,MATO
+1190,Cytisus villosus,Nacional,IFN4_MFE25,MATO
+1202,Erica tetralix,Nacional,IFN4_MFE25,MATO
+1255,Genista anglica,Nacional,IFN4_MFE25,MATO
+1355,Genista cinerascens,Nacional,IFN4_MFE25,MATO
+1455,Genista falcata,Nacional,IFN4_MFE25,MATO
+1555,Genista florida,Nacional,IFN4_MFE25,MATO
+1655,Genista hispanica,Nacional,IFN4_MFE25,MATO
+1704,Emerus major,Provincia de Gerona/Girona,IFN4_MFE25,MATO
+1706,Medicago arborea,Provincia de Gerona/Girona,IFN4_MFE25,MATO
+1707,Paliurus spina-christi,Provincia de Gerona/Girona,IFN4_MFE25,MATO
+1708,Pyracantha coccinea,Provincia de Gerona/Girona,IFN4_MFE25,MATO
+1709,Rhododendron ferrugineum,Provincia de Gerona/Girona,IFN4_MFE25,MATO
+1710,Teline linifolia,Provincia de Gerona/Girona,IFN4_MFE25,MATO
+1755,Genista hystrix,Nacional,IFN4_MFE25,MATO
+2101,Cistus populifolius,Nacional,IFN4_MFE25,MATO
+2102,Erica australis,Nacional,IFN4_MFE25,MATO
+2103,Adenocarpus spp.,Nacional,IFN4_MFE25,MATO
+2104,Calicotome spinosa,Nacional,IFN4_MFE25,MATO
+2105,Calicotome spp.,Nacional,IFN4_MFE25,MATO
+2109,Lavandula stoechas,Nacional,IFN4_MFE25,MATO
+2110,Daphne laureola,Nacional,IFN4_MFE25,MATO
+2111,Cistus psilosepalus,Nacional,IFN4_MFE25,MATO
+2115,Viburnum tinus,Nacional,IFN4_MFE25,MATO
+2121,Rubus idaeus,Nacional,IFN4_MFE25,MATO
+2122,Rhamnus saxatilis,C.C.A.A. de Navarra. Galicia. Asturias y Cantabria,IFN4_MFE25,MATO
+2124,Bupleurum fruticescens,Nacional,IFN4_MFE25,MATO
+2127,Santolina chamaecyparissus,Nacional,IFN4_MFE25,MATO
+2128,Helichrysum spp.,Nacional,IFN4_MFE25,MATO
+2131,Ribes rubrum,C.C.A.A. de Navarra. Galicia. Asturias y Cantabria,IFN4_MFE25,MATO
+2132,Clematis vitalba,Nacional,IFN4_MFE25,MATO
+2135,Osyris quadripartita,Nacional,IFN4_MFE25,MATO
+2138,Asparagus albus,Nacional,IFN4_MFE25,MATO
+2144,Lonicera implexa,Nacional,IFN4_MFE25,MATO
+2152,Coronilla minima,C.C.A.A. de Navarra. Galicia. Asturias y Cantabria,IFN4_MFE25,MATO
+2156,Genista triacanthos,Nacional,IFN4_MFE25,MATO
+2164,Ulex baeticus,C.C.A.A. de Navarra. Galicia. Asturias y Cantabria,IFN4_MFE25,MATO
+2165,Retama monosperma,Nacional,IFN4_MFE25,MATO
+2167,Cytisus cantabricus,Nacional,IFN4_MFE25,MATO
+2171,Phlomis purpurea,Nacional,IFN4_MFE25,MATO
+2502,Cotoneaster integerrimus,Provincia de Lérida/Lleida,IFN4_MFE25,MATO
+2505,Echinospartum horridum,Provincia de Lérida/Lleida,IFN4_MFE25,MATO
+2506,Emerus major,Provincia de Lérida/Lleida,IFN4_MFE25,MATO
+2507,Lonicera pyrenaica,Provincia de Lérida/Lleida,IFN4_MFE25,MATO
+2509,Rhododendron ferrugineum,Provincia de Lérida/Lleida,IFN4_MFE25,MATO
+2910,Buxus balearica,Comunidad autónoma de Murcia,IFN4_MFE25,MATO
+2950,Prunus spinosa,Nacional,IFN4_MFE25,MATO
+2970,Sambucus racemosa,Nacional,IFN4_MFE25,MATO
+3101,Cistus albidus,Nacional,IFN4_MFE25,MATO
+3102,Erica vagans,Nacional,IFN4_MFE25,MATO
+3103,Spartium spp.,C.C.A.A. de Navarra. Galicia. Asturias y Cantabria,IFN4_MFE25,MATO
+3104,Calicotome villosa,C.C.A.A. de Navarra. Galicia. Asturias y Cantabria,IFN4_MFE25,MATO
+3109,Lavandula lanata,Nacional,IFN4_MFE25,MATO
+3110,Daphne mezereum,Nacional,IFN4_MFE25,MATO
+3115,Viburnum lantana,Nacional,IFN4_MFE25,MATO
+3117,Halimium lasianthum,C.C.A.A. de Navarra. Galicia. Asturias y Cantabria,IFN4_MFE25,MATO
+3121,Rubus ulmifolius,C.C.A.A. de Navarra. Galicia. Asturias y Cantabria,IFN4_MFE25,MATO
+3122,Rhamnus alpinus,C.C.A.A. de Navarra. Galicia. Asturias y Cantabria,IFN4_MFE25,MATO
+3144,Lonicera periclymenum,Nacional,IFN4_MFE25,MATO
+3152,Coronilla juncea,Nacional,IFN4_MFE25,MATO
+3155,Genista scorpius,Nacional,IFN4_MFE25,MATO
+3163,Adenocarpus telonensis,Nacional,IFN4_MFE25,MATO
+3164,Ulex minor,Nacional,IFN4_MFE25,MATO
+3167,Cytisus multiflorus,Nacional,IFN4_MFE25,MATO
+3690,Chamaerops humilis,Nacional,IFN4_MFE25,MATO
+3700,Juniperus communis spp. alpina,Nacional,IFN4_MFE25,MATO
+4101,Cistus clusii,Nacional,IFN4_MFE25,MATO
+4102,Erica multiflora,Nacional,IFN4_MFE25,MATO
+4103,Retama spp.,Nacional,IFN4_MFE25,MATO
+4104,Cytisus spp.,Nacional,IFN4_MFE25,MATO
+4109,Lavandula pedunculata,Nacional,IFN4_MFE25,MATO
+4115,Viburnum opulus,Nacional,IFN4_MFE25,MATO
+4117,Halimium atriplicifolium,Nacional,IFN4_MFE25,MATO
+4122,Rhamnus oleoides,C.C.A.A. de Navarra. Galicia. Asturias y Cantabria,IFN4_MFE25,MATO
+4144,Lonicera pyrenaica,C.C.A.A. de Navarra. Galicia. Asturias y Cantabria,IFN4_MFE25,MATO
+4156,Genista tridentata,C.C.A.A. de Navarra. Galicia. Asturias y Cantabria,IFN4_MFE25,MATO
+4167,Cytisus oromediterraneus,Nacional,IFN4_MFE25,MATO
+5101,Cistus monspeliensis,Nacional,IFN4_MFE25,MATO
+5102,Erica cinerea,Nacional,IFN4_MFE25,MATO
+5103,Sarothamnus vulgaris,C.C.A.A. de Navarra. Galicia. Asturias y Cantabria,IFN4_MFE25,MATO
+5104,Coronilla spp.,Nacional,IFN4_MFE25,MATO
+5117,Halimium ocymoides,Nacional,IFN4_MFE25,MATO
+5144,Lonicera xylosteum,Nacional,IFN4_MFE25,MATO
+5155,Genista balansae,C.C.A.A. de Navarra. Galicia. Asturias y Cantabria,IFN4_MFE25,MATO
+6101,Cistus salviifolius,Nacional,IFN4_MFE25,MATO
+6102,Erica scoparia,Nacional,IFN4_MFE25,MATO
+6103,Ulex europaeus,Nacional,IFN4_MFE25,MATO
+6104,Astragalus spp.,Nacional,IFN4_MFE25,MATO
+6117,Halimium umbellatum,Nacional,IFN4_MFE25,MATO
+6122,Rhamnus alaternus,Nacional,IFN4_MFE25,MATO
+7101,Cistus crispus,Nacional,IFN4_MFE25,MATO
+7102,Erica umbellata,Nacional,IFN4_MFE25,MATO
+7103,Colutea arborescens,Nacional,IFN4_MFE25,MATO
+7104,Dorycnium spp.,Nacional,IFN4_MFE25,MATO
+7155,Genista umbellata,Nacional,IFN4_MFE25,MATO
+8005,Emerus major,Provincia de Barcelona,IFN4_MFE25,MATO
+8007,Medicago arborea,Provincia de Barcelona,IFN4_MFE25,MATO
+8010,Rhododendron ferrugineum,Provincia de Barcelona,IFN4_MFE25,MATO
+8101,Cistus laurifolius,Nacional,IFN4_MFE25,MATO
+8102,Erica ciliaris,Nacional,IFN4_MFE25,MATO
+8103,Sarothamnus scoparius,C.C.A.A. de Navarra. Galicia. Asturias y Cantabria,IFN4_MFE25,MATO
+8104,Ononis spp.,Nacional,IFN4_MFE25,MATO
+8155,Genista cinerea,Nacional,IFN4_MFE25,MATO
+9006,Echinospartum horridum,Provincia de Tarragona,IFN4_MFE25,MATO
+9071,Buxus balearica,Comunidad autónoma de Islas Baleares/Illes Balears,IFN4_MFE25,MATO
+9100,Buxus sempervirens,Nacional,IFN4_MFE25,MATO
+9102,Erica erigena,Nacional,IFN4_MFE25,MATO
+9103,Spartium junceum,Nacional,IFN4_MFE25,MATO
+9104,Genistella spp.,C.C.A.A. de Navarra. Galicia. Asturias y Cantabria,IFN4_MFE25,MATO
+9262,Linum suffruticosum,Comunidad autónoma de La Rioja,IFN4_MFE25,MATO
+9264,Salvia lavandulifolia,Comunidad autónoma de La Rioja,IFN4_MFE25,MATO
+9282,Echinospartum barnadesii,Comunidad autónoma de Madrid,IFN4_MFE25,MATO
+9284,Linum suffruticosum,Comunidad autónoma de Madrid,IFN4_MFE25,MATO
+9300,Pistacia terebinthus,Nacional,IFN4_MFE25,MATO
+9914,Teline monspessulana,Nacional,IFN4_MFE25,MATO
