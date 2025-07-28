@@ -1,4 +1,71 @@
 
+#' Calculates Basal Area
+#'
+#' Calculates Basal Area in square meters.
+#'
+#' @param diameter Numeric vector of diameters or diameter classes
+#' @param ntrees Numeric vector with number of trees of the diameter class per
+#'    hectare. If `ntrees = NULL`, the function will assume that each diameter
+#'    corresponds to only one tree
+#' @param units The units of the diameter (one of `mm`, `cm`, `dm`, or `m`)
+#'
+#' @return A numeric vector
+#' @export
+#'
+#' @details
+#' The function uses the next formula:
+#'
+#' \eqn{G = \frac{\pi}{40000} \cdot D^2 \cdot \text{ntrees}}
+#'
+#' where G is the basal area in \eqn{m^2}, and D is the diameter in `cm`. If ntrees 
+#' in the number of trees per hectare, then the result will be \eqn{m^2/ha}. It is 
+#' recommended to use the squared mean diameter calculated with [silv_stand_qmean_diameter].
+#' 
+#' Note that if \code{ntrees = NULL}, the output of the function will be exactly
+#' the same as in [silv_tree_basal_area].
+#'
+#' @examples
+#' ## calculate G for inventory data grouped by plot_id and species
+#' library(dplyr)
+#' inventory_samples |>
+#' mutate(dclass = silv_tree_dclass(diameter)) |>
+#'   summarise(
+#'     height = mean(height, na.rm = TRUE),
+#'     ntrees = n(),
+#'     .by    = c(plot_id, species, dclass)
+#'   ) |>
+#'   mutate(
+#'     ntrees_ha = silv_density_ntrees_ha(ntrees, plot_size = 10),
+#'     dg        = silv_stand_qmean_diameter(dclass, ntrees_ha),
+#'     g         = silv_stand_basal_area(dclass, ntrees_ha),
+#'     .by       = c(plot_id, species)
+#'   )
+silv_stand_basal_area <- function(diameter,
+                                  ntrees = NULL,
+                                  units = "cm") {
+
+  # 0. Handle errors and set-up
+  if (is.numeric(ntrees) && length(ntrees) != length(diameter)) cli::cli_abort("`ntrees` must have the same length as `diameter` or be NULL")
+  if (!is.numeric(diameter)) cli::cli_abort("`diameter` must be a numeric vector")
+  ## 0.2. Invalid values
+  if (any(diameter <= 0, na.rm = TRUE)) cli::cli_warn("Any value in `diameter` is less than 0. Review your data.")
+  ## 0.3. If ntrees = NULL, only one tree assumed
+  if (is.null(ntrees)) ntrees <- rep(1, length(diameter))
+
+  # 1. Calculate basal area
+  switch(units,
+    "mm" = (pi / 4) * (diameter / 1000)**2,
+    "cm" = (pi / 4) * (diameter / 100)**2,
+    "dm" = (pi / 4) * (diameter / 10)**2,
+    "m"  = (pi / 4) * diameter**2,
+    cli::cli_abort("Invalid `units`. Use <mm>, <cm>, <dm>, or <m>")
+  )
+
+}
+
+
+
+
 
 #' Calculates the dominant height
 #'

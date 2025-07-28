@@ -95,7 +95,7 @@ silv_summary <- function(data,
       ntrees_ha = silv_density_ntrees_ha(ntrees, plot_size, plot_shape),
       h0        = silv_stand_dominant_height(dclass, height, ntrees_ha, which = which_h0),
       dg        = silv_stand_qmean_diameter(dclass, ntrees_ha),
-      g_ha      = silv_tree_basal_area(dclass, ntrees_ha),
+      g_ha      = silv_stand_basal_area(dclass, ntrees_ha),
       .by       = .groups
     ) |>
     dplyr::arrange(dplyr::across(.groups))

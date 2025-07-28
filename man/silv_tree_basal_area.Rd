@@ -4,17 +4,12 @@
 \alias{silv_tree_basal_area}
 \title{Calculates Basal Area}
 \usage{
-silv_tree_basal_area(diameter, ntrees = NULL, units = "cm")
+silv_tree_basal_area(diameter, units = "cm")
 }
 \arguments{
 \item{diameter}{Numeric vector of diameters or diameter classes}
 
-\item{ntrees}{Numeric vector with number of trees of the diameter class per
-hectare. If \code{ntrees = NULL}, the function will assume that each diameter
-corresponds to only one tree. Therefore, basal area will be calculated
-for each individual tree}
-
-\item{units}{The units of the diameter (one of \code{cm}, \code{mm}, or \code{m})}
+\item{units}{The units of the diameter (one of \code{mm}, \code{cm}, \code{dm}, or \code{m})}
 }
 \value{
 A numeric vector
@@ -25,34 +20,17 @@ Calculates Basal Area in square meters.
 \details{
 The function uses the next formula:
 
-\eqn{G = \frac{\pi}{40000} \cdot D^2}
+\eqn{g = \frac{\pi}{40000} \cdot D^2}
 
-where G is the basal area in \eqn{m^2}, and D is the diameter in the \code{units}
-specified in the function. It is recommended to use the squared mean diameter
-calculated with \link{silv_stand_qmean_diameter}.
+where g is the basal area in \eqn{m^2} of one tree, and D is the diameter in \code{cm}.
 
-Although this function is a tree-level metric, when \code{ntrees} is specified it will
-be calculated for the group of trees, which can be number of trees per hectare, in
-which case the basal area will be \eqn{m^2/ha}, and it can be considered a stand-level
-metric
+If you want to calculate the basal area for a group of trees (e.g. per hectares),
+please use \link{silv_stand_basal_area}
 }
 \examples{
-## calculate G for inventory data grouped by plot_id and species
-library(dplyr)
-inventory_samples |>
-mutate(dclass = silv_tree_dclass(diameter)) |>
-  summarise(
-    height = mean(height, na.rm = TRUE),
-    ntrees = n(),
-    .by    = c(plot_id, species, dclass)
-  ) |>
-  mutate(
-    ntrees_ha = silv_density_ntrees_ha(ntrees, plot_size = 10),
-    dg        = silv_stand_qmean_diameter(dclass, ntrees_ha),
-    g         = silv_tree_basal_area(dclass, ntrees_ha),
-    .by       = c(plot_id, species)
-  )
-
 ## calculate individual basal area
 silv_tree_basal_area(c(23, 11, 43.5, 94))
+}
+\seealso{
+\code{\link[=silv_stand_basal_area]{silv_stand_basal_area()}}
 }
