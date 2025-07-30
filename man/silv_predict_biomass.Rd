@@ -7,11 +7,8 @@
 silv_predict_biomass(
   diameter = NULL,
   height = NULL,
+  model,
   ntrees = NULL,
-  species = NULL,
-  component = "stem",
-  model = "ruiz-peinado-2012",
-  return_rmse = FALSE,
   quiet = FALSE
 )
 }
@@ -20,38 +17,27 @@ silv_predict_biomass(
 
 \item{height}{A numeric vector of tree heights (in m).}
 
+\item{model}{A function. A function with the structure \code{eq_biomass_*()} with
+additional arguments depending on the model used.}
+
 \item{ntrees}{An optional numeric value indicating the number of trees in
-this diameter-height class. Defaults to 1 if NULL.}
+this diameter-height class. Defaults to 1 if \code{NULL}.}
 
-\item{species}{A character string specifying the scientific name of the tree
-species. See Details for available species.}
-
-\item{component}{A character string specifying the tree component for biomass
-calculation (e.g., "tree", "stem", "branches"). See Details.}
-
-\item{model}{A character string indicating the ID of the publication in which
-the model was developed. Currently supported models: "ruiz-peinado-2012"
-(hardwood species in Spain) and "ruiz-peinado-2011" (softwood species in
-Spain). See Details.}
-
-\item{return_rmse}{A logical value. If TRUE, the function returns the root
-mean squared error (RMSE) of the selected model instead of the biomass value.}
-
-\item{quiet}{A logical value. If TRUE, suppresses any informational messages.}
+\item{quiet}{A logical value. If \code{TRUE}, suppresses any informational messages.}
 }
 \value{
-A numeric vector of biomass values (in kg). If \code{return_rmse = TRUE}, returns the RMSE instead.
+A numeric vector
 }
 \description{
 Computes the biomass of a tree species using species-specific allometric
-equations (in kg).
+equations (in kg). Currently, only equations for Spain are available.
 }
 \details{
 The function estimates biomass using validated allometric models available in the
 dataset \link{biomass_models}. The available models include:
 \itemize{
-\item \strong{ruiz-peinado-2011}: Developed for softwood species in Spain.
-\item \strong{ruiz-peinado-2012}: Developed for hardwood species in Spain.
+\item \strong{\code{\link[=eq_biomass_ruiz_peinado2011]{eq_biomass_ruiz_peinado2011()}}}: Developed for softwood species in Spain.
+\item \strong{\code{\link[=eq_biomass_ruiz_peinado2012]{eq_biomass_ruiz_peinado2012()}}}: Developed for hardwood species in Spain.
 }
 
 Users can check the list of supported species and their corresponding components
@@ -64,7 +50,9 @@ If you would like to suggest additional models, please open a new issue on GitHu
 silv_predict_biomass(
   diameter = 45,
   height   = 22,
-  species  = "Pinus pinaster",
-  model    = "ruiz-peinado-2011"
+  model    = eq_biomass_ruiz_peinado2011("Pinus pinaster")
 )
+}
+\seealso{
+\code{\link[=eq_biomass_ruiz_peinado2011]{eq_biomass_ruiz_peinado2011()}}, \code{\link[=eq_biomass_ruiz_peinado2012]{eq_biomass_ruiz_peinado2012()}}, \link{biomass_models}
 }

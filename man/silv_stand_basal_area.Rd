@@ -28,10 +28,10 @@ The function uses the next formula:
 
 where G is the basal area in \eqn{m^2}, and D is the diameter in \code{cm}. If ntrees
 in the number of trees per hectare, then the result will be \eqn{m^2/ha}. It is
-recommended to use the squared mean diameter calculated with \link{silv_stand_qmean_diameter}.
+recommended to use the squared mean diameter calculated with \code{\link[=silv_stand_qmean_diameter]{silv_stand_qmean_diameter()}}.
 
 Note that if \code{ntrees = NULL}, the output of the function will be exactly
-the same as in \link{silv_tree_basal_area}.
+the same as in \code{\link[=silv_tree_basal_area]{silv_tree_basal_area()}}.
 }
 \examples{
 ## calculate G for inventory data grouped by plot_id and species

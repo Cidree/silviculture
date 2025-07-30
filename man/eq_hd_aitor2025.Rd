@@ -5,12 +5,17 @@
 \title{Estimates tree height from DBH}
 \usage{
 eq_hd_aitor2025(
+  species,
   bioregion = "mediterranean",
   origin = "natural",
   mixture = "pure"
 )
 }
 \arguments{
+\item{species}{A character string specifying the scientific name of the tree
+species. It can be a column name if all the species are included in this model.
+See Details for available species.}
+
 \item{bioregion}{The biogreopgrahic region of the species. Available options are:
 \code{mediterranean}, \code{atlantic}, \code{alpine}, and \code{macaronesian}}
 
@@ -24,7 +29,7 @@ eq_hd_aitor2025(
 A numeric vector with predicted height
 }
 \description{
-This function is made to be used in \link{silv_predict_height}. It implements the h-d equations
+This function is made to be used in \code{\link[=silv_predict_height]{silv_predict_height()}}. It implements the h-d equations
 developed in Aitor et al. (2025). These equations had been adjusted using the Spanish
 National Forest Inventory, and therefore, they should be used only within Spain. A wide
 range of tree species are available (90).
@@ -37,4 +42,7 @@ Details...#TODO
 }
 \references{
 Reference #TODO
+}
+\seealso{
+\code{\link[=silv_predict_height]{silv_predict_height()}}
 }

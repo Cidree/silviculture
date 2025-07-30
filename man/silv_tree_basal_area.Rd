@@ -25,7 +25,7 @@ The function uses the next formula:
 where g is the basal area in \eqn{m^2} of one tree, and D is the diameter in \code{cm}.
 
 If you want to calculate the basal area for a group of trees (e.g. per hectares),
-please use \link{silv_stand_basal_area}
+please use \code{\link[=silv_stand_basal_area]{silv_stand_basal_area()}}
 }
 \examples{
 ## calculate individual basal area

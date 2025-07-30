@@ -4,16 +4,13 @@
 \alias{silv_predict_height}
 \title{Estimates tree height from DBH}
 \usage{
-silv_predict_height(diameter, species, equation, quiet = FALSE)
+silv_predict_height(diameter, model, quiet = FALSE)
 }
 \arguments{
 \item{diameter}{Numeric vector with diameters in cm}
 
-\item{species}{A character string specifying the scientific name of the tree
-species.}
-
-\item{equation}{A function. A function with the structure \code{eq_hd_*()} with
-additional arguments depending on the equation. Currently only \link{eq_hd_aitor2025}
+\item{model}{A function. A function with the structure \code{eq_hd_*()} with
+additional arguments depending on the model. Currently only \code{\link[=eq_hd_aitor2025]{eq_hd_aitor2025()}}
 is available.}
 
 \item{quiet}{A logical value. If TRUE, suppresses any informational messages.}
@@ -22,7 +19,8 @@ is available.}
 A numeric vector with predicted height
 }
 \description{
-This function estimates tree height using h-d equations.
+This function estimates tree height using h-d equations. Currently, only equations
+for Spain are available.
 }
 \details{
 Details...#TODO

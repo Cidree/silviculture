@@ -17,6 +17,8 @@ The old functions are now deprecated and will be eliminated in a future release.
 
 * `silv_predict_height()`: estimates height from diameter, using the so-called h-d curves. The argument `equation` allows to choose which equations to use. Currently, only `eq_hd_aitor2025()` available.
 
+* `eq_biomass_ruiz_peinado2011()` and `eq_biomass_ruiz_peinado2012()`: equations to be used inside the `model` argument of `silv_predict_biomass()`.
+
 ## Bug Fixes
 
 * Fix an error with the validator of variable names in `silviculture::Inventory` S7 class.
@@ -25,9 +27,11 @@ The old functions are now deprecated and will be eliminated in a future release.
 
 ## Enhancements
 
-* Prediction functions (`silv_predict_*()`) will now have common arguments, and specific arguments that will be set in an auxiliary argument (e.g. `silv_predict_height(equation = eq_hd_aitor2025())`).
+* Prediction functions (`silv_predict_*()`) will now have common arguments, and specific arguments that depend of the model used that are specified as a function (e.g. `silv_predict_height(model = eq_hd_aitor2025())`).
 
 * `silv_volume()`: it assumed diameter to be in meters. Now the diameter must be given in centimeters. An informing message was added to the function.
+
+* S7 `silviculture::Inventory` class now stores groups.
 
 ## Deprecated functions
 
@@ -42,7 +46,6 @@ The old functions are now deprecated and will be eliminated in a future release.
 * `silv_lorey_height()` deprecated in favour of `silv_stand_lorey_height()`
 
 * `silv_sqrmean_diameter()` deprecated in favour of `silv_stand_qmean_diameter()`
-
 
 * `silv_spacing_index()` deprecated in favour of `silv_density_hart()`
 

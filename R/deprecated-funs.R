@@ -403,7 +403,7 @@ silv_basal_area <- function(diameter,
   lifecycle::deprecate_warn(
     when = "0.2.0",
     what = "silv_basal_area()",
-    details = "Function `silv_basal_area() is deprecated in favour of `silv_tree_basal_area()`, and it will be removed in the next release."
+    details = "Function `silv_basal_area() is deprecated in favour of `silv_tree_basal_area()` and `silv_stand_basal_area()`, and it will be removed in the next release."
   )
 
   # 0. Handle errors and set-up
