@@ -2,7 +2,10 @@ Package: silviculture
 Type: Package
 Title: Utility Functions for Forest Inventory and Silviculture
 Version: 0.2.0
-Authors@R: person("Adrián", "Cidre González", email = "adrian.cidre@gmail.com", role = c("aut", "cre"))
+Authors@R: c(
+    person("Adrián", "Cidre González", , "adrian.cidre@gmail.com", role = c("aut", "cre")),
+    person("Aitor", "Vázquez Veloso", , "aitor.vazquez.veloso@uva.es", role = "aut")
+  )
 Description: Perform common dendrometry operations such as inventory preparing, and inventory data analysis.
 License: GPL (>= 3)
 Encoding: UTF-8
@@ -33,5 +36,5 @@ Collate:
     'predict-height.R'
     'sampling.R'
     'silviculture-package.R'
-    'thinning.R'
+    'treatment-thinning.R'
     'zzz.R'
