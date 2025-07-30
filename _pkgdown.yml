@@ -22,8 +22,16 @@ reference:
   - title: "Predictions"
     desc: Functions for estimating forest variables from models or equations
     contents:
-    - silv_biomass
     - silv_predict_biomass
+    - silv_predict_height
+    - silv_biomass
+  
+  - title: "Models and equations"
+    desc: "Models and equations used in silv_predict_* functions"
+    contents:
+    - eq_hd_aitor2025
+    - eq_biomass_ruiz_peinado2011
+    - eq_biomass_ruiz_peinado2012
   
   - title: "Tree level metrics"
     desc: "Metrics to be calculated tree by tree"
@@ -38,9 +46,9 @@ reference:
   - title: "Stand level metrics"
     desc: "Metrics to be calculated per stand or plot of trees"
     contents:
+    - silv_stand_basal_area
     - silv_stand_dominant_height
     - silv_stand_lorey_height
-    - silv_stand_ntrees_ha
     - silv_stand_qmean_diameter
     - silv_summary
     - silv_dominant_height
