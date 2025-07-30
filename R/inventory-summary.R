@@ -5,7 +5,8 @@ Inventory <- S7::new_class(
   package = "silviculture",
   properties = list(
     dclass_metrics = S7::new_property(S7::class_data.frame, default = quote(data.frame())),
-    group_metrics = S7::new_property(S7::class_data.frame, default = quote(data.frame()))
+    group_metrics = S7::new_property(S7::class_data.frame, default = quote(data.frame())),
+    groups        = S7::new_property(S7::class_character, default = quote(data.frame()))
   ),
 
   validator = function(self) {
@@ -29,7 +30,7 @@ Inventory <- S7::new_class(
 #' @param data A tibble of inventory data
 #' @param diameter A column with inventory diameters
 #' @param height A column with inventory heights
-#' @param plot_size The size of the plot. See \link{silv_ntrees_ha}
+#' @param plot_size The size of the plot. See [silv_density_ntrees_ha()]
 #' @param .groups A character vector with variables to group by (e.g. plot id, tree
 #'    species, etc)
 #' @param dmin The minimum inventory diameter in centimeters
@@ -39,9 +40,9 @@ Inventory <- S7::new_class(
 #' @param include_lowest Logical. If TRUE (the default), the intervals are
 #'    `[dim1, dim2)`. If FALSE, the intervals are `(dim1, dim2]`
 #' @param plot_shape The shape of the sampling plot. Either `circular` or `rectangular`
-#' @param which_h0 The method to calculate the dominant height. See \link{silv_dominant_height}
+#' @param which_h0 The method to calculate the dominant height. See [silv_stand_dominant_height()]
 #' @param which_spacing A character with the name of the index (either `hart` or `hart-brecking`).
-#'    See \link{silv_spacing_index}
+#'    See [silv_density_hart()]
 #'
 #' @include utils-not-exported.R
 #' @return an S7 `Inventory` list with 2 `tibbles`
@@ -126,7 +127,8 @@ silv_summary <- function(data,
   # return list
   Inventory(
     dclass_metrics = dclass_group_metrics,
-    group_metrics = groups_metrics
+    group_metrics = groups_metrics,
+    groups        = .groups
   )
 }
 
