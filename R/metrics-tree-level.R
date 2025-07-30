@@ -96,11 +96,7 @@ silv_tree_dclass <- function(diameter,
 #' Calculates Basal Area in square meters.
 #'
 #' @param diameter Numeric vector of diameters or diameter classes
-#' @param ntrees Numeric vector with number of trees of the diameter class per
-#'    hectare. If `ntrees = NULL`, the function will assume that each diameter
-#'    corresponds to only one tree. Therefore, basal area will be calculated
-#'    for each individual tree
-#' @param units The units of the diameter (one of `cm`, `mm`, or `m`)
+#' @param units The units of the diameter (one of `mm`, `cm`, `dm`, or `m`)
 #'
 #' @return A numeric vector
 #' @export
@@ -108,54 +104,33 @@ silv_tree_dclass <- function(diameter,
 #' @details
 #' The function uses the next formula:
 #'
-#' \eqn{G = \frac{\pi}{40000} \cdot D^2}
+#' \eqn{g = \frac{\pi}{40000} \cdot D^2}
 #'
-#' where G is the basal area in \eqn{m^2}, and D is the diameter in the `units`
-#' specified in the function. It is recommended to use the squared mean diameter
-#' calculated with [silv_stand_qmean_diameter].
+#' where g is the basal area in \eqn{m^2} of one tree, and D is the diameter in `cm`. 
 #' 
-#' Although this function is a tree-level metric, when \code{ntrees} is specified it will
-#' be calculated for the group of trees, which can be number of trees per hectare, in
-#' which case the basal area will be \eqn{m^2/ha}, and it can be considered a stand-level
-#' metric
+#' If you want to calculate the basal area for a group of trees (e.g. per hectares),
+#' please use [silv_stand_basal_area()]
+#' 
+#' @seealso [silv_stand_basal_area()]
 #'
 #' @examples
-#' ## calculate G for inventory data grouped by plot_id and species
-#' library(dplyr)
-#' inventory_samples |>
-#' mutate(dclass = silv_tree_dclass(diameter)) |>
-#'   summarise(
-#'     height = mean(height, na.rm = TRUE),
-#'     ntrees = n(),
-#'     .by    = c(plot_id, species, dclass)
-#'   ) |>
-#'   mutate(
-#'     ntrees_ha = silv_density_ntrees_ha(ntrees, plot_size = 10),
-#'     dg        = silv_stand_qmean_diameter(dclass, ntrees_ha),
-#'     g         = silv_tree_basal_area(dclass, ntrees_ha),
-#'     .by       = c(plot_id, species)
-#'   )
-#'
 #' ## calculate individual basal area
 #' silv_tree_basal_area(c(23, 11, 43.5, 94))
 silv_tree_basal_area <- function(diameter,
-                                ntrees = NULL,
                                 units = "cm") {
 
   # 0. Handle errors and set-up
-  if (is.numeric(ntrees) && length(ntrees) != length(diameter)) cli::cli_abort("`ntrees` must have the same length as `diameter` or be NULL")
   if (!is.numeric(diameter)) cli::cli_abort("`diameter` must be a numeric vector")
   ## 0.2. Invalid values
   if (any(diameter <= 0, na.rm = TRUE)) cli::cli_warn("Any value in `diameter` is less than 0. Review your data.")
-  ## 0.3. If ntrees = NULL, only one tree assumed
-  if (is.null(ntrees)) ntrees <- rep(1, length(diameter))
 
   # 1. Calculate basal area
   switch(units,
-    "cm" = (pi / 4) * (diameter / 100)**2 * ntrees,
-    "mm" = (pi / 4) * (diameter / 1000)**2 * ntrees,
-    "m"  = (pi / 4) * diameter**2 * ntrees,
-    cli::cli_abort("Invalid `units`. Use <cm>, <mm>, or <m>")
+    "mm" = (pi / 4) * (diameter / 1000)**2,
+    "cm" = (pi / 4) * (diameter / 100)**2,
+    "dm" = (pi / 4) * (diameter / 10)**2,
+    "m"  = (pi / 4) * diameter**2,
+    cli::cli_abort("Invalid `units`. Use <mm>, <cm>, <dm>, or <m>")
   )
 
 }

@@ -2,7 +2,10 @@ Package: silviculture
 Type: Package
 Title: Utility Functions for Forest Inventory and Silviculture
 Version: 0.2.0
-Authors@R: person("Adrián", "Cidre González", email = "adrian.cidre@gmail.com", role = c("aut", "cre"))
+Authors@R: c(
+    person("Adrián", "Cidre González", , "adrian.cidre@gmail.com", role = c("aut", "cre")),
+    person("Aitor", "Vázquez Veloso", , "aitor.vazquez.veloso@uva.es", role = "aut")
+  )
 Description: Perform common dendrometry operations such as inventory preparing, and inventory data analysis.
 License: GPL (>= 3)
 Encoding: UTF-8
@@ -23,14 +26,15 @@ URL: https://cidree.github.io/silviculture/
 Collate: 
     'data.R'
     'utils-not-exported.R'
-    'dendrometry-summary.R'
     'deprecated-funs.R'
+    'inventory-summary.R'
     'metrics-lidar.R'
     'metrics-stand-density.R'
     'metrics-stand-level.R'
     'metrics-tree-level.R'
     'predict-biomass.R'
+    'predict-height.R'
     'sampling.R'
     'silviculture-package.R'
-    'thinning.R'
+    'treatment-thinning.R'
     'zzz.R'
