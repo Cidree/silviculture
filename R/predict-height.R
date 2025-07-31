@@ -17,23 +17,27 @@ ModelHD <- S7::new_class(
 
 #' Estimates tree height from DBH
 #'
-#' This function estimates tree height using h-d equations. Currently, only equations
+#' Estimates total tree height using height-diameter (h-d) equations. Currently, only models developed 
 #' for Spain are available.
 #'
 #' @param diameter Numeric vector with diameters in cm
 #' @param model A function. A function with the structure \code{eq_hd_*()} with
-#' additional arguments depending on the model. Currently only [eq_hd_aitor2025()] 
+#' additional arguments depending on the specific model. Currently only [eq_hd_vazquez_veloso_2025()] 
 #' is available.
 #' @param quiet A logical value. If TRUE, suppresses any informational messages.
 #'
 #' @details
-#' Details...#TODO
+#' The function estimates total tree height (in meters) using diameter at breast height (in centimeters), 
+#' and may require additional information depending on the specific model. See each model’s documentation for details.
 #' 
-#' @references Reference #TODO
+#' @references References for the models available:
+#' - **[eq_hd_vazquez_veloso_2025()]**: Vázquez-Veloso, A., Yang, S.-I., Bullock, B.P., Bravo, F., 2025. One model to rule them all: 
+#' A nationwide height–diameter model for 91 Spanish forest species. Forest Ecology and Management 595, 122981. 
+#' https://doi.org/10.1016/j.foreco.2025.122981
 #' 
-#' @seealso [eq_hd_aitor2025()]
+#' @seealso [eq_hd_vazquez_veloso_2025()]
 #'
-#' @return A numeric vector with predicted height
+#' @return A numeric vector with predicted heights
 #' @export
 #'
 #' @examples
@@ -45,8 +49,8 @@ silv_predict_height <- function(diameter,
   # 0. Handle errors
 
   # 1. Apply selected model
-  if (model@equation == "aitor2025") {
-    ## 2. Aitor et al. 2025
+  if (model@equation == "vazquez_veloso_2025") {
+    ## 2. Vázquez-Veloso et al. 2025
     ## 2.1. Function to calculate the height rowwise (vectorized)
     calc_height <- function(d, sp) {      
       ## 2.2. Select a and b based on species
@@ -74,25 +78,34 @@ silv_predict_height <- function(diameter,
 
 #' Estimates tree height from DBH
 #'
-#' This function is made to be used in [silv_predict_height()]. It implements the h-d equations
-#' developed in Aitor et al. (2025). These equations had been adjusted using the Spanish
-#' National Forest Inventory, and therefore, they should be used only within Spain. A wide
-#' range of tree species are available (90).
+#' This function is intended to be used in [silv_predict_height()]. It implements the h-d equations
+#' developed in Vázquez-Veloso et al. (2025). These equations have been developed using the Spanish
+#' National Forest Inventory, and therefore, they should only be applied within Spain. The model includes 
+#' parameters for 91 tree species.
 #'
 #' @param species A character string specifying the scientific name of the tree
 #' species. It can be a column name if all the species are included in this model.
-#' See Details for available species.
-#' @param bioregion The biogreopgrahic region of the species. Available options are:
-#' \code{mediterranean}, \code{atlantic}, \code{alpine}, and \code{macaronesian}
+#' See Details for available species. If not specified, it takes the value "All the species", which corresponds 
+#' to a generic model applicable to all species.
+#' @param bioregion The biogeopgrahic region of the species. Available options are:
+#' \code{mediterranean}, \code{atlantic}, \code{alpine}, and \code{macaronesian}. If not specified,
+#' it takes the value \code{mediterranean}, which is the most common region in Spain. You can check the 
+#' distribution of regions here: https://ars.els-cdn.com/content/image/1-s2.0-S037811272500489X-gr1.jpg
 #' @param origin The origin of the stand. Available options are: \code{natural} and
-#' \code{plantation}
-#' @param mixture The mixture of the species. Available options are: \code{pure} and
-#' \code{mix}
+#' \code{plantation}. If not specified, it takes the value \code{natural}, which is the most common origin in Spain.
+#' @param mixture The species available in the stand. Available options are: \code{pure} and
+#' \code{mix}. Consider the characteristics of the plot you are evaluating and not the entire forest, as the 
+#' conditions of each stand are different. In this study, it was considered a stand to be mixed when the combined 
+#' proportion of at least two species exceeds 90% of the plot's basal area, and the proportion of both species is 
+#' greater than 15% of the total. It does not matter which species is accompanying or the proportion of mixing.
+#' If not specified, it takes the value \code{pure}, which is the most common condition in Spain.
 #'
 #' @details
 #' Details...#TODO
 #' 
-#' @references Reference #TODO
+#' @references Vázquez-Veloso, A., Yang, S.-I., Bullock, B.P., Bravo, F., 2025. One model to rule them all: 
+#' A nationwide height–diameter model for 91 Spanish forest species. Forest Ecology and Management 595, 122981. 
+#' https://doi.org/10.1016/j.foreco.2025.122981
 #' 
 #' @seealso [silv_predict_height()]
 #'
@@ -101,14 +114,14 @@ silv_predict_height <- function(diameter,
 #'
 #' @examples
 #' 1 + 1 #TODO
-eq_hd_aitor2025 <- function(species, 
+eq_hd_vazquez_veloso_2025 <- function(species, 
                             bioregion = "mediterranean", 
                             origin    = "natural", 
                             mixture   = "pure") {
 
   # 1. Build parameters
   ## 1.1. Species
-  selected_params <- h_d_aitor_tbl[tolower(h_d_aitor_tbl$species_name) %in% tolower(species), ]
+  selected_params <- h_d_aitor_tbl[tolower(h_d_aitor_tbl$species_name) %in% tolower(species), ]  # TODO: rename h_d_aitor_tbl
   ## 1.2. Mange non-available species
   na_species <- species[!species %in% selected_params$species_name]
   if (length(na_species) > 0) {
@@ -170,9 +183,9 @@ eq_hd_aitor2025 <- function(species,
 
   # 2. Return
   ModelHD(
-    equation = "aitor2025",
+    equation = "vazquez_veloso_2025",
     species  = species,
-    doi      = "Placeholder", #TODO
+    doi      = "https://doi.org/10.1016/j.foreco.2025.122981", 
     params   = list(
       species_params = selected_params
     )
