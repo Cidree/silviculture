@@ -36,8 +36,8 @@ equations (in kg). Currently, only equations for Spain are available.
 The function estimates biomass using validated allometric models available in the
 dataset \link{biomass_models}. The available models include:
 \itemize{
-\item \strong{\code{\link[=eq_biomass_ruiz_peinado2011]{eq_biomass_ruiz_peinado2011()}}}: Developed for softwood species in Spain.
-\item \strong{\code{\link[=eq_biomass_ruiz_peinado2012]{eq_biomass_ruiz_peinado2012()}}}: Developed for hardwood species in Spain.
+\item \strong{\code{\link[=eq_biomass_ruiz_peinado_2011]{eq_biomass_ruiz_peinado_2011()}}}: Developed for softwood species in Spain.
+\item \strong{\code{\link[=eq_biomass_ruiz_peinado_2012]{eq_biomass_ruiz_peinado_2012()}}}: Developed for hardwood species in Spain.
 }
 
 Users can check the list of supported species and their corresponding components
@@ -50,9 +50,9 @@ If you would like to suggest additional models, please open a new issue on GitHu
 silv_predict_biomass(
   diameter = 45,
   height   = 22,
-  model    = eq_biomass_ruiz_peinado2011("Pinus pinaster")
+  model    = eq_biomass_ruiz_peinado_2011("Pinus pinaster")
 )
 }
 \seealso{
-\code{\link[=eq_biomass_ruiz_peinado2011]{eq_biomass_ruiz_peinado2011()}}, \code{\link[=eq_biomass_ruiz_peinado2012]{eq_biomass_ruiz_peinado2012()}}, \link{biomass_models}
+\code{\link[=eq_biomass_ruiz_peinado_2011]{eq_biomass_ruiz_peinado_2011()}}, \code{\link[=eq_biomass_ruiz_peinado_2012]{eq_biomass_ruiz_peinado_2012()}}, \link{biomass_models}
 }

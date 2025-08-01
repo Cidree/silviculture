@@ -20,5 +20,10 @@ Useful links:
 \author{
 \strong{Maintainer}: Adrián Cidre González \email{adrian.cidre@gmail.com}
 
+Authors:
+\itemize{
+  \item Aitor Vázquez Veloso \email{aitor.vazquez.veloso@uva.es}
+}
+
 }
 \keyword{internal}
