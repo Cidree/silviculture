@@ -37,22 +37,22 @@ ModelBiomass <- S7::new_class(
 #' The function estimates biomass using validated allometric models available in the
 #' dataset [biomass_models]. The available models include:
 #'
-#' - **[eq_biomass_ruiz_peinado2011()]**: Developed for softwood species in Spain.
-#' - **[eq_biomass_ruiz_peinado2012()]**: Developed for hardwood species in Spain.
+#' - **[eq_biomass_ruiz_peinado_2011()]**: Developed for softwood species in Spain.
+#' - **[eq_biomass_ruiz_peinado_2012()]**: Developed for hardwood species in Spain.
 #'
 #' Users can check the list of supported species and their corresponding components
 #' in [biomass_models].
 #'
 #' If you would like to suggest additional models, please open a new issue on GitHub.
 #' 
-#' @seealso [eq_biomass_ruiz_peinado2011()], [eq_biomass_ruiz_peinado2012()], [biomass_models]
+#' @seealso [eq_biomass_ruiz_peinado_2011()], [eq_biomass_ruiz_peinado_2012()], [biomass_models]
 #'
 #' @examples
 #' # Calculate biomass for a single tree
 #' silv_predict_biomass(
 #'   diameter = 45,
 #'   height   = 22,
-#'   model    = eq_biomass_ruiz_peinado2011("Pinus pinaster")
+#'   model    = eq_biomass_ruiz_peinado_2011("Pinus pinaster")
 #' )
 silv_predict_biomass <- function(
     diameter = NULL,
@@ -143,12 +143,12 @@ silv_predict_biomass <- function(
 #' Users can check the list of supported species and their corresponding components
 #' in [biomass_models].
 #' 
-#' @seealso [silv_predict_biomass()], [eq_biomass_ruiz_peinado2012()], [biomass_models]
+#' @seealso [silv_predict_biomass()], [eq_biomass_ruiz_peinado_2012()], [biomass_models]
 #'
 #' @examples
 #' ## get model parameters for silv_predict_biomass
-#' eq_biomass_ruiz_peinado2011("Pinus pinaster")
-eq_biomass_ruiz_peinado2011 <- function(species, component = "stem", return_rmse = FALSE) {
+#' eq_biomass_ruiz_peinado_2011("Pinus pinaster")
+eq_biomass_ruiz_peinado_2011 <- function(species, component = "stem", return_rmse = FALSE) {
 
   # 0. Handle errors 
   if (component == "tree" & return_rmse) cli::cli_abort("RMSE is only available by single components.")
@@ -208,12 +208,12 @@ eq_biomass_ruiz_peinado2011 <- function(species, component = "stem", return_rmse
 #' Users can check the list of supported species and their corresponding components
 #' in [biomass_models].
 #' 
-#' @seealso [silv_predict_biomass()], [eq_biomass_ruiz_peinado2011()], [biomass_models]
+#' @seealso [silv_predict_biomass()], [eq_biomass_ruiz_peinado_2011()], [biomass_models]
 #'
 #' @examples
 #' ## get model parameters for silv_predict_biomass
-#' eq_biomass_ruiz_peinado2012("Quercus suber")
-eq_biomass_ruiz_peinado2012 <- function(species, component = "stem", return_rmse = FALSE) {
+#' eq_biomass_ruiz_peinado_2012("Quercus suber")
+eq_biomass_ruiz_peinado_2012 <- function(species, component = "stem", return_rmse = FALSE) {
 
   # 0. Handle errors 
   if (component == "tree" & return_rmse) cli::cli_abort("RMSE is only available by single components.")
