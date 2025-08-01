@@ -4,7 +4,9 @@
 
 utils::globalVariables(
   c(
+    ":=",
     "biomass_models",
+    "cumulative_before",
     "d",
     "dclass",
     "dg",
@@ -15,8 +17,10 @@ utils::globalVariables(
     "nt",
     "ntrees",
     "ntrees_ha",
+    "remaining_to_extract",
     "weighted.mean",
     ".cumtrees",
+    ".data",
     ".do",
     ".nmax"
   )

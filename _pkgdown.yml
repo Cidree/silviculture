@@ -29,9 +29,9 @@ reference:
   - title: "Models and equations"
     desc: "Models and equations used in silv_predict_* functions"
     contents:
-    - eq_hd_aitor2025
-    - eq_biomass_ruiz_peinado2011
-    - eq_biomass_ruiz_peinado2012
+    - eq_hd_vazquez_veloso_2025
+    - eq_biomass_ruiz_peinado_2011
+    - eq_biomass_ruiz_peinado_2012
   
   - title: "Tree level metrics"
     desc: "Metrics to be calculated tree by tree"

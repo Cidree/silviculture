@@ -10,27 +10,33 @@ silv_predict_height(diameter, model, quiet = FALSE)
 \item{diameter}{Numeric vector with diameters in cm}
 
 \item{model}{A function. A function with the structure \code{eq_hd_*()} with
-additional arguments depending on the model. Currently only \code{\link[=eq_hd_aitor2025]{eq_hd_aitor2025()}}
+additional arguments depending on the specific model. Currently only \code{\link[=eq_hd_vazquez_veloso_2025]{eq_hd_vazquez_veloso_2025()}}
 is available.}
 
 \item{quiet}{A logical value. If TRUE, suppresses any informational messages.}
 }
 \value{
-A numeric vector with predicted height
+A numeric vector with predicted heights
 }
 \description{
-This function estimates tree height using h-d equations. Currently, only equations
+Estimates total tree height using height-diameter (h-d) equations. Currently, only models developed
 for Spain are available.
 }
 \details{
-Details...#TODO
+The function estimates total tree height (in meters) using diameter at breast height (in centimeters),
+and may require additional information depending on the specific model. See each model’s documentation for details.
 }
 \examples{
 1 + 1 #TODO
 }
 \references{
-Reference #TODO
+References for the models available:
+\itemize{
+\item \strong{\code{\link[=eq_hd_vazquez_veloso_2025]{eq_hd_vazquez_veloso_2025()}}}: Vázquez-Veloso, A., Yang, S.-I., Bullock, B.P., Bravo, F., 2025. One model to rule them all:
+A nationwide height–diameter model for 91 Spanish forest species. Forest Ecology and Management 595, 122981.
+https://doi.org/10.1016/j.foreco.2025.122981
+}
 }
 \seealso{
-\code{\link[=eq_hd_aitor2025]{eq_hd_aitor2025()}}
+\code{\link[=eq_hd_vazquez_veloso_2025]{eq_hd_vazquez_veloso_2025()}}
 }
