@@ -1,0 +1,11 @@
+cff-version: 0.1.0
+message: "If you use this R library, please cite it as below."
+authors:
+- family-names: "Cidre-González"
+  given-names: "Adrián"
+  orcid: "https://orcid.org/0000-0002-3310-3052"
+title: "R package silviculture"
+version: 0.1.0
+doi: 
+date-released: 2025-07-31
+url: "https://github.com/Cidree/silviculture"
