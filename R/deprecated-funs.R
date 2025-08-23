@@ -638,7 +638,7 @@ silv_biomass <- function(
     ## 1.2. Filter tree species
     sel_species <- sel_model[sel_model$species == sp, ]
     ## 1.3. Filter component
-    sel_component <- sel_species[sel_species$component %in% component, ]
+    sel_component <- sel_species[sel_species$tree_component %in% component, ]
 
     ## 1.4. Check if there's a matching model
     if (nrow(sel_component) == 0) cli::cli_abort(
@@ -659,7 +659,7 @@ silv_biomass <- function(
     biomass_tbl <- data.frame(
       biomass  = biomass,
       rmse     = sel_component$rmse,
-      citation = sel_component$doi
+      citation = sel_component$doi_url
     )
 
     return(biomass_tbl)

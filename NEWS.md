@@ -17,7 +17,7 @@ The old functions are now deprecated and will be eliminated in a future release.
 
 * `silv_predict_height()`: estimates height from diameter, using the so-called h-d curves. The argument `equation` allows to choose which equations to use. Currently, only `eq_hd_aitor2025()` available.
 
-* `eq_biomass_ruiz_peinado2011()` and `eq_biomass_ruiz_peinado2012()`: equations to be used inside the `model` argument of `silv_predict_biomass()`.
+* `eq_biomass_*()`: equations to be used inside the `model` argument of `silv_predict_biomass()`.
 
 ## Bug Fixes
 
