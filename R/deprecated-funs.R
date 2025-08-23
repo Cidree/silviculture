@@ -760,3 +760,122 @@ silv_volume <- function(diameter_base   = NULL,
 
   return(volume_vec)
 }
+
+
+
+
+
+#' Calculates sample size for a random sampling inventory
+#' 
+#' @description
+#' `r lifecycle::badge("deprecated")`
+#'
+#' @param x vector of field survey
+#' @param plot_size a numeric vector of length one with plot size in squared meters
+#' @param total_area total area of the study area in squared meters
+#' @param method sampling method. Available options are `random`
+#' @param max_error maximum allowed error
+#' @param conf_level confidence level
+#' @param max_iter maximum number of iteration to find the plot size
+#' @param quiet if \code{TRUE}, messages will be supressed
+#'
+#' @returns SampleSize object
+#' @export
+#'
+#' @importFrom stats qt sd
+#'
+#' @examples
+#' ## pilot inventory measuring 4 plots of 25x25 meters
+#' ## total forest area 15 ha
+#' ## measured variable (x): basal area per hectare
+#' silv_sample_size(
+#'   x          = c(33, 37.5, 42, 35.2),
+#'   plot_size  = 25 * 25,  # squared plot of 25x25
+#'   total_area = 15 * 1e4, # 15 ha
+#'   max_error  = 0.05,
+#'   conf_level = 0.95,
+#'   max_iter   = 100
+#' )
+silv_sample_size <- function(x,
+                             plot_size,
+                             total_area,
+                             method     = "random",
+                             max_error  = 0.05,
+                             conf_level = 0.95,
+                             max_iter   = 1000,
+                             quiet      = FALSE) {
+
+  ## DEPRECATED ---------------
+  lifecycle::deprecate_warn(
+    when = "0.2.0",
+    what = "silv_sample_size()",
+    details = "Function `silv_sample_size() is deprecated in favour of `silv_sample_size_simple()`, and it will be removed in the next release."
+  )
+
+  ## calculate Coefficient of Variation (CV)
+  cv <- sd(x) / mean(x) * 100
+
+  ## population size
+  max_n <- total_area / plot_size
+
+  ## calculate Student's t for selected CI
+  students_t <- qt((1 + conf_level) / 2, df = max_n)
+
+  ## calculate n
+  n <- calc_n_simple(students_t, max_n, cv, max_error)
+
+  ## if n equals 1 initially, t-test cannot be computed with 1 - 1 df
+  if (n == 1) {
+    if (!quiet) cli::cli_alert_warning("The estimated sample size is 1. Consider decreasing the sampling error")
+    return(n)
+  }
+
+  ## initialize values
+  final_n <- 0
+  i       <- 1
+
+  ## calculate final sample size (when n == final_n, or maximum iterations happens)
+  while (n != final_n && i < max_iter) {
+    ## calculate new student's t
+    new_students_t <- qt((1 + conf_level) / 2, df = max(final_n - 1, 1))
+    ## update n
+    n <- final_n
+    ## calculate new n
+    final_n <- calc_n_simple(new_students_t, max_n, cv, max_error)
+    i <- i + 1
+  }
+
+  ## return warning if no convergence has been found after maximum iterations
+  if (i == max_iter) {
+    if (!quiet) cli::cli_alert_warning("No convergence found after {max_iter} iterations. Returning latest value.")
+    final_n <- min(n, final_n)
+  }
+
+  ## return
+  ci_lo <- (mean(x) - mean(x) * max_error) |> round(2)
+  ci_up <- (mean(x) + mean(x) * max_error) |> round(2)
+  effort <- (final_n / total_area * 10000) |> round(2)
+  if (!quiet) {
+    cli::cli_alert_info("A total of {length(x)} plots were measured in the pilot inventory, each plot measuring {plot_size} squared meters.")
+    cli::cli_alert_info("A minimum of {final_n} inventory plots are needed for a maximum sampling error of {max_error * 100}% ({conf_level * 100}% CI [{ci_lo}, {ci_up}]).")
+    cli::cli_alert_info("The sampling effort will be {effort} plots/ha")
+    cli::cli_alert_info("Note that these calculations assume that you will do a simple random sampling")
+  }
+
+  SimpleSampleSize(
+    sampling_res = list(
+      min_plots       = final_n,
+      ci_lo           = ci_lo,
+      ci_up           = ci_up,
+      sampling_effort = effort
+    ),
+    sampling_opts = list(
+      pilot_plots = x,
+      plot_size   = plot_size,
+      total_area  = total_area,
+      max_error   = max_error,
+      conf_level  = conf_level
+    )
+  )
+
+}

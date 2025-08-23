@@ -35,7 +35,7 @@ Collate:
     'metrics-tree-level.R'
     'predict-biomass.R'
     'predict-height.R'
-    'sampling.R'
+    'sample-size.R'
     'silviculture-package.R'
     'treatment-thinning.R'
     'zzz.R'

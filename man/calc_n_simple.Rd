@@ -13,7 +13,7 @@ calc_n_simple(students_t, max_n, cv, max_error)
 
 \item{cv}{coefficient of variation}
 
-\item{max_error}{maximum allowed error}
+\item{max_error}{maximum allowed relative error}
 }
 \value{
 A length-one numeric vector
