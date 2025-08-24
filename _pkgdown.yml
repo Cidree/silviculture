@@ -30,6 +30,9 @@ reference:
     desc: "Models and equations used in silv_predict_* functions"
     contents:
     - eq_hd_vazquez_veloso_2025
+    - eq_biomass_dieguez_aranda_2009
+    - eq_biomass_manrique_2017
+    - eq_biomass_montero_2005
     - eq_biomass_ruiz_peinado_2011
     - eq_biomass_ruiz_peinado_2012
   
@@ -47,6 +50,7 @@ reference:
     desc: "Metrics to be calculated per stand or plot of trees"
     contents:
     - silv_stand_basal_area
+    - silv_stand_dominant_diameter
     - silv_stand_dominant_height
     - silv_stand_lorey_height
     - silv_stand_qmean_diameter
@@ -68,7 +72,14 @@ reference:
   - title: "Inventory Sample Size"
     desc: Calculate and explore forest inventory sample size
     contents:
+    - silv_sample_size_simple
+    - silv_sample_size_stratified
     - silv_sample_size
+  
+  - title: "Treatments"
+    desc: Functions for forest treatments
+    contents:
+    - silv_treatment_thinning
 
   - title: "LiDAR metrics"
     desc: Extract and calculate forest structural metrics using LiDAR data
