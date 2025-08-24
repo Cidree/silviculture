@@ -193,7 +193,7 @@ silv_dominant_height <- function(diameter,
         .cumtrees = cumsum(nt),
         .nmax     = which(.cumtrees >= 100)[1],
         .nmax     = if (is.na(.nmax[1])) which.max(.cumtrees) else .nmax,
-        .do       = calc_dominant_height(.nmax, nt, h)
+        .do       = calc_dominant_metric(.nmax, nt, h)
       ) |>
       dplyr::pull(.do)
   } else {
@@ -204,7 +204,7 @@ silv_dominant_height <- function(diameter,
         .cumtrees = cumsum(nt),
         .nmax     = which(.cumtrees >= 100)[1],
         .nmax     = if (is.na(.nmax[1])) which.max(.cumtrees) else .nmax,
-        .do       = calc_dominant_height(.nmax, nt, h)
+        .do       = calc_dominant_metric(.nmax, nt, h)
       ) |>
       dplyr::pull(.do)
   }

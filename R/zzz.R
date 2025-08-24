@@ -15,6 +15,7 @@ utils::globalVariables(
     "h0",
     "n",
     "nt",
+    "nt_sel",
     "ntrees",
     "ntrees_ha",
     "remaining_to_extract",

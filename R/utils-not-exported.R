@@ -1,15 +1,16 @@
 
 
-#' Calculates dominant height
+#' Calculates dominant height or dominant diameter
 #'
 #' @param nmax Index of first diametric class with > 100 trees; if there are no
 #'    100 trees, it is the index of the maximum
 #' @param ntress Number of trees per hectare
-#' @param height Height of the diametric class
+#' @param metric Height of the diametric class or diameter
+#' @param max_trees Number to trees to calculate dominant metric
 #'
 #' @return A numeric vector
 #' @keywords internal
-calc_dominant_height <- function(nmax, ntress, height) {
+calc_dominant_metric <- function(nmax, ntress, metric, max_trees = 100) {
 
   # initialize n and empty list
   n <- 0
@@ -20,14 +21,14 @@ calc_dominant_height <- function(nmax, ntress, height) {
     ## sum previous trees plus new trees
     n <- n + ntress[i]
     ## are we over 100 trees already?
-    if (n > 100) {
-      new_trees <- ntress[i] - n + 100
+    if (n > max_trees) {
+      new_trees <- ntress[i] - n + max_trees
       ## add to list and exit loop
-      l[[i]] <- c(new_trees, height[i])
+      l[[i]] <- c(new_trees, metric[i])
       break
     } else {
       ## add to list
-      l[[i]] <- c(ntress[i], height[i])
+      l[[i]] <- c(ntress[i], metric[i])
     }
   }
 
@@ -40,6 +41,39 @@ calc_dominant_height <- function(nmax, ntress, height) {
   # Calculate the weighted mean
   weighted_sum / sum(first_elements, na.rm = TRUE)
 
+}
+
+
+
+
+
+#' Calculates number of trees until reaching a maximum number of trees
+#'
+#' @param ntrees Number of trees per hectare
+#' @param cumtrees Accumulated trees and sorted from thickest to thinner diameter
+#' @param max_trees Number to trees to calculate dominant metric
+#'
+#' @return A numeric vector
+#' @keywords internal
+calc_accumulated_trees <- function(ntrees, cumtrees, max_trees) {
+
+  ## row with with accumulated max_trees
+  row_with_target <- which(cumtrees >= max_trees)[1]
+
+  ## calculate trees needed from each diameter class
+  trees_needed <- rep(0, length(ntrees))
+
+  ## for rows before the target row, take all trees
+  if (row_with_target > 1) {
+    trees_needed[1:(row_with_target-1)] <- ntrees[1:(row_with_target-1)]
+  }
+
+  ## for the target row, calculate remaining trees needed
+  trees_from_previous <- ifelse(row_with_target == 1, 0, cumtrees[row_with_target-1])
+  trees_needed[row_with_target] <- max_trees - trees_from_previous
+
+  ## return
+  return(trees_needed)
 }
 
 

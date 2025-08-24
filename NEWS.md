@@ -1,5 +1,5 @@
 
-# silviculture 0.2.0 (dev)
+# silviculture 0.1.9000 (dev)
 
 This new version brings new naming conventions that will be useful for sorting the package into "modules" of related functions.
 
@@ -16,6 +16,12 @@ The old functions are now deprecated and will be eliminated in a future release.
 * `silv_density_sdi()`: calculates the Stand Density Index
 
 * `silv_predict_height()`: estimates height from diameter, using the so-called h-d curves. The argument `equation` allows to choose which equations to use. Currently, only `eq_hd_aitor2025()` available.
+
+* `silv_stand_dominant_diameter()`: calculates dominant diameter using two methods:
+
+    - `Assman`: the mean diameter of the 100 thickest trees per hectare
+
+    - `Weise`: the quadratic mean diameter of the 20% thickest trees per hectare
 
 * `eq_biomass_*()`: equations to be used inside the `model` argument of `silv_predict_biomass()`.
 

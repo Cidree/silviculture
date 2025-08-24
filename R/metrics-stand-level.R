@@ -142,29 +142,126 @@ silv_stand_dominant_height <- function(diameter,
     )
   }
 
-
   # 2. Calculate dominant height
   if (tolower(which) == "assman") {
-    d0 <- data |>
+    h0 <- data |>
       ## sort descending by diameter class
       dplyr::arrange(dplyr::desc(d)) |>
       dplyr::mutate(
         .cumtrees = cumsum(nt),
         .nmax     = which(.cumtrees >= 100)[1],
         .nmax     = if (is.na(.nmax[1])) which.max(.cumtrees) else .nmax,
-        .do       = calc_dominant_height(.nmax, nt, h)
+        .do       = calc_dominant_metric(.nmax, nt, h)
       ) |>
       dplyr::pull(.do)
   } else {
-    d0 <- data |>
+    h0 <- data |>
       ## sort descending by height
       dplyr::arrange(dplyr::desc(h)) |>
       dplyr::mutate(
         .cumtrees = cumsum(nt),
         .nmax     = which(.cumtrees >= 100)[1],
         .nmax     = if (is.na(.nmax[1])) which.max(.cumtrees) else .nmax,
-        .do       = calc_dominant_height(.nmax, nt, h)
+        .do       = calc_dominant_metric(.nmax, nt, h)
       ) |>
+      dplyr::pull(.do)
+  }
+
+  # 3. If it's not vectorized, retrieve just one value
+  if (is.null(ntrees)) h0[1] else h0
+
+}
+
+
+
+
+
+#' Calculates the dominant diameter
+#'
+#' Calculates the dominant diameter using Assman and Friedrich method, or
+#' Weise method
+#'
+#' @param diameter Numeric vector with diameter classes
+#' @param ntrees Optional. Numeric vector with number of trees per hectare.
+#' Use this argument when you have aggregated data by diametric classes (see details).
+#' @param which The method to calculate the dominant diameter (see details)
+#' @param quiet if \code{TRUE}, messages will be supressed
+#'
+#' @details
+#' The dominant diameter \eqn{D_0} is the mean diameter of the 100 thickest trees per
+#' hectare. Therefore, `diameter` and `ntrees` should be vectors of the same length.
+#' 
+#' - \bold{Assman}: calculates the \eqn{D_0} as the mean diameter of the 100 thickest
+#' trees per hectare
+#'
+#' - \bold{Weise}: calculates the \eqn{D_0} as the quadratic mean diameter of the
+#' 20% thickest trees per hectare
+#'
+#' @return A numeric vector
+#' @export
+#' @include utils-not-exported.R
+#'
+#' @examples
+#' ## calculate d0 for inventory data grouped by plot_id and species
+#' library(dplyr)
+#' inventory_samples |>
+#' mutate(dclass = silv_tree_dclass(diameter)) |>
+#'   summarise(
+#'     height = mean(height, na.rm = TRUE),
+#'     ntrees = n(),
+#'     .by    = c(plot_id, species, dclass)
+#'   ) |>
+#'   mutate(
+#'     ntrees_ha = silv_density_ntrees_ha(ntrees, plot_size = 10),
+#'     d0        = silv_stand_dominant_diameter(dclass, ntrees_ha),
+#'     .by       = c(plot_id, species)
+#'   )
+silv_stand_dominant_diameter <- function(diameter,
+                                        ntrees = NULL,
+                                        which = "assman",
+                                        quiet = FALSE) {
+
+  # 0. Handle errors and setup
+  ## 0.1. Errors
+  if (!tolower(which) %in% c("assman", "weise")) cli::cli_abort("`which` must be either <assman> or <weise>.")
+  if (!is.numeric(diameter)) cli::cli_abort("`diameter` must be a numeric vector")
+  ## 0.2. Invalid values
+  if (any(diameter <= 0, na.rm = TRUE)) cli::cli_warn("Any value in `diameter` is less than 0. Review your data.")
+
+  # 1. Create a data frame with input variables
+  if (is.null(ntrees)) {
+    data <- data.frame(
+      d  = diameter,
+      nt = 1
+    )
+  } else {
+    data <- data.frame(
+      d  = diameter,
+      nt = ntrees
+    )
+  }
+
+  if (tolower(which) == "assman") {
+    d0 <- data |> 
+        ## sort descending by diameter class
+        dplyr::arrange(dplyr::desc(d)) |>
+        dplyr::mutate(
+          .cumtrees = cumsum(nt),
+          .nmax     = which(.cumtrees >= 100)[1],
+          .nmax     = if (is.na(.nmax[1])) which.max(.cumtrees) else .nmax,
+          .do       = calc_dominant_metric(.nmax, nt, d)
+        ) |>
+        dplyr::pull(.do)
+  } else {
+    n_tickest_trees <- 0.2 * sum(data$nt)
+    d0 <- data |> 
+      ## sort descending by diameter class
+      dplyr::arrange(dplyr::desc(d)) |>
+      dplyr::mutate(
+        .cumtrees = cumsum(nt),
+        nt_sel = calc_accumulated_trees(nt, .cumtrees, n_tickest_trees),
+        .do = silv_stand_qmean_diameter(d, nt_sel)
+      ) |> 
       dplyr::pull(.do)
   }
 
