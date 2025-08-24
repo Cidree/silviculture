@@ -7,7 +7,7 @@
 
     <a class="navbar-brand me-2" href="../index.html">silviculture</a>
 
-    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.1.0</small>
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.1.0.9000</small>
 
 
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -72,7 +72,7 @@
 
 
 <dt id="arg-plot-size">plot_size<a class="anchor" aria-label="anchor" href="#arg-plot-size"></a></dt>
-<dd><p>The size of the plot. See <a href="silv_ntrees_ha.html">silv_ntrees_ha</a></p></dd>
+<dd><p>The size of the plot. See <code><a href="silv_density_ntrees_ha.html">silv_density_ntrees_ha()</a></code></p></dd>
 
 
 <dt id="arg--groups">.groups<a class="anchor" aria-label="anchor" href="#arg--groups"></a></dt>
@@ -104,12 +104,12 @@ are greater than <code>dmax</code> are included in the greatest class</p></dd>
 
 
 <dt id="arg-which-h-">which_h0<a class="anchor" aria-label="anchor" href="#arg-which-h-"></a></dt>
-<dd><p>The method to calculate the dominant height. See <a href="silv_dominant_height.html">silv_dominant_height</a></p></dd>
+<dd><p>The method to calculate the dominant height. See <code><a href="silv_stand_dominant_height.html">silv_stand_dominant_height()</a></code></p></dd>
 
 
 <dt id="arg-which-spacing">which_spacing<a class="anchor" aria-label="anchor" href="#arg-which-spacing"></a></dt>
 <dd><p>A character with the name of the index (either <code>hart</code> or <code>hart-brecking</code>).
-See <a href="silv_spacing_index.html">silv_spacing_index</a></p></dd>
+See <code><a href="silv_density_hart.html">silv_density_hart()</a></code></p></dd>
 
 </dl></div>
     <div class="section level2">
@@ -141,7 +141,7 @@ See <a href="silv_spacing_index.html">silv_spacing_index</a></p></dd>
 <span class="r-out co"><span class="r-pr">#&gt;</span>  $ ntrees_ha: num [1:57] 95.5 159.2 31.8 63.7 95.5 ...</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>  $ h0       : num [1:57] 19.7 19.7 19.7 19.7 19.7 ...</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>  $ dg       : num [1:57] 57.9 57.9 57.9 57.9 57.9 ...</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>  $ g_ha     : num [1:57] 18.75 37.81 3.06 10.12 27 ...</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>  $ g_ha     : num [1:57] 0.1963 0.2376 0.0962 0.159 0.2827 ...</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>  @ group_metrics : tibble [14 × 15] (S3: tbl_df/tbl/data.frame)</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>  $ plot_id  : int [1:14] 7 8 8 8 8 10 10 10 10 53 ...</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>  $ species  : int [1:14] 27 28 81 83 294 27 72 81 83 27 ...</span>
@@ -152,12 +152,13 @@ See <a href="silv_spacing_index.html">silv_spacing_index</a></p></dd>
 <span class="r-out co"><span class="r-pr">#&gt;</span>  $ h_mean   : num [1:14] 17.42 17.5 6.29 5.67 6.74 ...</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>  $ h_median : num [1:14] 17.64 15.5 5.87 6.1 7.12 ...</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>  $ h_sd     : num [1:14] 1.924 2 0.525 0.495 0.77 ...</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>  $ h_lorey  : num [1:14] 18.1 17.67 6.43 5.41 7.07 ...</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>  $ h_lorey  : num [1:14] 18.54 17.67 6.11 5.35 6.93 ...</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>  $ h0       : num [1:14] 19.65 17.5 6.39 5.15 7.12 ...</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>  $ ntrees   : int [1:14] 16 2 8 7 5 6 4 10 5 19 ...</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>  $ ntrees_ha: num [1:14] 509.3 63.7 254.6 222.8 159.2 ...</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>  $ g_ha     : num [1:14] 134.31 16.56 5.25 4 2.5 ...</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>  $ g_ha     : num [1:14] 2.152 0.5203 0.0962 0.0393 0.0255 ...</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>  $ spacing  : num [1:14] 22.6 71.6 98.1 130.2 111.3 ...</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>  @ groups        : chr [1:2] "plot_id" "species"</span>
 </code></pre></div>
     </div>
   </main><aside class="col-md-3"><nav id="toc" aria-label="Table of contents"><h2>On this page</h2>
@@ -165,7 +166,7 @@ See <a href="silv_spacing_index.html">silv_spacing_index</a></p></dd>
 
 
     <footer><div class="pkgdown-footer-left">
-  <p>Developed by <a href="https://adrian-cidre.com/" class="external-link">Adrián Cidre González</a>.</p>
+  <p>Developed by <a href="https://adrian-cidre.com/" class="external-link">Adrián Cidre González</a>, Aitor Vázquez Veloso.</p>
 </div>
 
 <div class="pkgdown-footer-right">

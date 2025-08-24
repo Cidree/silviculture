@@ -7,7 +7,7 @@
 
     <a class="navbar-brand me-2" href="../index.html">silviculture</a>
 
-    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.1.0</small>
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.1.0.9000</small>
 
 
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -32,9 +32,9 @@
     </div>
 
     <div class="section level2">
-      <h2 id="biomass-volume-assessment">Biomass &amp; Volume Assessment<a class="anchor" aria-label="anchor" href="#biomass-volume-assessment"></a></h2>
+      <h2 id="predictions">Predictions<a class="anchor" aria-label="anchor" href="#predictions"></a></h2>
 
-      <div class="section-desc"><p>Functions for estimating forest biomass and volume</p></div>
+      <div class="section-desc"><p>Functions for estimating forest variables from models or equations</p></div>
 
 
     </div><div class="section level2">
@@ -44,20 +44,26 @@
 
       <dl><dt>
 
-          <code><a href="silv_biomass.html">silv_biomass()</a></code>
+          <code><a href="silv_predict_biomass.html">silv_predict_biomass()</a></code>
 
         </dt>
         <dd>Calculate Tree Biomass</dd>
       </dl><dl><dt>
 
-          <code><a href="silv_volume.html">silv_volume()</a></code>
+          <code><a href="silv_predict_height.html">silv_predict_height()</a></code>
 
         </dt>
-        <dd>Calculate Tree Volume</dd>
-      </dl></div><div class="section level2">
-      <h2 id="structural-forest-metrics">Structural forest metrics<a class="anchor" aria-label="anchor" href="#structural-forest-metrics"></a></h2>
+        <dd>Estimates tree height from DBH</dd>
+      </dl><dl><dt>
 
-      <div class="section-desc"><p>Calculate key forest inventory metrics like basal area, dominant height, and tree count, as well as analyzing tree size distribution and stand spacing</p></div>
+          <code><a href="silv_biomass.html">silv_biomass()</a></code>
+          <span class="badge lifecycle lifecycle-deprecated">deprecated</span>
+        </dt>
+        <dd>Calculate Tree Biomass</dd>
+      </dl></div><div class="section level2">
+      <h2 id="models-and-equations">Models and equations<a class="anchor" aria-label="anchor" href="#models-and-equations"></a></h2>
+
+      <div class="section-desc"><p>Models and equations used in silv_predict_* functions</p></div>
 
 
     </div><div class="section level2">
@@ -67,52 +73,199 @@
 
       <dl><dt>
 
-          <code><a href="silv_basal_area.html">silv_basal_area()</a></code>
+          <code><a href="eq_hd_vazquez_veloso_2025.html">eq_hd_vazquez_veloso_2025()</a></code>
 
         </dt>
-        <dd>Calculates Basal Area</dd>
+        <dd>Estimates tree height from DBH</dd>
       </dl><dl><dt>
 
-          <code><a href="silv_diametric_class.html">silv_diametric_class()</a></code>
+          <code><a href="eq_biomass_dieguez_aranda_2009.html">eq_biomass_dieguez_aranda_2009()</a></code>
+
+        </dt>
+        <dd>Biomass equations for Galician species</dd>
+      </dl><dl><dt>
+
+          <code><a href="eq_biomass_manrique_2017.html">eq_biomass_manrique_2017()</a></code>
+
+        </dt>
+        <dd>Biomass equations two Quercus species</dd>
+      </dl><dl><dt>
+
+          <code><a href="eq_biomass_montero_2005.html">eq_biomass_montero_2005()</a></code>
+
+        </dt>
+        <dd>Biomass equations for Spanish species</dd>
+      </dl><dl><dt>
+
+          <code><a href="eq_biomass_ruiz_peinado_2011.html">eq_biomass_ruiz_peinado_2011()</a></code>
+
+        </dt>
+        <dd>Biomass equations for Spanish softwood species</dd>
+      </dl><dl><dt>
+
+          <code><a href="eq_biomass_ruiz_peinado_2012.html">eq_biomass_ruiz_peinado_2012()</a></code>
+
+        </dt>
+        <dd>Biomass equations for Spanish hardwood species</dd>
+      </dl></div><div class="section level2">
+      <h2 id="tree-level-metrics">Tree level metrics<a class="anchor" aria-label="anchor" href="#tree-level-metrics"></a></h2>
+
+      <div class="section-desc"><p>Metrics to be calculated tree by tree</p></div>
+
+
+    </div><div class="section level2">
+
+
+
+
+      <dl><dt>
+
+          <code><a href="silv_tree_dclass.html">silv_tree_dclass()</a></code>
 
         </dt>
         <dd>Classify diameters in classes</dd>
       </dl><dl><dt>
 
-          <code><a href="silv_dominant_height.html">silv_dominant_height()</a></code>
+          <code><a href="silv_tree_basal_area.html">silv_tree_basal_area()</a></code>
+
+        </dt>
+        <dd>Calculates Basal Area</dd>
+      </dl><dl><dt>
+
+          <code><a href="silv_tree_volume.html">silv_tree_volume()</a></code>
+
+        </dt>
+        <dd>Calculate Tree Volume</dd>
+      </dl><dl><dt>
+
+          <code><a href="silv_basal_area.html">silv_basal_area()</a></code>
+          <span class="badge lifecycle lifecycle-deprecated">deprecated</span>
+        </dt>
+        <dd>Calculates Basal Area</dd>
+      </dl><dl><dt>
+
+          <code><a href="silv_diametric_class.html">silv_diametric_class()</a></code>
+          <span class="badge lifecycle lifecycle-deprecated">deprecated</span>
+        </dt>
+        <dd>Classify diameters in classes</dd>
+      </dl><dl><dt>
+
+          <code><a href="silv_volume.html">silv_volume()</a></code>
+          <span class="badge lifecycle lifecycle-deprecated">deprecated</span>
+        </dt>
+        <dd>Calculate Tree Volume</dd>
+      </dl></div><div class="section level2">
+      <h2 id="stand-level-metrics">Stand level metrics<a class="anchor" aria-label="anchor" href="#stand-level-metrics"></a></h2>
+
+      <div class="section-desc"><p>Metrics to be calculated per stand or plot of trees</p></div>
+
+
+    </div><div class="section level2">
+
+
+
+
+      <dl><dt>
+
+          <code><a href="silv_stand_basal_area.html">silv_stand_basal_area()</a></code>
+
+        </dt>
+        <dd>Calculates Basal Area</dd>
+      </dl><dl><dt>
+
+          <code><a href="silv_stand_dominant_diameter.html">silv_stand_dominant_diameter()</a></code>
+
+        </dt>
+        <dd>Calculates the dominant diameter</dd>
+      </dl><dl><dt>
+
+          <code><a href="silv_stand_dominant_height.html">silv_stand_dominant_height()</a></code>
 
         </dt>
         <dd>Calculates the dominant height</dd>
       </dl><dl><dt>
 
-          <code><a href="silv_lorey_height.html">silv_lorey_height()</a></code>
+          <code><a href="silv_stand_lorey_height.html">silv_stand_lorey_height()</a></code>
 
         </dt>
         <dd>Calculates Lorey's Height</dd>
       </dl><dl><dt>
 
-          <code><a href="silv_ntrees_ha.html">silv_ntrees_ha()</a></code>
+          <code><a href="silv_stand_qmean_diameter.html">silv_stand_qmean_diameter()</a></code>
 
         </dt>
-        <dd>Calculates number of trees per hectare</dd>
-      </dl><dl><dt>
-
-          <code><a href="silv_spacing_index.html">silv_spacing_index()</a></code>
-
-        </dt>
-        <dd>Hart or Hart-Becking spacing index</dd>
-      </dl><dl><dt>
-
-          <code><a href="silv_sqrmean_diameter.html">silv_sqrmean_diameter()</a></code>
-
-        </dt>
-        <dd>Calculates the squared mean diameter</dd>
+        <dd>Calculates the quadratic mean diameter (QMD)</dd>
       </dl><dl><dt>
 
           <code><a href="silv_summary.html">silv_summary()</a></code>
 
         </dt>
         <dd>Calculates a bunch of forest metrics</dd>
+      </dl><dl><dt>
+
+          <code><a href="silv_dominant_height.html">silv_dominant_height()</a></code>
+          <span class="badge lifecycle lifecycle-deprecated">deprecated</span>
+        </dt>
+        <dd>Calculates the dominant height</dd>
+      </dl><dl><dt>
+
+          <code><a href="silv_lorey_height.html">silv_lorey_height()</a></code>
+          <span class="badge lifecycle lifecycle-deprecated">deprecated</span>
+        </dt>
+        <dd>Calculates Lorey's Height</dd>
+      </dl><dl><dt>
+
+          <code><a href="silv_ntrees_ha.html">silv_ntrees_ha()</a></code>
+          <span class="badge lifecycle lifecycle-deprecated">deprecated</span>
+        </dt>
+        <dd>Calculates number of trees per hectare</dd>
+      </dl><dl><dt>
+
+          <code><a href="silv_sqrmean_diameter.html">silv_sqrmean_diameter()</a></code>
+          <span class="badge lifecycle lifecycle-deprecated">deprecated</span>
+        </dt>
+        <dd>Calculates the quadratic mean diameter (QMD)</dd>
+      </dl></div><div class="section level2">
+      <h2 id="stand-density-metrics">Stand density metrics<a class="anchor" aria-label="anchor" href="#stand-density-metrics"></a></h2>
+
+      <div class="section-desc"><p>Stand density and competition metrics</p></div>
+
+
+    </div><div class="section level2">
+
+
+
+
+      <dl><dt>
+
+          <code><a href="silv_density_ntrees_ha.html">silv_density_ntrees_ha()</a></code>
+
+        </dt>
+        <dd>Calculates number of trees per hectare</dd>
+      </dl><dl><dt>
+
+          <code><a href="silv_density_hart.html">silv_density_hart()</a></code>
+
+        </dt>
+        <dd>Hart or Hart-Becking spacing index</dd>
+      </dl><dl><dt>
+
+          <code><a href="silv_density_sdi.html">silv_density_sdi()</a></code>
+
+        </dt>
+        <dd>Calculates the Stand Density Index</dd>
+      </dl><dl><dt>
+
+          <code><a href="silv_spacing_index.html">silv_spacing_index()</a></code>
+          <span class="badge lifecycle lifecycle-deprecated">deprecated</span>
+        </dt>
+        <dd>Hart or Hart-Becking spacing index</dd>
+      </dl><dl><dt>
+
+          <code><a href="silv_ntrees_ha.html">silv_ntrees_ha()</a></code>
+          <span class="badge lifecycle lifecycle-deprecated">deprecated</span>
+        </dt>
+        <dd>Calculates number of trees per hectare</dd>
       </dl></div><div class="section level2">
       <h2 id="inventory-sample-size">Inventory Sample Size<a class="anchor" aria-label="anchor" href="#inventory-sample-size"></a></h2>
 
@@ -126,10 +279,39 @@
 
       <dl><dt>
 
-          <code><a href="silv_sample_size.html">silv_sample_size()</a></code>
+          <code><a href="silv_sample_size_simple.html">silv_sample_size_simple()</a></code>
 
         </dt>
+        <dd>Calculates sample size for a simple random sampling (SRS)</dd>
+      </dl><dl><dt>
+
+          <code><a href="silv_sample_size_stratified.html">silv_sample_size_stratified()</a></code>
+
+        </dt>
+        <dd>Calculates sample size for a stratified sampling</dd>
+      </dl><dl><dt>
+
+          <code><a href="silv_sample_size.html">silv_sample_size()</a></code>
+          <span class="badge lifecycle lifecycle-deprecated">deprecated</span>
+        </dt>
         <dd>Calculates sample size for a random sampling inventory</dd>
+      </dl></div><div class="section level2">
+      <h2 id="treatments">Treatments<a class="anchor" aria-label="anchor" href="#treatments"></a></h2>
+
+      <div class="section-desc"><p>Functions for forest treatments</p></div>
+
+
+    </div><div class="section level2">
+
+
+
+
+      <dl><dt>
+
+          <code><a href="silv_treatment_thinning.html">silv_treatment_thinning()</a></code>
+
+        </dt>
+        <dd>Calculate Forestry Thinning Schemes</dd>
       </dl></div><div class="section level2">
       <h2 id="lidar-metrics">LiDAR metrics<a class="anchor" aria-label="anchor" href="#lidar-metrics"></a></h2>
 
@@ -179,7 +361,7 @@
       </dl></div><div class="section level2">
       <h2 id="objects">Objects<a class="anchor" aria-label="anchor" href="#objects"></a></h2>
 
-      <div class="section-desc"><p>S7 classes</p></div>
+      <div class="section-desc"><p>S7 methods</p></div>
 
 
     </div><div class="section level2">
@@ -188,18 +370,6 @@
 
 
       <dl><dt>
-
-          <code><a href="Inventory.html">Inventory()</a></code>
-
-        </dt>
-        <dd>Inventory class</dd>
-      </dl><dl><dt>
-
-          <code><a href="SampleSize.html">SampleSize()</a></code>
-
-        </dt>
-        <dd>SampleSize class</dd>
-      </dl><dl><dt>
 
           <code><a href="plot.html">plot()</a></code>
 
@@ -211,7 +381,7 @@
 
 
     <footer><div class="pkgdown-footer-left">
-  <p>Developed by <a href="https://adrian-cidre.com/" class="external-link">Adrián Cidre González</a>.</p>
+  <p>Developed by <a href="https://adrian-cidre.com/" class="external-link">Adrián Cidre González</a>, Aitor Vázquez Veloso.</p>
 </div>
 
 <div class="pkgdown-footer-right">
