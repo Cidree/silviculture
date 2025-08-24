@@ -334,7 +334,8 @@ eq_biomass_ruiz_peinado_2012 <- function(species, component = "stem", return_rms
 #' Users can check the list of supported species and their corresponding components
 #' in [biomass_models].
 #' 
-#' @seealso [silv_predict_biomass()], [eq_biomass_ruiz_peinado_2011()], [eq_biomass_ruiz_peinado_2012()], [biomass_models]
+#' @seealso [silv_predict_biomass()], [eq_biomass_ruiz_peinado_2011()], [eq_biomass_ruiz_peinado_2012()], 
+#' [eq_biomass_manrique_2017()], [eq_biomass_montero_2005()], [biomass_models]
 #'
 #' @examples
 #' ## get model parameters for silv_predict_biomass
@@ -435,7 +436,8 @@ eq_biomass_dieguez_aranda_2009 <- function(species, component = "stem", return_r
 #' Users can check the list of supported species and their corresponding components
 #' in [biomass_models].
 #' 
-#' @seealso [silv_predict_biomass()], [eq_biomass_ruiz_peinado_2011()], [eq_biomass_ruiz_peinado_2012()], [biomass_models]
+#' @seealso [silv_predict_biomass()], [eq_biomass_ruiz_peinado_2011()], [eq_biomass_ruiz_peinado_2012()], 
+#' [eq_biomass_manrique_2017()], [eq_biomass_dieguez_aranda_2009()], [biomass_models]
 #'
 #' @examples
 #' ## get model parameters for silv_predict_biomass
@@ -523,12 +525,13 @@ eq_biomass_montero_2005 <- function(species, component = "stem", return_r2 = FAL
 #' * **thin branches**
 #' * **AGB**: total biomass, results of summing the previous three components
 #' 
-#' @seealso [silv_predict_biomass()], [eq_biomass_ruiz_peinado_2011()], [eq_biomass_ruiz_peinado_2012()], [biomass_models]
+#' @seealso [silv_predict_biomass()], [eq_biomass_ruiz_peinado_2011()], [eq_biomass_ruiz_peinado_2012()], 
+#' [eq_biomass_montero_2005()], [eq_biomass_dieguez_aranda_2009()], [biomass_models]
 #'
 #' @examples
 #' ## get model parameters for silv_predict_biomass
-#' eq_manrique_2017("Quercus petraea", "AGB")
-eq_manrique_2017 <- function(species, component = "AGB", return_r2 = FALSE, return_rmse = FALSE) {
+#' eq_biomass_manrique_2017("Quercus petraea", "AGB")
+eq_biomass_manrique_2017 <- function(species, component = "AGB", return_r2 = FALSE, return_rmse = FALSE) {
 
   # 0. Handle errors 
   if (return_r2 & return_rmse) cli::cli_abort("Only one of `return_r2` and `return_rmse` can be TRUE")
