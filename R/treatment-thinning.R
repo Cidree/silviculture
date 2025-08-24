@@ -26,7 +26,7 @@ Thinning <- S7::new_class(
 #' @param data A data frame, or silviculture::Inventory object. See details.
 #' @param var A variable used for calculating the thinning. Typically used variables
 #' basal area, number of trees, or volume
-#' @param dclass Numeric vector with diametric classes
+#' @param diameter Numeric vector with diametric classes
 #' @param ntrees Numeric vector with the number of trees per hectare of each diametric
 #' class
 #' @param thinning Charater string specifying the thinning type. Available options
@@ -77,7 +77,7 @@ Thinning <- S7::new_class(
 #' silv_treatment_thinning(
 #'   data     = inventory,
 #'   var      = g_ha,
-#'   dclass   = dclass,
+#'   diameter = dclass,
 #'   ntrees   = ntrees_ha,
 #'   thinning = "below",
 #'   perc     = 0.3
@@ -87,12 +87,12 @@ Thinning <- S7::new_class(
 #' silv_treatment_thinning(
 #'   data     = inventory,
 #'   var      = g_ha,
-#'   dclass   = dclass,
+#'   diameter = dclass,
 #'   ntrees   = ntrees_ha,
 #'   thinning = "above",
 #'   perc     = 0.2
 #' )
-silv_treatment_thinning <- function(data, var, dclass, ntrees, thinning = "below", perc = 0.3, .groups = NULL) {
+silv_treatment_thinning <- function(data, var, diameter, ntrees, thinning = "below", perc = 0.3, .groups = NULL) {
 
   ## check for errors
   if (!thinning %in% c("below", "above")) cli::cli_abort("Thinning must be either `below` or `above`.")
@@ -114,9 +114,9 @@ silv_treatment_thinning <- function(data, var, dclass, ntrees, thinning = "below
 
   ## sort depending thinning type
   if (thinning == "below") {
-    data_tbl <- dplyr::arrange(data_tbl, !!!rlang::syms(.groups), {{ dclass }})
+    data_tbl <- dplyr::arrange(data_tbl, !!!rlang::syms(.groups), {{ diameter }})
   } else if (thinning == "above") {
-    data_tbl <- dplyr::arrange(data_tbl, !!!rlang::syms(.groups), dplyr::desc({{ dclass }}))
+    data_tbl <- dplyr::arrange(data_tbl, !!!rlang::syms(.groups), dplyr::desc({{ diameter }}))
   }
 
   ## calculate thinning
@@ -137,7 +137,7 @@ silv_treatment_thinning <- function(data, var, dclass, ntrees, thinning = "below
     group_metrics = if (inherits(data, "silviculture::Inventory")) data@group_metrics else NULL,
     thinning_opts = list(
       var_name   = var_name,
-      dclass_name = rlang::as_name(rlang::enquo(dclass)),
+      dclass_name = rlang::as_name(rlang::enquo(diameter)),
       thinning   = thinning,
       percentage = perc,
       groups     = .groups

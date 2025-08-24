@@ -7,7 +7,7 @@
 silv_treatment_thinning(
   data,
   var,
-  dclass,
+  diameter,
   ntrees,
   thinning = "below",
   perc = 0.3,
@@ -20,7 +20,7 @@ silv_treatment_thinning(
 \item{var}{A variable used for calculating the thinning. Typically used variables
 basal area, number of trees, or volume}
 
-\item{dclass}{Numeric vector with diametric classes}
+\item{diameter}{Numeric vector with diametric classes}
 
 \item{ntrees}{Numeric vector with the number of trees per hectare of each diametric
 class}
@@ -80,7 +80,7 @@ inventory <- inventory_samples |>
 silv_treatment_thinning(
   data     = inventory,
   var      = g_ha,
-  dclass   = dclass,
+  diameter = dclass,
   ntrees   = ntrees_ha,
   thinning = "below",
   perc     = 0.3
@@ -90,7 +90,7 @@ silv_treatment_thinning(
 silv_treatment_thinning(
   data     = inventory,
   var      = g_ha,
-  dclass   = dclass,
+  diameter = dclass,
   ntrees   = ntrees_ha,
   thinning = "above",
   perc     = 0.2
