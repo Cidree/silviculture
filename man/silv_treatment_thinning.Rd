@@ -9,7 +9,7 @@ silv_treatment_thinning(
   var,
   dclass,
   ntrees,
-  thinning = "low",
+  thinning = "below",
   perc = 0.3,
   .groups = NULL
 )
@@ -26,7 +26,7 @@ basal area, number of trees, or volume}
 class}
 
 \item{thinning}{Charater string specifying the thinning type. Available options
-are \code{low} and \code{high}}
+are \code{below} and \code{above}}
 
 \item{perc}{Numeric value between 0 and 1 specifying the percentage of \code{var}
 to extract}
@@ -44,17 +44,17 @@ A \code{silviculture::Thinning} object with three items:
 }
 \description{
 Calculates thinning schemes for forest management by selecting trees to extract
-based on specified criteria. Supports both low thinning (removing smaller trees)
-and high thinning (removing larger trees) approaches.
+based on specified criteria. Supports both thinning from below (removing smaller trees)
+and thinning from above (removing larger trees) approaches.
 }
 \details{
 This function implements common silvicultural thinning practices:
 
-\strong{Low Thinning:} Removes trees with the lowest values of the specified
+\strong{Thinning from below:} Removes trees with the lowest values of the specified
 variable. This approach typically removes suppressed, damaged, or poor-quality
 trees, mimicking natural mortality processes.
 
-\strong{High Thinning:} Removes trees with the highest values of the specified
+\strong{Thinning from above:} Removes trees with the highest values of the specified
 variable. This approach harvests the most valuable trees while leaving smaller
 trees to continue growing.
 
@@ -76,23 +76,23 @@ inventory <- inventory_samples |>
    .groups   = c('plot_id', 'species')
  )
 
-## Basic low thinning removing 30\% of trees based on basal area
+## Thinning from below removing 30\% of trees based on basal area
 silv_treatment_thinning(
   data     = inventory,
   var      = g_ha,
   dclass   = dclass,
   ntrees   = ntrees_ha,
-  thinning = "low",
+  thinning = "below",
   perc     = 0.3
 )
 
-## Basic high thinning removing 20\% of trees based on basal area
+## Thinning from above removing 20\% of trees based on basal area
 silv_treatment_thinning(
   data     = inventory,
   var      = g_ha,
   dclass   = dclass,
   ntrees   = ntrees_ha,
-  thinning = "high",
+  thinning = "above",
   perc     = 0.2
 )
 }

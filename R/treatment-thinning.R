@@ -20,8 +20,8 @@ Thinning <- S7::new_class(
 #' Calculate Forestry Thinning Schemes
 #'
 #' Calculates thinning schemes for forest management by selecting trees to extract
-#' based on specified criteria. Supports both low thinning (removing smaller trees)
-#' and high thinning (removing larger trees) approaches.
+#' based on specified criteria. Supports both thinning from below (removing smaller trees)
+#' and thinning from above (removing larger trees) approaches.
 #'
 #' @param data A data frame, or silviculture::Inventory object. See details.
 #' @param var A variable used for calculating the thinning. Typically used variables
@@ -30,7 +30,7 @@ Thinning <- S7::new_class(
 #' @param ntrees Numeric vector with the number of trees per hectare of each diametric
 #' class
 #' @param thinning Charater string specifying the thinning type. Available options
-#' are `low` and `high`
+#' are `below` and `above`
 #' @param perc Numeric value between 0 and 1 specifying the percentage of `var`
 #' to extract
 #' @param .groups A character vector with variables to group by (e.g. plot id, tree
@@ -39,11 +39,11 @@ Thinning <- S7::new_class(
 #' @details
 #' This function implements common silvicultural thinning practices:
 #'
-#' **Low Thinning:** Removes trees with the lowest values of the specified
+#' **Thinning from below:** Removes trees with the lowest values of the specified
 #' variable. This approach typically removes suppressed, damaged, or poor-quality
 #' trees, mimicking natural mortality processes.
 #'
-#' **High Thinning:** Removes trees with the highest values of the specified
+#' **Thinning from above:** Removes trees with the highest values of the specified
 #' variable. This approach harvests the most valuable trees while leaving smaller
 #' trees to continue growing.
 #'
@@ -73,29 +73,29 @@ Thinning <- S7::new_class(
 #'    .groups   = c('plot_id', 'species')
 #'  )
 #' 
-#' ## Basic low thinning removing 30% of trees based on basal area
+#' ## Thinning from below removing 30% of trees based on basal area
 #' silv_treatment_thinning(
 #'   data     = inventory,
 #'   var      = g_ha,
 #'   dclass   = dclass,
 #'   ntrees   = ntrees_ha,
-#'   thinning = "low",
+#'   thinning = "below",
 #'   perc     = 0.3
 #' )
 #'
-#' ## Basic high thinning removing 20% of trees based on basal area
+#' ## Thinning from above removing 20% of trees based on basal area
 #' silv_treatment_thinning(
 #'   data     = inventory,
 #'   var      = g_ha,
 #'   dclass   = dclass,
 #'   ntrees   = ntrees_ha,
-#'   thinning = "high",
+#'   thinning = "above",
 #'   perc     = 0.2
 #' )
-silv_treatment_thinning <- function(data, var, dclass, ntrees, thinning = "low", perc = 0.3, .groups = NULL) {
+silv_treatment_thinning <- function(data, var, dclass, ntrees, thinning = "below", perc = 0.3, .groups = NULL) {
 
   ## check for errors
-  if (!thinning %in% c("low", "high")) cli::cli_abort("Thinning must be either `low` or `high`.")
+  if (!thinning %in% c("below", "above")) cli::cli_abort("Thinning must be either `below` or `above`.")
   if (perc < 0 | perc > 1) cli::cli_abort("`perc` must be between 0 and 1.")
 
   ## take CD table if data is silviculture::Inventory
@@ -113,9 +113,9 @@ silv_treatment_thinning <- function(data, var, dclass, ntrees, thinning = "low",
   var_name <- paste0(rlang::as_name(rlang::enquo(var)), "_extract")
 
   ## sort depending thinning type
-  if (thinning == "low") {
+  if (thinning == "below") {
     data_tbl <- dplyr::arrange(data_tbl, !!!rlang::syms(.groups), {{ dclass }})
-  } else if (thinning == "high") {
+  } else if (thinning == "above") {
     data_tbl <- dplyr::arrange(data_tbl, !!!rlang::syms(.groups), dplyr::desc({{ dclass }}))
   }
 
