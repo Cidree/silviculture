@@ -1,5 +1,4 @@
-
-# silviculture 0.1.0.9000 (dev)
+# silviculture 0.2.0
 
 This new version brings new naming conventions that will be useful for sorting the package into "modules" of related functions.
 
