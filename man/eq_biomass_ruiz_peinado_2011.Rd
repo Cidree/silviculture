@@ -32,6 +32,6 @@ in \link{biomass_models}.
 eq_biomass_ruiz_peinado_2011("Pinus pinaster")
 }
 \seealso{
-\code{\link[=silv_predict_biomass]{silv_predict_biomass()}}, \code{\link[=eq_biomass_ruiz_peinado_2012]{eq_biomass_ruiz_peinado_2012()}}, \code{\link[=eq_biomass_dieguez_aranda_2009]{eq_biomass_dieguez_aranda_2009()}},
-\link{biomass_models}
+\code{\link[=silv_predict_biomass]{silv_predict_biomass()}}, \link{biomass_models}, \code{\link[=eq_biomass_montero_2005]{eq_biomass_montero_2005()}}, \code{\link[=eq_biomass_dieguez_aranda_2009]{eq_biomass_dieguez_aranda_2009()}},
+\code{\link[=eq_biomass_ruiz_peinado_2012]{eq_biomass_ruiz_peinado_2012()}}, \code{\link[=eq_biomass_manrique_2017]{eq_biomass_manrique_2017()}}, \code{\link[=eq_biomass_menendez_2022]{eq_biomass_menendez_2022()}}, \code{\link[=eq_biomass_cudjoe_2024]{eq_biomass_cudjoe_2024()}}
 }

@@ -46,7 +46,9 @@ ModelBiomass <- S7::new_class(
 #'
 #' If you would like to suggest additional models, please open a new issue on GitHub.
 #' 
-#' @seealso [eq_biomass_ruiz_peinado_2011()], [eq_biomass_ruiz_peinado_2012()], [biomass_models]
+#' @seealso [biomass_models], [eq_biomass_montero_2005()], [eq_biomass_dieguez_aranda_2009()],
+#' [eq_biomass_ruiz_peinado_2011()], [eq_biomass_ruiz_peinado_2012()], [eq_biomass_manrique_2017()], 
+#' [eq_biomass_menendez_2022()], [eq_biomass_cudjoe_2024()] 
 #'
 #' @examples
 #' # Calculate biomass for a single tree
@@ -153,8 +155,8 @@ silv_predict_biomass <- function(
 #' Users can check the list of supported species and their corresponding components
 #' in [biomass_models].
 #' 
-#' @seealso [silv_predict_biomass()], [eq_biomass_ruiz_peinado_2012()], [eq_biomass_dieguez_aranda_2009()], 
-#' [biomass_models]
+#' @seealso [silv_predict_biomass()], [biomass_models], [eq_biomass_montero_2005()], [eq_biomass_dieguez_aranda_2009()],
+#' [eq_biomass_ruiz_peinado_2012()], [eq_biomass_manrique_2017()], [eq_biomass_menendez_2022()], [eq_biomass_cudjoe_2024()] 
 #'
 #' @examples
 #' ## get model parameters for silv_predict_biomass
@@ -231,8 +233,9 @@ eq_biomass_ruiz_peinado_2011 <- function(species, component = "stem", return_rms
 #' Users can check the list of supported species and their corresponding components
 #' in [biomass_models].
 #' 
-#' @seealso [silv_predict_biomass()], [eq_biomass_ruiz_peinado_2011()], [eq_biomass_dieguez_aranda_2009()], 
-#' [biomass_models]
+#' @seealso [silv_predict_biomass()], [biomass_models], [eq_biomass_montero_2005()], [eq_biomass_dieguez_aranda_2009()]
+#' [eq_biomass_ruiz_peinado_2011()], [eq_biomass_manrique_2017()], [eq_biomass_menendez_2022()], 
+#' [eq_biomass_cudjoe_2024()] 
 #'
 #' @examples
 #' ## get model parameters for silv_predict_biomass
@@ -334,8 +337,9 @@ eq_biomass_ruiz_peinado_2012 <- function(species, component = "stem", return_rms
 #' Users can check the list of supported species and their corresponding components
 #' in [biomass_models].
 #' 
-#' @seealso [silv_predict_biomass()], [eq_biomass_ruiz_peinado_2011()], [eq_biomass_ruiz_peinado_2012()], 
-#' [eq_biomass_manrique_2017()], [eq_biomass_montero_2005()], [biomass_models]
+#' @seealso [silv_predict_biomass()], [biomass_models], [eq_biomass_montero_2005()],
+#' [eq_biomass_ruiz_peinado_2011()], [eq_biomass_ruiz_peinado_2012()], [eq_biomass_manrique_2017()], 
+#' [eq_biomass_menendez_2022()], [eq_biomass_cudjoe_2024()] 
 #'
 #' @examples
 #' ## get model parameters for silv_predict_biomass
@@ -382,7 +386,7 @@ eq_biomass_dieguez_aranda_2009 <- function(species, component = "stem", return_r
     obs        = unique(sel_component$obs),
     params     = list(
       return_r2   = return_r2,
-      return_rmse = return_r2,
+      return_rmse = return_rmse,
       comp        = sel_component$tree_component,
       r2          = round(sel_component$r2, 3),
       rmse        = round(sel_component$rmse, 1)
@@ -429,15 +433,16 @@ eq_biomass_dieguez_aranda_2009 <- function(species, component = "stem", return_r
 #' * **roots**: includes the roots (same as BGB)
 #' 
 #' Finally, we have the last level, which includes tree components (not all of them
-#' are available for all species): stem, thick branches (>7cm), medium branches (2-7cm), 
-#' thin branches (0.5-2cm), needles, leaves, roots. In some species,
+#' are available for all species): stem, bark, thick branches (>7cm), medium branches (2-7cm), 
+#' thin branches (0.5-2cm), leaves (include needles), roots. In some species,
 #' there's "stem and thick branches", instead of two groups.
 #' 
 #' Users can check the list of supported species and their corresponding components
 #' in [biomass_models].
 #' 
-#' @seealso [silv_predict_biomass()], [eq_biomass_ruiz_peinado_2011()], [eq_biomass_ruiz_peinado_2012()], 
-#' [eq_biomass_manrique_2017()], [eq_biomass_dieguez_aranda_2009()], [biomass_models]
+#' @seealso [silv_predict_biomass()], [biomass_models], [eq_biomass_dieguez_aranda_2009()]
+#' [eq_biomass_ruiz_peinado_2011()], [eq_biomass_ruiz_peinado_2012()], [eq_biomass_manrique_2017()], 
+#' [eq_biomass_menendez_2022()], [eq_biomass_cudjoe_2024()] 
 #'
 #' @examples
 #' ## get model parameters for silv_predict_biomass
@@ -520,13 +525,14 @@ eq_biomass_montero_2005 <- function(species, component = "stem", return_r2 = FAL
 #' 
 #' The tree components include:
 #' 
-#' * **stem**: includes steam and the thickest branches
+#' * **stem**: includes stem and the thickest branches
 #' * **medium branches**
 #' * **thin branches**
 #' * **AGB**: total biomass, results of summing the previous three components
 #' 
-#' @seealso [silv_predict_biomass()], [eq_biomass_ruiz_peinado_2011()], [eq_biomass_ruiz_peinado_2012()], 
-#' [eq_biomass_montero_2005()], [eq_biomass_dieguez_aranda_2009()], [biomass_models]
+#' @seealso [silv_predict_biomass()], [biomass_models], [eq_biomass_montero_2005()], [eq_biomass_dieguez_aranda_2009()]
+#' [eq_biomass_ruiz_peinado_2011()], [eq_biomass_ruiz_peinado_2012()], [eq_biomass_menendez_2022()], 
+#' [eq_biomass_cudjoe_2024()] 
 #'
 #' @examples
 #' ## get model parameters for silv_predict_biomass
@@ -573,7 +579,171 @@ eq_biomass_manrique_2017 <- function(species, component = "AGB", return_r2 = FAL
     obs        = unique(sel_component$obs),
     params     = list(
       return_r2   = return_r2,
-      return_rmse = return_r2,
+      return_rmse = return_rmse,
+      comp        = sel_component$tree_component,
+      r2          = round(sel_component$r2, 3),
+      rmse        = round(sel_component$rmse, 1)
+    )
+  )
+
+}
+
+
+
+
+
+#' Biomass equations for young Spanish plantations
+#'
+#' Allometric equations for young (<30) plantations of 18 Spanish species including 
+#' broadleaf and conifer species. Only aboveground biomass.
+#'
+#' @param species A character string specifying the scientific name of the tree
+#' species. It can be a column name if all the species are included in this model.
+#' See Details for available species.
+#' @param return_r2 A logical value. If TRUE, the function returns the root
+#' mean squared error (RMSE) of the selected model instead of the biomass value.
+#' @param return_rmse A logical value. If TRUE, the function returns the root
+#' mean squared error (RMSE) of the selected model instead of the biomass value.
+#'
+#' @return A S7 list of parameters
+#'
+#' @export
+#' 
+#' @details
+#' 
+#' There are 15 species in this model, including generic equations for *Conifers*, 
+#' *Deciduous broadleaves*, and *Evergreen broadleaves*.
+#' 
+#' All the models measure only aboveground biomass.
+#' 
+#' @seealso [silv_predict_biomass()], [biomass_models], [eq_biomass_montero_2005()], [eq_biomass_dieguez_aranda_2009()]
+#' [eq_biomass_ruiz_peinado_2011()], [eq_biomass_ruiz_peinado_2012()], [eq_biomass_manrique_2017()], 
+#' [eq_biomass_cudjoe_2024()] 
+#'
+#' @examples
+#' ## get model parameters for silv_predict_biomass
+#' eq_biomass_menendez_2022("Fagus sylvatica")
+eq_biomass_menendez_2022 <- function(species, return_r2 = FALSE, return_rmse = FALSE) {
+
+  # 0. Handle errors 
+  if (return_r2 & return_rmse) cli::cli_abort("Only one of `return_r2` and `return_rmse` can be TRUE")
+  
+  # 1. Select equation
+  ## 1.1. Filter model
+  sel_model <- biomass_models[biomass_models$article_id == "menendez-2022", ]
+  ## 1.2. Filter tree species
+  sel_species <- sel_model[sel_model$species %in% species, ]
+  if (nrow(sel_species) == 0) cli::cli_abort("Species is not supported by this model")
+
+  # 2. Return
+  ModelBiomass(
+    equation   = "menendez-2022",
+    species    = species,
+    component  = "AGB",
+    expression = data.frame(
+      expression = sel_species$expression,
+      species    = sel_species$species
+    ),
+    url        = unique(sel_species$doi_url),
+    obs        = unique(sel_species$obs),
+    params     = list(
+      return_r2   = return_r2,
+      return_rmse = return_rmse,
+      comp        = sel_species$tree_component,
+      r2          = round(sel_species$r2, 3),
+      rmse        = round(sel_species$rmse, 1)
+    )
+  )
+
+}
+
+
+
+
+
+#' Biomass equations for 2 species in Castille and León (Spain)
+#'
+#' Allometric equations adjusted for *Quercus petraea*, and *Pinus sylvestris*
+#' in Castille and León (Spain)
+#'
+#' @param species A character string specifying the scientific name of the tree
+#' species. It can be a column name if all the species are included in this model.
+#' See Details for available species.
+#' @param component A character string specifying the tree component for biomass
+#' calculation (e.g., "stem", "branches"). See Details.
+#' @param return_rmse A logical value. If TRUE, the function returns the root
+#' mean squared error (RMSE) of the selected model instead of the biomass value.
+#'
+#' @return A S7 list of parameters
+#'
+#' @export
+#' 
+#' @details
+#' 
+#' There are three species options in this model:
+#' 
+#' * ***Quercus petraea***
+#' 
+#' * ***Pinus sylvestris***
+#' 
+#' * **Mixed**: stands with *Quercus petraea* and *Pinus sylvestris*
+#' 
+#' The tree components include some AGB components:
+#' 
+#' * **leaves**: only for *P. sylvestris*
+#' * **stem**: for all species
+#' * **medium branches and small brances**: for all species
+#' * **thick branches**: for all species
+#' * **AGB**: total biomass, results of summing the previous components
+#' 
+#' @seealso [silv_predict_biomass()], [biomass_models], [eq_biomass_montero_2005()], [eq_biomass_dieguez_aranda_2009()]
+#' [eq_biomass_ruiz_peinado_2011()], [eq_biomass_ruiz_peinado_2012()], [eq_biomass_manrique_2017()],
+#' [eq_biomass_menendez_2022()]
+#'
+#' @examples
+#' ## get model parameters for silv_predict_biomass
+#' eq_biomass_cudjoe_2024("mixed", "AGB")
+eq_biomass_cudjoe_2024 <- function(species, component = "AGB", return_rmse = FALSE) {
+
+  # 0. Handle errors 
+  ## rename mixed to Excel file name
+  if (species == "mixed") species <- "Pinus sylvestris x Quercus petraea"
+  
+  # 1. Select equation
+  ## 1.1. Filter model
+  sel_model <- biomass_models[biomass_models$article_id == "cudjoe-2024", ]
+  ## 1.2. Filter tree species
+  sel_species <- sel_model[sel_model$species %in% species, ]
+  if (nrow(sel_species) == 0) cli::cli_abort("Species is not supported by this model")
+  ## 1.3. Filter component
+  ## First try big groups AGB or BGB
+  ## Then try tree group (branches, stem...)
+  ## Then try tree component (thick branches, thin branches...)
+  if (component %in% c("AGB", "BGB")) {
+    sel_component <- sel_species[sel_species$biomass_group %in% component, ]
+  } else {
+    sel_component <- sel_species[sel_species$tree_group %in% component, ]
+    if (nrow(sel_component) == 0) sel_component <- sel_species[sel_species$tree_component %in% component, ]
+  }  
+  ## 1.4. Check if there's a matching model
+  if (nrow(sel_component) == 0) cli::cli_abort(
+    "The combination of species-component-model doesn't match any available option.
+    Check {.url https://cidree.github.io/silviculture/reference/biomass_models.html} for available models."
+  )
+
+  # 2. Return
+  ModelBiomass(
+    equation   = "cudjoe-2017",
+    species    = species,
+    component  = component,
+    expression = data.frame(
+      expression = sel_component$expression,
+      species    = sel_component$species
+    ),
+    url        = unique(sel_component$doi_url),
+    obs        = unique(sel_component$obs),
+    params     = list(
+      return_rmse = return_rmse,
       comp        = sel_component$tree_component,
       r2          = round(sel_component$r2, 3),
       rmse        = round(sel_component$rmse, 1)

@@ -42,8 +42,8 @@ Then we have the second group of components, which are related to tree groups:
 }
 
 Finally, we have the last level, which includes tree components (not all of them
-are available for all species): stem, thick branches (>7cm), medium branches (2-7cm),
-thin branches (0.5-2cm), needles, leaves, roots. In some species,
+are available for all species): stem, bark, thick branches (>7cm), medium branches (2-7cm),
+thin branches (0.5-2cm), leaves (include needles), roots. In some species,
 there's "stem and thick branches", instead of two groups.
 
 Users can check the list of supported species and their corresponding components
@@ -54,6 +54,7 @@ in \link{biomass_models}.
 eq_biomass_montero_2005("Pinus pinaster", "AGB")
 }
 \seealso{
-\code{\link[=silv_predict_biomass]{silv_predict_biomass()}}, \code{\link[=eq_biomass_ruiz_peinado_2011]{eq_biomass_ruiz_peinado_2011()}}, \code{\link[=eq_biomass_ruiz_peinado_2012]{eq_biomass_ruiz_peinado_2012()}},
-\code{\link[=eq_biomass_manrique_2017]{eq_biomass_manrique_2017()}}, \code{\link[=eq_biomass_dieguez_aranda_2009]{eq_biomass_dieguez_aranda_2009()}}, \link{biomass_models}
+\code{\link[=silv_predict_biomass]{silv_predict_biomass()}}, \link{biomass_models}, \code{\link[=eq_biomass_dieguez_aranda_2009]{eq_biomass_dieguez_aranda_2009()}}
+\code{\link[=eq_biomass_ruiz_peinado_2011]{eq_biomass_ruiz_peinado_2011()}}, \code{\link[=eq_biomass_ruiz_peinado_2012]{eq_biomass_ruiz_peinado_2012()}}, \code{\link[=eq_biomass_manrique_2017]{eq_biomass_manrique_2017()}},
+\code{\link[=eq_biomass_menendez_2022]{eq_biomass_menendez_2022()}}, \code{\link[=eq_biomass_cudjoe_2024]{eq_biomass_cudjoe_2024()}}
 }
