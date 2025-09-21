@@ -7,7 +7,7 @@
 
     <a class="navbar-brand me-2" href="../index.html">silviculture</a>
 
-    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.1.0.9000</small>
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.2.0</small>
 
 
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -77,16 +77,17 @@ component argument:</p><ul><li><p><strong>AGB</strong>: all aboveground biomass 
 <li><p><strong>branches</strong>: includes all branches</p></li>
 <li><p><strong>roots</strong>: includes the roots (same as BGB)</p></li>
 </ul><p>Finally, we have the last level, which includes tree components (not all of them
-are available for all species): stem, thick branches (&gt;7cm), medium branches (2-7cm),
-thin branches (0.5-2cm), needles, leaves, roots. In some species,
+are available for all species): stem, bark, thick branches (&gt;7cm), medium branches (2-7cm),
+thin branches (0.5-2cm), leaves (include needles), roots. In some species,
 there's "stem and thick branches", instead of two groups.</p>
 <p>Users can check the list of supported species and their corresponding components
 in <a href="biomass_models.html">biomass_models</a>.</p>
     </div>
     <div class="section level2">
     <h2 id="see-also">See also<a class="anchor" aria-label="anchor" href="#see-also"></a></h2>
-    <div class="dont-index"><p><code><a href="silv_predict_biomass.html">silv_predict_biomass()</a></code>, <code><a href="eq_biomass_ruiz_peinado_2011.html">eq_biomass_ruiz_peinado_2011()</a></code>, <code><a href="eq_biomass_ruiz_peinado_2012.html">eq_biomass_ruiz_peinado_2012()</a></code>,
-<code><a href="eq_biomass_manrique_2017.html">eq_biomass_manrique_2017()</a></code>, <code><a href="eq_biomass_dieguez_aranda_2009.html">eq_biomass_dieguez_aranda_2009()</a></code>, <a href="biomass_models.html">biomass_models</a></p></div>
+    <div class="dont-index"><p><code><a href="silv_predict_biomass.html">silv_predict_biomass()</a></code>, <a href="biomass_models.html">biomass_models</a>, <code><a href="eq_biomass_dieguez_aranda_2009.html">eq_biomass_dieguez_aranda_2009()</a></code>
+<code><a href="eq_biomass_ruiz_peinado_2011.html">eq_biomass_ruiz_peinado_2011()</a></code>, <code><a href="eq_biomass_ruiz_peinado_2012.html">eq_biomass_ruiz_peinado_2012()</a></code>, <code><a href="eq_biomass_manrique_2017.html">eq_biomass_manrique_2017()</a></code>,
+<code><a href="eq_biomass_menendez_2022.html">eq_biomass_menendez_2022()</a></code>, <code><a href="eq_biomass_cudjoe_2024.html">eq_biomass_cudjoe_2024()</a></code></p></div>
     </div>
 
     <div class="section level2">
@@ -98,13 +99,13 @@ in <a href="biomass_models.html">biomass_models</a>.</p>
 <span class="r-out co"><span class="r-pr">#&gt;</span>  @ species   : chr "Pinus pinaster"</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>  @ component : chr "AGB"</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>  @ expression:'data.frame':	5 obs. of  2 variables:</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>  .. $ expression: chr  "exp(0,191593 **2) / 2) * exp(–3,43957) * (d ** 2,56636)" "exp(0,324283 **2) / 2) * exp(–23,0418) * (d ** 6,52359)" "exp(0,744427 **2) / 2) * exp(–6,66264) * (d ** 2,63946)" "exp(0,527572 **2) / 2) * exp(–4,66658) * (d ** 2,38009)" ...</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>  .. $ expression: chr  "exp(0.191593 **2) / 2) * exp(-3.43957) * (d ** 2.56636)" "exp(0.324283 **2) / 2) * exp(-23.0418) * (d ** 6.52359)" "exp(0.744427 **2) / 2) * exp(-6.66264) * (d ** 2.63946)" "exp(0.527572 **2) / 2) * exp(-4.66658) * (d ** 2.38009)" ...</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>  .. $ species   : chr  "Pinus pinaster" "Pinus pinaster" "Pinus pinaster" "Pinus pinaster" ...</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>  @ url       : chr "https://gregoriomontero.wordpress.com/wp-content/uploads/2016/09/2005-01-monografc3ada-forestal-13-m-produccic3"| __truncated__</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>  @ obs       : chr "Diameter is assumed to in centimeters, and height is assumed to be in meters"</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>  @ params    :List of 3</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>  .. $ return_r2: logi FALSE</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>  .. $ comp     : chr [1:5] "stem" "thick branches" "medium branches" "thin branches" ...</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>  .. $ comp     : chr [1:5] "stem" "thick branches" "medium branches" "small branches" ...</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>  .. $ r2       : num [1:5] 0.964 0.927 0.651 0.752 NA</span>
 </code></pre></div>
     </div>

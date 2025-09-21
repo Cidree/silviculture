@@ -7,7 +7,7 @@
 
     <a class="navbar-brand me-2" href="../index.html">silviculture</a>
 
-    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.1.0.9000</small>
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.2.0</small>
 
 
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -33,14 +33,14 @@
     </div>
 
     <div class="section level2">
-<h2 class="pkg-version" data-toc-text="0.1.0.9000" id="silviculture-0109000-dev">silviculture 0.1.0.9000 (dev)<a class="anchor" aria-label="anchor" href="#silviculture-0109000-dev"></a></h2>
+<h2 class="pkg-version" data-toc-text="0.2.0" id="silviculture-020">silviculture 0.2.0<a class="anchor" aria-label="anchor" href="#silviculture-020"></a></h2>
 <p>This new version brings new naming conventions that will be useful for sorting the package into “modules” of related functions.</p>
 <ul><li><p><code>silv_tree_*()</code>: tree-level metrics (although some can be also used as stand-level using the <code>ntrees</code> argument).</p></li>
 <li><p><code>silv_stand_*()</code>: stand or plot-level metrics</p></li>
 <li><p><code>silv_predict_*()</code>: predictions based on models</p></li>
 </ul><p>The old functions are now deprecated and will be eliminated in a future release.</p>
 <div class="section level3">
-<h3 id="new-functions-0-1-0-9000">New functions<a class="anchor" aria-label="anchor" href="#new-functions-0-1-0-9000"></a></h3>
+<h3 id="new-functions-0-2-0">New functions<a class="anchor" aria-label="anchor" href="#new-functions-0-2-0"></a></h3>
 <ul><li><p><code><a href="../reference/silv_density_sdi.html">silv_density_sdi()</a></code>: calculates the Stand Density Index</p></li>
 <li><p><code><a href="../reference/silv_predict_height.html">silv_predict_height()</a></code>: estimates height from diameter, using the so-called h-d curves. The argument <code>equation</code> allows to choose which equations to use. Currently, only <code>eq_hd_aitor2025()</code> available.</p></li>
 <li>
@@ -51,18 +51,18 @@
 <li><p><code>eq_biomass_*()</code>: equations to be used inside the <code>model</code> argument of <code><a href="../reference/silv_predict_biomass.html">silv_predict_biomass()</a></code>.</p></li>
 </ul></div>
 <div class="section level3">
-<h3 id="bug-fixes-0-1-0-9000">Bug Fixes<a class="anchor" aria-label="anchor" href="#bug-fixes-0-1-0-9000"></a></h3>
+<h3 id="bug-fixes-0-2-0">Bug Fixes<a class="anchor" aria-label="anchor" href="#bug-fixes-0-2-0"></a></h3>
 <ul><li><p>Fix an error with the validator of variable names in <code>silviculture::Inventory</code> S7 class.</p></li>
 <li><p><code>biomass_models</code>: some were failing because the “-” sign was parsed as an em dash.</p></li>
 </ul></div>
 <div class="section level3">
-<h3 id="enhancements-0-1-0-9000">Enhancements<a class="anchor" aria-label="anchor" href="#enhancements-0-1-0-9000"></a></h3>
+<h3 id="enhancements-0-2-0">Enhancements<a class="anchor" aria-label="anchor" href="#enhancements-0-2-0"></a></h3>
 <ul><li><p>Prediction functions (<code>silv_predict_*()</code>) will now have common arguments, and specific arguments that depend of the model used that are specified as a function (e.g. <code>silv_predict_height(model = eq_hd_aitor2025())</code>).</p></li>
 <li><p><code><a href="../reference/silv_volume.html">silv_volume()</a></code>: it assumed diameter to be in meters. Now the diameter must be given in centimeters. An informing message was added to the function.</p></li>
 <li><p>S7 <code>silviculture::Inventory</code> class now stores groups.</p></li>
 </ul></div>
 <div class="section level3">
-<h3 id="deprecated-functions-0-1-0-9000">Deprecated functions<a class="anchor" aria-label="anchor" href="#deprecated-functions-0-1-0-9000"></a></h3>
+<h3 id="deprecated-functions-0-2-0">Deprecated functions<a class="anchor" aria-label="anchor" href="#deprecated-functions-0-2-0"></a></h3>
 <ul><li><p><code><a href="../reference/silv_diametric_class.html">silv_diametric_class()</a></code> deprecated in favour of <code><a href="../reference/silv_tree_dclass.html">silv_tree_dclass()</a></code></p></li>
 <li><p><code><a href="../reference/silv_basal_area.html">silv_basal_area()</a></code> deprecated in favour of <code><a href="../reference/silv_tree_basal_area.html">silv_tree_basal_area()</a></code> and <code><a href="../reference/silv_stand_basal_area.html">silv_stand_basal_area()</a></code></p></li>
 <li><p><code><a href="../reference/silv_volume.html">silv_volume()</a></code> deprecated in favour of <code><a href="../reference/silv_tree_volume.html">silv_tree_volume()</a></code></p></li>
