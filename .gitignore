@@ -6,3 +6,5 @@ scrap.R
 docs
 internal-data/*
 inst/doc
+/doc/
+/Meta/
