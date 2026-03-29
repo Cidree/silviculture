@@ -516,7 +516,7 @@ plot <- S7::new_generic("plot", "x")
 #'
 #' @return A `ggplot` object representing the relationship between error and sample size.
 #'
-#' @export
+#' @name plot_SimpleSampleSize
 S7::method(plot, SimpleSampleSize) <- function(x, min_error = .01, max_error = .5) {
 
   ## create intervals
