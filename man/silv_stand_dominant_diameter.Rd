@@ -4,7 +4,11 @@
 \alias{silv_stand_dominant_diameter}
 \title{Calculates the dominant diameter}
 \usage{
-silv_stand_dominant_diameter(diameter, ntrees = NULL, which = "assman")
+silv_stand_dominant_diameter(
+  diameter,
+  ntrees = NULL,
+  which = c("assman", "weise")
+)
 }
 \arguments{
 \item{diameter}{Numeric vector of diameters or diameter classes}

@@ -9,7 +9,7 @@ silv_treatment_thinning(
   var,
   diameter,
   ntrees,
-  thinning = "below",
+  thinning = c("below", "above"),
   perc = 0.3,
   .groups = NULL
 )

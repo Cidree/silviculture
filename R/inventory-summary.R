@@ -59,25 +59,26 @@ Inventory <- S7::new_class(
 #'   plot_size = 10,
 #'   .groups   = c("plot_id", "species")
 #'  )
-silv_summary <- function(data,
-                         diameter,
-                         height,
-                         plot_size,
-                         .groups         = NULL,
-                         plot_shape      = "circular",
-                         dmin            = 7.5,
-                         dmax            = NULL,
-                         class_length    = 5,
-                         include_lowest  = TRUE,
-                         which_h0        = "assman",
-                         which_spacing   = "hart") {
+silv_summary <- function(
+  data,
+  diameter,
+  height,
+  plot_size,
+  .groups         = NULL,
+  plot_shape      = "circular",
+  dmin            = 7.5,
+  dmax            = NULL,
+  class_length    = 5,
+  include_lowest  = TRUE,
+  which_h0        = "assman",
+  which_spacing   = "hart"
+) {
 
-  # 0. Handle errors and setup
-  ## 0.1. Errors
-  if (!which_h0 %in% c("assman", "hart")) cli::cli_abort("The argument `which_h0` must be either <assman> or <hart>.")
-  if (!which_spacing %in% c("hart", "hart-brecking")) cli::cli_abort("The argument `which_spacing` must be either <hart-brecking> or <hart>.")
+  # 0. Validate data - rest of inputs are already validated in the functions called inside
+  if (!inherits(x, "data.frame")) cli::cli_abort("`data` must be a data frame")
 
-  # calculate metrics
+
+  # 1. Calculate metrics
   dclass_group_metrics <- data |>
     dplyr::mutate(
       dclass = silv_tree_dclass({{ diameter }}, dmin, dmax, class_length, include_lowest)
@@ -119,11 +120,11 @@ silv_summary <- function(data,
       dplyr::all_of(.groups), dplyr::starts_with("d_"), dg, dplyr::starts_with("h_"), h0, dplyr::everything()
     )
 
-  # return list
+  # 2. Return an Inventory S7 list
   Inventory(
     dclass_metrics = dclass_group_metrics,
-    group_metrics = groups_metrics,
-    groups        = .groups
+    group_metrics  = groups_metrics,
+    groups         = .groups
   )
 }
 

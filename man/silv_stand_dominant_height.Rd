@@ -4,7 +4,12 @@
 \alias{silv_stand_dominant_height}
 \title{Calculates the dominant height}
 \usage{
-silv_stand_dominant_height(diameter, height, ntrees = NULL, which = "assman")
+silv_stand_dominant_height(
+  diameter,
+  height,
+  ntrees = NULL,
+  which = c("assman", "hart")
+)
 }
 \arguments{
 \item{diameter}{Numeric vector of diameters or diameter classes}

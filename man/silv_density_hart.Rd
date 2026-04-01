@@ -4,7 +4,7 @@
 \alias{silv_density_hart}
 \title{Hart or Hart-Becking spacing index}
 \usage{
-silv_density_hart(h0, ntrees, which = "hart")
+silv_density_hart(h0, ntrees, which = c("hart", "hart-becking"))
 }
 \arguments{
 \item{h0}{Numeric vector with dominant height}

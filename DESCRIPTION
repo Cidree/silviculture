@@ -41,5 +41,6 @@ Collate:
     'sample-size.R'
     'silviculture-package.R'
     'treatment-thinning.R'
+    'utils-assert.R'
     'zzz.R'
 VignetteBuilder: quarto
