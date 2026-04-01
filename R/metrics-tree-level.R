@@ -4,15 +4,8 @@
 #'
 #' Classifies the measured diameters into classes of a specified length
 #'
-#' @param diameter A numeric vector of diameters
-#' @param dmin The minimum inventory diameter in centimeters
-#' @param dmax The maximum inventory diameter in centimeters. Values that
-#'    are greater than `dmax` are included in the greatest class
-#' @param class_length The length of the class in centimeters
-#' @param include_lowest Logical. If TRUE (the default), the intervals are
-#'    `[dim1, dim2)`. If FALSE, the intervals are `(dim1, dim2]`
-#' @param return_intervals If FALSE, it returns the intervals. Otherwise (the
-#'    default), it returns the class center
+#' @template diameter
+#' @template dclass_params
 #'
 #' @return A numeric vector
 #' @export
@@ -95,7 +88,7 @@ silv_tree_dclass <- function(diameter,
 #'
 #' Calculates Basal Area in square meters.
 #'
-#' @param diameter Numeric vector of diameters or diameter classes
+#' @template diameter
 #' @param units The units of the diameter (one of `mm`, `cm`, `dm`, or `m`)
 #'
 #' @return A numeric vector

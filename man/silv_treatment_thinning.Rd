@@ -20,10 +20,11 @@ silv_treatment_thinning(
 \item{var}{A variable used for calculating the thinning. Typically used variables
 basal area, number of trees, or volume}
 
-\item{diameter}{Numeric vector with diametric classes}
+\item{diameter}{Numeric vector of diameters or diameter classes}
 
-\item{ntrees}{Numeric vector with the number of trees per hectare of each diametric
-class}
+\item{ntrees}{Numeric vector with number of trees of the diameter class per
+hectare. If \code{ntrees = NULL}, the function will assume that each diameter
+corresponds to only one tree}
 
 \item{thinning}{Charater string specifying the thinning type. Available options
 are \code{below} and \code{above}}

@@ -3,10 +3,8 @@
 #'
 #' Calculates Basal Area in square meters.
 #'
-#' @param diameter Numeric vector of diameters or diameter classes
-#' @param ntrees Numeric vector with number of trees of the diameter class per
-#'    hectare. If `ntrees = NULL`, the function will assume that each diameter
-#'    corresponds to only one tree
+#' @template diameter
+#' @template ntrees
 #' @param units The units of the diameter (one of `mm`, `cm`, `dm`, or `m`)
 #'
 #' @return A numeric vector
@@ -71,10 +69,9 @@ silv_stand_basal_area <- function(diameter,
 #'
 #' Calculates the dominant height using the Assman equation or the Hart equation
 #'
-#' @param diameter Numeric vector with diameter classes
-#' @param height Numeric vector with averaged heights by diameter class
-#' @param ntrees Optional. Numeric vector with number of trees per hectare.
-#' Use this argument when you have aggregated data by diametric classes (see details).
+#' @template diameter
+#' @template height
+#' @template ntrees
 #' @param which The method to calculate the dominant height (see details)
 #'
 #' @details
@@ -181,11 +178,9 @@ silv_stand_dominant_height <- function(diameter,
 #' Calculates the dominant diameter using Assman and Friedrich method, or
 #' Weise method
 #'
-#' @param diameter Numeric vector with diameter classes
-#' @param ntrees Optional. Numeric vector with number of trees per hectare.
-#' Use this argument when you have aggregated data by diametric classes (see details).
+#' @template diameter
+#' @template ntrees
 #' @param which The method to calculate the dominant diameter (see details)
-#' @param quiet if \code{TRUE}, messages will be supressed
 #'
 #' @details
 #' The dominant diameter \eqn{D_0} is the mean diameter of the 100 thickest trees per
@@ -218,8 +213,7 @@ silv_stand_dominant_height <- function(diameter,
 #'   )
 silv_stand_dominant_diameter <- function(diameter,
                                         ntrees = NULL,
-                                        which = "assman",
-                                        quiet = FALSE) {
+                                        which = "assman") {
 
   # 0. Handle errors and setup
   ## 0.1. Errors
@@ -278,10 +272,9 @@ silv_stand_dominant_diameter <- function(diameter,
 #'
 #' Tree's mean height weighted by basal area
 #'
-#' @param height Numeric vector of heights
-#' @param g Numeric vector of basal areas
-#' @param ntrees Optional. Numeric vector of number of trees per hectare.
-#' Use this argument when you have aggregated data by diametric classes (see details).
+#' @template height
+#' @template g
+#' @template ntrees
 #'
 #' @return A numeric vector
 #' @export
@@ -326,10 +319,8 @@ silv_stand_lorey_height <- function(height, g, ntrees = NULL) {
 
 #' Calculates the quadratic mean diameter (QMD)
 #'
-#' @param diameter Numeric vector of diameters or diameter classes
-#' @param ntrees Numeric vector with number of trees of the diameter class per
-#' hectare. If `ntrees = NULL`, the function will assume that each diameter
-#' corresponds to only one tree.
+#' @template diameter
+#' @template ntrees
 #'
 #' @return A numeric vector
 #' @export

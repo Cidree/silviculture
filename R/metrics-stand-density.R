@@ -5,9 +5,8 @@
 #' Calculates number of trees per hectare for a given plot size and shape
 #'
 #' @param ntrees A numeric vector representing the number of trees in a sampling plot
-#' @param plot_size A numeric vector of length one for circular radius in meters;
-#'    or a numeric vector of length two for each side of a rectangular plot shape
-#' @param plot_shape The shape of the sampling plot. Either `circular` or `rectangular`
+#' @template plot_size
+#' @template plot_shape
 #'
 #' @return A numeric vector
 #' @export
@@ -58,8 +57,8 @@ silv_density_ntrees_ha <- function(ntrees,
 #' The Stand Density Index (SDI) is relationship between the average tree size and 
 #' density of trees per hectare.
 #'
-#' @param ntrees A numeric vector representing the number of trees per hectare
-#' @param dg A numeric vector of quadratic mean diameters
+#' @template ntrees
+#' @template dg
 #' @param classify whether to classify the values using USDA thresholds
 #' @param max_sdi used when \code{classify = TRUE}. The maximum SDi, which depends
 #' on the species, stand type, and site
@@ -112,9 +111,8 @@ silv_density_sdi <- function(ntrees, dg, classify = FALSE, max_sdi = NULL) {
 #'
 #' Calculates the Hart Index or the Hart-Becking Index for even-aged stands
 #'
-#' @param h0 Numeric vector with dominant height
-#' @param ntrees Numeric vector with number of trees of the dominant height per
-#'    hectare
+#' @template h0
+#' @template ntrees
 #' @param which A character with the name of the index (either `hart` or `hart-brecking`).
 #'    See details
 #'

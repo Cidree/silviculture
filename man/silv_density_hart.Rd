@@ -9,8 +9,9 @@ silv_density_hart(h0, ntrees, which = "hart")
 \arguments{
 \item{h0}{Numeric vector with dominant height}
 
-\item{ntrees}{Numeric vector with number of trees of the dominant height per
-hectare}
+\item{ntrees}{Numeric vector with number of trees of the diameter class per
+hectare. If \code{ntrees = NULL}, the function will assume that each diameter
+corresponds to only one tree}
 
 \item{which}{A character with the name of the index (either \code{hart} or \code{hart-brecking}).
 See details}

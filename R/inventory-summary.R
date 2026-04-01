@@ -28,17 +28,12 @@ Inventory <- S7::new_class(
 #' Summarize forest inventory data calculating most typical variables
 #'
 #' @param data A tibble of inventory data
-#' @param diameter A column with inventory diameters
-#' @param height A column with inventory heights
+#' @template diameter
+#' @template height
 #' @param plot_size The size of the plot. See [silv_density_ntrees_ha()]
 #' @param .groups A character vector with variables to group by (e.g. plot id, tree
 #'    species, etc)
-#' @param dmin The minimum inventory diameter in centimeters
-#' @param dmax The maximum inventory diameter in centimeters. Values that
-#'    are greater than `dmax` are included in the greatest class
-#' @param class_length The length of the class in centimeters
-#' @param include_lowest Logical. If TRUE (the default), the intervals are
-#'    `[dim1, dim2)`. If FALSE, the intervals are `(dim1, dim2]`
+#' @template dclass_params
 #' @param plot_shape The shape of the sampling plot. Either `circular` or `rectangular`
 #' @param which_h0 The method to calculate the dominant height. See [silv_stand_dominant_height()]
 #' @param which_spacing A character with the name of the index (either `hart` or `hart-brecking`).

@@ -26,9 +26,8 @@ Thinning <- S7::new_class(
 #' @param data A data frame, or silviculture::Inventory object. See details.
 #' @param var A variable used for calculating the thinning. Typically used variables
 #' basal area, number of trees, or volume
-#' @param diameter Numeric vector with diametric classes
-#' @param ntrees Numeric vector with the number of trees per hectare of each diametric
-#' class
+#' @template diameter
+#' @template ntrees
 #' @param thinning Charater string specifying the thinning type. Available options
 #' are `below` and `above`
 #' @param perc Numeric value between 0 and 1 specifying the percentage of `var`

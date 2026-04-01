@@ -22,9 +22,9 @@ silv_summary(
 \arguments{
 \item{data}{A tibble of inventory data}
 
-\item{diameter}{A column with inventory diameters}
+\item{diameter}{Numeric vector of diameters or diameter classes}
 
-\item{height}{A column with inventory heights}
+\item{height}{Numeric vector of tree heights}
 
 \item{plot_size}{The size of the plot. See \code{\link[=silv_density_ntrees_ha]{silv_density_ntrees_ha()}}}
 
@@ -49,6 +49,9 @@ are greater than \code{dmax} are included in the greatest class}
 
 \item{which_spacing}{A character with the name of the index (either \code{hart} or \code{hart-brecking}).
 See \code{\link[=silv_density_hart]{silv_density_hart()}}}
+
+\item{return_intervals}{If FALSE, it returns the intervals. Otherwise (the
+default), it returns the class center}
 }
 \value{
 an S7 \code{Inventory} list with 2 \code{tibbles}
