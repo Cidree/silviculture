@@ -19,7 +19,8 @@ LiDAR metric that calculates the LiDAR Height Diversity Index, which
 can be used in \code{lidR} \code{*_metrics} functions
 }
 \examples{
-1 + 1 ## TODO
+z <- c(0.5, 1.2, 1.8, 2.4, 3.1)
+lid_lhdi(z)
 }
 \references{
 Listopad, C. M. C. S., Masters, R. E., Drake, J., Weishampel, J.,

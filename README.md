@@ -33,6 +33,25 @@ You can install the development version of `silviculture` from
 pak::pak("Cidree/silviculture")
 ```
 
+## Development
+
+If you want to contribute changes, work from your own fork and keep the
+original repository as `upstream`.
+
+```bash
+git clone git@github.com:<your-user>/silviculture.git
+cd silviculture
+git remote add upstream https://github.com/Cidree/silviculture.git
+git fetch upstream
+```
+
+Before opening a pull request, run the package tests locally from the
+repository root:
+
+```r
+testthat::test_local()
+```
+
 ## Roadmap
 
 This package is currently under active development and may still contain
@@ -83,6 +102,9 @@ ideas for improvements or new features, feel free to:
   for code contributions.
 
 - Share feedback on usage, examples, or additional functionality.
+
+See [CONTRIBUTING.md](CONTRIBUTING.md) for the recommended local
+workflow.
 
 ## License
 
