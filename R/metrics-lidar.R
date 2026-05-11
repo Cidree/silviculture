@@ -8,7 +8,7 @@
 #' @param z coordinate Z (height) of the point
 #' @param interval height of the intervals to calculate the metric
 #'
-#' @returns numeric
+#' @return numeric
 #' @export
 #'
 #' @references Listopad, C. M. C. S., Masters, R. E., Drake, J., Weishampel, J.,
@@ -17,7 +17,8 @@
 #' Indicators, 57, 268–279. \doi{10.1016/j.ecolind.2015.04.017}
 #'
 #' @examples
-#' 1 + 1 ## TODO
+#' z <- c(0.5, 1.2, 1.8, 2.4, 3.1)
+#' lid_lhdi(z)
 lid_lhdi <- function(z, interval = 0.5) {
 
   ## LDHI = -Σ [(pi) × ln (pi)]

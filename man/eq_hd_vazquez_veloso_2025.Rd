@@ -42,10 +42,12 @@ National Forest Inventory, and therefore, they should only be applied within Spa
 parameters for 91 tree species.
 }
 \details{
-Details...#TODO
+The model adjusts the species-specific coefficients using the selected
+bioregion, stand origin, and mixture type before returning the model object.
 }
 \examples{
-1 + 1 #TODO
+model <- eq_hd_vazquez_veloso_2025("All the species")
+silv_predict_height(25, model)
 }
 \references{
 Vázquez-Veloso, A., Yang, S.-I., Bullock, B.P., Bravo, F., 2025. One model to rule them all:

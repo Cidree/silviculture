@@ -101,7 +101,8 @@ silv_predict_height <- function(diameter,
 #' If not specified, it takes the value \code{pure}, which is the most common condition in Spain.
 #'
 #' @details
-#' Details...#TODO
+#' The model adjusts the species-specific coefficients using the selected
+#' bioregion, stand origin, and mixture type before returning the model object.
 #' 
 #' @references Vázquez-Veloso, A., Yang, S.-I., Bullock, B.P., Bravo, F., 2025. One model to rule them all: 
 #' A nationwide height–diameter model for 91 Spanish forest species. Forest Ecology and Management 595, 122981. 
@@ -113,7 +114,8 @@ silv_predict_height <- function(diameter,
 #' @export
 #'
 #' @examples
-#' 1 + 1 #TODO
+#' model <- eq_hd_vazquez_veloso_2025("All the species")
+#' silv_predict_height(25, model)
 eq_hd_vazquez_veloso_2025 <- function(species, 
                             bioregion = "mediterranean", 
                             origin    = "natural", 
@@ -179,7 +181,7 @@ eq_hd_vazquez_veloso_2025 <- function(species,
   extra_b <- mixture_b + origin_b + bioregion_b
   ## 1.7. Sum extra a and b
   selected_params$a <- selected_params$a + extra_a
-  selected_params$b <- selected_params$b + extra_a
+  selected_params$b <- selected_params$b + extra_b
 
   # 2. Return
   ModelHD(
