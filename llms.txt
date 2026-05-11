@@ -1,0 +1,232 @@
+# silviculture
+
+`silviculture` is an R package designed to streamline the analysis of
+forestry and forest inventory data, offering a range of functions for
+common silvicultural analysis. It aims to support forest management and
+research by providing a flexible toolkit for data manipulation and
+summary.
+
+## Installation
+
+You can install the development version of `silviculture` from
+[GitHub](https://github.com/) with:
+
+``` r
+
+# install.packages("pak")
+pak::pak("Cidree/silviculture")
+```
+
+## Development
+
+If you want to contribute changes, work from your own fork and keep the
+original repository as `upstream`.
+
+``` bash
+git clone git@github.com:<your-user>/silviculture.git
+cd silviculture
+git remote add upstream https://github.com/Cidree/silviculture.git
+git fetch upstream
+```
+
+Before opening a pull request, run the package tests locally from the
+repository root:
+
+``` r
+
+testthat::test_local()
+```
+
+## Roadmap
+
+This package is currently under active development and may still contain
+bugs or unstable features. I do not recommend using it in real-world
+applications at this stage, as it may be prone to errors.
+
+## Nomenclature
+
+The package uses the following terms as function arguments consistently:
+
+- `biomass`: mass of the tree or part of the tree in kilograms.
+
+- `dclass`: the diametric class of the tree. In forestry we typically
+  work with diametric classes instead of raw diameters. Therefore, we
+  often create diametric classes with a range of 5 or 10 centimeters.
+
+- `diameter`: diameter of the tree, typically refering to the diameter
+  at breast height (1.30 meters) expressed in centimeters.
+
+- `h0 (dominant height)`: the mean height of the 100 thickest trees per
+  hectare (Assman); or the mean height of the 100 tallest trees per
+  hectare (Hart).
+
+- `g (basal area)`: the basal area of the tree, which is typically
+  expressed by the symbol `G`. It is expressed as squared meters per
+  hectare ( m²/ha).
+
+- `height`: it refers to the total height of the tree in meters.
+
+- `Lorey's height`: tree’s mean height weighted by basal area.
+
+- `ntrees`: number of trees (typically of the same diameter).
+
+- `species`: Latin name of the tree species (e.g. *Pinus pinaster*).
+
+- `volume`: estimated volume of the tree in cubic meters (m³).
+
+## Contributing
+
+Contributions to `silviculture` are highly appreciated! If you have
+ideas for improvements or new features, feel free to:
+
+- Open an [issue](https://github.com/Cidree/silviculture/issues) for
+  bugs or feature requests.
+
+- Submit a [pull request](https://github.com/Cidree/silviculture/pulls)
+  for code contributions.
+
+- Share feedback on usage, examples, or additional functionality.
+
+See
+[CONTRIBUTING.md](https://cidree.github.io/silviculture/CONTRIBUTING.md)
+for the recommended local workflow.
+
+## License
+
+This project is licensed under the GPL-3 License.
+
+# Package index
+
+## Predictions
+
+Functions for estimating forest variables from models or equations
+
+- [`silv_predict_biomass()`](https://cidree.github.io/silviculture/reference/silv_predict_biomass.md)
+  : Calculate Tree Biomass
+- [`silv_predict_height()`](https://cidree.github.io/silviculture/reference/silv_predict_height.md)
+  : Estimates tree height from DBH
+- [`silv_biomass()`](https://cidree.github.io/silviculture/reference/silv_biomass.md)
+  **\[deprecated\]** : Calculate Tree Biomass
+
+## Models and equations
+
+Models and equations used in silv_predict\_\* functions
+
+- [`eq_hd_vazquez_veloso_2025()`](https://cidree.github.io/silviculture/reference/eq_hd_vazquez_veloso_2025.md)
+  : Estimates tree height from DBH
+- [`eq_biomass_cudjoe_2024()`](https://cidree.github.io/silviculture/reference/eq_biomass_cudjoe_2024.md)
+  : Biomass equations for 2 species in Castille and León (Spain)
+- [`eq_biomass_dieguez_aranda_2009()`](https://cidree.github.io/silviculture/reference/eq_biomass_dieguez_aranda_2009.md)
+  : Biomass equations for Galician species
+- [`eq_biomass_manrique_2017()`](https://cidree.github.io/silviculture/reference/eq_biomass_manrique_2017.md)
+  : Biomass equations two Quercus species
+- [`eq_biomass_menendez_2022()`](https://cidree.github.io/silviculture/reference/eq_biomass_menendez_2022.md)
+  : Biomass equations for young Spanish plantations
+- [`eq_biomass_montero_2005()`](https://cidree.github.io/silviculture/reference/eq_biomass_montero_2005.md)
+  : Biomass equations for Spanish species
+- [`eq_biomass_ruiz_peinado_2011()`](https://cidree.github.io/silviculture/reference/eq_biomass_ruiz_peinado_2011.md)
+  : Biomass equations for Spanish softwood species
+- [`eq_biomass_ruiz_peinado_2012()`](https://cidree.github.io/silviculture/reference/eq_biomass_ruiz_peinado_2012.md)
+  : Biomass equations for Spanish hardwood species
+
+## Tree level metrics
+
+Metrics to be calculated tree by tree
+
+- [`silv_tree_dclass()`](https://cidree.github.io/silviculture/reference/silv_tree_dclass.md)
+  : Classify diameters in classes
+- [`silv_tree_basal_area()`](https://cidree.github.io/silviculture/reference/silv_tree_basal_area.md)
+  : Calculates Basal Area
+- [`silv_tree_volume()`](https://cidree.github.io/silviculture/reference/silv_tree_volume.md)
+  : Calculate Tree Volume
+- [`silv_basal_area()`](https://cidree.github.io/silviculture/reference/silv_basal_area.md)
+  **\[deprecated\]** : Calculates Basal Area
+- [`silv_diametric_class()`](https://cidree.github.io/silviculture/reference/silv_diametric_class.md)
+  **\[deprecated\]** : Classify diameters in classes
+- [`silv_volume()`](https://cidree.github.io/silviculture/reference/silv_volume.md)
+  **\[deprecated\]** : Calculate Tree Volume
+
+## Stand level metrics
+
+Metrics to be calculated per stand or plot of trees
+
+- [`silv_stand_basal_area()`](https://cidree.github.io/silviculture/reference/silv_stand_basal_area.md)
+  : Calculates Basal Area
+- [`silv_stand_dominant_diameter()`](https://cidree.github.io/silviculture/reference/silv_stand_dominant_diameter.md)
+  : Calculates the dominant diameter
+- [`silv_stand_dominant_height()`](https://cidree.github.io/silviculture/reference/silv_stand_dominant_height.md)
+  : Calculates the dominant height
+- [`silv_stand_lorey_height()`](https://cidree.github.io/silviculture/reference/silv_stand_lorey_height.md)
+  : Calculates Lorey's Height
+- [`silv_stand_qmean_diameter()`](https://cidree.github.io/silviculture/reference/silv_stand_qmean_diameter.md)
+  : Calculates the quadratic mean diameter (QMD)
+- [`silv_summary()`](https://cidree.github.io/silviculture/reference/silv_summary.md)
+  : Calculates a bunch of forest metrics
+- [`silv_dominant_height()`](https://cidree.github.io/silviculture/reference/silv_dominant_height.md)
+  **\[deprecated\]** : Calculates the dominant height
+- [`silv_lorey_height()`](https://cidree.github.io/silviculture/reference/silv_lorey_height.md)
+  **\[deprecated\]** : Calculates Lorey's Height
+- [`silv_ntrees_ha()`](https://cidree.github.io/silviculture/reference/silv_ntrees_ha.md)
+  **\[deprecated\]** : Calculates number of trees per hectare
+- [`silv_sqrmean_diameter()`](https://cidree.github.io/silviculture/reference/silv_sqrmean_diameter.md)
+  **\[deprecated\]** : Calculates the quadratic mean diameter (QMD)
+
+## Stand density metrics
+
+Stand density and competition metrics
+
+- [`silv_density_ntrees_ha()`](https://cidree.github.io/silviculture/reference/silv_density_ntrees_ha.md)
+  : Calculates number of trees per hectare
+- [`silv_density_hart()`](https://cidree.github.io/silviculture/reference/silv_density_hart.md)
+  : Hart or Hart-Becking spacing index
+- [`silv_density_sdi()`](https://cidree.github.io/silviculture/reference/silv_density_sdi.md)
+  : Calculates the Stand Density Index
+- [`silv_spacing_index()`](https://cidree.github.io/silviculture/reference/silv_spacing_index.md)
+  **\[deprecated\]** : Hart or Hart-Becking spacing index
+- [`silv_ntrees_ha()`](https://cidree.github.io/silviculture/reference/silv_ntrees_ha.md)
+  **\[deprecated\]** : Calculates number of trees per hectare
+
+## Inventory Sample Size
+
+Calculate and explore forest inventory sample size
+
+- [`silv_sample_size_simple()`](https://cidree.github.io/silviculture/reference/silv_sample_size_simple.md)
+  : Calculates sample size for a simple random sampling (SRS)
+- [`silv_sample_size_stratified()`](https://cidree.github.io/silviculture/reference/silv_sample_size_stratified.md)
+  : Calculates sample size for a stratified sampling
+- [`silv_sample_size()`](https://cidree.github.io/silviculture/reference/silv_sample_size.md)
+  **\[deprecated\]** : Calculates sample size for a random sampling
+  inventory
+
+## Treatments
+
+Functions for forest treatments
+
+- [`silv_treatment_thinning()`](https://cidree.github.io/silviculture/reference/silv_treatment_thinning.md)
+  : Calculate Forestry Thinning Schemes
+
+## LiDAR metrics
+
+Extract and calculate forest structural metrics using LiDAR data
+
+- [`lid_fcov()`](https://cidree.github.io/silviculture/reference/lid_fcov.md)
+  : Calculate Forest Fraction Cover from LiDAR Data
+- [`lid_lhdi()`](https://cidree.github.io/silviculture/reference/lid_lhdi.md)
+  : LiDAR-derived Height Diversity Index (LHDI)
+
+## Data
+
+Datasets included in the package
+
+- [`biomass_models`](https://cidree.github.io/silviculture/reference/biomass_models.md)
+  : Biomass models
+- [`inventory_samples`](https://cidree.github.io/silviculture/reference/inventory_samples.md)
+  : Forest inventory samples
+
+## Objects
+
+S7 methods
+
+- [`plot()`](https://cidree.github.io/silviculture/reference/plot.md) :
+  Plot an object
+
