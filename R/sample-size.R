@@ -506,18 +506,13 @@ plot <- S7::new_generic("plot", "x")
 
 
 
-#' Plot Sample Size vs Error
-#'
-#' This method generates a plot showing how the required sample size varies with the maximum allowed relative error.
-#'
-#' @param x An object of class `SimpleSampleSize` containing sampling options and results.
+#' @describeIn plot Plot a `SimpleSampleSize` object showing how sample size
+#'   varies with the maximum allowed relative error.
 #' @param min_error A numeric value specifying the minimum relative error to consider (default is 0.01).
 #' @param max_error A numeric value specifying the maximum relative error to consider (default is 0.5).
 #'
-#' @return A `ggplot` object representing the relationship between error and sample size.
-#'
 #' @export
-S7::method(plot, SimpleSampleSize) <- function(x, min_error = .01, max_error = .5) {
+S7::method(plot, SimpleSampleSize) <- function(x, ..., min_error = .01, max_error = .5) {
 
   ## create intervals
   intervals_vec <- seq(min_error, max_error, by = 0.01)

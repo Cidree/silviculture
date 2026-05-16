@@ -11,3 +11,5 @@ scrap.R
 internal-data/*
 ^cran-comments\.md$
 ^CRAN-SUBMISSION$
+^scripts$
+^CONTRIBUTING\.md$
