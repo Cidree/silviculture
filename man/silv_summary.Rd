@@ -49,9 +49,6 @@ are greater than \code{dmax} are included in the greatest class}
 
 \item{which_spacing}{A character with the name of the index (either \code{hart} or \code{hart-brecking}).
 See \code{\link[=silv_density_hart]{silv_density_hart()}}}
-
-\item{return_intervals}{If FALSE, it returns the intervals. Otherwise (the
-default), it returns the class center}
 }
 \value{
 an S7 \code{Inventory} list with 2 \code{tibbles}

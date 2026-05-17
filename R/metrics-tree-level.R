@@ -6,6 +6,8 @@
 #'
 #' @template diameter
 #' @template dclass_params
+#' @param return_intervals If FALSE, it returns the intervals. Otherwise (the
+#'    default), it returns the class center
 #'
 #' @return A numeric vector
 #' @export

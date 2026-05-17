@@ -4,5 +4,3 @@
 #' @param class_length The length of the class in centimeters
 #' @param include_lowest Logical. If TRUE (the default), the intervals are
 #'    `[dim1, dim2)`. If FALSE, the intervals are `(dim1, dim2]`
-#' @param return_intervals If FALSE, it returns the intervals. Otherwise (the
-#'    default), it returns the class center

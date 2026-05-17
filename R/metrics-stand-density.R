@@ -101,7 +101,7 @@ silv_density_sdi <- function(
 
     ## assert inputs
     if (is.null(max_sdi)) cli::cli_abort("You must specify <max_sdi> when <classify = TRUE>")
-    assert_numeric(max_sdi, "max_sdi")
+    assert_positive_numeric(max_sdi, "max_sdi")
 
     ## calculate
     sdi <- (sdi / max_sdi) * 100
