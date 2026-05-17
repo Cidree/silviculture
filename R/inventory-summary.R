@@ -75,7 +75,7 @@ silv_summary <- function(
 ) {
 
   # 0. Validate data - rest of inputs are already validated in the functions called inside
-  if (!inherits(x, "data.frame")) cli::cli_abort("`data` must be a data frame")
+  if (!inherits(data, "data.frame")) cli::cli_abort("`data` must be a data frame")
 
 
   # 1. Calculate metrics
