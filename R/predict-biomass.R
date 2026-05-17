@@ -22,12 +22,19 @@ ModelBiomass <- S7::new_class(
 #' Computes the biomass of a tree species using species-specific allometric
 #' equations (in kg). Currently, only equations for Spain are available.
 #'
-#' @param diameter A numeric vector of tree diameters (in cm).
+#' @param diameter A numeric vector of tree diameters at breast height (in cm).
 #' @param height A numeric vector of tree heights (in m).
 #' @param model A function. A function with the structure \code{eq_biomass_*()} with
 #' additional arguments depending on the model used.
 #' @param ntrees An optional numeric value indicating the number of trees in
 #' this diameter-height class. Defaults to 1 if \code{NULL}.
+#' @param rcd An optional numeric vector of root collar diameters (in cm). Required
+#' for \code{\link{eq_biomass_menendez_2022}}, which uses root collar diameter
+#' instead of diameter at breast height. Defaults to \code{diameter} if \code{NULL}.
+#' @param bp An optional numeric vector of biomass packing values (in m\ifelse{html}{\out{<sup>3</sup>}}{$^3$}). Required
+#' for a subset of species in \code{\link{eq_biomass_menendez_2022}} (e.g.
+#' \emph{Pinus halepensis}, \emph{Pinus nigra}, \emph{Quercus suber},
+#' \emph{Evergreen broadleaves}).
 #' @param quiet A logical value. If \code{TRUE}, suppresses any informational messages.
 #'
 #' @return A numeric vector
@@ -40,6 +47,14 @@ ModelBiomass <- S7::new_class(
 #'
 #' - **[eq_biomass_ruiz_peinado_2011()]**: Developed for softwood species in Spain.
 #' - **[eq_biomass_ruiz_peinado_2012()]**: Developed for hardwood species in Spain.
+#' - **[eq_biomass_montero_2005()]**: Developed for 35 Spanish species.
+#' - **[eq_biomass_dieguez_aranda_2009()]**: Developed for 7 Galician species.
+#' - **[eq_biomass_manrique_2017()]**: Developed for *Quercus petraea* and *Quercus pyrenaica*.
+#' - **[eq_biomass_menendez_2022()]**: Developed for young plantations (< 30 years) of 18
+#'   Spanish species. Uses `rcd` (root collar diameter) instead of `diameter`; some species
+#'   require `bp` (biomass packing) instead of `rcd`.
+#' - **[eq_biomass_cudjoe_2024()]**: Developed for *Pinus sylvestris* and *Quercus petraea*
+#'   in Castille and León, Spain.
 #'
 #' Users can check the list of supported species and their corresponding components
 #' in [biomass_models].
@@ -62,52 +77,67 @@ silv_predict_biomass <- function(
     height   = NULL,
     model,
     ntrees = NULL,
+    rcd    = NULL,
+    bp     = NULL,
     quiet  = FALSE) {
 
   # 0. Handle errors and setup
-  ## 0.2. Ensure species has same length as the rest, and ntrees = 1 when ntrees = NULL
+  ## 0.1. Default rcd to diameter if not provided
+  if (is.null(rcd)) rcd <- diameter
+  ## 0.2. Ensure ntrees = 1 when ntrees = NULL
   if (is.null(ntrees)) ntrees <- rep(1, length(diameter))
-  # species <- rep_len(species, length(diameter))
 
   # 1. Define a helper function to calculate biomass for a single tree
-  if (model@equation %in% c(
-    "ruiz-peinado-2011", 
-    "ruiz-peinado-2012")
-  ) {
-
-    ## function to calculate biomass
-    calc_biomass <- function(d, h, n, sp) {
-      ## select expression based on species
-      selected_expr <- model@expression[model@expression$species == sp, ]$expression
-      ## if there are multiple expressions (AGB, BGB)
-      selected_expr <- paste0(
-        "(",
-        paste(selected_expr, collapse = " + "),
-        ")"
+  calc_biomass <- function(d, h, n, sp, rcd_val, bp_val) {
+    ## select expression based on species
+    selected_rows <- model@expression$species == sp
+    selected_expr <- model@expression[selected_rows, ]$expression
+    selected_expr <- selected_expr[!is.na(selected_expr)]
+    if (length(selected_expr) == 0) {
+      cli::cli_abort(
+        "The selected model contains no valid expression for species {.val {sp}}."
       )
-      ##
-      if (grepl("h", selected_expr)) {
-        f1 <- function(d, h) eval(parse(text = selected_expr))
-        biomass <- f1(d, h) * n
-      } else {
-        f2 <- function(d) eval(parse(text = selected_expr))
-        biomass <- f2(d) * n
+    }
+    ## if there are multiple expressions (AGB, BGB)
+    selected_expr <- paste0(
+      "(",
+      paste(selected_expr, collapse = " + "),
+      ")"
+    )
+
+    ## evaluate in a named environment that exposes all possible variable names
+    eval_env <- list(d = d, h = h, rcd = rcd_val, bp = bp_val)
+    biomass   <- eval(parse(text = selected_expr), envir = eval_env) * n
+
+    metric <- biomass
+    if (isTRUE(model@params$return_rmse)) {
+      metric <- model@params$rmse[selected_rows]
+      metric <- metric[!is.na(metric)]
+      if (length(metric) != 1) {
+        cli::cli_abort(
+          "RMSE is only available when the selected species-component combination resolves to a single equation."
+        )
       }
-
-      ## create a table with the outputs
-      biomass_tbl <- data.frame(
-        biomass  = ifelse(model@params$return_rmse, model@params$rmse, biomass),
-        citation = model@url,
-        obs      = model@obs
-      )
-
-      return(biomass_tbl)
+    } else if (isTRUE(model@params$return_r2)) {
+      metric <- model@params$r2[selected_rows]
+      metric <- metric[!is.na(metric)]
+      if (length(metric) != 1) {
+        cli::cli_abort(
+          "R2 is only available when the selected species-component combination resolves to a single equation."
+        )
+      }
     }
 
-  }  
+    data.frame(
+      biomass  = metric,
+      citation = model@url,
+      obs      = model@obs
+    )
+  }
 
   # 2. Vectorize the function to handle multiple inputs
-  biomass_mat <- mapply(calc_biomass, diameter, height, ntrees, model@species)
+  bp_vec  <- if (is.null(bp)) rep(NA_real_, length(diameter)) else bp
+  biomass_mat <- mapply(calc_biomass, diameter, height, ntrees, model@species, rcd, bp_vec)
 
   biomass_df <- biomass_mat |>
     t() |>
@@ -152,15 +182,42 @@ silv_predict_biomass <- function(
 #' @export
 #' 
 #' @details
-#' Users can check the list of supported species and their corresponding components
-#' in [biomass_models].
+#' 
+#' **Supported species (10):**
+#' 
+#' *Abies alba*, *Abies pinsapo*, *Juniperus thurifera*, *Pinus canariensis*,
+#' *Pinus halepensis*, *Pinus nigra*, *Pinus pinaster*, *Pinus pinea*,
+#' *Pinus sylvestris*, *Pinus uncinata*
+#' 
+#' **Available components:**
+#' 
+#' Aboveground / belowground groups (summed automatically):
+#' 
+#' * `"AGB"` — total aboveground biomass
+#' * `"BGB"` — total belowground biomass (roots)
+#' * `"tree"` — total tree biomass (AGB + BGB)
+#' 
+#' Tree structural groups:
+#' 
+#' * `"stem"` — stem wood
+#' * `"branches"` — all branch fractions combined
+#' * `"roots"` — roots (equivalent to BGB)
+#' 
+#' Individual tree components (species availability varies):
+#' 
+#' * `"thick branches"` — branches > 7 cm
+#' * `"thick and medium branches"` — branches > 2 cm
+#' * `"medium branches"` — branches 2–7 cm
+#' * `"small branches and leaves"` — branches < 2 cm including leaves/needles
+#' 
+#' Users can check the full species–component matrix in [biomass_models].
 #' 
 #' @seealso [silv_predict_biomass()], [biomass_models], [eq_biomass_montero_2005()], [eq_biomass_dieguez_aranda_2009()],
 #' [eq_biomass_ruiz_peinado_2012()], [eq_biomass_manrique_2017()], [eq_biomass_menendez_2022()], [eq_biomass_cudjoe_2024()] 
 #'
 #' @examples
-#' ## get model parameters for silv_predict_biomass
-#' eq_biomass_ruiz_peinado_2011("Pinus pinaster")
+#' ## Aboveground biomass for Pinus pinaster
+#' eq_biomass_ruiz_peinado_2011("Pinus pinaster", "AGB")
 eq_biomass_ruiz_peinado_2011 <- function(species, component = "stem", return_rmse = FALSE) {
 
   # 0. Handle errors 
@@ -230,16 +287,47 @@ eq_biomass_ruiz_peinado_2011 <- function(species, component = "stem", return_rms
 #' @export
 #' 
 #' @details
-#' Users can check the list of supported species and their corresponding components
-#' in [biomass_models].
 #' 
-#' @seealso [silv_predict_biomass()], [biomass_models], [eq_biomass_montero_2005()], [eq_biomass_dieguez_aranda_2009()]
-#' [eq_biomass_ruiz_peinado_2011()], [eq_biomass_manrique_2017()], [eq_biomass_menendez_2022()], 
+#' **Supported species (13):**
+#' 
+#' *Alnus glutinosa*, *Castanea sativa*, *Ceratonia siliqua*, *Eucalyptus globulus*,
+#' *Fagus sylvatica*, *Fraxinus angustifolia*, *Olea europaea*, *Populus x euramericana*,
+#' *Quercus canariensis*, *Quercus faginea*, *Quercus ilex*, *Quercus pyrenaica*,
+#' *Quercus suber*
+#' 
+#' **Available components:**
+#' 
+#' Aboveground / belowground groups (summed automatically):
+#' 
+#' * `"AGB"` — total aboveground biomass
+#' * `"BGB"` — total belowground biomass (roots)
+#' * `"tree"` — total tree biomass (AGB + BGB)
+#' 
+#' Tree structural groups:
+#' 
+#' * `"stem"` — stem wood
+#' * `"branches"` — all branch fractions combined
+#' * `"roots"` — roots (equivalent to BGB)
+#' 
+#' Individual tree components (species availability varies):
+#' 
+#' * `"stem and thick branches"` — stem together with branches > 7 cm
+#' * `"thick branches"` — branches > 7 cm
+#' * `"thick and medium branches"` — branches > 2 cm
+#' * `"medium branches"` — branches 2–7 cm
+#' * `"small branches"` — branches 0.5–2 cm
+#' * `"small branches and leaves"` — branches < 2 cm including leaves
+#' * `"medium branches, small branches and leaves"` — branches < 7 cm including leaves
+#' 
+#' Users can check the full species–component matrix in [biomass_models].
+#' 
+#' @seealso [silv_predict_biomass()], [biomass_models], [eq_biomass_montero_2005()], [eq_biomass_dieguez_aranda_2009()],
+#' [eq_biomass_ruiz_peinado_2011()], [eq_biomass_manrique_2017()], [eq_biomass_menendez_2022()],
 #' [eq_biomass_cudjoe_2024()] 
 #'
 #' @examples
-#' ## get model parameters for silv_predict_biomass
-#' eq_biomass_ruiz_peinado_2012("Quercus suber")
+#' ## Aboveground biomass for Quercus suber
+#' eq_biomass_ruiz_peinado_2012("Quercus suber", "AGB")
 eq_biomass_ruiz_peinado_2012 <- function(species, component = "stem", return_rmse = FALSE) {
 
   # 0. Handle errors 
@@ -313,36 +401,43 @@ eq_biomass_ruiz_peinado_2012 <- function(species, component = "stem", return_rms
 #' 
 #' @details
 #' 
-#' There are seven species included in this model: *Pinus pinaster, Pinaster radiata, Pinus*
-#' *sylvestris, Eucalyptus globulus, Eucalyptus nitens, Quercus robur*, and *Betula alba*
+#' **Supported species (7):**
 #' 
-#' The tree components are divided into groups, and any of them can be introduced in the
-#' component argument:
+#' *Betula alba*, *Eucalyptus globulus*, *Eucalyptus nitens*, *Pinus pinaster*,
+#' *Pinus radiata*, *Pinus sylvestris*, *Quercus robur*
 #' 
-#' * **AGB**: all aboveground biomass components
-#' * **BGB**: all belowground biomass compoponents
-#' * **tree**: total tree biomass includying AGB and BGB
+#' **Available components:**
 #' 
-#' Then we have the second group of components, which are related to tree groups:
+#' Aboveground / belowground groups (summed automatically):
 #' 
-#' * **stem**: includes the stem and bark
-#' * **branches**: includes all branches
-#' * **roots**: includes the roots (same as BGB)
+#' * `"AGB"` — total aboveground biomass
+#' * `"BGB"` — total belowground biomass (roots)
 #' 
-#' Finally, we have the last level, which includes tree components (not all of them
-#' are available for all species): stem, bark, thick branches (>7cm), medium branches (2-7cm), 
-#' thin branches (0.5-2cm), twigs (<0.5cm), dry branches, leaves, roots. In some species,
-#' there's "stem and thick branches", instead of two groups.
+#' Tree structural groups:
 #' 
-#' Users can check the list of supported species and their corresponding components
-#' in [biomass_models].
+#' * `"stem"` — stem fraction(s)
+#' * `"branches"` — all branch fractions combined
+#' * `"roots"` — roots (equivalent to BGB)
+#' 
+#' Individual tree components (species availability varies):
+#' 
+#' * `"stem and thick branches"` — stem together with thickest branches
+#' * `"thick branches"` — branches > 7 cm
+#' * `"medium branches"` — branches 2–7 cm
+#' * `"small branches"` — branches 0.5–2 cm
+#' * `"twigs"` — branches < 0.5 cm
+#' * `"dry branches"` — dead attached branches
+#' * `"leaves"` — foliage (including needles)
+#' * `"roots"` — coarse roots
+#' 
+#' Users can check the full species–component matrix in [biomass_models].
 #' 
 #' @seealso [silv_predict_biomass()], [biomass_models], [eq_biomass_montero_2005()],
 #' [eq_biomass_ruiz_peinado_2011()], [eq_biomass_ruiz_peinado_2012()], [eq_biomass_manrique_2017()], 
 #' [eq_biomass_menendez_2022()], [eq_biomass_cudjoe_2024()] 
 #'
 #' @examples
-#' ## get model parameters for silv_predict_biomass
+#' ## Aboveground biomass for Pinus pinaster
 #' eq_biomass_dieguez_aranda_2009("Pinus pinaster", "AGB")
 eq_biomass_dieguez_aranda_2009 <- function(species, component = "stem", return_r2 = FALSE, return_rmse = FALSE) {
 
@@ -417,35 +512,49 @@ eq_biomass_dieguez_aranda_2009 <- function(species, component = "stem", return_r
 #' 
 #' @details
 #' 
-#' There are 35 species included in the model.
+#' **Supported species (35):**
 #' 
-#' The tree components are divided into groups, and any of them can be introduced in the
-#' component argument:
+#' *Abies alba*, *Abies pinsapo*, *Alnus glutinosa*, *Betula* spp., *Castanea sativa*,
+#' *Ceratonia siliqua*, *Erica arborea*, *Eucalyptus* spp., *Fagus sylvatica*,
+#' *Fraxinus* spp., *Ilex canariensis*, *Juniperus oxycedrus*, *Juniperus phoenicea*,
+#' *Juniperus thurifera*, *Laurus azorica*, *Myrica faya*, *Olea europaea* var. *sylvestris*,
+#' *Other broadleaves*, *Other conifers*, *Other laurel species*, *Pinus canariensis*,
+#' *Pinus halepensis*, *Pinus nigra*, *Pinus pinaster*, *Pinus pinea*, *Pinus radiata*,
+#' *Pinus sylvestris*, *Pinus uncinata*, *Populus x euramericana*, *Quercus canariensis*,
+#' *Quercus faginea*, *Quercus ilex*, *Quercus pyrenaica*, *Quercus robur*, *Quercus suber*
 #' 
-#' * **AGB**: all aboveground biomass components
-#' * **BGB**: all belowground biomass compoponents
-#' * **tree** or **all**: total tree biomass includying AGB and BGB
+#' **Available components:**
 #' 
-#' Then we have the second group of components, which are related to tree groups:
+#' Aboveground / belowground groups (summed automatically):
 #' 
-#' * **stem**: includes the stem and bark
-#' * **branches**: includes all branches
-#' * **roots**: includes the roots (same as BGB)
+#' * `"AGB"` — total aboveground biomass
+#' * `"BGB"` — total belowground biomass (roots)
+#' * `"all"` or `"tree"` — total tree biomass (AGB + BGB)
 #' 
-#' Finally, we have the last level, which includes tree components (not all of them
-#' are available for all species): stem, bark, thick branches (>7cm), medium branches (2-7cm), 
-#' thin branches (0.5-2cm), leaves (include needles), roots. In some species,
-#' there's "stem and thick branches", instead of two groups.
+#' Tree structural groups:
 #' 
-#' Users can check the list of supported species and their corresponding components
-#' in [biomass_models].
+#' * `"stem"` — stem fraction(s)
+#' * `"branches"` — all branch fractions combined
+#' * `"roots"` — roots (equivalent to BGB)
 #' 
-#' @seealso [silv_predict_biomass()], [biomass_models], [eq_biomass_dieguez_aranda_2009()]
+#' Individual tree components (species availability varies):
+#' 
+#' * `"stem"` — stem wood
+#' * `"stem and thick branches"` — stem together with branches > 7 cm
+#' * `"thick branches"` — branches > 7 cm
+#' * `"medium branches"` — branches 2–7 cm
+#' * `"small branches"` — branches < 2 cm
+#' * `"leaves"` — foliage (including needles)
+#' * `"roots"` — coarse roots
+#' 
+#' Users can check the full species–component matrix in [biomass_models].
+#' 
+#' @seealso [silv_predict_biomass()], [biomass_models], [eq_biomass_dieguez_aranda_2009()],
 #' [eq_biomass_ruiz_peinado_2011()], [eq_biomass_ruiz_peinado_2012()], [eq_biomass_manrique_2017()], 
 #' [eq_biomass_menendez_2022()], [eq_biomass_cudjoe_2024()] 
 #'
 #' @examples
-#' ## get model parameters for silv_predict_biomass
+#' ## Aboveground biomass for Pinus pinaster
 #' eq_biomass_montero_2005("Pinus pinaster", "AGB")
 eq_biomass_montero_2005 <- function(species, component = "stem", return_r2 = FALSE) {
 
@@ -521,21 +630,31 @@ eq_biomass_montero_2005 <- function(species, component = "stem", return_r2 = FAL
 #' 
 #' @details
 #' 
-#' There are two species in this model: *Quercus petraea* and *Quercus pyrenaica* 
+#' **Supported species (2):**
 #' 
-#' The tree components include:
+#' * *Quercus petraea*
+#' * *Quercus pyrenaica*
 #' 
-#' * **stem**: includes stem and the thickest branches
-#' * **medium branches**
-#' * **thin branches**
-#' * **AGB**: total biomass, results of summing the previous three components
+#' **Available components:**
 #' 
-#' @seealso [silv_predict_biomass()], [biomass_models], [eq_biomass_montero_2005()], [eq_biomass_dieguez_aranda_2009()]
+#' Aboveground group (summed automatically):
+#' 
+#' * `"AGB"` — total aboveground biomass (sum of all components below)
+#' 
+#' Individual tree components:
+#' 
+#' * `"stem and thick branches"` — stem together with branches > 7 cm
+#' * `"medium branches"` — branches 2–7 cm
+#' * `"small branches"` — branches < 2 cm
+#' 
+#' Users can check the full species–component matrix in [biomass_models].
+#' 
+#' @seealso [silv_predict_biomass()], [biomass_models], [eq_biomass_montero_2005()], [eq_biomass_dieguez_aranda_2009()],
 #' [eq_biomass_ruiz_peinado_2011()], [eq_biomass_ruiz_peinado_2012()], [eq_biomass_menendez_2022()], 
 #' [eq_biomass_cudjoe_2024()] 
 #'
 #' @examples
-#' ## get model parameters for silv_predict_biomass
+#' ## Aboveground biomass for Quercus petraea
 #' eq_biomass_manrique_2017("Quercus petraea", "AGB")
 eq_biomass_manrique_2017 <- function(species, component = "AGB", return_r2 = FALSE, return_rmse = FALSE) {
 
@@ -611,17 +730,43 @@ eq_biomass_manrique_2017 <- function(species, component = "AGB", return_r2 = FAL
 #' 
 #' @details
 #' 
-#' There are 15 species in this model, including generic equations for *Conifers*, 
-#' *Deciduous broadleaves*, and *Evergreen broadleaves*.
+#' **Supported species (18):**
 #' 
-#' All the models measure only aboveground biomass.
+#' *Betula* sp., *Fagus sylvatica*, *Juniperus thurifera*, *Pinus halepensis*,
+#' *Pinus nigra*, *Pinus pinaster*, *Pinus pinea*, *Pinus radiata*, *Pinus sylvestris*,
+#' *Quercus faginea*, *Quercus ilex*, *Quercus petraea*, *Quercus pyrenaica*,
+#' *Quercus robur*, *Quercus suber*
 #' 
-#' @seealso [silv_predict_biomass()], [biomass_models], [eq_biomass_montero_2005()], [eq_biomass_dieguez_aranda_2009()]
+#' Generic equations are also available for functional groups:
+#' 
+#' * `"Conifers"` — generic equation for conifer species
+#' * `"Deciduous broadleaves"` — generic equation for deciduous broadleaf species
+#' * `"Evergreen broadleaves"` — generic equation for evergreen broadleaf species
+#' 
+#' **Available components:**
+#' 
+#' * `"AGB"` — aboveground biomass (only component available; no `component` argument needed)
+#' 
+#' **Important — non-standard input variables:**
+#' 
+#' Unlike other biomass models, these equations were fitted on **young plantations
+#' (< 30 years)** and use different predictor variables:
+#' 
+#' * Most species use `rcd` = root collar diameter (cm), **not** diameter at breast
+#'   height. Pass it via the `rcd` argument of [silv_predict_biomass()].
+#' * Some species (*Pinus halepensis*, *Pinus nigra*, *Quercus suber*,
+#'   *Evergreen broadleaves*) use `bp` = biomass packing (m\ifelse{html}{\out{<sup>3</sup>}}{$^3$}). Pass it via the
+#'   `bp` argument of [silv_predict_biomass()].
+#' * *Betula* sp. uses only `h` (total height).
+#' 
+#' Users can check the full species–component matrix in [biomass_models].
+#' 
+#' @seealso [silv_predict_biomass()], [biomass_models], [eq_biomass_montero_2005()], [eq_biomass_dieguez_aranda_2009()],
 #' [eq_biomass_ruiz_peinado_2011()], [eq_biomass_ruiz_peinado_2012()], [eq_biomass_manrique_2017()], 
 #' [eq_biomass_cudjoe_2024()] 
 #'
 #' @examples
-#' ## get model parameters for silv_predict_biomass
+#' ## AGB for Fagus sylvatica using root collar diameter
 #' eq_biomass_menendez_2022("Fagus sylvatica")
 eq_biomass_menendez_2022 <- function(species, return_r2 = FALSE, return_rmse = FALSE) {
 
@@ -680,28 +825,33 @@ eq_biomass_menendez_2022 <- function(species, return_r2 = FALSE, return_rmse = F
 #' 
 #' @details
 #' 
-#' There are three species options in this model:
+#' **Supported species (3):**
 #' 
-#' * ***Quercus petraea***
+#' * *Pinus sylvestris*
+#' * *Quercus petraea*
+#' * `"mixed"` — mixed stand of *Pinus sylvestris* × *Quercus petraea*
 #' 
-#' * ***Pinus sylvestris***
+#' **Available components:**
 #' 
-#' * **Mixed**: stands with *Quercus petraea* and *Pinus sylvestris*
+#' Aboveground group (summed automatically):
 #' 
-#' The tree components include some AGB components:
+#' * `"AGB"` — total aboveground biomass (sum of all components below)
 #' 
-#' * **leaves**: only for *P. sylvestris*
-#' * **stem**: for all species
-#' * **medium branches and small brances**: for all species
-#' * **thick branches**: for all species
-#' * **AGB**: total biomass, results of summing the previous components
+#' Individual tree components (species availability varies):
 #' 
-#' @seealso [silv_predict_biomass()], [biomass_models], [eq_biomass_montero_2005()], [eq_biomass_dieguez_aranda_2009()]
+#' * `"stem"` — stem wood (all species)
+#' * `"thick branches"` — branches > 7 cm (all species)
+#' * `"medium branches and small branches"` — branches < 7 cm (all species)
+#' * `"leaves"` — foliage/needles (*Pinus sylvestris* only)
+#' 
+#' Users can check the full species–component matrix in [biomass_models].
+#' 
+#' @seealso [silv_predict_biomass()], [biomass_models], [eq_biomass_montero_2005()], [eq_biomass_dieguez_aranda_2009()],
 #' [eq_biomass_ruiz_peinado_2011()], [eq_biomass_ruiz_peinado_2012()], [eq_biomass_manrique_2017()],
 #' [eq_biomass_menendez_2022()]
 #'
 #' @examples
-#' ## get model parameters for silv_predict_biomass
+#' ## Aboveground biomass for a mixed stand
 #' eq_biomass_cudjoe_2024("mixed", "AGB")
 eq_biomass_cudjoe_2024 <- function(species, component = "AGB", return_rmse = FALSE) {
 
@@ -733,7 +883,7 @@ eq_biomass_cudjoe_2024 <- function(species, component = "AGB", return_rmse = FAL
 
   # 2. Return
   ModelBiomass(
-    equation   = "cudjoe-2017",
+    equation   = "cudjoe-2024",
     species    = species,
     component  = component,
     expression = data.frame(

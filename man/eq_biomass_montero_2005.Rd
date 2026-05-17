@@ -24,37 +24,52 @@ A S7 list of parameters
 Allometric equations adjusted for Spanish species
 }
 \details{
-There are 35 species included in the model.
+\strong{Supported species (35):}
 
-The tree components are divided into groups, and any of them can be introduced in the
-component argument:
+\emph{Abies alba}, \emph{Abies pinsapo}, \emph{Alnus glutinosa}, \emph{Betula} spp., \emph{Castanea sativa},
+\emph{Ceratonia siliqua}, \emph{Erica arborea}, \emph{Eucalyptus} spp., \emph{Fagus sylvatica},
+\emph{Fraxinus} spp., \emph{Ilex canariensis}, \emph{Juniperus oxycedrus}, \emph{Juniperus phoenicea},
+\emph{Juniperus thurifera}, \emph{Laurus azorica}, \emph{Myrica faya}, \emph{Olea europaea} var. \emph{sylvestris},
+\emph{Other broadleaves}, \emph{Other conifers}, \emph{Other laurel species}, \emph{Pinus canariensis},
+\emph{Pinus halepensis}, \emph{Pinus nigra}, \emph{Pinus pinaster}, \emph{Pinus pinea}, \emph{Pinus radiata},
+\emph{Pinus sylvestris}, \emph{Pinus uncinata}, \emph{Populus x euramericana}, \emph{Quercus canariensis},
+\emph{Quercus faginea}, \emph{Quercus ilex}, \emph{Quercus pyrenaica}, \emph{Quercus robur}, \emph{Quercus suber}
+
+\strong{Available components:}
+
+Aboveground / belowground groups (summed automatically):
 \itemize{
-\item \strong{AGB}: all aboveground biomass components
-\item \strong{BGB}: all belowground biomass compoponents
-\item \strong{tree} or \strong{all}: total tree biomass includying AGB and BGB
+\item \code{"AGB"} — total aboveground biomass
+\item \code{"BGB"} — total belowground biomass (roots)
+\item \code{"all"} or \code{"tree"} — total tree biomass (AGB + BGB)
 }
 
-Then we have the second group of components, which are related to tree groups:
+Tree structural groups:
 \itemize{
-\item \strong{stem}: includes the stem and bark
-\item \strong{branches}: includes all branches
-\item \strong{roots}: includes the roots (same as BGB)
+\item \code{"stem"} — stem fraction(s)
+\item \code{"branches"} — all branch fractions combined
+\item \code{"roots"} — roots (equivalent to BGB)
 }
 
-Finally, we have the last level, which includes tree components (not all of them
-are available for all species): stem, bark, thick branches (>7cm), medium branches (2-7cm),
-thin branches (0.5-2cm), leaves (include needles), roots. In some species,
-there's "stem and thick branches", instead of two groups.
+Individual tree components (species availability varies):
+\itemize{
+\item \code{"stem"} — stem wood
+\item \code{"stem and thick branches"} — stem together with branches > 7 cm
+\item \code{"thick branches"} — branches > 7 cm
+\item \code{"medium branches"} — branches 2–7 cm
+\item \code{"small branches"} — branches < 2 cm
+\item \code{"leaves"} — foliage (including needles)
+\item \code{"roots"} — coarse roots
+}
 
-Users can check the list of supported species and their corresponding components
-in \link{biomass_models}.
+Users can check the full species–component matrix in \link{biomass_models}.
 }
 \examples{
-## get model parameters for silv_predict_biomass
+## Aboveground biomass for Pinus pinaster
 eq_biomass_montero_2005("Pinus pinaster", "AGB")
 }
 \seealso{
-\code{\link[=silv_predict_biomass]{silv_predict_biomass()}}, \link{biomass_models}, \code{\link[=eq_biomass_dieguez_aranda_2009]{eq_biomass_dieguez_aranda_2009()}}
+\code{\link[=silv_predict_biomass]{silv_predict_biomass()}}, \link{biomass_models}, \code{\link[=eq_biomass_dieguez_aranda_2009]{eq_biomass_dieguez_aranda_2009()}},
 \code{\link[=eq_biomass_ruiz_peinado_2011]{eq_biomass_ruiz_peinado_2011()}}, \code{\link[=eq_biomass_ruiz_peinado_2012]{eq_biomass_ruiz_peinado_2012()}}, \code{\link[=eq_biomass_manrique_2017]{eq_biomass_manrique_2017()}},
 \code{\link[=eq_biomass_menendez_2022]{eq_biomass_menendez_2022()}}, \code{\link[=eq_biomass_cudjoe_2024]{eq_biomass_cudjoe_2024()}}
 }

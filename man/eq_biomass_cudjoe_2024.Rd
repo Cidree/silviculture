@@ -25,28 +25,36 @@ Allometric equations adjusted for \emph{Quercus petraea}, and \emph{Pinus sylves
 in Castille and León (Spain)
 }
 \details{
-There are three species options in this model:
+\strong{Supported species (3):}
 \itemize{
-\item \emph{\strong{Quercus petraea}}
-\item \emph{\strong{Pinus sylvestris}}
-\item \strong{Mixed}: stands with \emph{Quercus petraea} and \emph{Pinus sylvestris}
+\item \emph{Pinus sylvestris}
+\item \emph{Quercus petraea}
+\item \code{"mixed"} — mixed stand of \emph{Pinus sylvestris} × \emph{Quercus petraea}
 }
 
-The tree components include some AGB components:
+\strong{Available components:}
+
+Aboveground group (summed automatically):
 \itemize{
-\item \strong{leaves}: only for \emph{P. sylvestris}
-\item \strong{stem}: for all species
-\item \strong{medium branches and small brances}: for all species
-\item \strong{thick branches}: for all species
-\item \strong{AGB}: total biomass, results of summing the previous components
+\item \code{"AGB"} — total aboveground biomass (sum of all components below)
 }
+
+Individual tree components (species availability varies):
+\itemize{
+\item \code{"stem"} — stem wood (all species)
+\item \code{"thick branches"} — branches > 7 cm (all species)
+\item \code{"medium branches and small branches"} — branches < 7 cm (all species)
+\item \code{"leaves"} — foliage/needles (\emph{Pinus sylvestris} only)
+}
+
+Users can check the full species–component matrix in \link{biomass_models}.
 }
 \examples{
-## get model parameters for silv_predict_biomass
+## Aboveground biomass for a mixed stand
 eq_biomass_cudjoe_2024("mixed", "AGB")
 }
 \seealso{
-\code{\link[=silv_predict_biomass]{silv_predict_biomass()}}, \link{biomass_models}, \code{\link[=eq_biomass_montero_2005]{eq_biomass_montero_2005()}}, \code{\link[=eq_biomass_dieguez_aranda_2009]{eq_biomass_dieguez_aranda_2009()}}
+\code{\link[=silv_predict_biomass]{silv_predict_biomass()}}, \link{biomass_models}, \code{\link[=eq_biomass_montero_2005]{eq_biomass_montero_2005()}}, \code{\link[=eq_biomass_dieguez_aranda_2009]{eq_biomass_dieguez_aranda_2009()}},
 \code{\link[=eq_biomass_ruiz_peinado_2011]{eq_biomass_ruiz_peinado_2011()}}, \code{\link[=eq_biomass_ruiz_peinado_2012]{eq_biomass_ruiz_peinado_2012()}}, \code{\link[=eq_biomass_manrique_2017]{eq_biomass_manrique_2017()}},
 \code{\link[=eq_biomass_menendez_2022]{eq_biomass_menendez_2022()}}
 }

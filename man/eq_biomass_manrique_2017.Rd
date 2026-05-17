@@ -33,22 +33,34 @@ Allometric equations adjusted for \emph{Quercus petraea} and \emph{Quercus pyren
 in Palencia, Spain
 }
 \details{
-There are two species in this model: \emph{Quercus petraea} and \emph{Quercus pyrenaica}
-
-The tree components include:
+\strong{Supported species (2):}
 \itemize{
-\item \strong{stem}: includes stem and the thickest branches
-\item \strong{medium branches}
-\item \strong{thin branches}
-\item \strong{AGB}: total biomass, results of summing the previous three components
+\item \emph{Quercus petraea}
+\item \emph{Quercus pyrenaica}
 }
+
+\strong{Available components:}
+
+Aboveground group (summed automatically):
+\itemize{
+\item \code{"AGB"} — total aboveground biomass (sum of all components below)
+}
+
+Individual tree components:
+\itemize{
+\item \code{"stem and thick branches"} — stem together with branches > 7 cm
+\item \code{"medium branches"} — branches 2–7 cm
+\item \code{"small branches"} — branches < 2 cm
+}
+
+Users can check the full species–component matrix in \link{biomass_models}.
 }
 \examples{
-## get model parameters for silv_predict_biomass
+## Aboveground biomass for Quercus petraea
 eq_biomass_manrique_2017("Quercus petraea", "AGB")
 }
 \seealso{
-\code{\link[=silv_predict_biomass]{silv_predict_biomass()}}, \link{biomass_models}, \code{\link[=eq_biomass_montero_2005]{eq_biomass_montero_2005()}}, \code{\link[=eq_biomass_dieguez_aranda_2009]{eq_biomass_dieguez_aranda_2009()}}
+\code{\link[=silv_predict_biomass]{silv_predict_biomass()}}, \link{biomass_models}, \code{\link[=eq_biomass_montero_2005]{eq_biomass_montero_2005()}}, \code{\link[=eq_biomass_dieguez_aranda_2009]{eq_biomass_dieguez_aranda_2009()}},
 \code{\link[=eq_biomass_ruiz_peinado_2011]{eq_biomass_ruiz_peinado_2011()}}, \code{\link[=eq_biomass_ruiz_peinado_2012]{eq_biomass_ruiz_peinado_2012()}}, \code{\link[=eq_biomass_menendez_2022]{eq_biomass_menendez_2022()}},
 \code{\link[=eq_biomass_cudjoe_2024]{eq_biomass_cudjoe_2024()}}
 }
