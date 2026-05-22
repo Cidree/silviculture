@@ -7,19 +7,17 @@
 silv_stand_dominant_diameter(
   diameter,
   ntrees = NULL,
-  which = "assman",
-  quiet = FALSE
+  which = c("assman", "weise")
 )
 }
 \arguments{
-\item{diameter}{Numeric vector with diameter classes}
+\item{diameter}{Numeric vector of diameters or diameter classes}
 
-\item{ntrees}{Optional. Numeric vector with number of trees per hectare.
-Use this argument when you have aggregated data by diametric classes (see details).}
+\item{ntrees}{Numeric vector with number of trees of the diameter class per
+hectare. If \code{ntrees = NULL}, the function will assume that each diameter
+corresponds to only one tree}
 
 \item{which}{The method to calculate the dominant diameter (see details)}
-
-\item{quiet}{if \code{TRUE}, messages will be supressed}
 }
 \value{
 A numeric vector

@@ -26,9 +26,8 @@ Thinning <- S7::new_class(
 #' @param data A data frame, or silviculture::Inventory object. See details.
 #' @param var A variable used for calculating the thinning. Typically used variables
 #' basal area, number of trees, or volume
-#' @param diameter Numeric vector with diametric classes
-#' @param ntrees Numeric vector with the number of trees per hectare of each diametric
-#' class
+#' @template diameter
+#' @template ntrees
 #' @param thinning Charater string specifying the thinning type. Available options
 #' are `below` and `above`
 #' @param perc Numeric value between 0 and 1 specifying the percentage of `var`
@@ -92,11 +91,19 @@ Thinning <- S7::new_class(
 #'   thinning = "above",
 #'   perc     = 0.2
 #' )
-silv_treatment_thinning <- function(data, var, diameter, ntrees, thinning = "below", perc = 0.3, .groups = NULL) {
+silv_treatment_thinning <- function(
+  data, 
+  var, 
+  diameter, 
+  ntrees, 
+  thinning = c("below", "above"), 
+  perc = 0.3, 
+  .groups = NULL
+) {
 
-  ## check for errors
-  if (!thinning %in% c("below", "above")) cli::cli_abort("Thinning must be either `below` or `above`.")
-  if (perc < 0 | perc > 1) cli::cli_abort("`perc` must be between 0 and 1.")
+  # 0. Validate inputs
+  thinning <- match.arg(thinning)
+  assert_numeric_interval(perc, 0, 1, "perc")
 
   ## take CD table if data is silviculture::Inventory
   if (inherits(data, "silviculture::Inventory")) {

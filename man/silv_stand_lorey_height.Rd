@@ -7,12 +7,13 @@
 silv_stand_lorey_height(height, g, ntrees = NULL)
 }
 \arguments{
-\item{height}{Numeric vector of heights}
+\item{height}{Numeric vector of tree heights}
 
 \item{g}{Numeric vector of basal areas}
 
-\item{ntrees}{Optional. Numeric vector of number of trees per hectare.
-Use this argument when you have aggregated data by diametric classes (see details).}
+\item{ntrees}{Numeric vector with number of trees of the diameter class per
+hectare. If \code{ntrees = NULL}, the function will assume that each diameter
+corresponds to only one tree}
 }
 \value{
 A numeric vector
