@@ -13,3 +13,4 @@ internal-data/*
 ^CRAN-SUBMISSION$
 ^doc$
 ^Meta$
+^vignettes/\.quarto$
