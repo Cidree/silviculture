@@ -19,7 +19,7 @@ silv_tree_dclass(
 
 - diameter:
 
-  A numeric vector of diameters
+  Numeric vector of diameters or diameter classes
 
 - dmin:
 

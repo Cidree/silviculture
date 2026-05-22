@@ -13,11 +13,13 @@ silv_density_sdi(ntrees, dg, classify = FALSE, max_sdi = NULL)
 
 - ntrees:
 
-  A numeric vector representing the number of trees per hectare
+  Numeric vector with number of trees of the diameter class per hectare.
+  If `ntrees = NULL`, the function will assume that each diameter
+  corresponds to only one tree
 
 - dg:
 
-  A numeric vector of quadratic mean diameters
+  Numeric vector of quadratic mean diameters
 
 - classify:
 

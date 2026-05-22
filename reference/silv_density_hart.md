@@ -5,7 +5,7 @@ Calculates the Hart Index or the Hart-Becking Index for even-aged stands
 ## Usage
 
 ``` r
-silv_density_hart(h0, ntrees, which = "hart")
+silv_density_hart(h0, ntrees, which = c("hart", "hart-becking"))
 ```
 
 ## Arguments
@@ -16,7 +16,9 @@ silv_density_hart(h0, ntrees, which = "hart")
 
 - ntrees:
 
-  Numeric vector with number of trees of the dominant height per hectare
+  Numeric vector with number of trees of the diameter class per hectare.
+  If `ntrees = NULL`, the function will assume that each diameter
+  corresponds to only one tree
 
 - which:
 

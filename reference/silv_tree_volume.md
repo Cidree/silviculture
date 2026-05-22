@@ -63,13 +63,10 @@ A numeric value representing the tree volume.
 
 ``` r
 silv_tree_volume(diameter_base = 30, height = 20, formula = "pressler")
-#> ! When using Pressler formula, the height is assumed to be Pressler directrix point (i.e., the height at which the diameter of the stem is half the diameter in the base of the tree).
-#> ℹ Since v. 0.2.0 the diameter is assumed to be in centimeters.
+#> ! When using Pressler formula, height is assumed to be the Pressler directrix point (i.e., the height at which the stem diameter is half the base diameter).
 #> [1] 0.9424778
 silv_tree_volume(diameter_center = 25, height = 15, formula = "huber")
-#> ℹ Since v. 0.2.0 the diameter is assumed to be in centimeters.
 #> [1] 0.7363108
 silv_tree_volume(diameter_base = 30, diameter_top = 20, height = 20, formula = "smalian")
-#> ℹ Since v. 0.2.0 the diameter is assumed to be in centimeters.
 #> [1] 1.021018
 ```

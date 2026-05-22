@@ -29,11 +29,11 @@ silv_summary(
 
 - diameter:
 
-  A column with inventory diameters
+  Numeric vector of diameters or diameter classes
 
 - height:
 
-  A column with inventory heights
+  Numeric vector of tree heights
 
 - plot_size:
 

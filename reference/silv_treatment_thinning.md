@@ -13,7 +13,7 @@ silv_treatment_thinning(
   var,
   diameter,
   ntrees,
-  thinning = "below",
+  thinning = c("below", "above"),
   perc = 0.3,
   .groups = NULL
 )
@@ -32,12 +32,13 @@ silv_treatment_thinning(
 
 - diameter:
 
-  Numeric vector with diametric classes
+  Numeric vector of diameters or diameter classes
 
 - ntrees:
 
-  Numeric vector with the number of trees per hectare of each diametric
-  class
+  Numeric vector with number of trees of the diameter class per hectare.
+  If `ntrees = NULL`, the function will assume that each diameter
+  corresponds to only one tree
 
 - thinning:
 

@@ -12,7 +12,7 @@ silv_stand_lorey_height(height, g, ntrees = NULL)
 
 - height:
 
-  Numeric vector of heights
+  Numeric vector of tree heights
 
 - g:
 
@@ -20,9 +20,9 @@ silv_stand_lorey_height(height, g, ntrees = NULL)
 
 - ntrees:
 
-  Optional. Numeric vector of number of trees per hectare. Use this
-  argument when you have aggregated data by diametric classes (see
-  details).
+  Numeric vector with number of trees of the diameter class per hectare.
+  If `ntrees = NULL`, the function will assume that each diameter
+  corresponds to only one tree
 
 ## Value
 

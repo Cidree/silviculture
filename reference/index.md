@@ -100,6 +100,8 @@ Calculate and explore forest inventory sample size
 - [`silv_sample_size()`](https://cidree.github.io/silviculture/reference/silv_sample_size.md)
   **\[deprecated\]** : Calculates sample size for a random sampling
   inventory
+- [`plot_SimpleSampleSize`](https://cidree.github.io/silviculture/reference/SimpleSampleSize.md)
+  : Plot Sample Size vs Error
 
 ## Treatments
 

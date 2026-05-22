@@ -18,7 +18,7 @@ silv_stand_qmean_diameter(diameter, ntrees = NULL)
 
   Numeric vector with number of trees of the diameter class per hectare.
   If `ntrees = NULL`, the function will assume that each diameter
-  corresponds to only one tree.
+  corresponds to only one tree
 
 ## Value
 

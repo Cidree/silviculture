@@ -94,10 +94,25 @@ silv_sample_size_simple(
   conf_level = 0.95,
   max_iter   = 100
 )
-#> ℹ A total of 4 plots were measured in the pilot inventory, each plot measuring 625 squared meters.
-#> ℹ A minimum of 18 inventory plots are needed for a maximum sampling error of 5% (95% CI [35.08, 38.77]).
-#> ℹ The sampling effort will be 1.2 plots/ha
-#> ℹ Note that these calculations assume that you will do a simple random sampling
+#> 
+#> ── Simple Random Sampling ──────────────────────────────────────────────────────
+#> Estimating minimum sample size using Simple Random Sampling.
+#> 
+#> ── Pilot inventory ──
+#> 
+#> • Plots measured: 4
+#> • Plot size: 625 m²
+#> • Total area: 15 ha
+#> • Coefficient of variation: 10.43%
+#> 
+#> ── Results ──
+#> 
+#> • Minimum sampling plots: 18
+#> • Maximum allowed error: 5%
+#> • Confidence interval: 95% CI [35.08, 38.77]
+#> • Sampling effort: 1.2 plots/ha
+#> 
+#> ℹ Calculations assume simple random sampling across the entire area.
 #> <silviculture::SampleSize>
 #>  @ sampling_res :List of 4
 #>  .. $ min_plots      : num 18

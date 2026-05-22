@@ -6,24 +6,29 @@ equation
 ## Usage
 
 ``` r
-silv_stand_dominant_height(diameter, height, ntrees = NULL, which = "assman")
+silv_stand_dominant_height(
+  diameter,
+  height,
+  ntrees = NULL,
+  which = c("assman", "hart")
+)
 ```
 
 ## Arguments
 
 - diameter:
 
-  Numeric vector with diameter classes
+  Numeric vector of diameters or diameter classes
 
 - height:
 
-  Numeric vector with averaged heights by diameter class
+  Numeric vector of tree heights
 
 - ntrees:
 
-  Optional. Numeric vector with number of trees per hectare. Use this
-  argument when you have aggregated data by diametric classes (see
-  details).
+  Numeric vector with number of trees of the diameter class per hectare.
+  If `ntrees = NULL`, the function will assume that each diameter
+  corresponds to only one tree
 
 - which:
 
