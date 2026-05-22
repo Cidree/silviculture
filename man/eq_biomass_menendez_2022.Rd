@@ -25,17 +25,46 @@ Allometric equations for young (<30) plantations of 18 Spanish species including
 broadleaf and conifer species. Only aboveground biomass.
 }
 \details{
-There are 15 species in this model, including generic equations for \emph{Conifers},
-\emph{Deciduous broadleaves}, and \emph{Evergreen broadleaves}.
+\strong{Supported species (18):}
 
-All the models measure only aboveground biomass.
+\emph{Betula} sp., \emph{Fagus sylvatica}, \emph{Juniperus thurifera}, \emph{Pinus halepensis},
+\emph{Pinus nigra}, \emph{Pinus pinaster}, \emph{Pinus pinea}, \emph{Pinus radiata}, \emph{Pinus sylvestris},
+\emph{Quercus faginea}, \emph{Quercus ilex}, \emph{Quercus petraea}, \emph{Quercus pyrenaica},
+\emph{Quercus robur}, \emph{Quercus suber}
+
+Generic equations are also available for functional groups:
+\itemize{
+\item \code{"Conifers"} — generic equation for conifer species
+\item \code{"Deciduous broadleaves"} — generic equation for deciduous broadleaf species
+\item \code{"Evergreen broadleaves"} — generic equation for evergreen broadleaf species
+}
+
+\strong{Available components:}
+\itemize{
+\item \code{"AGB"} — aboveground biomass (only component available; no \code{component} argument needed)
+}
+
+\strong{Important — non-standard input variables:}
+
+Unlike other biomass models, these equations were fitted on \strong{young plantations
+(< 30 years)} and use different predictor variables:
+\itemize{
+\item Most species use \code{rcd} = root collar diameter (cm), \strong{not} diameter at breast
+height. Pass it via the \code{rcd} argument of \code{\link[=silv_predict_biomass]{silv_predict_biomass()}}.
+\item Some species (\emph{Pinus halepensis}, \emph{Pinus nigra}, \emph{Quercus suber},
+\emph{Evergreen broadleaves}) use \code{bp} = biomass packing (m\ifelse{html}{\out{<sup>3</sup>}}{$^3$}). Pass it via the
+\code{bp} argument of \code{\link[=silv_predict_biomass]{silv_predict_biomass()}}.
+\item \emph{Betula} sp. uses only \code{h} (total height).
+}
+
+Users can check the full species–component matrix in \link{biomass_models}.
 }
 \examples{
-## get model parameters for silv_predict_biomass
+## AGB for Fagus sylvatica using root collar diameter
 eq_biomass_menendez_2022("Fagus sylvatica")
 }
 \seealso{
-\code{\link[=silv_predict_biomass]{silv_predict_biomass()}}, \link{biomass_models}, \code{\link[=eq_biomass_montero_2005]{eq_biomass_montero_2005()}}, \code{\link[=eq_biomass_dieguez_aranda_2009]{eq_biomass_dieguez_aranda_2009()}}
+\code{\link[=silv_predict_biomass]{silv_predict_biomass()}}, \link{biomass_models}, \code{\link[=eq_biomass_montero_2005]{eq_biomass_montero_2005()}}, \code{\link[=eq_biomass_dieguez_aranda_2009]{eq_biomass_dieguez_aranda_2009()}},
 \code{\link[=eq_biomass_ruiz_peinado_2011]{eq_biomass_ruiz_peinado_2011()}}, \code{\link[=eq_biomass_ruiz_peinado_2012]{eq_biomass_ruiz_peinado_2012()}}, \code{\link[=eq_biomass_manrique_2017]{eq_biomass_manrique_2017()}},
 \code{\link[=eq_biomass_cudjoe_2024]{eq_biomass_cudjoe_2024()}}
 }
