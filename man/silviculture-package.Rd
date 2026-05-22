@@ -22,6 +22,7 @@ Useful links:
 
 Authors:
 \itemize{
+  \item Adrián Cidre González \email{adrian.cidre@gmail.com}
   \item Aitor Vázquez Veloso \email{aitor.vazquez.veloso@uva.es}
 }
 

@@ -270,7 +270,7 @@ eq_biomass_ruiz_peinado_2012 <- function(species, component = "stem", return_rms
 
   # 2. Return
   ModelBiomass(
-    equation   = "ruiz-peinado-2011",
+    equation   = "ruiz-peinado-2012",
     species    = species,
     component  = component,
     expression = data.frame(
