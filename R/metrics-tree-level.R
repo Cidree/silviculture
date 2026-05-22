@@ -4,13 +4,8 @@
 #'
 #' Classifies the measured diameters into classes of a specified length
 #'
-#' @param diameter A numeric vector of diameters
-#' @param dmin The minimum inventory diameter in centimeters
-#' @param dmax The maximum inventory diameter in centimeters. Values that
-#'    are greater than `dmax` are included in the greatest class
-#' @param class_length The length of the class in centimeters
-#' @param include_lowest Logical. If TRUE (the default), the intervals are
-#'    `[dim1, dim2)`. If FALSE, the intervals are `(dim1, dim2]`
+#' @template diameter
+#' @template dclass_params
 #' @param return_intervals If FALSE, it returns the intervals. Otherwise (the
 #'    default), it returns the class center
 #'
@@ -21,28 +16,26 @@
 #' library(dplyr)
 #' inventory_samples |>
 #'   mutate(dclass = silv_tree_dclass(diameter))
-silv_tree_dclass <- function(diameter,
-                            dmin             = 7.5,
-                            dmax             = NULL,
-                            class_length     = 5,
-                            include_lowest   = TRUE,
-                            return_intervals = FALSE) {
+silv_tree_dclass <- function(
+  diameter,
+  dmin             = 7.5,
+  dmax             = NULL,
+  class_length     = 5,
+  include_lowest   = TRUE,  # TODO - this argument is ambiguous
+  return_intervals = FALSE
+) {
 
-  # 0. Setup and handle errors
-  ## 0.1. Handle data type
-  if (!is.logical(return_intervals)) cli::cli_abort("The argument `return_intervals` must be TRUE or FALSE")
-  if (!is.logical(include_lowest)) cli::cli_abort("The argument `include_lowest` must be TRUE or FALSE")
-  if (!is.numeric(diameter)) cli::cli_abort("`diameter` must be a numeric vector")
-  if (!is.numeric(dmin)) cli::cli_abort("`dmin` must be a numeric vector")
-  if (!is.numeric(dmax) && !is.null(dmax)) cli::cli_abort("`dmax` must be a numeric vector or NULL")
-  if (!is.numeric(class_length)) cli::cli_abort("`class_length` must be a numeric vector")
-  ## 0.2. Invalid values
-  if (any(diameter < 0, na.rm = TRUE)) cli::cli_warn("Any value in `diameter` is less than 0. Review your data.")
-  if (dmin <= 0) cli::cli_abort("`dmin` must be greater than 0")
-  if (dmax <= 0 && !is.null(dmax)) cli::cli_abort("`dmax` must be greater than 0")
-  if (class_length <= 0) cli::cli_abort("`class_length` must be greater than 0")
-  ## 0.3. dmax must be > than dmin
-  if (dmin >= dmax && is.numeric(dmax)) cli::cli_abort("`dmax` has to be greater than `dmin`")
+  # 0. Validate inputs
+  assert_positive_numeric(diameter, "diameter")
+  assert_positive_numeric(dmin, "dmin")
+  assert_positive_numeric(class_length, "class_length")
+  assert_logical(include_lowest, "include_lowest")
+  assert_logical(return_intervals, "return_intervals")
+  if (!is.null(dmax)) {
+    assert_positive_numeric(dmax, "dmax")
+    assert_greater_than(dmax, dmin, "dmax")
+  }
+
 
   # 1. Create intervals depending on user input
   ## - If dmax is NULL, use max diameter from data
@@ -55,6 +48,7 @@ silv_tree_dclass <- function(diameter,
     diameter[diameter > dmax] <- dmax
     cuts_vec <- c(seq(dmin, dmax, class_length), Inf)
   }
+
 
   # 2. Create intervals either ( ] or [ )
   if (include_lowest) {
@@ -95,7 +89,7 @@ silv_tree_dclass <- function(diameter,
 #'
 #' Calculates Basal Area in square meters.
 #'
-#' @param diameter Numeric vector of diameters or diameter classes
+#' @template diameter
 #' @param units The units of the diameter (one of `mm`, `cm`, `dm`, or `m`)
 #'
 #' @return A numeric vector
@@ -116,13 +110,13 @@ silv_tree_dclass <- function(diameter,
 #' @examples
 #' ## calculate individual basal area
 #' silv_tree_basal_area(c(23, 11, 43.5, 94))
-silv_tree_basal_area <- function(diameter,
-                                units = "cm") {
+silv_tree_basal_area <- function(
+  diameter,
+  units = "cm"
+) {
 
-  # 0. Handle errors and set-up
-  if (!is.numeric(diameter)) cli::cli_abort("`diameter` must be a numeric vector")
-  ## 0.2. Invalid values
-  if (any(diameter <= 0, na.rm = TRUE)) cli::cli_warn("Any value in `diameter` is less than 0. Review your data.")
+  # 0. Validate inputs
+  assert_positive_numeric(diameter, "diameter")
 
   # 1. Calculate basal area
   switch(units,
@@ -130,7 +124,7 @@ silv_tree_basal_area <- function(diameter,
     "cm" = (pi / 4) * (diameter / 100)**2,
     "dm" = (pi / 4) * (diameter / 10)**2,
     "m"  = (pi / 4) * diameter**2,
-    cli::cli_abort("Invalid `units`. Use <mm>, <cm>, <dm>, or <m>")
+    cli::cli_abort("Invalid `units`. Use one of {.val {c('mm', 'cm', 'dm', 'm')}}")
   )
 
 }
@@ -166,31 +160,69 @@ silv_tree_basal_area <- function(diameter,
 #' silv_tree_volume(diameter_base = 30, diameter_top = 20, height = 20, formula = "smalian")
 #'
 #' @export
-silv_tree_volume <- function(diameter_base   = NULL,
-                        diameter_top    = NULL,
-                        diameter_center = NULL,
-                        diameter        = NULL,
-                        height          = NULL,
-                        formula         = "pressler",
-                        ntrees          = NULL) {
+silv_tree_volume <- function(
+    diameter_base   = NULL,
+    diameter_top    = NULL,
+    diameter_center = NULL,
+    diameter        = NULL,
+    height          = NULL,
+    formula         = "pressler",
+    ntrees          = NULL) {
 
-  if (is.null(ntrees)) ntrees <- 1
-
-  if (formula == "pressler") {
-    cli::cli_alert_warning("When using Pressler formula, the height is assumed to be Pressler directrix point (i.e., the height at which the diameter of the stem is half the diameter in the base of the tree).")
+  
+  # 0. Validate inputs
+  valid_formulas <- c("pressler", "huber", "smalian", "newton")
+  if (!formula %in% valid_formulas) {
+    cli::cli_abort("Invalid `formula`. Use one of {.val {valid_formulas}}")
   }
 
-  ## feedback about units in 0.2.0
-  cli::cli_alert_info("Since v. 0.2.0 the diameter is assumed to be in centimeters.")
+  ## Resolve defaults
+  if (is.null(ntrees)) ntrees <- 1
 
-  ## Apply formula
-  volume_vec <- switch(formula,
-                       "pressler" = if (!is.null(diameter)) (pi / 4) * (diameter / 100)**2 * (2 / 3) * height * ntrees else (pi / 4) * (diameter_base / 100)**2 * (2 / 3) * height * ntrees,
-                       "huber"   = (pi / 4) * (diameter_center / 100)**2 * height * ntrees,
-                       "smalian" = (pi / 8) * ((diameter_base / 100)**2 + (diameter_top / 100)**2) * height * ntrees,
-                       "newton"  = (pi / 24) * ((diameter_base / 100)**2 + (diameter_top / 100)**2 + 4 * (diameter_center / 100)**2) * height * ntrees
+  ## For pressler, diameter_base serves as fallback for diameter
+  if (formula == "pressler" && is.null(diameter)) diameter <- diameter_base
+
+  ## Declare which parameters each formula requires
+  required <- list(
+    pressler = c("height", "ntrees", "diameter"),
+    huber    = c("height", "ntrees", "diameter_center"),
+    smalian  = c("height", "ntrees", "diameter_base", "diameter_top"),
+    newton   = c("height", "ntrees", "diameter_base", "diameter_top", "diameter_center")
   )
 
-  return(volume_vec)
+  ## Assert that required parameters are provided and valid
+  params <- list(
+    height          = height,
+    ntrees          = ntrees,
+    diameter        = diameter,
+    diameter_base   = diameter_base,
+    diameter_top    = diameter_top,
+    diameter_center = diameter_center
+  )
+
+  for (param in required[[formula]]) {
+    assert_positive_numeric(params[[param]], param)
+  }
+
+  if (formula == "pressler") {
+    cli::cli_alert_warning(
+      "When using Pressler formula, height is assumed to be the Pressler \\
+       directrix point (i.e., the height at which the stem diameter is half \\
+       the base diameter)."
+    )
+  }
+
+  # Convert diameter in cm to area in m^2: (d/100)^2 * pi/4
+  area <- function(d) (pi / 4) * (d / 100)^2
+
+  volume_vec <- switch(
+    formula,
+    pressler = (2/3) * area(diameter) * height * ntrees,
+    huber    = area(diameter_center) * height * ntrees,
+    smalian  = (1/2) * (area(diameter_base) + area(diameter_top)) * height * ntrees,
+    newton   = (1/6) * (area(diameter_base) + area(diameter_top) + 4 * area(diameter_center)) * height * ntrees
+  )
+
+  volume_vec
 }
 

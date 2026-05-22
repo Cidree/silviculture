@@ -1,0 +1,105 @@
+---
+title: "Biomass Models"
+date: "`r Sys.Date()`"
+code-annotations: hover
+vignette: >
+  %\VignetteIndexEntry{Biomass Models}
+  %\VignetteEngine{quarto::html}
+  %\VignetteEncoding{UTF-8}
+knitr:
+  opts_chunk:
+    collapse: true
+    comment: "#>"
+    out.width: "100%"
+---
+
+```{r setup}
+library(dplyr)
+library(silviculture)
+```
+
+## Introduction
+
+
+## The ModelBiomass object
+
+Biomass models are bundled around the `S7` object-oriented system. We tried to design the models to be flexible, easy to use, and extendible. The functions to create a biomass model begin with `eq_biomass_`, continued by the identifier of the models, which is typically the first author and the year of the article where the study of the models can be found. Each function refer to an article that is typically focused in a bunch of tree species, or in a specific area. For instance, `eq_biomass_ruiz_peinado_2011()` includes biomass models for Spanish softwood species (e.g. *Pinus pinaster*, *Pinus nigra*...). Depending on the model we will find different arguments:
+
+* `species`: present in all the models. The Latin name of the species. The functions are designed to be flexible, so it can be calculated for one species, or for a vector of species (i.e. we can easily add the biomass component to a `data.frame` using a `mutate()` statement).
+
+* `component`: the component is probably the most challenging argument, since in each study the different parts of the tree can be named slightly different. However, we tried to create a standarized architecture of these arguments. The user can specify main components, or single components. A good way to check the available components for a specific model (note that the components might not be available for all the species):
+
+```{r}
+biomass_models |> 
+  filter(article_id == "ruiz-peinado-2011") |> 
+  count(biomass_group, tree_group, tree_component)
+```
+
+The `component` argument is flexible, and the user can either introduce a biomass group, a tree group, or a tree component.
+
+* `return_rmse` or `return_r2`: whether to return the error of the model instead of the biomass value. This only works for some tree components, and it's not always available.
+
+Now, how does the ModelBiomass look like? Imagine we will calculate the aboveground biomass of three trees. Two of them are *Pinus pinaster*, and the third one is a *Pinus sylvestris*:
+
+```{r}
+eq_biomass_ruiz_peinado_2011(
+  c("Pinus pinaster", "Pinus sylvestris", "Pinus pinaser"),
+  component = "AGB"
+)
+``` 
+
+The S7 object stores several data that will lately be used by `silv_predict_biomass()`, but now let's try to understand what this object is:
+
+* `equation`: identifier of the model.
+
+* `species`: the three trees we inserted as input of the model.
+
+* `component`: the biomass component (AGB = AboveGround Biomass).
+
+* `expression`: a data frame with two columns:
+
+    -  `expression`: all the necessary expressions to calculate the selected component. For the AGB we need the biomass equations of the stem, and branches.
+
+    -   `species`: the species of the expression.
+
+* `url`: link to the article where the source of the biomass models can be found.
+
+* `obs`: observations.
+
+* `params`: extra parameters that depend on the model. We can see for instance that for *Pinus pinaster* we are summing the biomass of the stem; thick and medium branches; small branches and leaves.
+
+This function on its own is useless. We need to introduce it into `silv_predict_biomass()`, which is the main function for calculating the biomass. This functions takes a couple of main arguments that are necessary is most of the biomass models:
+
+* `diameter`: diameter of the tree in cm
+
+* `height`: height of the tree in cm. The height is needed in most of the models, although there are some that use only the diameter.
+
+* `model`: here we introduce the `eq_biomass_*()` function.
+
+* `ntrees`: number of trees with the specified diameter and height.
+
+Let's calculate the AGB of the three trees we saw before, but we will structure them in a data frame:
+
+```{r}
+trees_tbl <- data.frame(
+  sp   = c("Pinus pinaster", "Pinus sylvestris", "Pinus pinaster"),
+  dbh  = c(40, 42, 38),
+  h    = c(23, 21, 25.5)
+)
+```
+
+The `silv_predict_biomass()` is a vectorized function, so we can add the biomass as a new column using the `dplyr::mutate()` function:
+
+```{r}
+trees_tbl |> 
+  mutate(
+    agb = silv_predict_biomass(
+      diameter = dbh,
+      height   = h,
+      model    = eq_biomass_ruiz_peinado_2011(
+        species   = sp,
+        component = "AGB"
+      )
+    )
+  )
+```

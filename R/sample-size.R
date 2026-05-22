@@ -134,26 +134,34 @@ SimpleSampleSize <- S7::new_class(
 #'   conf_level = .95,
 #'   max_error = .05
 #' )
-silv_sample_size_stratified <- function(data,
-                                        x, 
-                                        strata,
-                                        total_area,
-                                        plot_size,
-                                        method     = "optimal",
-                                        cost       = NA,
-                                        max_error  = 0.05,
-                                        conf_level = 0.95,
-                                        max_iter   = 1000,
-                                        currency   = "EUR",
-                                        quiet      = FALSE) {
+silv_sample_size_stratified <- function(
+  data,
+  x, 
+  strata,
+  total_area,
+  plot_size,
+  method     = "optimal",
+  cost       = NA,
+  max_error  = 0.05,
+  conf_level = 0.95,
+  max_iter   = 1000,
+  currency   = "EUR",
+  quiet      = FALSE
+) {
   
-  # 0. Handle errors
+  # 0. Validate inputs
+  valid_methods <- c("optimal", "cost", "prop")
   method_name <- switch(method,
     "optimal" = "Optimal Allocation with Constant Cost",
     "cost"    = "Optimal Allocation with Variable Cost",
     "prop"    = "Proportional Allocation",
-    cli::cli_abort("Invalid method name.")
+    cli::cli_abort("Invalid method name. Use one of {.val {valid_methods}}.")
   )
+  assert_numeric_interval(max_error, 0, 1, "max_error")
+  assert_numeric_interval(conf_level, 0, 1, "conf_level")
+  assert_scalar_numeric(plot_size, "plot_size")
+  assert_scalar_numeric(max_iter, "max_iter")
+  assert_logical(quiet, "quiet")
 
 
   # 1. Get initial params
@@ -404,14 +412,25 @@ silv_sample_size_stratified <- function(data,
 #'   conf_level = 0.95,
 #'   max_iter   = 100
 #' )
-silv_sample_size_simple <- function(x,
-                                    plot_size,
-                                    total_area,
-                                    max_error  = 0.05,
-                                    conf_level = 0.95,
-                                    max_iter   = 1000,
-                                    quiet      = FALSE) {
+silv_sample_size_simple <- function(
+  x,
+  plot_size,
+  total_area,
+  max_error  = 0.05,
+  conf_level = 0.95,
+  max_iter   = 1000,
+  quiet      = FALSE) {
 
+  # 0. Validate inputs
+  assert_positive_numeric(plot_size, "plot_size")
+  assert_scalar_numeric(plot_size, "plot_size")
+  assert_positive_numeric(total_area, "total_area")
+  assert_scalar_numeric(total_area, "total_area")
+  assert_numeric_interval(max_error, 0, 1, "max_error")
+  assert_numeric_interval(conf_level, 0, 1, "conf_level")
+  assert_positive_numeric(max_iter, "max_iter")
+  assert_scalar_numeric(max_iter, "max_iter")
+  assert_logical(quiet, "quiet")
 
   ## calculate Coefficient of Variation (CV)
   cv <- sd(x) / mean(x) * 100
@@ -457,10 +476,31 @@ silv_sample_size_simple <- function(x,
   ci_up <- (mean(x) + mean(x) * max_error) |> round(2)
   effort <- (final_n / total_area * 10000) |> round(2)
   if (!quiet) {
-    cli::cli_alert_info("A total of {length(x)} plots were measured in the pilot inventory, each plot measuring {plot_size} squared meters.")
-    cli::cli_alert_info("A minimum of {final_n} inventory plots are needed for a maximum sampling error of {max_error * 100}% ({conf_level * 100}% CI [{ci_lo}, {ci_up}]).")
-    cli::cli_alert_info("The sampling effort will be {effort} plots/ha")
-    cli::cli_alert_info("Note that these calculations assume that you will do a simple random sampling")
+    cli::cli_h1("Simple Random Sampling")
+    cli::cli_text(
+      "Estimating minimum sample size using {cli::col_br_yellow('Simple Random Sampling')}."
+    )
+
+    cli::cli_h2("Pilot inventory")
+    cli::cli_bullets(c(
+      "*" = "Plots measured: {length(x)}",
+      "*" = "Plot size: {plot_size} m\u00b2",
+      "*" = "Total area: {total_area / 10000} ha",
+      "*" = "Coefficient of variation: {round(cv, 2)}%"
+    ))
+
+    cli::cli_h2("Results")
+    cli::cli_bullets(c(
+      "*" = "Minimum sampling plots: {cli::col_yellow(cli::style_bold(final_n))}",
+      "*" = "Maximum allowed error: {max_error * 100}%",
+      "*" = "Confidence interval: {conf_level * 100}% CI [{ci_lo}, {ci_up}]",
+      "*" = "Sampling effort: {effort} plots/ha"
+    ))
+
+    cli::cli_text("")
+    cli::cli_alert_info(
+      "Calculations assume simple random sampling across the entire area."
+    )
   }
 
   SimpleSampleSize(
@@ -516,7 +556,8 @@ plot <- S7::new_generic("plot", "x")
 #'
 #' @return A `ggplot` object representing the relationship between error and sample size.
 #'
-#' @export
+#' @name plot_SimpleSampleSize
+#' @rdname SimpleSampleSize
 S7::method(plot, SimpleSampleSize) <- function(x, min_error = .01, max_error = .5) {
 
   ## create intervals

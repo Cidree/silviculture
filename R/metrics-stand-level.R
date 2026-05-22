@@ -3,10 +3,8 @@
 #'
 #' Calculates Basal Area in square meters.
 #'
-#' @param diameter Numeric vector of diameters or diameter classes
-#' @param ntrees Numeric vector with number of trees of the diameter class per
-#'    hectare. If `ntrees = NULL`, the function will assume that each diameter
-#'    corresponds to only one tree
+#' @template diameter
+#' @template ntrees
 #' @param units The units of the diameter (one of `mm`, `cm`, `dm`, or `m`)
 #'
 #' @return A numeric vector
@@ -40,17 +38,23 @@
 #'     g         = silv_stand_basal_area(dclass, ntrees_ha),
 #'     .by       = c(plot_id, species)
 #'   )
-silv_stand_basal_area <- function(diameter,
-                                  ntrees = NULL,
-                                  units = "cm") {
+silv_stand_basal_area <- function(
+  diameter,
+  ntrees = NULL,
+  units = "cm"
+) {
 
-  # 0. Handle errors and set-up
-  if (is.numeric(ntrees) && length(ntrees) != length(diameter)) cli::cli_abort("`ntrees` must have the same length as `diameter` or be NULL")
-  if (!is.numeric(diameter)) cli::cli_abort("`diameter` must be a numeric vector")
-  ## 0.2. Invalid values
-  if (any(diameter <= 0, na.rm = TRUE)) cli::cli_warn("Any value in `diameter` is less than 0. Review your data.")
-  ## 0.3. If ntrees = NULL, only one tree assumed
-  if (is.null(ntrees)) ntrees <- rep(1, length(diameter))
+  # 0. Validate inputs
+  assert_positive_numeric(diameter, "diameter")
+  if (is.numeric(ntrees) && length(ntrees) != length(diameter)) 
+    cli::cli_abort("`ntrees` must have the same length as `diameter` or be NULL")
+
+  ## If ntrees = NULL, only one tree assumed
+  if (is.null(ntrees)) {
+    ntrees <- rep(1, length(diameter))
+  } else {
+    assert_positive_numeric(ntrees, "ntrees")
+  }
 
   # 1. Calculate basal area
   switch(units,
@@ -58,7 +62,7 @@ silv_stand_basal_area <- function(diameter,
     "cm" = (pi / 4) * (diameter / 100)**2,
     "dm" = (pi / 4) * (diameter / 10)**2,
     "m"  = (pi / 4) * diameter**2,
-    cli::cli_abort("Invalid `units`. Use <mm>, <cm>, <dm>, or <m>")
+    cli::cli_abort("Invalid `units`. Use one of {.val {c('mm', 'cm', 'dm', 'm')}}")
   )
 
 }
@@ -71,10 +75,9 @@ silv_stand_basal_area <- function(diameter,
 #'
 #' Calculates the dominant height using the Assman equation or the Hart equation
 #'
-#' @param diameter Numeric vector with diameter classes
-#' @param height Numeric vector with averaged heights by diameter class
-#' @param ntrees Optional. Numeric vector with number of trees per hectare.
-#' Use this argument when you have aggregated data by diametric classes (see details).
+#' @template diameter
+#' @template height
+#' @template ntrees
 #' @param which The method to calculate the dominant height (see details)
 #'
 #' @details
@@ -113,19 +116,18 @@ silv_stand_basal_area <- function(diameter,
 #'     h0        = silv_stand_dominant_height(dclass, height, ntrees_ha),
 #'     .by       = c(plot_id, species)
 #'   )
-silv_stand_dominant_height <- function(diameter,
-                                 height,
-                                 ntrees = NULL,
-                                 which = "assman") {
+silv_stand_dominant_height <- function(
+  diameter,
+  height,
+  ntrees = NULL,
+  which = c("assman", "hart")
+) {
 
-  # 0. Handle errors and setup
-  ## 0.1. Errors
-  if (!tolower(which) %in% c("assman", "hart")) cli::cli_abort("`which` must be either <assman> or <hart>.")
-  if (!is.numeric(diameter)) cli::cli_abort("`diameter` must be a numeric vector")
-  if (!is.numeric(height)) cli::cli_abort("`height` must be a numeric vector")
-  ## 0.2. Invalid values
-  if (any(diameter <= 0, na.rm = TRUE)) cli::cli_warn("Any value in `diameter` is less than 0. Review your data.")
-  if (any(height <= 0, na.rm = TRUE)) cli::cli_warn("Any value in `height` is less than 0. Review your data.")
+  # 0. Validate inputs
+  dh_method <- match.arg(which)
+  assert_positive_numeric(diameter, "diameter")
+  assert_positive_numeric(diameter, "height")
+
 
   # 1. Create a data frame with input variables
   if (is.null(ntrees)) {
@@ -135,6 +137,8 @@ silv_stand_dominant_height <- function(diameter,
       nt = 1
     )
   } else {
+    ## Validate ntrees as numeric after cheking it's not a NULL
+    assert_positive_numeric(ntrees, "ntrees")
     data <- data.frame(
       d  = diameter,
       h  = height,
@@ -143,7 +147,7 @@ silv_stand_dominant_height <- function(diameter,
   }
 
   # 2. Calculate dominant height
-  if (tolower(which) == "assman") {
+  if (tolower(dh_method) == "assman") {
     h0 <- data |>
       ## sort descending by diameter class
       dplyr::arrange(dplyr::desc(d)) |>
@@ -167,6 +171,7 @@ silv_stand_dominant_height <- function(diameter,
       dplyr::pull(.do)
   }
 
+
   # 3. If it's not vectorized, retrieve just one value
   if (is.null(ntrees)) h0[1] else h0
 
@@ -181,11 +186,9 @@ silv_stand_dominant_height <- function(diameter,
 #' Calculates the dominant diameter using Assman and Friedrich method, or
 #' Weise method
 #'
-#' @param diameter Numeric vector with diameter classes
-#' @param ntrees Optional. Numeric vector with number of trees per hectare.
-#' Use this argument when you have aggregated data by diametric classes (see details).
+#' @template diameter
+#' @template ntrees
 #' @param which The method to calculate the dominant diameter (see details)
-#' @param quiet if \code{TRUE}, messages will be supressed
 #'
 #' @details
 #' The dominant diameter \eqn{D_0} is the mean diameter of the 100 thickest trees per
@@ -216,17 +219,16 @@ silv_stand_dominant_height <- function(diameter,
 #'     d0        = silv_stand_dominant_diameter(dclass, ntrees_ha),
 #'     .by       = c(plot_id, species)
 #'   )
-silv_stand_dominant_diameter <- function(diameter,
-                                        ntrees = NULL,
-                                        which = "assman",
-                                        quiet = FALSE) {
+silv_stand_dominant_diameter <- function(
+  diameter,
+  ntrees = NULL,
+  which = c("assman", "weise")
+) {
 
-  # 0. Handle errors and setup
-  ## 0.1. Errors
-  if (!tolower(which) %in% c("assman", "weise")) cli::cli_abort("`which` must be either <assman> or <weise>.")
-  if (!is.numeric(diameter)) cli::cli_abort("`diameter` must be a numeric vector")
-  ## 0.2. Invalid values
-  if (any(diameter <= 0, na.rm = TRUE)) cli::cli_warn("Any value in `diameter` is less than 0. Review your data.")
+  # 0. Validate inputs
+  dh_method <- match.arg(which)
+  assert_positive_numeric(diameter, "diameter")
+
 
   # 1. Create a data frame with input variables
   if (is.null(ntrees)) {
@@ -235,13 +237,15 @@ silv_stand_dominant_diameter <- function(diameter,
       nt = 1
     )
   } else {
+    assert_positive_numeric(ntrees, "ntrees")
     data <- data.frame(
       d  = diameter,
       nt = ntrees
     )
   }
 
-  if (tolower(which) == "assman") {
+  # 2. Calculate dominant diameter
+  if (tolower(dh_method) == "assman") {
     d0 <- data |> 
         ## sort descending by diameter class
         dplyr::arrange(dplyr::desc(d)) |>
@@ -265,6 +269,7 @@ silv_stand_dominant_diameter <- function(diameter,
       dplyr::pull(.do)
   }
 
+
   # 3. If it's not vectorized, retrieve just one value
   if (is.null(ntrees)) d0[1] else d0
 
@@ -278,10 +283,9 @@ silv_stand_dominant_diameter <- function(diameter,
 #'
 #' Tree's mean height weighted by basal area
 #'
-#' @param height Numeric vector of heights
-#' @param g Numeric vector of basal areas
-#' @param ntrees Optional. Numeric vector of number of trees per hectare.
-#' Use this argument when you have aggregated data by diametric classes (see details).
+#' @template height
+#' @template g
+#' @template ntrees
 #'
 #' @return A numeric vector
 #' @export
@@ -305,16 +309,21 @@ silv_stand_dominant_diameter <- function(diameter,
 #'     lh  = silv_stand_lorey_height(height, g),
 #'     .by = c(plot_id, species)
 #'   )
-silv_stand_lorey_height <- function(height, g, ntrees = NULL) {
+silv_stand_lorey_height <- function(
+  height, 
+  g, 
+  ntrees = NULL
+) {
 
   # 0. Handle errors
-  if (length(height) != length(g)) cli::cli_abort("`height` and `g` must have the same length")
-  if (is.numeric(ntrees) && length(ntrees) != length(g)) cli::cli_abort("`ntrees` must have the same length as `height` and `g`, or be NULL")
+  assert_same_length(height, g, names = c("height", "g"))
 
   # 1. Calculate
   if (is.null(ntrees)) {
     weighted.mean(height, g)
   } else {
+    assert_positive_numeric(ntrees, "ntrees")
+    assert_same_length(height, ntrees, names = c("height", "ntrees"))
     weighted.mean(height, g * ntrees)
   }
 
@@ -326,10 +335,8 @@ silv_stand_lorey_height <- function(height, g, ntrees = NULL) {
 
 #' Calculates the quadratic mean diameter (QMD)
 #'
-#' @param diameter Numeric vector of diameters or diameter classes
-#' @param ntrees Numeric vector with number of trees of the diameter class per
-#' hectare. If `ntrees = NULL`, the function will assume that each diameter
-#' corresponds to only one tree.
+#' @template diameter
+#' @template ntrees
 #'
 #' @return A numeric vector
 #' @export
@@ -353,14 +360,13 @@ silv_stand_lorey_height <- function(height, g, ntrees = NULL) {
 #'
 #' ## calculate dg for a vector of diameters
 #' silv_stand_qmean_diameter(c(12.5, 23.5, 14, 16, 18.5))
-silv_stand_qmean_diameter <- function(diameter,
-                                  ntrees = NULL) {
+silv_stand_qmean_diameter <- function(
+  diameter,
+  ntrees = NULL
+) {
 
-  # 0. Handle errors and setup
-  if (is.numeric(ntrees) && length(ntrees) != length(diameter)) cli::cli_abort("`ntrees` must have the same length as `diameter` or be NULL")
-  if (!is.numeric(diameter)) cli::cli_abort("`diameter` must be a numeric vector")
-  ## 0.2. Invalid values
-  if (any(diameter <= 0, na.rm = TRUE)) cli::cli_warn("Any value in `diameter` is less than 0. Review your data.")
+  # 0. Validate inputs
+  assert_positive_numeric(diameter, "diameter")
 
   # 1. Calculate squared mean diameter
   if (is.null(ntrees)) {
@@ -371,6 +377,8 @@ silv_stand_qmean_diameter <- function(diameter,
       )
     )
   } else {
+    assert_positive_numeric(ntrees, "ntrees")
+    assert_same_length(diameter, ntrees, names = c("diameter", "ntrees"))
     sqrt(
       weighted.mean(
         x = diameter**2,

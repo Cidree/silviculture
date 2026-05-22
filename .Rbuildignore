@@ -11,3 +11,6 @@ scrap.R
 internal-data/*
 ^cran-comments\.md$
 ^CRAN-SUBMISSION$
+^doc$
+^Meta$
+^vignettes/\.quarto$
