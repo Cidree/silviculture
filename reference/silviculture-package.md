@@ -15,4 +15,6 @@ Useful links:
 
 Authors:
 
+- Adrián Cidre González <adrian.cidre@gmail.com>
+
 - Aitor Vázquez Veloso <aitor.vazquez.veloso@uva.es>

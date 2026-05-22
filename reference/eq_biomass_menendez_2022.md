@@ -59,7 +59,7 @@ eq_biomass_menendez_2022("Fagus sylvatica")
 #>  @ species   : chr "Fagus sylvatica"
 #>  @ component : chr "AGB"
 #>  @ expression:'data.frame':  1 obs. of  2 variables:
-#>  .. $ expression: chr "0.0574 * ((rcd ** 2) * h) ** 0.8930"
+#>  .. $ expression: chr "0.0574 * ((rcd ^ 2) * h) ^ 0.8930"
 #>  .. $ species   : chr "Fagus sylvatica"
 #>  @ url       : chr "https://doi.org/10.1016/j.biombioe.2022.106453"
 #>  @ obs       : chr "AGB is the aboveground dry biomass or aerial biomass (kg), RCD is the root-collar-diameter (cm), h is the total"| __truncated__

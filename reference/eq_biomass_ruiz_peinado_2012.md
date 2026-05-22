@@ -53,7 +53,7 @@ components in
 ## get model parameters for silv_predict_biomass
 eq_biomass_ruiz_peinado_2012("Quercus suber")
 #> <silviculture::ModelBiomass>
-#>  @ equation  : chr "ruiz-peinado-2011"
+#>  @ equation  : chr "ruiz-peinado-2012"
 #>  @ species   : chr "Quercus suber"
 #>  @ component : chr "stem"
 #>  @ expression:'data.frame':  1 obs. of  2 variables:

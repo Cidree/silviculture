@@ -222,6 +222,8 @@ Datasets included in the package
 
 - [`biomass_models`](https://cidree.github.io/silviculture/reference/biomass_models.md)
   : Biomass models
+- [`carbon_models`](https://cidree.github.io/silviculture/reference/carbon_models.md)
+  : Carbon content models
 - [`inventory_samples`](https://cidree.github.io/silviculture/reference/inventory_samples.md)
   : Forest inventory samples
 

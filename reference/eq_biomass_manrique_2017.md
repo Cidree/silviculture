@@ -78,7 +78,7 @@ eq_biomass_manrique_2017("Quercus petraea", "AGB")
 #>  @ species   : chr "Quercus petraea"
 #>  @ component : chr "AGB"
 #>  @ expression:'data.frame':  3 obs. of  2 variables:
-#>  .. $ expression: chr  "0.001333 * (d ** 2) * h" "0.006531 * (d ** 2) * h - 0.07298 * d * h" "0.023772 * (d ** 2) * h"
+#>  .. $ expression: chr  "0.001333 * (d ^ 2) * h" "0.006531 * (d ^ 2) * h - 0.07298 * d * h" "0.023772 * (d ^ 2) * h"
 #>  .. $ species   : chr  "Quercus petraea" "Quercus petraea" "Quercus petraea"
 #>  @ url       : chr "https://7cfe.congresoforestal.es/sites/default/files/comunicaciones/772.pdf"
 #>  @ obs       : chr "Diameter is assumed to in centimeters, and height is assumed to be in meters"
