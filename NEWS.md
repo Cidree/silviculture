@@ -1,3 +1,18 @@
+
+# Development version
+
+## Data updates
+
+- New dataset `carbon_models` (264 x 13), with full documentation.
+
+- `biomass_models` rebuilt (427 × 15, 0 parse errors) from corrected source spreadsheet.
+
+
+## Bug fixes
+
+- `eq_biomass_ruiz_peinado_2012()`: the `equation` slot was incorrectly returning
+  `"ruiz-peinado-2011"` instead of `"ruiz-peinado-2012"`.
+
 # silviculture 0.2.0
 
 This new version brings new naming conventions that will be useful for sorting the package into "modules" of related functions.
