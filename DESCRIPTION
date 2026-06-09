@@ -38,6 +38,7 @@ Collate:
     'metrics-stand-level.R'
     'metrics-tree-level.R'
     'predict-biomass.R'
+    'predict-carbon.R'
     'predict-height.R'
     'sample-size.R'
     'silviculture-package.R'
