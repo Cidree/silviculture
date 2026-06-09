@@ -1246,6 +1246,13 @@ silv_predict_biomass_components <- function(
   # 3. Find unique components across the species in the input
   unique_species <- unique(species)
   sel_model <- biomass_models[biomass_models$article_id == article_id, ]
+  
+  # Check if species are supported by the model
+  unsupported_species <- setdiff(unique_species, sel_model$species)
+  if (length(unsupported_species) > 0) {
+    cli::cli_abort("Species {.val {unsupported_species}} {?is/are} not supported by model {.val {article_id}}.")
+  }
+
   sel_species <- sel_model[sel_model$species %in% unique_species, ]
 
   components <- unique(sel_species$tree_component)
@@ -1294,7 +1301,12 @@ silv_predict_biomass_components <- function(
       )
     }
     
-    res_df[[comp]] <- comp_values
+    # Capitalize acronyms for column names
+    col_name <- comp
+    if (col_name == "agb") col_name <- "AGB"
+    if (col_name == "bgb") col_name <- "BGB"
+    
+    res_df[[col_name]] <- comp_values
   }
 
   # 6. Citations / feedback

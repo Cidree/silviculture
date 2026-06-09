@@ -131,7 +131,19 @@ test_that("silv_predict_biomass_components works in wide format", {
     quiet = TRUE
   )
   expect_equal(nrow(res_menendez), 1)
-  expect_true("agb" %in% colnames(res_menendez))
+  expect_true("AGB" %in% colnames(res_menendez))
   expect_false("roots" %in% colnames(res_menendez))
+
+  # 3. Unsupported species throws an error
+  expect_error(
+    silv_predict_biomass_components(
+      species = "Quercus petraea",
+      diameter = 25,
+      height = 15,
+      model_fn = eq_biomass_ruiz_peinado_2012
+    ),
+    class = "rlang_error",
+    regexp = "Species .*Quercus petraea.* is not supported by model .*ruiz-peinado-2012.*"
+  )
 })
 
