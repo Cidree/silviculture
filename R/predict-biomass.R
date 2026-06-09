@@ -210,7 +210,9 @@ silv_predict_biomass <- function(
 #' * `"medium branches"` — branches 2–7 cm
 #' * `"small branches and leaves"` — branches < 2 cm including leaves/needles
 #' 
-#' Users can check the full species–component matrix in [biomass_models].
+#' Note that *Abies pinsapo* does not have a separate BGB equation (requesting `"BGB"` or `"roots"` will fail, though `"tree"` still works via its pre-summed formula).
+#' 
+#' Users can check all available species and components in the [biomass_models] dataset provided by the library.
 #' 
 #' @seealso [silv_predict_biomass()], [biomass_models], [eq_biomass_montero_2005()], [eq_biomass_dieguez_aranda_2009()],
 #' [eq_biomass_ruiz_peinado_2012()], [eq_biomass_manrique_2017()], [eq_biomass_menendez_2022()], [eq_biomass_cudjoe_2024()] 
@@ -241,10 +243,15 @@ eq_biomass_ruiz_peinado_2011 <- function(species, component = "stem", return_rms
     if (nrow(sel_component) == 0) sel_component <- sel_species[sel_species$tree_component %in% component, ]
   }  
   ## 1.4. Check if there's a matching model
-  if (nrow(sel_component) == 0) cli::cli_abort(
-    "The combination of species-component-model doesn't match any available option.
-    Check {.url https://cidree.github.io/silviculture/reference/biomass_models.html} for available models."
-  )
+  if (nrow(sel_component) == 0) {
+    if (component %in% c("BGB", "roots") && "Abies pinsapo" %in% species) {
+      cli::cli_abort("Model {.val ruiz-peinado-2011} does not include BGB equations for {.val Abies pinsapo}.")
+    }
+    cli::cli_abort(
+      "The combination of species-component-model doesn't match any available option.
+      Check {.url https://cidree.github.io/silviculture/reference/biomass_models.html} for available models."
+    )
+  }
 
   # 2. Return
   ModelBiomass(
@@ -319,7 +326,9 @@ eq_biomass_ruiz_peinado_2011 <- function(species, component = "stem", return_rms
 #' * `"small branches and leaves"` — branches < 2 cm including leaves
 #' * `"medium branches, small branches and leaves"` — branches < 7 cm including leaves
 #' 
-#' Users can check the full species–component matrix in [biomass_models].
+#' Note that *Eucalyptus globulus* does not have a separate BGB equation (requesting `"BGB"` or `"roots"` will fail, though `"tree"` still works via its pre-summed formula).
+#' 
+#' Users can check all available species and components in the [biomass_models] dataset provided by the library.
 #' 
 #' @seealso [silv_predict_biomass()], [biomass_models], [eq_biomass_montero_2005()], [eq_biomass_dieguez_aranda_2009()],
 #' [eq_biomass_ruiz_peinado_2011()], [eq_biomass_manrique_2017()], [eq_biomass_menendez_2022()],
@@ -351,10 +360,15 @@ eq_biomass_ruiz_peinado_2012 <- function(species, component = "stem", return_rms
     if (nrow(sel_component) == 0) sel_component <- sel_species[sel_species$tree_component %in% component, ]
   }  
   ## 1.4. Check if there's a matching model
-  if (nrow(sel_component) == 0) cli::cli_abort(
-    "The combination of species-component-model doesn't match any available option.
-    Check {.url https://cidree.github.io/silviculture/reference/biomass_models.html} for available models."
-  )
+  if (nrow(sel_component) == 0) {
+    if (component %in% c("BGB", "roots") && "Eucalyptus globulus" %in% species) {
+      cli::cli_abort("Model {.val ruiz-peinado-2012} does not include BGB equations for {.val Eucalyptus globulus}.")
+    }
+    cli::cli_abort(
+      "The combination of species-component-model doesn't match any available option.
+      Check {.url https://cidree.github.io/silviculture/reference/biomass_models.html} for available models."
+    )
+  }
 
   # 2. Return
   ModelBiomass(
@@ -430,7 +444,11 @@ eq_biomass_ruiz_peinado_2012 <- function(species, component = "stem", return_rms
 #' * `"leaves"` — foliage (including needles)
 #' * `"roots"` — coarse roots
 #' 
-#' Users can check the full species–component matrix in [biomass_models].
+#' 
+#' Note that total-tree equations (`"tree"` / `"all"`) are not available for this model.
+#' Also, *Eucalyptus globulus*, *Eucalyptus nitens*, and *Pinus pinaster* lack BGB equations (requesting `"BGB"` or `"roots"` will fail).
+#' 
+#' Users can check all available species and components in the [biomass_models] dataset provided by the library.
 #' 
 #' @seealso [silv_predict_biomass()], [biomass_models], [eq_biomass_montero_2005()],
 #' [eq_biomass_ruiz_peinado_2011()], [eq_biomass_ruiz_peinado_2012()], [eq_biomass_manrique_2017()], 
@@ -463,10 +481,18 @@ eq_biomass_dieguez_aranda_2009 <- function(species, component = "stem", return_r
     if (nrow(sel_component) == 0) sel_component <- sel_species[sel_species$tree_component %in% component, ]
   }  
   ## 1.4. Check if there's a matching model
-  if (nrow(sel_component) == 0) cli::cli_abort(
-    "The combination of species-component-model doesn't match any available option.
-    Check {.url https://cidree.github.io/silviculture/reference/biomass_models.html} for available models."
-  )
+  if (nrow(sel_component) == 0) {
+    if (component %in% c("tree", "all")) {
+      cli::cli_abort("Model {.val dieguez-aranda-2009} does not include total-tree ('tree' / 'all') equations.")
+    }
+    if (component %in% c("BGB", "roots") && species %in% c("Eucalyptus globulus", "Eucalyptus nitens", "Pinus pinaster")) {
+      cli::cli_abort("Model {.val dieguez-aranda-2009} does not include BGB equations for {.val {species}}.")
+    }
+    cli::cli_abort(
+      "The combination of species-component-model doesn't match any available option.
+      Check {.url https://cidree.github.io/silviculture/reference/biomass_models.html} for available models."
+    )
+  }
 
   # 2. Return
   ModelBiomass(
@@ -547,7 +573,13 @@ eq_biomass_dieguez_aranda_2009 <- function(species, component = "stem", return_r
 #' * `"leaves"` — foliage (including needles)
 #' * `"roots"` — coarse roots
 #' 
-#' Users can check the full species–component matrix in [biomass_models].
+#' 
+#' Note that for this model, `"tree"` (or `"all"`) is an independent regression equation fitted to total-tree data. It was **not** derived by summing the AGB and BGB equations.
+#' Consequently, there is a numerical discrepancy between the direct `"tree"` estimation and the sum of separate `"AGB"` and `"BGB"` estimations (e.g. for *Pinus sylvestris* at diameter = 20 cm and height = 10 m, the direct total is 89.1 kg, while AGB + BGB is 115.9 kg, a 24% difference).
+#' 
+#' Also, the following 6 species have no BGB/roots equations in this model: *Abies pinsapo*, *Erica arborea*, *Eucalyptus* spp., *Ilex canariensis*, *Laurus azorica*, *Myrica faya* (requesting `"BGB"` or `"roots"` will fail).
+#' 
+#' Users can check all available species and components in the [biomass_models] dataset provided by the library.
 #' 
 #' @seealso [silv_predict_biomass()], [biomass_models], [eq_biomass_dieguez_aranda_2009()],
 #' [eq_biomass_ruiz_peinado_2011()], [eq_biomass_ruiz_peinado_2012()], [eq_biomass_manrique_2017()], 
@@ -579,10 +611,19 @@ eq_biomass_montero_2005 <- function(species, component = "stem", return_r2 = FAL
     if (nrow(sel_component) == 0) sel_component <- sel_species[sel_species$tree_component %in% component, ]
   }  
   ## 1.4. Check if there's a matching model
-  if (nrow(sel_component) == 0) cli::cli_abort(
-    "The combination of species-component-model doesn't match any available option.
-    Check {.url https://cidree.github.io/silviculture/reference/biomass_models.html} for available models."
-  )
+  if (nrow(sel_component) == 0 || all(is.na(sel_component$expression))) {
+    if (component %in% c("BGB", "roots") && species %in% c("Abies pinsapo", "Erica arborea", "Eucalyptus spp.", "Ilex canariensis", "Laurus azorica", "Myrica faya")) {
+      cli::cli_abort("Model {.val montero-2005} does not include BGB equations for {.val {species}}.")
+    }
+    if (nrow(sel_component) == 0) {
+      cli::cli_abort(
+        "The combination of species-component-model doesn't match any available option.
+        Check {.url https://cidree.github.io/silviculture/reference/biomass_models.html} for available models."
+      )
+    } else {
+      cli::cli_abort("Model {.val montero-2005} does not include valid equations for component {.val {component}} and species {.val {species}}.")
+    }
+  }
 
   # 2. Return
   ModelBiomass(
@@ -647,7 +688,10 @@ eq_biomass_montero_2005 <- function(species, component = "stem", return_r2 = FAL
 #' * `"medium branches"` — branches 2–7 cm
 #' * `"small branches"` — branches < 2 cm
 #' 
-#' Users can check the full species–component matrix in [biomass_models].
+#' 
+#' Note that no belowground biomass (BGB / roots) or total-tree equations are available in the source paper.
+#' 
+#' Users can check all available species and components in the [biomass_models] dataset provided by the library.
 #' 
 #' @seealso [silv_predict_biomass()], [biomass_models], [eq_biomass_montero_2005()], [eq_biomass_dieguez_aranda_2009()],
 #' [eq_biomass_ruiz_peinado_2011()], [eq_biomass_ruiz_peinado_2012()], [eq_biomass_menendez_2022()], 
@@ -680,10 +724,15 @@ eq_biomass_manrique_2017 <- function(species, component = "AGB", return_r2 = FAL
     if (nrow(sel_component) == 0) sel_component <- sel_species[sel_species$tree_component %in% component, ]
   }  
   ## 1.4. Check if there's a matching model
-  if (nrow(sel_component) == 0) cli::cli_abort(
-    "The combination of species-component-model doesn't match any available option.
-    Check {.url https://cidree.github.io/silviculture/reference/biomass_models.html} for available models."
-  )
+  if (nrow(sel_component) == 0) {
+    if (component %in% c("BGB", "roots", "tree", "all")) {
+      cli::cli_abort("Model {.val manrique-2017} does not include BGB / total-tree equations.")
+    }
+    cli::cli_abort(
+      "The combination of species-component-model doesn't match any available option.
+      Check {.url https://cidree.github.io/silviculture/reference/biomass_models.html} for available models."
+    )
+  }
 
   # 2. Return
   ModelBiomass(
@@ -759,7 +808,10 @@ eq_biomass_manrique_2017 <- function(species, component = "AGB", return_r2 = FAL
 #'   `bp` argument of [silv_predict_biomass()].
 #' * *Betula* sp. uses only `h` (total height).
 #' 
-#' Users can check the full species–component matrix in [biomass_models].
+#' 
+#' Note that no belowground biomass (BGB / roots) or total-tree equations are available in the source paper for this model.
+#' 
+#' Users can check all available species and components in the [biomass_models] dataset provided by the library.
 #' 
 #' @seealso [silv_predict_biomass()], [biomass_models], [eq_biomass_montero_2005()], [eq_biomass_dieguez_aranda_2009()],
 #' [eq_biomass_ruiz_peinado_2011()], [eq_biomass_ruiz_peinado_2012()], [eq_biomass_manrique_2017()], 
@@ -844,7 +896,10 @@ eq_biomass_menendez_2022 <- function(species, return_r2 = FALSE, return_rmse = F
 #' * `"medium branches and small branches"` — branches < 7 cm (all species)
 #' * `"leaves"` — foliage/needles (*Pinus sylvestris* only)
 #' 
-#' Users can check the full species–component matrix in [biomass_models].
+#' 
+#' Note that no belowground biomass (BGB / roots) or total-tree equations are available in the source paper for this model.
+#' 
+#' Users can check all available species and components in the [biomass_models] dataset provided by the library.
 #' 
 #' @seealso [silv_predict_biomass()], [biomass_models], [eq_biomass_montero_2005()], [eq_biomass_dieguez_aranda_2009()],
 #' [eq_biomass_ruiz_peinado_2011()], [eq_biomass_ruiz_peinado_2012()], [eq_biomass_manrique_2017()],
@@ -876,10 +931,15 @@ eq_biomass_cudjoe_2024 <- function(species, component = "AGB", return_rmse = FAL
     if (nrow(sel_component) == 0) sel_component <- sel_species[sel_species$tree_component %in% component, ]
   }  
   ## 1.4. Check if there's a matching model
-  if (nrow(sel_component) == 0) cli::cli_abort(
-    "The combination of species-component-model doesn't match any available option.
-    Check {.url https://cidree.github.io/silviculture/reference/biomass_models.html} for available models."
-  )
+  if (nrow(sel_component) == 0) {
+    if (component %in% c("BGB", "roots", "tree", "all")) {
+      cli::cli_abort("Model {.val cudjoe-2024} does not include BGB / total-tree equations.")
+    }
+    cli::cli_abort(
+      "The combination of species-component-model doesn't match any available option.
+      Check {.url https://cidree.github.io/silviculture/reference/biomass_models.html} for available models."
+    )
+  }
 
   # 2. Return
   ModelBiomass(

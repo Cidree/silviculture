@@ -58,7 +58,9 @@ Individual tree components (species availability varies):
 \item \code{"medium branches, small branches and leaves"} — branches < 7 cm including leaves
 }
 
-Users can check the full species–component matrix in \link{biomass_models}.
+Note that \emph{Eucalyptus globulus} does not have a separate BGB equation (requesting \code{"BGB"} or \code{"roots"} will fail, though \code{"tree"} still works via its pre-summed formula).
+
+Users can check all available species and components in the \link{biomass_models} dataset provided by the library.
 }
 \examples{
 ## Aboveground biomass for Quercus suber

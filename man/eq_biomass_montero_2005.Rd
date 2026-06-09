@@ -62,7 +62,12 @@ Individual tree components (species availability varies):
 \item \code{"roots"} — coarse roots
 }
 
-Users can check the full species–component matrix in \link{biomass_models}.
+Note that for this model, \code{"tree"} (or \code{"all"}) is an independent regression equation fitted to total-tree data. It was \strong{not} derived by summing the AGB and BGB equations.
+Consequently, there is a numerical discrepancy between the direct \code{"tree"} estimation and the sum of separate \code{"AGB"} and \code{"BGB"} estimations (e.g. for \emph{Pinus sylvestris} at diameter = 20 cm and height = 10 m, the direct total is 89.1 kg, while AGB + BGB is 115.9 kg, a 24\% difference).
+
+Also, the following 6 species have no BGB/roots equations in this model: \emph{Abies pinsapo}, \emph{Erica arborea}, \emph{Eucalyptus} spp., \emph{Ilex canariensis}, \emph{Laurus azorica}, \emph{Myrica faya} (requesting \code{"BGB"} or \code{"roots"} will fail).
+
+Users can check all available species and components in the \link{biomass_models} dataset provided by the library.
 }
 \examples{
 ## Aboveground biomass for Pinus pinaster

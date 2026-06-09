@@ -47,7 +47,9 @@ Individual tree components (species availability varies):
 \item \code{"leaves"} — foliage/needles (\emph{Pinus sylvestris} only)
 }
 
-Users can check the full species–component matrix in \link{biomass_models}.
+Note that no belowground biomass (BGB / roots) or total-tree equations are available in the source paper for this model.
+
+Users can check all available species and components in the \link{biomass_models} dataset provided by the library.
 }
 \examples{
 ## Aboveground biomass for a mixed stand
