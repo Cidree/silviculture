@@ -93,6 +93,7 @@ reference:
     desc: Datasets included in the package
     contents:
     - biomass_models
+    - carbon_models
     - inventory_samples
 
   - title: Objects
