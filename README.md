@@ -28,7 +28,7 @@ summary.
 If you want a visual overview before diving into the API, use the
 supporting poster:
 
-- [Poster on R silviculture workflows](https://doi.org/10.13140/RG.2.2.28098.75205)
+- [Poster on R silviculture](https://doi.org/10.13140/RG.2.2.28098.75205)
 
 ## Installation
 
