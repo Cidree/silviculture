@@ -48,4 +48,15 @@ test_that("eq_biomass_* custom error messages for BGB and tree gaps work", {
     class = "rlang_error",
     regexp = "Model .*cudjoe-2024.* does not include BGB / total-tree equations"
   )
+
+  # Test via silv_predict_biomass() wrapper
+  expect_error(
+    silv_predict_biomass(
+      diameter = 20,
+      height = 10,
+      model = eq_biomass_ruiz_peinado_2011("Abies pinsapo", "BGB")
+    ),
+    class = "rlang_error",
+    regexp = "Model .*ruiz-peinado-2011.* does not include BGB equations for .*Abies pinsapo.*"
+  )
 })
