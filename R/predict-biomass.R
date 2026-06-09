@@ -86,6 +86,8 @@ silv_predict_biomass <- function(
   if (is.null(rcd)) rcd <- diameter
   ## 0.2. Ensure ntrees = 1 when ntrees = NULL
   if (is.null(ntrees)) ntrees <- rep(1, length(diameter))
+  ## 0.3. Default height to NA_real_ if NULL
+  if (is.null(height)) height <- rep(NA_real_, length(diameter))
 
   # 1. Define a helper function to calculate biomass for a single tree
   calc_biomass <- function(d, h, n, sp, rcd_val, bp_val) {
@@ -960,4 +962,402 @@ eq_biomass_cudjoe_2024 <- function(species, component = "AGB", return_rmse = FAL
     )
   )
 
+}
+
+
+
+
+#' Automatically Predict Biomass Using the Best Available Model
+#'
+#' Evaluates vectors of tree species, diameters, and heights, and automatically
+#' selects the best available allometric model based on a specified priority.
+#' If tree height is not provided, is NA, or is 0, the function automatically
+#' falls back to the \code{\link{eq_biomass_montero_2005}} model.
+#'
+#' @param species A character vector specifying the scientific names of the tree species.
+#' @param diameter A numeric vector of tree diameters at breast height (in cm).
+#' @param height An optional numeric vector of tree heights (in m). Defaults to \code{NULL}.
+#' @param component A character string specifying the tree component for biomass
+#'   calculation (e.g., "tree", "stem", "branches"). Defaults to \code{"tree"}.
+#' @param ntrees An optional numeric vector indicating the number of trees in
+#'   each class. Defaults to \code{NULL} (equivalent to 1 tree per entry).
+#' @param rcd An optional numeric vector of root collar diameters (in cm). Required
+#'   for young plantation equations (\code{\link{eq_biomass_menendez_2022}}).
+#' @param bp An optional numeric vector of biomass packing values (in m\ifelse{html}{\out{<sup>3</sup>}}{$^3$}). Required
+#'   for some species in young plantation equations.
+#' @param priority A character vector specifying the priority order for model selection.
+#'   Defaults to \code{c("ruiz-peinado-2011", "ruiz-peinado-2012", "montero-2005", "dieguez-aranda-2009", "manrique-2017", "menendez-2022", "cudjoe-2024")}.
+#' @param quiet A logical value. If \code{TRUE}, suppresses any informational messages and warnings.
+#'
+#' @return A \code{data.frame} containing two columns:
+#'   \itemize{
+#'     \item \code{biomass}: Numeric vector of predicted biomass values (in kg).
+#'     \item \code{biomass_model}: Character vector specifying the model ID used.
+#'   }
+#'
+#' @export
+#'
+#' @examples
+#' # Predict biomass using default priorities
+#' species_vec <- c("Pinus pinaster", "Quercus petraea")
+#' d_vec <- c(20, 25)
+#' h_vec <- c(12, 14)
+#' silv_predict_biomass_auto(species_vec, d_vec, h_vec)
+#'
+#' # Fallback to Montero 2005 when height is missing
+#' silv_predict_biomass_auto(species_vec, d_vec, height = NULL)
+silv_predict_biomass_auto <- function(
+    species,
+    diameter,
+    height   = NULL,
+    component = "tree",
+    ntrees   = NULL,
+    rcd      = NULL,
+    bp       = NULL,
+    priority = c("ruiz-peinado-2011", "ruiz-peinado-2012", "montero-2005", "dieguez-aranda-2009", "manrique-2017", "menendez-2022", "cudjoe-2024"),
+    quiet    = FALSE) {
+
+  # 1. Sanity Checks & Length Validations
+  n_trees <- length(species)
+  if (length(diameter) != n_trees) {
+    cli::cli_abort("{.arg species} and {.arg diameter} must have the same length.")
+  }
+  if (!is.null(height) && length(height) != n_trees) {
+    cli::cli_abort("{.arg species} and {.arg height} must have the same length.")
+  }
+
+  # Expand scalars/defaults to vectors of length n_trees
+  if (is.null(ntrees)) {
+    ntrees <- rep(1, n_trees)
+  } else if (length(ntrees) == 1) {
+    ntrees <- rep(ntrees, n_trees)
+  } else if (length(ntrees) != n_trees) {
+    cli::cli_abort("{.arg ntrees} must be of length 1 or the same length as {.arg species}.")
+  }
+
+  if (is.null(rcd)) {
+    rcd <- diameter
+  } else if (length(rcd) == 1) {
+    rcd <- rep(rcd, n_trees)
+  } else if (length(rcd) != n_trees) {
+    cli::cli_abort("{.arg rcd} must be of length 1 or the same length as {.arg species}.")
+  }
+
+  if (is.null(bp)) {
+    bp <- rep(NA_real_, n_trees)
+  } else if (length(bp) == 1) {
+    bp <- rep(bp, n_trees)
+  } else if (length(bp) != n_trees) {
+    cli::cli_abort("{.arg bp} must be of length 1 or the same length as {.arg species}.")
+  }
+
+  # Determine height availability per tree
+  if (is.null(height)) {
+    has_height <- rep(FALSE, n_trees)
+    height_vec <- rep(NA_real_, n_trees)
+  } else {
+    has_height <- !is.na(height) & height > 0
+    height_vec <- height
+  }
+
+  # 2. Find Best Model for each unique combination of (species, has_height)
+  unique_df <- unique(data.frame(
+    species = species,
+    has_height = has_height,
+    stringsAsFactors = FALSE
+  ))
+
+  unique_df$model <- mapply(
+    .find_best_model,
+    unique_df$species,
+    MoreArgs = list(component = component, priority = priority),
+    unique_df$has_height,
+    USE.NAMES = FALSE
+  )
+
+  # Match back to the full tree lists
+  matched_models <- unique_df$model[match(
+    paste(species, has_height, sep = "_"),
+    paste(unique_df$species, unique_df$has_height, sep = "_")
+  )]
+
+  # 3. Warn about unmatched entries
+  na_indices <- which(is.na(matched_models))
+  if (length(na_indices) > 0 && !quiet) {
+    unsupported <- unique(species[na_indices])
+    cli::cli_warn(
+      "No compatible model was found in priority for species: {.val {unsupported}} with component {.val {component}}."
+    )
+  }
+
+  # 4. Predict Biomass grouping by (species, model)
+  biomass_vec <- rep(NA_real_, n_trees)
+  
+  unique_groups <- unique(data.frame(
+    species = species,
+    model = matched_models,
+    stringsAsFactors = FALSE
+  ))
+  unique_groups <- unique_groups[!is.na(unique_groups$model), ]
+
+  for (row_idx in seq_len(nrow(unique_groups))) {
+    sp <- unique_groups$species[row_idx]
+    m_id <- unique_groups$model[row_idx]
+    
+    idx <- which(species == sp & matched_models == m_id)
+    if (length(idx) == 0) next
+    
+    fn_name <- paste0("eq_biomass_", gsub("-", "_", m_id))
+    fn <- get(fn_name, envir = asNamespace("silviculture"), mode = "function")
+    model_obj <- fn(species = sp, component = component)
+    
+    group_biomass <- silv_predict_biomass(
+      diameter = diameter[idx],
+      height = height_vec[idx],
+      model = model_obj,
+      ntrees = ntrees[idx],
+      rcd = rcd[idx],
+      bp = bp[idx],
+      quiet = TRUE
+    )
+    
+    biomass_vec[idx] <- group_biomass
+  }
+
+  # 5. Citations / feedback
+  if (!quiet) {
+    used_models <- unique(matched_models[!is.na(matched_models)])
+    if (length(used_models) > 0) {
+      sel_models_info <- biomass_models[biomass_models$article_id %in% used_models, ]
+      urls <- unique(sel_models_info$doi_url)
+      obss <- unique(sel_models_info$obs)
+      if (length(urls) == 1) {
+        cli::cli_alert_warning("Cite this model using {.url {urls}}")
+        cli::cli_alert_info(obss)
+      } else {
+        cli::cli_alert_warning("Cite these models using <{paste0(urls, collapse = ', ')}>")
+        cli::cli_alert_info("{paste0(obss, collapse = ', ')}")
+      }
+    }
+  }
+
+  data.frame(
+    biomass = biomass_vec,
+    biomass_model = matched_models,
+    stringsAsFactors = FALSE
+  )
+}
+
+
+
+
+#' Predict All Individual Biomass Components for Trees
+#'
+#' Predicts all available individual biomass components (e.g., stem, bark, branches,
+#' roots) for the given trees in a single call, returning a wide data frame.
+#'
+#' @param species A character vector specifying the scientific names of the tree species.
+#' @param diameter A numeric vector of tree diameters at breast height (in cm).
+#' @param height An optional numeric vector of tree heights (in m). Defaults to \code{NULL}.
+#' @param model_fn A function or character string. The constructer function of the model
+#'   (e.g., \code{eq_biomass_ruiz_peinado_2011}) or the model ID string (e.g., \code{"ruiz-peinado-2011"}).
+#' @param ntrees An optional numeric vector indicating the number of trees in
+#'   each class. Defaults to \code{NULL}.
+#' @param rcd An optional numeric vector of root collar diameters (in cm).
+#' @param bp An optional numeric vector of biomass packing values (in m\ifelse{html}{\out{<sup>3</sup>}}{$^3$}).
+#' @param quiet A logical value. If \code{TRUE}, suppresses any informational messages.
+#'
+#' @return A \code{data.frame} with the columns \code{species}, \code{diameter},
+#'   \code{height} (if provided), and one additional column for each individual biomass
+#'   component available for the selected species and model.
+#'
+#' @export
+#'
+#' @examples
+#' # Predict all components using Ruiz-Peinado 2011
+#' silv_predict_biomass_components(
+#'   species = "Pinus pinaster",
+#'   diameter = 25,
+#'   height = 15,
+#'   model_fn = eq_biomass_ruiz_peinado_2011
+#' )
+silv_predict_biomass_components <- function(
+    species,
+    diameter,
+    height   = NULL,
+    model_fn,
+    ntrees   = NULL,
+    rcd      = NULL,
+    bp       = NULL,
+    quiet    = TRUE) {
+
+  # 1. Resolve model_fn
+  if (is.character(model_fn)) {
+    fn_name <- if (startsWith(model_fn, "eq_biomass_")) {
+      model_fn
+    } else {
+      paste0("eq_biomass_", gsub("-", "_", model_fn))
+    }
+    model_fn <- get(fn_name, envir = asNamespace("silviculture"), mode = "function")
+  }
+
+  fn_name <- .get_function_name(model_fn)
+  if (is.null(fn_name)) {
+    cli::cli_abort("The provided function is not a recognized model function in silviculture.")
+  }
+  
+  article_id <- gsub("^eq_biomass_", "", fn_name)
+  article_id <- gsub("_", "-", article_id)
+
+  # 2. Sanity Checks & Length Validations
+  n_trees <- length(species)
+  if (length(diameter) != n_trees) {
+    cli::cli_abort("{.arg species} and {.arg diameter} must have the same length.")
+  }
+  if (!is.null(height) && length(height) != n_trees) {
+    cli::cli_abort("{.arg species} and {.arg height} must have the same length.")
+  }
+
+  # Expand vectors
+  if (is.null(ntrees)) {
+    ntrees <- rep(1, n_trees)
+  } else if (length(ntrees) == 1) {
+    ntrees <- rep(ntrees, n_trees)
+  } else if (length(ntrees) != n_trees) {
+    cli::cli_abort("{.arg ntrees} must be of length 1 or the same length as {.arg species}.")
+  }
+
+  if (is.null(rcd)) {
+    rcd <- diameter
+  } else if (length(rcd) == 1) {
+    rcd <- rep(rcd, n_trees)
+  } else if (length(rcd) != n_trees) {
+    cli::cli_abort("{.arg rcd} must be of length 1 or the same length as {.arg species}.")
+  }
+
+  if (is.null(bp)) {
+    bp <- rep(NA_real_, n_trees)
+  } else if (length(bp) == 1) {
+    bp <- rep(bp, n_trees)
+  } else if (length(bp) != n_trees) {
+    cli::cli_abort("{.arg bp} must be of length 1 or the same length as {.arg species}.")
+  }
+
+  # 3. Find unique components across the species in the input
+  unique_species <- unique(species)
+  sel_model <- biomass_models[biomass_models$article_id == article_id, ]
+  sel_species <- sel_model[sel_model$species %in% unique_species, ]
+
+  components <- unique(sel_species$tree_component)
+  non_totals <- components[!components %in% c("tree", "agb")]
+  if (length(non_totals) > 0) {
+    components <- non_totals
+  }
+
+  # 4. Construct output dataframe
+  res_df <- data.frame(
+    species = species,
+    diameter = diameter,
+    stringsAsFactors = FALSE
+  )
+  if (!is.null(height)) {
+    res_df$height <- height
+  }
+
+  # 5. Predict each component
+  for (comp in components) {
+    comp_values <- rep(NA_real_, n_trees)
+    
+    for (sp in unique_species) {
+      idx <- which(species == sp)
+      if (length(idx) == 0) next
+      
+      # Check support
+      has_comp <- any(sel_species$species == sp & sel_species$tree_component == comp)
+      if (!has_comp) next
+      
+      args <- names(formals(model_fn))
+      if ("component" %in% args) {
+        model_obj <- model_fn(species = sp, component = comp)
+      } else {
+        model_obj <- model_fn(species = sp)
+      }
+      
+      comp_values[idx] <- silv_predict_biomass(
+        diameter = diameter[idx],
+        height = if (!is.null(height)) height[idx] else NULL,
+        model = model_obj,
+        ntrees = ntrees[idx],
+        rcd = rcd[idx],
+        bp = bp[idx],
+        quiet = TRUE
+      )
+    }
+    
+    res_df[[comp]] <- comp_values
+  }
+
+  # 6. Citations / feedback
+  if (!quiet && nrow(sel_species) > 0) {
+    urls <- unique(sel_species$doi_url)
+    obss <- unique(sel_species$obs)
+    if (length(urls) == 1) {
+      cli::cli_alert_warning("Cite this model using {.url {urls}}")
+      cli::cli_alert_info(obss)
+    } else {
+      cli::cli_alert_warning("Cite these models using <{paste0(urls, collapse = ', ')}>")
+      cli::cli_alert_info("{paste0(obss, collapse = ', ')}")
+    }
+  }
+
+  return(res_df)
+}
+
+
+
+
+# --- Internal Helpers ---
+
+.find_best_model <- function(species, component, priority, has_height) {
+  available_priorities <- if (has_height) priority else "montero-2005"
+  
+  for (model_id in available_priorities) {
+    fn_name <- paste0("eq_biomass_", gsub("-", "_", model_id))
+    if (!exists(fn_name, envir = asNamespace("silviculture"), mode = "function")) {
+      next
+    }
+    fn <- get(fn_name, envir = asNamespace("silviculture"), mode = "function")
+    
+    args <- names(formals(fn))
+    
+    res <- tryCatch({
+      if ("component" %in% args) {
+        fn(species = species, component = component)
+      } else {
+        if (component == "AGB") {
+          fn(species = species)
+        } else {
+          cli::cli_abort("Component not supported")
+        }
+      }
+      TRUE
+    }, error = function(e) {
+      FALSE
+    })
+    
+    if (res) {
+      return(model_id)
+    }
+  }
+  return(NA_character_)
+}
+
+.get_function_name <- function(fun) {
+  ns <- asNamespace("silviculture")
+  for (name in names(ns)) {
+    if (is.function(ns[[name]]) && identical(ns[[name]], fun)) {
+      return(name)
+    }
+  }
+  return(NULL)
 }

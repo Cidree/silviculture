@@ -23,6 +23,8 @@ reference:
     desc: Functions for estimating forest variables from models or equations
     contents:
     - silv_predict_biomass
+    - silv_predict_biomass_auto
+    - silv_predict_biomass_components
     - silv_predict_height
     - silv_biomass
   
