@@ -16,3 +16,7 @@ internal-data/*
 ^doc$
 ^Meta$
 ^vignettes/\.quarto$
+^inst/volume/SNFI3_volume_coefficients$
+^inst/volume/SNFI4_volume_coefficients$
+^inst/volume/SFNI4_volume_equations\.py$
+^inst/volume/volume_equations\.xlsx$

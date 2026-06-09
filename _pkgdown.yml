@@ -24,6 +24,9 @@ reference:
     contents:
     - silv_predict_biomass
     - silv_predict_height
+    - silv_predict_snfi_volume
+    - silv_snfi_provinces
+    - silv_snfi_species
     - silv_biomass
   
   - title: "Models and equations"
@@ -95,6 +98,8 @@ reference:
     contents:
     - biomass_models
     - carbon_models
+    - snfi3_volume_coefficients
+    - snfi4_volume_coefficients
     - inventory_samples
 
   - title: Objects
