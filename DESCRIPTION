@@ -40,6 +40,7 @@ Collate:
     'predict-biomass.R'
     'predict-carbon.R'
     'predict-height.R'
+    'predict-snfi-volume.R'
     'sample-size.R'
     'silviculture-package.R'
     'treatment-thinning.R'
