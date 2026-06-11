@@ -37,7 +37,7 @@ for a subset of species in \code{\link{eq_biomass_menendez_2022}} (e.g.
 \item{quiet}{A logical value. If \code{TRUE}, suppresses any informational messages.}
 }
 \value{
-A numeric vector
+A numeric vector with predicted tree biomass (kg).
 }
 \description{
 Computes the biomass of a tree species using species-specific allometric

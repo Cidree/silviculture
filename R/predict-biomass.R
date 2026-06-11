@@ -37,7 +37,7 @@ ModelBiomass <- S7::new_class(
 #' \emph{Evergreen broadleaves}).
 #' @param quiet A logical value. If \code{TRUE}, suppresses any informational messages.
 #'
-#' @return A numeric vector
+#' @return A numeric vector with predicted tree biomass (kg).
 #'
 #' @export
 #'
@@ -179,7 +179,7 @@ silv_predict_biomass <- function(
 #' @param return_rmse A logical value. If TRUE, the function returns the root
 #' mean squared error (RMSE) of the selected model instead of the biomass value.
 #'
-#' @return A S7 list of parameters
+#' @return A ModelBiomass object containing the configured model parameters and expressions.
 #'
 #' @export
 #' 
@@ -291,7 +291,7 @@ eq_biomass_ruiz_peinado_2011 <- function(species, component = "stem", return_rms
 #' @param return_rmse A logical value. If TRUE, the function returns the root
 #' mean squared error (RMSE) of the selected model instead of the biomass value.
 #'
-#' @return A S7 list of parameters
+#' @return A ModelBiomass object containing the configured model parameters and expressions.
 #'
 #' @export
 #' 
@@ -411,7 +411,7 @@ eq_biomass_ruiz_peinado_2012 <- function(species, component = "stem", return_rms
 #' @param return_rmse A logical value. If TRUE, the function returns the root
 #' mean squared error (RMSE) of the selected model instead of the biomass value.
 #'
-#' @return A S7 list of parameters
+#' @return A ModelBiomass object containing the configured model parameters and expressions.
 #'
 #' @export
 #' 
@@ -534,7 +534,7 @@ eq_biomass_dieguez_aranda_2009 <- function(species, component = "stem", return_r
 #' @param return_r2 A logical value. If TRUE, the function returns the root
 #' mean squared error (RMSE) of the selected model instead of the biomass value.
 #'
-#' @return A S7 list of parameters
+#' @return A ModelBiomass object containing the configured model parameters and expressions.
 #'
 #' @export
 #' 
@@ -667,7 +667,7 @@ eq_biomass_montero_2005 <- function(species, component = "stem", return_r2 = FAL
 #' @param return_rmse A logical value. If TRUE, the function returns the root
 #' mean squared error (RMSE) of the selected model instead of the biomass value.
 #'
-#' @return A S7 list of parameters
+#' @return A ModelBiomass object containing the configured model parameters and expressions.
 #'
 #' @export
 #' 
@@ -775,7 +775,7 @@ eq_biomass_manrique_2017 <- function(species, component = "AGB", return_r2 = FAL
 #' @param return_rmse A logical value. If TRUE, the function returns the root
 #' mean squared error (RMSE) of the selected model instead of the biomass value.
 #'
-#' @return A S7 list of parameters
+#' @return A ModelBiomass object containing the configured model parameters and expressions.
 #'
 #' @export
 #' 
@@ -873,7 +873,7 @@ eq_biomass_menendez_2022 <- function(species, return_r2 = FALSE, return_rmse = F
 #' @param return_rmse A logical value. If TRUE, the function returns the root
 #' mean squared error (RMSE) of the selected model instead of the biomass value.
 #'
-#' @return A S7 list of parameters
+#' @return A ModelBiomass object containing the configured model parameters and expressions.
 #'
 #' @export
 #' 
@@ -1167,9 +1167,9 @@ silv_predict_biomass_auto <- function(
 #' @param bp An optional numeric vector of biomass packing values (in m\ifelse{html}{\out{<sup>3</sup>}}{$^3$}).
 #' @param quiet A logical value. If \code{TRUE}, suppresses any informational messages.
 #'
-#' @return A \code{data.frame} with the columns \code{species}, \code{diameter},
-#'   \code{height} (if provided), and one additional column for each individual biomass
-#'   component available for the selected species and model.
+#' @return A \code{data.frame} with the columns \code{species}, \code{diameter} (cm),
+#'   \code{height} (m, if provided), and one additional numeric column (in kg) for each
+#'   individual biomass component available for the selected species and model.
 #'
 #' @export
 #'

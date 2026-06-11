@@ -2,7 +2,7 @@
 % Please edit documentation in R/predict-height.R
 \name{eq_hd_vazquez_veloso_2025}
 \alias{eq_hd_vazquez_veloso_2025}
-\title{Estimates tree height from DBH}
+\title{Height-diameter equations from Vázquez-Veloso et al. (2025)}
 \usage{
 eq_hd_vazquez_veloso_2025(
   species,
@@ -33,7 +33,7 @@ greater than 15\% of the total. It does not matter which species is accompanying
 If not specified, it takes the value \code{pure}, which is the most common condition in Spain.}
 }
 \value{
-A numeric vector with predicted height
+A ModelHD object containing the configured model parameters and metadata.
 }
 \description{
 This function is intended to be used in \code{\link[=silv_predict_height]{silv_predict_height()}}. It implements the h-d equations

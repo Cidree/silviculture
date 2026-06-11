@@ -26,7 +26,7 @@ mean squared error (RMSE) of the selected model instead of the biomass value.}
 mean squared error (RMSE) of the selected model instead of the biomass value.}
 }
 \value{
-A S7 list of parameters
+A ModelBiomass object containing the configured model parameters and expressions.
 }
 \description{
 Allometric equations adjusted for Galician (Spain) species

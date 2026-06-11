@@ -15,15 +15,14 @@ ModelHD <- S7::new_class(
 
 
 
-#' Estimates tree height from DBH
+#' Estimates tree height (m) from DBH (cm)
 #'
-#' Estimates total tree height using height-diameter (h-d) equations. Currently, only models developed 
+#' Estimates total tree height (m) using height-diameter (h-d) equations. Currently, only models developed 
 #' for Spain are available.
 #'
-#' @param diameter Numeric vector with diameters in cm
-#' @param model A function. A function with the structure \code{eq_hd_*()} with
-#' additional arguments depending on the specific model. Currently only [eq_hd_vazquez_veloso_2025()] 
-#' is available.
+#' @param diameter Numeric vector with diameters in cm (DBH).
+#' @param model A ModelHD object. An object configured via the \code{eq_hd_*()} family of functions.
+#' Currently only [eq_hd_vazquez_veloso_2025()] is available.
 #' @param quiet A logical value. If TRUE, suppresses any informational messages.
 #'
 #' @details
@@ -37,11 +36,12 @@ ModelHD <- S7::new_class(
 #' 
 #' @seealso [eq_hd_vazquez_veloso_2025()]
 #'
-#' @return A numeric vector with predicted heights
+#' @return A numeric vector with predicted heights (m).
 #' @export
 #'
 #' @examples
-#' 1 + 1 #TODO
+#' model <- eq_hd_vazquez_veloso_2025("Pinus pinaster")
+#' silv_predict_height(diameter = c(20, 25, 30), model = model)
 silv_predict_height <- function(diameter,
                                 model,
                                 quiet = FALSE) {
@@ -76,7 +76,7 @@ silv_predict_height <- function(diameter,
 
 
 
-#' Estimates tree height from DBH
+#' Height-diameter equations from Vázquez-Veloso et al. (2025)
 #'
 #' This function is intended to be used in [silv_predict_height()]. It implements the h-d equations
 #' developed in Vázquez-Veloso et al. (2025). These equations have been developed using the Spanish
@@ -110,7 +110,7 @@ silv_predict_height <- function(diameter,
 #' 
 #' @seealso [silv_predict_height()]
 #'
-#' @return A numeric vector with predicted height
+#' @return A ModelHD object containing the configured model parameters and metadata.
 #' @export
 #'
 #' @examples

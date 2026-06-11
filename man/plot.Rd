@@ -2,14 +2,22 @@
 % Please edit documentation in R/sample-size.R
 \name{plot}
 \alias{plot}
+\alias{plot,silviculture::SampleSize-method}
 \title{Plot an object}
 \usage{
-plot(x, ...)
+plot(x, ..., min_error = 0.01, max_error = 0.5)
+
+## S7 method for class <silviculture::SampleSize>
+plot(x, ..., min_error = 0.01, max_error = 0.5)
 }
 \arguments{
 \item{x}{Object to plot.}
 
 \item{...}{Other arguments passed to methods.}
+
+\item{min_error}{A numeric value specifying the minimum relative error to consider (default is 0.01).}
+
+\item{max_error}{A numeric value specifying the maximum relative error to consider (default is 0.5).}
 }
 \value{
 Usually called for side-effects (producing a plot).

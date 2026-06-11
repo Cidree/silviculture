@@ -18,7 +18,7 @@ mean squared error (RMSE) of the selected model instead of the biomass value.}
 mean squared error (RMSE) of the selected model instead of the biomass value.}
 }
 \value{
-A S7 list of parameters
+A ModelBiomass object containing the configured model parameters and expressions.
 }
 \description{
 Allometric equations for young (<30) plantations of 18 Spanish species including

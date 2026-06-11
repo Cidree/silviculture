@@ -35,9 +35,9 @@ each class. Defaults to \code{NULL}.}
 \item{quiet}{A logical value. If \code{TRUE}, suppresses any informational messages.}
 }
 \value{
-A \code{data.frame} with the columns \code{species}, \code{diameter},
-\code{height} (if provided), and one additional column for each individual biomass
-component available for the selected species and model.
+A \code{data.frame} with the columns \code{species}, \code{diameter} (cm),
+\code{height} (m, if provided), and one additional numeric column (in kg) for each
+individual biomass component available for the selected species and model.
 }
 \description{
 Predicts all available individual biomass components (e.g., stem, bark, branches,

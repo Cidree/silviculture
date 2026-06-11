@@ -2,24 +2,23 @@
 % Please edit documentation in R/predict-height.R
 \name{silv_predict_height}
 \alias{silv_predict_height}
-\title{Estimates tree height from DBH}
+\title{Estimates tree height (m) from DBH (cm)}
 \usage{
 silv_predict_height(diameter, model, quiet = FALSE)
 }
 \arguments{
-\item{diameter}{Numeric vector with diameters in cm}
+\item{diameter}{Numeric vector with diameters in cm (DBH).}
 
-\item{model}{A function. A function with the structure \code{eq_hd_*()} with
-additional arguments depending on the specific model. Currently only \code{\link[=eq_hd_vazquez_veloso_2025]{eq_hd_vazquez_veloso_2025()}}
-is available.}
+\item{model}{A ModelHD object. An object configured via the \code{eq_hd_*()} family of functions.
+Currently only \code{\link[=eq_hd_vazquez_veloso_2025]{eq_hd_vazquez_veloso_2025()}} is available.}
 
 \item{quiet}{A logical value. If TRUE, suppresses any informational messages.}
 }
 \value{
-A numeric vector with predicted heights
+A numeric vector with predicted heights (m).
 }
 \description{
-Estimates total tree height using height-diameter (h-d) equations. Currently, only models developed
+Estimates total tree height (m) using height-diameter (h-d) equations. Currently, only models developed
 for Spain are available.
 }
 \details{
@@ -27,7 +26,8 @@ The function estimates total tree height (in meters) using diameter at breast he
 and may require additional information depending on the specific model. See each model’s documentation for details.
 }
 \examples{
-1 + 1 #TODO
+model <- eq_hd_vazquez_veloso_2025("Pinus pinaster")
+silv_predict_height(diameter = c(20, 25, 30), model = model)
 }
 \references{
 References for the models available:
