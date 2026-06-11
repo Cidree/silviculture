@@ -55,12 +55,32 @@ If tree height is not provided, is NA, or is 0, the function automatically
 falls back to the \code{\link{eq_biomass_montero_2005}} model.
 }
 \examples{
-# Predict biomass using default priorities
+# 1. Vector-based calculation: automatic model selection for mixed species
 species_vec <- c("Pinus pinaster", "Quercus petraea")
 d_vec <- c(20, 25)
 h_vec <- c(12, 14)
-silv_predict_biomass_auto(species_vec, d_vec, h_vec)
+auto_results <- silv_predict_biomass_auto(species_vec, d_vec, h_vec)
+print(auto_results)
 
-# Fallback to Montero 2005 when height is missing
-silv_predict_biomass_auto(species_vec, d_vec, height = NULL)
+# 2. Vector-based calculation: fallback to Montero 2005 when height is missing
+fallback_results <- silv_predict_biomass_auto(species_vec, d_vec, height = NULL)
+print(fallback_results)
+
+# 3. Dataset-based tutorial: apply to a mixed-species forest inventory data frame
+inventory <- data.frame(
+  tree_id  = 1:3,
+  species  = c("Pinus pinaster", "Quercus petraea", "Pinus sylvestris"),
+  dbh_cm   = c(22.5, 18.0, 31.2),
+  height_m = c(15.0, 11.5, 18.0)
+)
+
+# Run auto-selection and bind the results directly
+biomass_data <- silv_predict_biomass_auto(
+  species  = inventory$species,
+  diameter = inventory$dbh_cm,
+  height   = inventory$height_m
+)
+
+inventory_with_biomass <- cbind(inventory, biomass_data)
+print(inventory_with_biomass)
 }

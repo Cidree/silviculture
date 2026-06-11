@@ -26,8 +26,27 @@ The function estimates total tree height (in meters) using diameter at breast he
 and may require additional information depending on the specific model. See each model’s documentation for details.
 }
 \examples{
+# 1. Load the S7 ModelHD object for Pinus pinaster
 model <- eq_hd_vazquez_veloso_2025("Pinus pinaster")
-silv_predict_height(diameter = c(20, 25, 30), model = model)
+
+# 2. Vector-based calculation: predict tree heights from diameters
+diameters <- c(20, 25, 30)
+predicted_heights <- silv_predict_height(diameter = diameters, model = model)
+print(predicted_heights)
+
+# 3. Dataset-based tutorial: apply to a forest inventory data frame
+inventory <- data.frame(
+  tree_id = 1:3,
+  species = c("Pinus pinaster", "Pinus pinaster", "Pinus pinaster"),
+  dbh_cm  = c(18.5, 22.1, 29.4)
+)
+
+# Apply prediction and append a new column to the dataset
+inventory$height_m <- silv_predict_height(
+  diameter = inventory$dbh_cm,
+  model    = model
+)
+print(inventory)
 }
 \references{
 References for the models available:

@@ -82,23 +82,46 @@ Inputs: \code{dbh} and \code{dnm} in \strong{cm} (converted to mm internally),
 }
 }
 \examples{
-# Single tree: Pinus radiata in Alava (province 1), code 28
-silv_predict_snfi_volume(
+# 1. Vector-based calculation: single tree (Pinus radiata in Alava, province 1, code 28)
+single_tree <- silv_predict_snfi_volume(
   province = 1,
   species  = 28,
   dbh      = 20,
   h        = 15,
   dnm      = 23
 )
+print(single_tree)
 
-# Mixed inputs: province and species by name
-silv_predict_snfi_volume(
-  province = c(1, 39),
+# 2. Vector-based calculation: multiple trees with province and species by name
+multi_trees <- silv_predict_snfi_volume(
+  province = c("Araba/Álava", "Cantabria"),
   species  = c("Pinus radiata", "Pinus radiata"),
   dbh      = c(20, 25),
   h        = c(15, 18),
   dnm      = c(23, 26)
 )
+print(multi_trees)
+
+# 3. Dataset-based tutorial: apply to a forest inventory data frame
+inventory <- data.frame(
+  tree_id   = 1:3,
+  province  = c("Cantabria", "Cantabria", "Araba/Álava"),
+  species   = c("Pinus radiata", "Pinus radiata", "Pinus sylvestris"),
+  dbh_cm    = c(20.5, 28.0, 18.2),
+  height_m  = c(15.2, 18.5, 12.0)
+)
+
+# Apply the SNFI volume estimation functions row-wise across the dataset
+volume_results <- silv_predict_snfi_volume(
+  province = inventory$province,
+  species  = inventory$species,
+  dbh      = inventory$dbh_cm,
+  h        = inventory$height_m
+)
+
+# Combine and display results
+inventory_with_volume <- cbind(inventory, volume_results)
+print(inventory_with_volume)
 }
 \references{
 MITECO. 4th Spanish National Forest Inventory - SIG database codes.

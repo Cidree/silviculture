@@ -12,7 +12,7 @@ A \code{tibble} with 20,925 rows and 15 variables:
 \item{Codigo_especie}{Integer. Species numeric code.}
 \item{Especie}{Character. Species scientific name.}
 \item{Parametro}{Character. Volume component: VCC (merchantable volume with bark), VSC (merchantable volume without bark), IAVC (annual volume increment with bark), or VLE (coarse firewood volume).}
-\item{F.c.}{Integer. Tree quality class (forma de copa), from 1 (healthy and straight tree) to 6 (dead tree).}
+\item{F.c.}{Integer. Tree quality class (calidad del árbol), from 1 (healthy and straight tree) to 6 (dead tree).}
 \item{Modelo}{Integer. Equation model index.}
 \item{a, b, c, d, p, q, r}{Numeric. Equation coefficients (NA where not applicable).}
 \item{D.n.m.}{Character. Mean plot diameter metadata (diámetro normal medio), required for IAVC equation model 13.}

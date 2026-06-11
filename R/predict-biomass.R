@@ -66,12 +66,30 @@ ModelBiomass <- S7::new_class(
 #' [eq_biomass_menendez_2022()], [eq_biomass_cudjoe_2024()] 
 #'
 #' @examples
-#' # Calculate biomass for a single tree
-#' silv_predict_biomass(
-#'   diameter = 45,
-#'   height   = 22,
-#'   model    = eq_biomass_ruiz_peinado_2011("Pinus pinaster")
+#' # 1. Vector-based calculation: predict stem/tree biomass for Pinus pinaster
+#' model <- eq_biomass_ruiz_peinado_2011("Pinus pinaster")
+#' predicted_biomass <- silv_predict_biomass(
+#'   diameter = c(20, 25, 30),
+#'   height   = c(15, 17, 18),
+#'   model    = model
 #' )
+#' print(predicted_biomass)
+#' 
+#' # 2. Dataset-based tutorial: apply to a forest inventory data frame
+#' inventory <- data.frame(
+#'   tree_id  = 1:3,
+#'   species  = c("Pinus pinaster", "Pinus pinaster", "Pinus pinaster"),
+#'   dbh_cm   = c(18.5, 22.1, 29.4),
+#'   height_m = c(14.0, 16.5, 19.0)
+#' )
+#' 
+#' # Apply prediction and append a new column to the dataset
+#' inventory$biomass_kg <- silv_predict_biomass(
+#'   diameter = inventory$dbh_cm,
+#'   height   = inventory$height_m,
+#'   model    = model
+#' )
+#' print(inventory)
 silv_predict_biomass <- function(
     diameter = NULL,
     height   = NULL,
@@ -998,14 +1016,34 @@ eq_biomass_cudjoe_2024 <- function(species, component = "AGB", return_rmse = FAL
 #' @export
 #'
 #' @examples
-#' # Predict biomass using default priorities
+#' # 1. Vector-based calculation: automatic model selection for mixed species
 #' species_vec <- c("Pinus pinaster", "Quercus petraea")
 #' d_vec <- c(20, 25)
 #' h_vec <- c(12, 14)
-#' silv_predict_biomass_auto(species_vec, d_vec, h_vec)
+#' auto_results <- silv_predict_biomass_auto(species_vec, d_vec, h_vec)
+#' print(auto_results)
 #'
-#' # Fallback to Montero 2005 when height is missing
-#' silv_predict_biomass_auto(species_vec, d_vec, height = NULL)
+#' # 2. Vector-based calculation: fallback to Montero 2005 when height is missing
+#' fallback_results <- silv_predict_biomass_auto(species_vec, d_vec, height = NULL)
+#' print(fallback_results)
+#' 
+#' # 3. Dataset-based tutorial: apply to a mixed-species forest inventory data frame
+#' inventory <- data.frame(
+#'   tree_id  = 1:3,
+#'   species  = c("Pinus pinaster", "Quercus petraea", "Pinus sylvestris"),
+#'   dbh_cm   = c(22.5, 18.0, 31.2),
+#'   height_m = c(15.0, 11.5, 18.0)
+#' )
+#' 
+#' # Run auto-selection and bind the results directly
+#' biomass_data <- silv_predict_biomass_auto(
+#'   species  = inventory$species,
+#'   diameter = inventory$dbh_cm,
+#'   height   = inventory$height_m
+#' )
+#' 
+#' inventory_with_biomass <- cbind(inventory, biomass_data)
+#' print(inventory_with_biomass)
 silv_predict_biomass_auto <- function(
     species,
     diameter,
@@ -1174,13 +1212,37 @@ silv_predict_biomass_auto <- function(
 #' @export
 #'
 #' @examples
-#' # Predict all components using Ruiz-Peinado 2011
-#' silv_predict_biomass_components(
-#'   species = "Pinus pinaster",
-#'   diameter = 25,
-#'   height = 15,
+#' # 1. Vector-based calculation: predict all components for Pinus pinaster
+#' comp_results <- silv_predict_biomass_components(
+#'   species = c("Pinus pinaster", "Pinus pinaster"),
+#'   diameter = c(20, 25),
+#'   height = c(12, 15),
 #'   model_fn = eq_biomass_ruiz_peinado_2011
 #' )
+#' print(comp_results)
+#'
+#' # 2. Dataset-based tutorial: apply to a forest inventory data frame
+#' inventory <- data.frame(
+#'   tree_id  = 1:3,
+#'   species  = c("Pinus pinaster", "Pinus pinaster", "Pinus pinaster"),
+#'   dbh_cm   = c(18.5, 22.1, 29.4),
+#'   height_m = c(14.0, 16.5, 19.0)
+#' )
+#' 
+#' # Predict components for the entire dataset
+#' comp_df <- silv_predict_biomass_components(
+#'   species  = inventory$species,
+#'   diameter = inventory$dbh_cm,
+#'   height   = inventory$height_m,
+#'   model_fn = "ruiz-peinado-2011"
+#' )
+#' 
+#' # Combine and display results (excluding repeated identifier columns)
+#' inventory_with_components <- cbind(
+#'   inventory, 
+#'   comp_df[, -(1:3)]
+#' )
+#' print(inventory_with_components)
 silv_predict_biomass_components <- function(
     species,
     diameter,
