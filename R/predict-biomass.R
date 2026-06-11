@@ -90,6 +90,24 @@ ModelBiomass <- S7::new_class(
 #'   model    = model
 #' )
 #' print(inventory)
+#' 
+#' # 3. Young plantation example (Menendez 2022 model) using rcd and bp
+#' # Menendez 2022 equations use root collar diameter (rcd) and/or biomass packing (bp)
+#' model_menendez <- eq_biomass_menendez_2022("Pinus pinaster")
+#' predicted_young_pinaster <- silv_predict_biomass(
+#'   rcd      = c(5.2, 7.1, 9.4),   # Root collar diameter in cm
+#'   height   = c(2.1, 3.2, 4.5),   # Height in m
+#'   model    = model_menendez
+#' )
+#' print(predicted_young_pinaster)
+#' 
+#' # For Pinus halepensis, Menendez 2022 requires biomass packing (bp)
+#' model_halepensis <- eq_biomass_menendez_2022("Pinus halepensis")
+#' predicted_young_halepensis <- silv_predict_biomass(
+#'   bp     = c(0.005, 0.012),     # Biomass packing in m3
+#'   model  = model_halepensis
+#' )
+#' print(predicted_young_halepensis)
 silv_predict_biomass <- function(
     diameter = NULL,
     height   = NULL,
@@ -100,12 +118,24 @@ silv_predict_biomass <- function(
     quiet  = FALSE) {
 
   # 0. Handle errors and setup
+  ## 0.0. Determine vector length based on inputs
+  n <- if (!is.null(diameter)) {
+    length(diameter)
+  } else if (!is.null(rcd)) {
+    length(rcd)
+  } else if (!is.null(bp)) {
+    length(bp)
+  } else {
+    0
+  }
+
+  if (is.null(diameter)) diameter <- rep(NA_real_, n)
   ## 0.1. Default rcd to diameter if not provided
   if (is.null(rcd)) rcd <- diameter
   ## 0.2. Ensure ntrees = 1 when ntrees = NULL
-  if (is.null(ntrees)) ntrees <- rep(1, length(diameter))
+  if (is.null(ntrees)) ntrees <- rep(1, n)
   ## 0.3. Default height to NA_real_ if NULL
-  if (is.null(height)) height <- rep(NA_real_, length(diameter))
+  if (is.null(height)) height <- rep(NA_real_, n)
 
   # 1. Define a helper function to calculate biomass for a single tree
   calc_biomass <- function(d, h, n, sp, rcd_val, bp_val) {

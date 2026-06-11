@@ -22,7 +22,7 @@ ModelHD <- S7::new_class(
 #'
 #' @param diameter Numeric vector with diameters in cm (DBH).
 #' @param model A ModelHD object. An object configured via the \code{eq_hd_*()} family of functions.
-#' Currently only [eq_hd_vazquez_veloso_2025()] is available.
+#' Defaults to \code{eq_hd_vazquez_veloso_2025("All the species")}.
 #' @param quiet A logical value. If TRUE, suppresses any informational messages.
 #'
 #' @details
@@ -40,15 +40,19 @@ ModelHD <- S7::new_class(
 #' @export
 #'
 #' @examples
-#' # 1. Load the S7 ModelHD object for Pinus pinaster
+#' # 1. Predict height using the default model (Vázquez-Veloso 2025 generic model)
+#' predicted_heights_default <- silv_predict_height(diameter = c(20, 25, 30))
+#' print(predicted_heights_default)
+#'
+#' # 2. Load the S7 ModelHD object for Pinus pinaster
 #' model <- eq_hd_vazquez_veloso_2025("Pinus pinaster")
 #' 
-#' # 2. Vector-based calculation: predict tree heights from diameters
+#' # 3. Vector-based calculation: predict tree heights from diameters
 #' diameters <- c(20, 25, 30)
 #' predicted_heights <- silv_predict_height(diameter = diameters, model = model)
 #' print(predicted_heights)
 #' 
-#' # 3. Dataset-based tutorial: apply to a forest inventory data frame
+#' # 4. Dataset-based tutorial: apply to a forest inventory data frame
 #' inventory <- data.frame(
 #'   tree_id = 1:3,
 #'   species = c("Pinus pinaster", "Pinus pinaster", "Pinus pinaster"),
@@ -62,7 +66,7 @@ ModelHD <- S7::new_class(
 #' )
 #' print(inventory)
 silv_predict_height <- function(diameter,
-                                model,
+                                model = eq_hd_vazquez_veloso_2025("All the species"),
                                 quiet = FALSE) {
   
   # 0. Handle errors

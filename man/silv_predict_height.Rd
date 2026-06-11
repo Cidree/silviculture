@@ -4,13 +4,17 @@
 \alias{silv_predict_height}
 \title{Estimates tree height (m) from DBH (cm)}
 \usage{
-silv_predict_height(diameter, model, quiet = FALSE)
+silv_predict_height(
+  diameter,
+  model = eq_hd_vazquez_veloso_2025("All the species"),
+  quiet = FALSE
+)
 }
 \arguments{
 \item{diameter}{Numeric vector with diameters in cm (DBH).}
 
 \item{model}{A ModelHD object. An object configured via the \code{eq_hd_*()} family of functions.
-Currently only \code{\link[=eq_hd_vazquez_veloso_2025]{eq_hd_vazquez_veloso_2025()}} is available.}
+Defaults to \code{eq_hd_vazquez_veloso_2025("All the species")}.}
 
 \item{quiet}{A logical value. If TRUE, suppresses any informational messages.}
 }
@@ -26,15 +30,19 @@ The function estimates total tree height (in meters) using diameter at breast he
 and may require additional information depending on the specific model. See each model’s documentation for details.
 }
 \examples{
-# 1. Load the S7 ModelHD object for Pinus pinaster
+# 1. Predict height using the default model (Vázquez-Veloso 2025 generic model)
+predicted_heights_default <- silv_predict_height(diameter = c(20, 25, 30))
+print(predicted_heights_default)
+
+# 2. Load the S7 ModelHD object for Pinus pinaster
 model <- eq_hd_vazquez_veloso_2025("Pinus pinaster")
 
-# 2. Vector-based calculation: predict tree heights from diameters
+# 3. Vector-based calculation: predict tree heights from diameters
 diameters <- c(20, 25, 30)
 predicted_heights <- silv_predict_height(diameter = diameters, model = model)
 print(predicted_heights)
 
-# 3. Dataset-based tutorial: apply to a forest inventory data frame
+# 4. Dataset-based tutorial: apply to a forest inventory data frame
 inventory <- data.frame(
   tree_id = 1:3,
   species = c("Pinus pinaster", "Pinus pinaster", "Pinus pinaster"),

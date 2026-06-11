@@ -89,6 +89,24 @@ inventory$biomass_kg <- silv_predict_biomass(
   model    = model
 )
 print(inventory)
+
+# 3. Young plantation example (Menendez 2022 model) using rcd and bp
+# Menendez 2022 equations use root collar diameter (rcd) and/or biomass packing (bp)
+model_menendez <- eq_biomass_menendez_2022("Pinus pinaster")
+predicted_young_pinaster <- silv_predict_biomass(
+  rcd      = c(5.2, 7.1, 9.4),   # Root collar diameter in cm
+  height   = c(2.1, 3.2, 4.5),   # Height in m
+  model    = model_menendez
+)
+print(predicted_young_pinaster)
+
+# For Pinus halepensis, Menendez 2022 requires biomass packing (bp)
+model_halepensis <- eq_biomass_menendez_2022("Pinus halepensis")
+predicted_young_halepensis <- silv_predict_biomass(
+  bp     = c(0.005, 0.012),     # Biomass packing in m3
+  model  = model_halepensis
+)
+print(predicted_young_halepensis)
 }
 \seealso{
 \link{biomass_models}, \code{\link[=eq_biomass_montero_2005]{eq_biomass_montero_2005()}}, \code{\link[=eq_biomass_dieguez_aranda_2009]{eq_biomass_dieguez_aranda_2009()}},
