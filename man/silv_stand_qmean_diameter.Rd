@@ -11,7 +11,7 @@ silv_stand_qmean_diameter(diameter, ntrees = NULL)
 
 \item{ntrees}{Numeric vector with number of trees of the diameter class per
 hectare. If \code{ntrees = NULL}, the function will assume that each diameter
-corresponds to only one tree.}
+corresponds to only one tree}
 }
 \value{
 A numeric vector

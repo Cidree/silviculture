@@ -14,7 +14,7 @@ silv_tree_dclass(
 )
 }
 \arguments{
-\item{diameter}{A numeric vector of diameters}
+\item{diameter}{Numeric vector of diameters or diameter classes}
 
 \item{dmin}{The minimum inventory diameter in centimeters}
 

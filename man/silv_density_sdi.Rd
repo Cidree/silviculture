@@ -7,9 +7,11 @@
 silv_density_sdi(ntrees, dg, classify = FALSE, max_sdi = NULL)
 }
 \arguments{
-\item{ntrees}{A numeric vector representing the number of trees per hectare}
+\item{ntrees}{Numeric vector with number of trees of the diameter class per
+hectare. If \code{ntrees = NULL}, the function will assume that each diameter
+corresponds to only one tree}
 
-\item{dg}{A numeric vector of quadratic mean diameters}
+\item{dg}{Numeric vector of quadratic mean diameters}
 
 \item{classify}{whether to classify the values using USDA thresholds}
 

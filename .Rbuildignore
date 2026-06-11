@@ -13,3 +13,6 @@ internal-data/*
 ^CRAN-SUBMISSION$
 ^scripts$
 ^CONTRIBUTING\.md$
+^doc$
+^Meta$
+^vignettes/\.quarto$

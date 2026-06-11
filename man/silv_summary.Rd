@@ -22,9 +22,9 @@ silv_summary(
 \arguments{
 \item{data}{A tibble of inventory data}
 
-\item{diameter}{A column with inventory diameters}
+\item{diameter}{Numeric vector of diameters or diameter classes}
 
-\item{height}{A column with inventory heights}
+\item{height}{Numeric vector of tree heights}
 
 \item{plot_size}{The size of the plot. See \code{\link[=silv_density_ntrees_ha]{silv_density_ntrees_ha()}}}
 

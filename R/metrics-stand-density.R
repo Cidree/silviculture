@@ -5,9 +5,8 @@
 #' Calculates number of trees per hectare for a given plot size and shape
 #'
 #' @param ntrees A numeric vector representing the number of trees in a sampling plot
-#' @param plot_size A numeric vector of length one for circular radius in meters;
-#'    or a numeric vector of length two for each side of a rectangular plot shape
-#' @param plot_shape The shape of the sampling plot. Either `circular` or `rectangular`
+#' @template plot_size
+#' @template plot_shape
 #'
 #' @return A numeric vector
 #' @export
@@ -58,8 +57,8 @@ silv_density_ntrees_ha <- function(ntrees,
 #' The Stand Density Index (SDI) is relationship between the average tree size and 
 #' density of trees per hectare.
 #'
-#' @param ntrees A numeric vector representing the number of trees per hectare
-#' @param dg A numeric vector of quadratic mean diameters
+#' @template ntrees
+#' @template dg
 #' @param classify whether to classify the values using USDA thresholds
 #' @param max_sdi used when \code{classify = TRUE}. The maximum SDi, which depends
 #' on the species, stand type, and site
@@ -80,22 +79,37 @@ silv_density_ntrees_ha <- function(ntrees,
 #' 
 #' ## check base classification (other can be used)
 #' silv_density_sdi(ntrees = 800, dg = 23.4, classify = TRUE, max_sdi = 990)
-silv_density_sdi <- function(ntrees, dg, classify = FALSE, max_sdi = NULL) {
+silv_density_sdi <- function(
+  ntrees, 
+  dg, 
+  classify = FALSE, 
+  max_sdi = NULL
+) {
 
-  # 0. Handle errors
+  # 0. Validate inputs
+  assert_positive_numeric(ntrees, "ntrees")
+  assert_positive_numeric(dg, "dg")
+  assert_logical(classify, "classify")
+  assert_same_length(ntrees, dg, names = c("ntrees", "dg"))
+
 
   # 1. Calculate SDI
   sdi <- ntrees * ((dg / 25.4)) ** 1.605
 
   # 2. Classify?
   if (classify) {
+
+    ## assert inputs
     if (is.null(max_sdi)) cli::cli_abort("You must specify <max_sdi> when <classify = TRUE>")
+    assert_positive_numeric(max_sdi, "max_sdi")
+
+    ## calculate
     sdi <- (sdi / max_sdi) * 100
     sdi <- dplyr::case_when(
-      sdi <= 24 ~ "Low density",
+      sdi <= 24            ~ "Low density",
       sdi > 24 & sdi <= 34 ~ "Moderate density",
       sdi > 34 & sdi <= 55 ~ "High density",
-      sdi > 55  ~ "Extremely high density" 
+      sdi > 55             ~ "Extremely high density" 
     )
   } else if (!is.null(max_sdi)) {
     sdi <- (sdi / max_sdi) * 100
@@ -112,9 +126,8 @@ silv_density_sdi <- function(ntrees, dg, classify = FALSE, max_sdi = NULL) {
 #'
 #' Calculates the Hart Index or the Hart-Becking Index for even-aged stands
 #'
-#' @param h0 Numeric vector with dominant height
-#' @param ntrees Numeric vector with number of trees of the dominant height per
-#'    hectare
+#' @template h0
+#' @template ntrees
 #' @param which A character with the name of the index (either `hart` or `hart-brecking`).
 #'    See details
 #'
@@ -145,17 +158,20 @@ silv_density_sdi <- function(ntrees, dg, classify = FALSE, max_sdi = NULL) {
 #'   ## calculate number of trees per hectare
 #'   mutate(ntrees_ha = silv_density_ntrees_ha(ntrees, plot_size = 14.1)) |>
 #'   mutate(spacing = silv_density_hart(h0, ntrees_ha))
-silv_density_hart <- function(h0,
-                               ntrees,
-                               which = "hart") {
+silv_density_hart <- function(
+  h0,
+  ntrees,
+  which = c("hart", "hart-becking")
+) {
 
-  # 0. Errors
-  if (!is.numeric(ntrees)) cli::cli_abort("ntrees` must be numeric")
-  if (!is.numeric(h0)) cli::cli_abort("`h0` must be numeric")
-  if (length(h0) != length(ntrees)) cli::cli_abort("`h0` and `ntrees` must have the same length")
+  # 0. Validate inputs
+  assert_positive_numeric(h0, "h0")
+  assert_positive_numeric(ntrees, "ntrees")
+  assert_same_length(h0, ntrees, names = c("h0", "ntrees"))
+  dh_method <- match.arg(which)
 
   # 1. Calculate spacing index
-  switch(which,
+  switch(dh_method,
     "hart"         = 10000 / h0 / sqrt(ntrees),
     "hart-becking" = sqrt(20000 / (ntrees * sqrt(3))) / h0 * 100,
     cli::cli_abort("`which` must be either <hart> or <hart-becking>")
