@@ -24,15 +24,50 @@ A S7 list of parameters
 Allometric equations adjusted for Spanish hardwood species
 }
 \details{
-Users can check the list of supported species and their corresponding components
-in \link{biomass_models}.
+\strong{Supported species (13):}
+
+\emph{Alnus glutinosa}, \emph{Castanea sativa}, \emph{Ceratonia siliqua}, \emph{Eucalyptus globulus},
+\emph{Fagus sylvatica}, \emph{Fraxinus angustifolia}, \emph{Olea europaea}, \emph{Populus x euramericana},
+\emph{Quercus canariensis}, \emph{Quercus faginea}, \emph{Quercus ilex}, \emph{Quercus pyrenaica},
+\emph{Quercus suber}
+
+\strong{Available components:}
+
+Aboveground / belowground groups (summed automatically):
+\itemize{
+\item \code{"AGB"} — total aboveground biomass
+\item \code{"BGB"} — total belowground biomass (roots)
+\item \code{"tree"} — total tree biomass (AGB + BGB)
+}
+
+Tree structural groups:
+\itemize{
+\item \code{"stem"} — stem wood
+\item \code{"branches"} — all branch fractions combined
+\item \code{"roots"} — roots (equivalent to BGB)
+}
+
+Individual tree components (species availability varies):
+\itemize{
+\item \code{"stem and thick branches"} — stem together with branches > 7 cm
+\item \code{"thick branches"} — branches > 7 cm
+\item \code{"thick and medium branches"} — branches > 2 cm
+\item \code{"medium branches"} — branches 2–7 cm
+\item \code{"small branches"} — branches 0.5–2 cm
+\item \code{"small branches and leaves"} — branches < 2 cm including leaves
+\item \code{"medium branches, small branches and leaves"} — branches < 7 cm including leaves
+}
+
+Note that \emph{Eucalyptus globulus} does not have a separate BGB equation (requesting \code{"BGB"} or \code{"roots"} will fail, though \code{"tree"} still works via its pre-summed formula).
+
+Users can check all available species and components in the \link{biomass_models} dataset provided by the library.
 }
 \examples{
-## get model parameters for silv_predict_biomass
-eq_biomass_ruiz_peinado_2012("Quercus suber")
+## Aboveground biomass for Quercus suber
+eq_biomass_ruiz_peinado_2012("Quercus suber", "AGB")
 }
 \seealso{
-\code{\link[=silv_predict_biomass]{silv_predict_biomass()}}, \link{biomass_models}, \code{\link[=eq_biomass_montero_2005]{eq_biomass_montero_2005()}}, \code{\link[=eq_biomass_dieguez_aranda_2009]{eq_biomass_dieguez_aranda_2009()}}
+\code{\link[=silv_predict_biomass]{silv_predict_biomass()}}, \link{biomass_models}, \code{\link[=eq_biomass_montero_2005]{eq_biomass_montero_2005()}}, \code{\link[=eq_biomass_dieguez_aranda_2009]{eq_biomass_dieguez_aranda_2009()}},
 \code{\link[=eq_biomass_ruiz_peinado_2011]{eq_biomass_ruiz_peinado_2011()}}, \code{\link[=eq_biomass_manrique_2017]{eq_biomass_manrique_2017()}}, \code{\link[=eq_biomass_menendez_2022]{eq_biomass_menendez_2022()}},
 \code{\link[=eq_biomass_cudjoe_2024]{eq_biomass_cudjoe_2024()}}
 }
