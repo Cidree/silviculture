@@ -94,7 +94,7 @@ for a subset of species in <code><a href="eq_biomass_menendez_2022.html">eq_biom
 </dl></div>
     <div class="section level2">
     <h2 id="value">Value<a class="anchor" aria-label="anchor" href="#value"></a></h2>
-    <p>A numeric vector</p>
+    <p>A numeric vector with predicted tree biomass (kg).</p>
     </div>
     <div class="section level2">
     <h2 id="details">Details<a class="anchor" aria-label="anchor" href="#details"></a></h2>
@@ -122,15 +122,63 @@ in <a href="biomass_models.html">biomass_models</a>.</p>
 
     <div class="section level2">
     <h2 id="ref-examples">Examples<a class="anchor" aria-label="anchor" href="#ref-examples"></a></h2>
-    <div class="sourceCode"><pre class="sourceCode r"><code><span class="r-in"><span><span class="co"># Calculate biomass for a single tree</span></span></span>
-<span class="r-in"><span><span class="fu">silv_predict_biomass</span><span class="op">(</span></span></span>
-<span class="r-in"><span>  diameter <span class="op">=</span> <span class="fl">45</span>,</span></span>
-<span class="r-in"><span>  height   <span class="op">=</span> <span class="fl">22</span>,</span></span>
-<span class="r-in"><span>  model    <span class="op">=</span> <span class="fu"><a href="eq_biomass_ruiz_peinado_2011.html">eq_biomass_ruiz_peinado_2011</a></span><span class="op">(</span><span class="st">"Pinus pinaster"</span><span class="op">)</span></span></span>
+    <div class="sourceCode"><pre class="sourceCode r"><code><span class="r-in"><span><span class="co"># 1. Vector-based calculation: predict stem/tree biomass for Pinus pinaster</span></span></span>
+<span class="r-in"><span><span class="va">model</span> <span class="op">&lt;-</span> <span class="fu"><a href="eq_biomass_ruiz_peinado_2011.html">eq_biomass_ruiz_peinado_2011</a></span><span class="op">(</span><span class="st">"Pinus pinaster"</span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="va">predicted_biomass</span> <span class="op">&lt;-</span> <span class="fu">silv_predict_biomass</span><span class="op">(</span></span></span>
+<span class="r-in"><span>  diameter <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">20</span>, <span class="fl">25</span>, <span class="fl">30</span><span class="op">)</span>,</span></span>
+<span class="r-in"><span>  height   <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">15</span>, <span class="fl">17</span>, <span class="fl">18</span><span class="op">)</span>,</span></span>
+<span class="r-in"><span>  model    <span class="op">=</span> <span class="va">model</span></span></span>
 <span class="r-in"><span><span class="op">)</span></span></span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> <span style="color: #BBBB00;">!</span> Cite this model using <span style="color: #0000BB; font-style: italic;">&lt;https://doi.org/10.5424/fs/2011201-11643&gt;</span></span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> <span style="color: #00BBBB;">ℹ</span> Diameter is assumed to in centimeters, and height is assumed to be in meters</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [1] 589.1237</span>
+<span class="r-in"><span><span class="fu"><a href="https://rdrr.io/r/base/print.html" class="external-link">print</a></span><span class="op">(</span><span class="va">predicted_biomass</span><span class="op">)</span></span></span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [1]  83.66574 144.91233 220.75709</span>
+<span class="r-in"><span></span></span>
+<span class="r-in"><span><span class="co"># 2. Dataset-based tutorial: apply to a forest inventory data frame</span></span></span>
+<span class="r-in"><span><span class="va">inventory</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/data.frame.html" class="external-link">data.frame</a></span><span class="op">(</span></span></span>
+<span class="r-in"><span>  tree_id  <span class="op">=</span> <span class="fl">1</span><span class="op">:</span><span class="fl">3</span>,</span></span>
+<span class="r-in"><span>  species  <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"Pinus pinaster"</span>, <span class="st">"Pinus pinaster"</span>, <span class="st">"Pinus pinaster"</span><span class="op">)</span>,</span></span>
+<span class="r-in"><span>  dbh_cm   <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">18.5</span>, <span class="fl">22.1</span>, <span class="fl">29.4</span><span class="op">)</span>,</span></span>
+<span class="r-in"><span>  height_m <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">14.0</span>, <span class="fl">16.5</span>, <span class="fl">19.0</span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="op">)</span></span></span>
+<span class="r-in"><span></span></span>
+<span class="r-in"><span><span class="co"># Apply prediction and append a new column to the dataset</span></span></span>
+<span class="r-in"><span><span class="va">inventory</span><span class="op">$</span><span class="va">biomass_kg</span> <span class="op">&lt;-</span> <span class="fu">silv_predict_biomass</span><span class="op">(</span></span></span>
+<span class="r-in"><span>  diameter <span class="op">=</span> <span class="va">inventory</span><span class="op">$</span><span class="va">dbh_cm</span>,</span></span>
+<span class="r-in"><span>  height   <span class="op">=</span> <span class="va">inventory</span><span class="op">$</span><span class="va">height_m</span>,</span></span>
+<span class="r-in"><span>  model    <span class="op">=</span> <span class="va">model</span></span></span>
+<span class="r-in"><span><span class="op">)</span></span></span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> <span style="color: #BBBB00;">!</span> Cite this model using <span style="color: #0000BB; font-style: italic;">&lt;https://doi.org/10.5424/fs/2011201-11643&gt;</span></span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> <span style="color: #00BBBB;">ℹ</span> Diameter is assumed to in centimeters, and height is assumed to be in meters</span>
+<span class="r-in"><span><span class="fu"><a href="https://rdrr.io/r/base/print.html" class="external-link">print</a></span><span class="op">(</span><span class="va">inventory</span><span class="op">)</span></span></span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>   tree_id        species dbh_cm height_m biomass_kg</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 1       1 Pinus pinaster   18.5     14.0    67.9861</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 2       2 Pinus pinaster   22.1     16.5   109.6073</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 3       3 Pinus pinaster   29.4     19.0   218.7102</span>
+<span class="r-in"><span></span></span>
+<span class="r-in"><span><span class="co"># 3. Young plantation example (Menendez 2022 model) using rcd and bp</span></span></span>
+<span class="r-in"><span><span class="co"># Menendez 2022 equations use root collar diameter (rcd) and/or biomass packing (bp)</span></span></span>
+<span class="r-in"><span><span class="va">model_menendez</span> <span class="op">&lt;-</span> <span class="fu"><a href="eq_biomass_menendez_2022.html">eq_biomass_menendez_2022</a></span><span class="op">(</span><span class="st">"Pinus pinaster"</span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="va">predicted_young_pinaster</span> <span class="op">&lt;-</span> <span class="fu">silv_predict_biomass</span><span class="op">(</span></span></span>
+<span class="r-in"><span>  rcd      <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">5.2</span>, <span class="fl">7.1</span>, <span class="fl">9.4</span><span class="op">)</span>,   <span class="co"># Root collar diameter in cm</span></span></span>
+<span class="r-in"><span>  height   <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">2.1</span>, <span class="fl">3.2</span>, <span class="fl">4.5</span><span class="op">)</span>,   <span class="co"># Height in m</span></span></span>
+<span class="r-in"><span>  model    <span class="op">=</span> <span class="va">model_menendez</span></span></span>
+<span class="r-in"><span><span class="op">)</span></span></span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> <span style="color: #BBBB00;">!</span> Cite this model using <span style="color: #0000BB; font-style: italic;">&lt;https://doi.org/10.1016/j.biombioe.2022.106453&gt;</span></span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> <span style="color: #00BBBB;">ℹ</span> AGB is the aboveground dry biomass or aerial biomass (kg), RCD is the root-collar-diameter (cm), h is the total tree height (m), CPA is the crown projection area (m2), BP is the biomass packing (m3)</span>
+<span class="r-in"><span><span class="fu"><a href="https://rdrr.io/r/base/print.html" class="external-link">print</a></span><span class="op">(</span><span class="va">predicted_young_pinaster</span><span class="op">)</span></span></span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [1]  2.152248  4.972754 10.253238</span>
+<span class="r-in"><span></span></span>
+<span class="r-in"><span><span class="co"># For Pinus halepensis, Menendez 2022 requires biomass packing (bp)</span></span></span>
+<span class="r-in"><span><span class="va">model_halepensis</span> <span class="op">&lt;-</span> <span class="fu"><a href="eq_biomass_menendez_2022.html">eq_biomass_menendez_2022</a></span><span class="op">(</span><span class="st">"Pinus halepensis"</span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="va">predicted_young_halepensis</span> <span class="op">&lt;-</span> <span class="fu">silv_predict_biomass</span><span class="op">(</span></span></span>
+<span class="r-in"><span>  bp     <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">0.005</span>, <span class="fl">0.012</span><span class="op">)</span>,     <span class="co"># Biomass packing in m3</span></span></span>
+<span class="r-in"><span>  model  <span class="op">=</span> <span class="va">model_halepensis</span></span></span>
+<span class="r-in"><span><span class="op">)</span></span></span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> <span style="color: #BBBB00;">!</span> Cite this model using <span style="color: #0000BB; font-style: italic;">&lt;https://doi.org/10.1016/j.biombioe.2022.106453&gt;</span></span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> <span style="color: #00BBBB;">ℹ</span> AGB is the aboveground dry biomass or aerial biomass (kg), RCD is the root-collar-diameter (cm), h is the total tree height (m), CPA is the crown projection area (m2), BP is the biomass packing (m3)</span>
+<span class="r-in"><span><span class="fu"><a href="https://rdrr.io/r/base/print.html" class="external-link">print</a></span><span class="op">(</span><span class="va">predicted_young_halepensis</span><span class="op">)</span></span></span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [1] 0.01750195 0.03701001</span>
 </code></pre></div>
     </div>
   </main><aside class="col-md-3"><nav id="toc" aria-label="Table of contents"><h2>On this page</h2>

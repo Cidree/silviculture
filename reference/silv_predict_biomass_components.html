@@ -94,24 +94,58 @@ each class. Defaults to <code>NULL</code>.</p></dd>
 </dl></div>
     <div class="section level2">
     <h2 id="value">Value<a class="anchor" aria-label="anchor" href="#value"></a></h2>
-    <p>A <code>data.frame</code> with the columns <code>species</code>, <code>diameter</code>,
-<code>height</code> (if provided), and one additional column for each individual biomass
-component available for the selected species and model.</p>
+    <p>A <code>data.frame</code> with the columns <code>species</code>, <code>diameter</code> (cm),
+<code>height</code> (m, if provided), and one additional numeric column (in kg) for each
+individual biomass component available for the selected species and model.</p>
     </div>
 
     <div class="section level2">
     <h2 id="ref-examples">Examples<a class="anchor" aria-label="anchor" href="#ref-examples"></a></h2>
-    <div class="sourceCode"><pre class="sourceCode r"><code><span class="r-in"><span><span class="co"># Predict all components using Ruiz-Peinado 2011</span></span></span>
-<span class="r-in"><span><span class="fu">silv_predict_biomass_components</span><span class="op">(</span></span></span>
-<span class="r-in"><span>  species <span class="op">=</span> <span class="st">"Pinus pinaster"</span>,</span></span>
-<span class="r-in"><span>  diameter <span class="op">=</span> <span class="fl">25</span>,</span></span>
-<span class="r-in"><span>  height <span class="op">=</span> <span class="fl">15</span>,</span></span>
+    <div class="sourceCode"><pre class="sourceCode r"><code><span class="r-in"><span><span class="co"># 1. Vector-based calculation: predict all components for Pinus pinaster</span></span></span>
+<span class="r-in"><span><span class="va">comp_results</span> <span class="op">&lt;-</span> <span class="fu">silv_predict_biomass_components</span><span class="op">(</span></span></span>
+<span class="r-in"><span>  species <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"Pinus pinaster"</span>, <span class="st">"Pinus pinaster"</span><span class="op">)</span>,</span></span>
+<span class="r-in"><span>  diameter <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">20</span>, <span class="fl">25</span><span class="op">)</span>,</span></span>
+<span class="r-in"><span>  height <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">12</span>, <span class="fl">15</span><span class="op">)</span>,</span></span>
 <span class="r-in"><span>  model_fn <span class="op">=</span> <span class="va">eq_biomass_ruiz_peinado_2011</span></span></span>
 <span class="r-in"><span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="fu"><a href="https://rdrr.io/r/base/print.html" class="external-link">print</a></span><span class="op">(</span><span class="va">comp_results</span><span class="op">)</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>          species diameter height     stem thick and medium branches</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 1 Pinus pinaster       25     15 134.1258                   9.37248</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 1 Pinus pinaster       20     12  72.8882                  4.650078</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 2 Pinus pinaster       25     15 134.1258                  9.372480</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>   small branches and leaves    roots</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 1                   22.5845 36.91533</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 1                  13.45796 19.74563</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 2                  22.58450 36.91533</span>
+<span class="r-in"><span></span></span>
+<span class="r-in"><span><span class="co"># 2. Dataset-based tutorial: apply to a forest inventory data frame</span></span></span>
+<span class="r-in"><span><span class="va">inventory</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/data.frame.html" class="external-link">data.frame</a></span><span class="op">(</span></span></span>
+<span class="r-in"><span>  tree_id  <span class="op">=</span> <span class="fl">1</span><span class="op">:</span><span class="fl">3</span>,</span></span>
+<span class="r-in"><span>  species  <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"Pinus pinaster"</span>, <span class="st">"Pinus pinaster"</span>, <span class="st">"Pinus pinaster"</span><span class="op">)</span>,</span></span>
+<span class="r-in"><span>  dbh_cm   <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">18.5</span>, <span class="fl">22.1</span>, <span class="fl">29.4</span><span class="op">)</span>,</span></span>
+<span class="r-in"><span>  height_m <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">14.0</span>, <span class="fl">16.5</span>, <span class="fl">19.0</span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="op">)</span></span></span>
+<span class="r-in"><span></span></span>
+<span class="r-in"><span><span class="co"># Predict components for the entire dataset</span></span></span>
+<span class="r-in"><span><span class="va">comp_df</span> <span class="op">&lt;-</span> <span class="fu">silv_predict_biomass_components</span><span class="op">(</span></span></span>
+<span class="r-in"><span>  species  <span class="op">=</span> <span class="va">inventory</span><span class="op">$</span><span class="va">species</span>,</span></span>
+<span class="r-in"><span>  diameter <span class="op">=</span> <span class="va">inventory</span><span class="op">$</span><span class="va">dbh_cm</span>,</span></span>
+<span class="r-in"><span>  height   <span class="op">=</span> <span class="va">inventory</span><span class="op">$</span><span class="va">height_m</span>,</span></span>
+<span class="r-in"><span>  model_fn <span class="op">=</span> <span class="st">"ruiz-peinado-2011"</span></span></span>
+<span class="r-in"><span><span class="op">)</span></span></span>
+<span class="r-in"><span></span></span>
+<span class="r-in"><span><span class="co"># Combine and display results (excluding repeated identifier columns)</span></span></span>
+<span class="r-in"><span><span class="va">inventory_with_components</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/cbind.html" class="external-link">cbind</a></span><span class="op">(</span></span></span>
+<span class="r-in"><span>  <span class="va">inventory</span>, </span></span>
+<span class="r-in"><span>  <span class="va">comp_df</span><span class="op">[</span>, <span class="op">-</span><span class="op">(</span><span class="fl">1</span><span class="op">:</span><span class="fl">3</span><span class="op">)</span><span class="op">]</span></span></span>
+<span class="r-in"><span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="fu"><a href="https://rdrr.io/r/base/print.html" class="external-link">print</a></span><span class="op">(</span><span class="va">inventory_with_components</span><span class="op">)</span></span></span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>   tree_id        species dbh_cm height_m     stem thick and medium branches</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 1       1 Pinus pinaster   18.5     14.0  67.9861                  3.640084</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 2       2 Pinus pinaster   22.1     16.5 109.6073                  6.362988</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 3       3 Pinus pinaster   29.4     19.0 218.7102                 15.595667</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>   small branches and leaves    roots</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 1                  11.23125 15.86838</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 2                  16.96601 26.12516</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 3                  32.89694 58.16060</span>
 </code></pre></div>
     </div>
   </main><aside class="col-md-3"><nav id="toc" aria-label="Table of contents"><h2>On this page</h2>

@@ -1,4 +1,4 @@
-# Estimates tree height from DBH
+# Height-diameter equations from Vázquez-Veloso et al. (2025)
 
 This function is intended to be used in
 [`silv_predict_height()`](https://cidree.github.io/silviculture/reference/silv_predict_height.md).
@@ -57,7 +57,8 @@ eq_hd_vazquez_veloso_2025(
 
 ## Value
 
-A numeric vector with predicted height
+A ModelHD object containing the configured model parameters and
+metadata.
 
 ## Details
 

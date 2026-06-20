@@ -115,28 +115,56 @@ Defaults to <code>c("ruiz-peinado-2011", "ruiz-peinado-2012", "montero-2005", "d
 
     <div class="section level2">
     <h2 id="ref-examples">Examples<a class="anchor" aria-label="anchor" href="#ref-examples"></a></h2>
-    <div class="sourceCode"><pre class="sourceCode r"><code><span class="r-in"><span><span class="co"># Predict biomass using default priorities</span></span></span>
+    <div class="sourceCode"><pre class="sourceCode r"><code><span class="r-in"><span><span class="co"># 1. Vector-based calculation: automatic model selection for mixed species</span></span></span>
 <span class="r-in"><span><span class="va">species_vec</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"Pinus pinaster"</span>, <span class="st">"Quercus petraea"</span><span class="op">)</span></span></span>
 <span class="r-in"><span><span class="va">d_vec</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">20</span>, <span class="fl">25</span><span class="op">)</span></span></span>
 <span class="r-in"><span><span class="va">h_vec</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">12</span>, <span class="fl">14</span><span class="op">)</span></span></span>
-<span class="r-in"><span><span class="fu">silv_predict_biomass_auto</span><span class="op">(</span><span class="va">species_vec</span>, <span class="va">d_vec</span>, <span class="va">h_vec</span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="va">auto_results</span> <span class="op">&lt;-</span> <span class="fu">silv_predict_biomass_auto</span><span class="op">(</span><span class="va">species_vec</span>, <span class="va">d_vec</span>, <span class="va">h_vec</span><span class="op">)</span></span></span>
 <span class="r-wrn co"><span class="r-pr">#&gt;</span> <span class="warning">Warning: </span>No compatible model was found in priority for species: <span style="color: #0000BB;">"Quercus petraea"</span> with</span>
 <span class="r-wrn co"><span class="r-pr">#&gt;</span> component <span style="color: #0000BB;">"tree"</span>.</span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> <span style="color: #BBBB00;">!</span> Cite this model using <span style="color: #0000BB; font-style: italic;">&lt;https://doi.org/10.5424/fs/2011201-11643&gt;</span></span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> <span style="color: #00BBBB;">ℹ</span> Diameter is assumed to in centimeters, and height is assumed to be in meters</span>
+<span class="r-in"><span><span class="fu"><a href="https://rdrr.io/r/base/print.html" class="external-link">print</a></span><span class="op">(</span><span class="va">auto_results</span><span class="op">)</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>    biomass     biomass_model</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> 1 110.7419 ruiz-peinado-2011</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> 2       NA              &lt;NA&gt;</span>
 <span class="r-in"><span></span></span>
-<span class="r-in"><span><span class="co"># Fallback to Montero 2005 when height is missing</span></span></span>
-<span class="r-in"><span><span class="fu">silv_predict_biomass_auto</span><span class="op">(</span><span class="va">species_vec</span>, <span class="va">d_vec</span>, height <span class="op">=</span> <span class="cn">NULL</span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="co"># 2. Vector-based calculation: fallback to Montero 2005 when height is missing</span></span></span>
+<span class="r-in"><span><span class="va">fallback_results</span> <span class="op">&lt;-</span> <span class="fu">silv_predict_biomass_auto</span><span class="op">(</span><span class="va">species_vec</span>, <span class="va">d_vec</span>, height <span class="op">=</span> <span class="cn">NULL</span><span class="op">)</span></span></span>
 <span class="r-wrn co"><span class="r-pr">#&gt;</span> <span class="warning">Warning: </span>No compatible model was found in priority for species: <span style="color: #0000BB;">"Quercus petraea"</span> with</span>
 <span class="r-wrn co"><span class="r-pr">#&gt;</span> component <span style="color: #0000BB;">"tree"</span>.</span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> <span style="color: #BBBB00;">!</span> Cite this model using <span style="color: #0000BB; font-style: italic;">&lt;https://gregoriomontero.wordpress.com/wp-content/uploads/2016/09/2005-01-monografc3ada-forestal-13-m-produccic3b3n-de-biomasa-y-fijacic3b3n-de-co2-por-los-bosques-espac3b1oles.pdf&gt;</span></span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> <span style="color: #00BBBB;">ℹ</span> Diameter is assumed to in centimeters, and height is assumed to be in meters</span>
+<span class="r-in"><span><span class="fu"><a href="https://rdrr.io/r/base/print.html" class="external-link">print</a></span><span class="op">(</span><span class="va">fallback_results</span><span class="op">)</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>    biomass biomass_model</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> 1 89.13531  montero-2005</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> 2       NA          &lt;NA&gt;</span>
+<span class="r-in"><span></span></span>
+<span class="r-in"><span><span class="co"># 3. Dataset-based tutorial: apply to a mixed-species forest inventory data frame</span></span></span>
+<span class="r-in"><span><span class="va">inventory</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/data.frame.html" class="external-link">data.frame</a></span><span class="op">(</span></span></span>
+<span class="r-in"><span>  tree_id  <span class="op">=</span> <span class="fl">1</span><span class="op">:</span><span class="fl">3</span>,</span></span>
+<span class="r-in"><span>  species  <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"Pinus pinaster"</span>, <span class="st">"Quercus petraea"</span>, <span class="st">"Pinus sylvestris"</span><span class="op">)</span>,</span></span>
+<span class="r-in"><span>  dbh_cm   <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">22.5</span>, <span class="fl">18.0</span>, <span class="fl">31.2</span><span class="op">)</span>,</span></span>
+<span class="r-in"><span>  height_m <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">15.0</span>, <span class="fl">11.5</span>, <span class="fl">18.0</span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="op">)</span></span></span>
+<span class="r-in"><span></span></span>
+<span class="r-in"><span><span class="co"># Run auto-selection and bind the results directly</span></span></span>
+<span class="r-in"><span><span class="va">biomass_data</span> <span class="op">&lt;-</span> <span class="fu">silv_predict_biomass_auto</span><span class="op">(</span></span></span>
+<span class="r-in"><span>  species  <span class="op">=</span> <span class="va">inventory</span><span class="op">$</span><span class="va">species</span>,</span></span>
+<span class="r-in"><span>  diameter <span class="op">=</span> <span class="va">inventory</span><span class="op">$</span><span class="va">dbh_cm</span>,</span></span>
+<span class="r-in"><span>  height   <span class="op">=</span> <span class="va">inventory</span><span class="op">$</span><span class="va">height_m</span></span></span>
+<span class="r-in"><span><span class="op">)</span></span></span>
+<span class="r-wrn co"><span class="r-pr">#&gt;</span> <span class="warning">Warning: </span>No compatible model was found in priority for species: <span style="color: #0000BB;">"Quercus petraea"</span> with</span>
+<span class="r-wrn co"><span class="r-pr">#&gt;</span> component <span style="color: #0000BB;">"tree"</span>.</span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> <span style="color: #BBBB00;">!</span> Cite this model using <span style="color: #0000BB; font-style: italic;">&lt;https://doi.org/10.5424/fs/2011201-11643&gt;</span></span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> <span style="color: #00BBBB;">ℹ</span> Diameter is assumed to in centimeters, and height is assumed to be in meters</span>
+<span class="r-in"><span></span></span>
+<span class="r-in"><span><span class="va">inventory_with_biomass</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/cbind.html" class="external-link">cbind</a></span><span class="op">(</span><span class="va">inventory</span>, <span class="va">biomass_data</span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="fu"><a href="https://rdrr.io/r/base/print.html" class="external-link">print</a></span><span class="op">(</span><span class="va">inventory_with_biomass</span><span class="op">)</span></span></span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>   tree_id          species dbh_cm height_m  biomass     biomass_model</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 1       1   Pinus pinaster   22.5     15.0 159.2250 ruiz-peinado-2011</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 2       2  Quercus petraea   18.0     11.5       NA              &lt;NA&gt;</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 3       3 Pinus sylvestris   31.2     18.0 460.3449 ruiz-peinado-2011</span>
 </code></pre></div>
     </div>
   </main><aside class="col-md-3"><nav id="toc" aria-label="Table of contents"><h2>On this page</h2>

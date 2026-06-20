@@ -29,7 +29,8 @@ eq_biomass_menendez_2022(species, return_r2 = FALSE, return_rmse = FALSE)
 
 ## Value
 
-A S7 list of parameters
+A ModelBiomass object containing the configured model parameters and
+expressions.
 
 ## Details
 

@@ -111,6 +111,56 @@ Returns <code>NA</code> if the species/component combination is not supported by
 <li><p><code>carbon_model</code>: The model and species level used (e.g., <code>"montero-2005"</code> or <code>"montero-2005 (genus fallback)"</code>).</p></li>
 </ul></div>
 
+    <div class="section level2">
+    <h2 id="ref-examples">Examples<a class="anchor" aria-label="anchor" href="#ref-examples"></a></h2>
+    <div class="sourceCode"><pre class="sourceCode r"><code><span class="r-in"><span><span class="co"># 1. Vector-based calculation: calculate stem carbon for Pinus pinaster</span></span></span>
+<span class="r-in"><span><span class="va">biomass_vector</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">120.5</span>, <span class="fl">230.1</span>, <span class="fl">85.4</span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="va">species_vector</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"Pinus pinaster"</span>, <span class="st">"Pinus pinaster"</span>, <span class="st">"Pinus pinaster"</span><span class="op">)</span></span></span>
+<span class="r-in"><span></span></span>
+<span class="r-in"><span><span class="va">carbon_vector</span> <span class="op">&lt;-</span> <span class="fu">silv_predict_carbon</span><span class="op">(</span></span></span>
+<span class="r-in"><span>  biomass <span class="op">=</span> <span class="va">biomass_vector</span>,</span></span>
+<span class="r-in"><span>  species <span class="op">=</span> <span class="va">species_vector</span>,</span></span>
+<span class="r-in"><span>  component <span class="op">=</span> <span class="st">"stem"</span>,</span></span>
+<span class="r-in"><span>  model <span class="op">=</span> <span class="st">"montero-2005"</span></span></span>
+<span class="r-in"><span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="fu"><a href="https://rdrr.io/r/base/print.html" class="external-link">print</a></span><span class="op">(</span><span class="va">carbon_vector</span><span class="op">)</span></span></span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [1]  61.5755 117.5811  43.6394</span>
+<span class="r-in"><span></span></span>
+<span class="r-in"><span><span class="co"># 2. Vector-based calculation with row-wise auto-selection &amp; genus fallback</span></span></span>
+<span class="r-in"><span><span class="va">carbon_df</span> <span class="op">&lt;-</span> <span class="fu">silv_predict_carbon_auto</span><span class="op">(</span></span></span>
+<span class="r-in"><span>  biomass <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">120.5</span>, <span class="fl">95.0</span><span class="op">)</span>,</span></span>
+<span class="r-in"><span>  species <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"Pinus pinaster"</span>, <span class="st">"Pinus radiata"</span><span class="op">)</span>, <span class="co"># Pinus radiata triggers genus fallback</span></span></span>
+<span class="r-in"><span>  component <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"stem"</span>, <span class="st">"roots"</span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="fu"><a href="https://rdrr.io/r/base/print.html" class="external-link">print</a></span><span class="op">(</span><span class="va">carbon_df</span><span class="op">)</span></span></span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>    carbon carbon_model</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 1 61.5755 montero-2005</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 2 47.2150 montero-2005</span>
+<span class="r-in"><span></span></span>
+<span class="r-in"><span><span class="co"># 3. Dataset-based tutorial: apply to a forest inventory data frame</span></span></span>
+<span class="r-in"><span><span class="va">inventory</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/data.frame.html" class="external-link">data.frame</a></span><span class="op">(</span></span></span>
+<span class="r-in"><span>  tree_id   <span class="op">=</span> <span class="fl">1</span><span class="op">:</span><span class="fl">3</span>,</span></span>
+<span class="r-in"><span>  species   <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"Pinus pinaster"</span>, <span class="st">"Pinus sylvestris"</span>, <span class="st">"Quercus robur"</span><span class="op">)</span>,</span></span>
+<span class="r-in"><span>  biomass_kg <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">150.0</span>, <span class="fl">180.5</span>, <span class="fl">220.0</span><span class="op">)</span>,</span></span>
+<span class="r-in"><span>  component <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"stem"</span>, <span class="st">"roots"</span>, <span class="st">"stem"</span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="op">)</span></span></span>
+<span class="r-in"><span></span></span>
+<span class="r-in"><span><span class="co"># Apply row-wise auto-selection to the entire dataset</span></span></span>
+<span class="r-in"><span><span class="va">carbon_results</span> <span class="op">&lt;-</span> <span class="fu">silv_predict_carbon_auto</span><span class="op">(</span></span></span>
+<span class="r-in"><span>  biomass   <span class="op">=</span> <span class="va">inventory</span><span class="op">$</span><span class="va">biomass_kg</span>,</span></span>
+<span class="r-in"><span>  species   <span class="op">=</span> <span class="va">inventory</span><span class="op">$</span><span class="va">species</span>,</span></span>
+<span class="r-in"><span>  component <span class="op">=</span> <span class="va">inventory</span><span class="op">$</span><span class="va">component</span></span></span>
+<span class="r-in"><span><span class="op">)</span></span></span>
+<span class="r-in"><span></span></span>
+<span class="r-in"><span><span class="co"># Combine and display results</span></span></span>
+<span class="r-in"><span><span class="va">inventory_with_carbon</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/cbind.html" class="external-link">cbind</a></span><span class="op">(</span><span class="va">inventory</span>, <span class="va">carbon_results</span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="fu"><a href="https://rdrr.io/r/base/print.html" class="external-link">print</a></span><span class="op">(</span><span class="va">inventory_with_carbon</span><span class="op">)</span></span></span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>   tree_id          species biomass_kg component   carbon carbon_model</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 1       1   Pinus pinaster      150.0      stem  76.6500 montero-2005</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 2       2 Pinus sylvestris      180.5     roots  91.8745 montero-2005</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 3       3    Quercus robur      220.0      stem 106.4800 montero-2005</span>
+</code></pre></div>
+    </div>
   </main><aside class="col-md-3"><nav id="toc" aria-label="Table of contents"><h2>On this page</h2>
     </nav></aside></div>
 

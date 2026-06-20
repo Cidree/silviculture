@@ -28,7 +28,8 @@ eq_biomass_ruiz_peinado_2011(species, component = "stem", return_rmse = FALSE)
 
 ## Value
 
-A S7 list of parameters
+A ModelBiomass object containing the configured model parameters and
+expressions.
 
 ## Details
 

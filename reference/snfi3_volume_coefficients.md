@@ -38,7 +38,7 @@ A `tibble` with 37,730 rows and 16 variables:
 
 - F.c.:
 
-  Integer. Tree quality class (forma de copa), from 1 (healthy and
+  Integer. Tree quality class (calidad del árbol), from 1 (healthy and
   straight tree) to 6 (dead tree).
 
 - Par_esp:

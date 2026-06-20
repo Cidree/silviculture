@@ -39,7 +39,8 @@ eq_biomass_manrique_2017(
 
 ## Value
 
-A S7 list of parameters
+A ModelBiomass object containing the configured model parameters and
+expressions.
 
 ## Details
 

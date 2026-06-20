@@ -39,7 +39,10 @@
 
     <div class="section level2">
     <h2 id="ref-usage">Usage<a class="anchor" aria-label="anchor" href="#ref-usage"></a></h2>
-    <div class="sourceCode"><pre class="sourceCode r"><code><span><span class="fu">plot</span><span class="op">(</span><span class="va">x</span>, <span class="va">...</span><span class="op">)</span></span></code></pre></div>
+    <div class="sourceCode"><pre class="sourceCode r"><code><span><span class="fu">plot</span><span class="op">(</span><span class="va">x</span>, <span class="va">...</span>, min_error <span class="op">=</span> <span class="fl">0.01</span>, max_error <span class="op">=</span> <span class="fl">0.5</span><span class="op">)</span></span>
+<span></span>
+<span><span class="co">## S7 method for class &lt;silviculture::SampleSize&gt;</span></span>
+<span><span class="fu">plot</span><span class="op">(</span><span class="va">x</span>, <span class="va">...</span>, min_error <span class="op">=</span> <span class="fl">0.01</span>, max_error <span class="op">=</span> <span class="fl">0.5</span><span class="op">)</span></span></code></pre></div>
     </div>
 
     <div class="section level2">
@@ -52,6 +55,14 @@
 
 <dt id="arg--">...<a class="anchor" aria-label="anchor" href="#arg--"></a></dt>
 <dd><p>Other arguments passed to methods.</p></dd>
+
+
+<dt id="arg-min-error">min_error<a class="anchor" aria-label="anchor" href="#arg-min-error"></a></dt>
+<dd><p>A numeric value specifying the minimum relative error to consider (default is 0.01).</p></dd>
+
+
+<dt id="arg-max-error">max_error<a class="anchor" aria-label="anchor" href="#arg-max-error"></a></dt>
+<dd><p>A numeric value specifying the maximum relative error to consider (default is 0.5).</p></dd>
 
 </dl></div>
     <div class="section level2">

@@ -28,7 +28,8 @@ eq_biomass_montero_2005(species, component = "stem", return_r2 = FALSE)
 
 ## Value
 
-A S7 list of parameters
+A ModelBiomass object containing the configured model parameters and
+expressions.
 
 ## Details
 

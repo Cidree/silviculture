@@ -5,7 +5,10 @@ Generic for plotting objects.
 ## Usage
 
 ``` r
-plot(x, ...)
+plot(x, ..., min_error = 0.01, max_error = 0.5)
+
+## S7 method for class <silviculture::SampleSize>
+plot(x, ..., min_error = 0.01, max_error = 0.5)
 ```
 
 ## Arguments
@@ -17,6 +20,16 @@ plot(x, ...)
 - ...:
 
   Other arguments passed to methods.
+
+- min_error:
+
+  A numeric value specifying the minimum relative error to consider
+  (default is 0.01).
+
+- max_error:
+
+  A numeric value specifying the maximum relative error to consider
+  (default is 0.5).
 
 ## Value
 

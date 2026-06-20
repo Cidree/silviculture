@@ -82,26 +82,54 @@ A `data.frame` containing two columns:
 ## Examples
 
 ``` r
-# Predict biomass using default priorities
+# 1. Vector-based calculation: automatic model selection for mixed species
 species_vec <- c("Pinus pinaster", "Quercus petraea")
 d_vec <- c(20, 25)
 h_vec <- c(12, 14)
-silv_predict_biomass_auto(species_vec, d_vec, h_vec)
+auto_results <- silv_predict_biomass_auto(species_vec, d_vec, h_vec)
 #> Warning: No compatible model was found in priority for species: "Quercus petraea" with
 #> component "tree".
 #> ! Cite this model using <https://doi.org/10.5424/fs/2011201-11643>
 #> ℹ Diameter is assumed to in centimeters, and height is assumed to be in meters
+print(auto_results)
 #>    biomass     biomass_model
 #> 1 110.7419 ruiz-peinado-2011
 #> 2       NA              <NA>
 
-# Fallback to Montero 2005 when height is missing
-silv_predict_biomass_auto(species_vec, d_vec, height = NULL)
+# 2. Vector-based calculation: fallback to Montero 2005 when height is missing
+fallback_results <- silv_predict_biomass_auto(species_vec, d_vec, height = NULL)
 #> Warning: No compatible model was found in priority for species: "Quercus petraea" with
 #> component "tree".
 #> ! Cite this model using <https://gregoriomontero.wordpress.com/wp-content/uploads/2016/09/2005-01-monografc3ada-forestal-13-m-produccic3b3n-de-biomasa-y-fijacic3b3n-de-co2-por-los-bosques-espac3b1oles.pdf>
 #> ℹ Diameter is assumed to in centimeters, and height is assumed to be in meters
+print(fallback_results)
 #>    biomass biomass_model
 #> 1 89.13531  montero-2005
 #> 2       NA          <NA>
+
+# 3. Dataset-based tutorial: apply to a mixed-species forest inventory data frame
+inventory <- data.frame(
+  tree_id  = 1:3,
+  species  = c("Pinus pinaster", "Quercus petraea", "Pinus sylvestris"),
+  dbh_cm   = c(22.5, 18.0, 31.2),
+  height_m = c(15.0, 11.5, 18.0)
+)
+
+# Run auto-selection and bind the results directly
+biomass_data <- silv_predict_biomass_auto(
+  species  = inventory$species,
+  diameter = inventory$dbh_cm,
+  height   = inventory$height_m
+)
+#> Warning: No compatible model was found in priority for species: "Quercus petraea" with
+#> component "tree".
+#> ! Cite this model using <https://doi.org/10.5424/fs/2011201-11643>
+#> ℹ Diameter is assumed to in centimeters, and height is assumed to be in meters
+
+inventory_with_biomass <- cbind(inventory, biomass_data)
+print(inventory_with_biomass)
+#>   tree_id          species dbh_cm height_m  biomass     biomass_model
+#> 1       1   Pinus pinaster   22.5     15.0 159.2250 ruiz-peinado-2011
+#> 2       2  Quercus petraea   18.0     11.5       NA              <NA>
+#> 3       3 Pinus sylvestris   31.2     18.0 460.3449 ruiz-peinado-2011
 ```

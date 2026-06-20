@@ -59,22 +59,57 @@ silv_predict_biomass_components(
 
 ## Value
 
-A `data.frame` with the columns `species`, `diameter`, `height` (if
-provided), and one additional column for each individual biomass
-component available for the selected species and model.
+A `data.frame` with the columns `species`, `diameter` (cm), `height` (m,
+if provided), and one additional numeric column (in kg) for each
+individual biomass component available for the selected species and
+model.
 
 ## Examples
 
 ``` r
-# Predict all components using Ruiz-Peinado 2011
-silv_predict_biomass_components(
-  species = "Pinus pinaster",
-  diameter = 25,
-  height = 15,
+# 1. Vector-based calculation: predict all components for Pinus pinaster
+comp_results <- silv_predict_biomass_components(
+  species = c("Pinus pinaster", "Pinus pinaster"),
+  diameter = c(20, 25),
+  height = c(12, 15),
   model_fn = eq_biomass_ruiz_peinado_2011
 )
+print(comp_results)
 #>          species diameter height     stem thick and medium branches
-#> 1 Pinus pinaster       25     15 134.1258                   9.37248
+#> 1 Pinus pinaster       20     12  72.8882                  4.650078
+#> 2 Pinus pinaster       25     15 134.1258                  9.372480
 #>   small branches and leaves    roots
-#> 1                   22.5845 36.91533
+#> 1                  13.45796 19.74563
+#> 2                  22.58450 36.91533
+
+# 2. Dataset-based tutorial: apply to a forest inventory data frame
+inventory <- data.frame(
+  tree_id  = 1:3,
+  species  = c("Pinus pinaster", "Pinus pinaster", "Pinus pinaster"),
+  dbh_cm   = c(18.5, 22.1, 29.4),
+  height_m = c(14.0, 16.5, 19.0)
+)
+
+# Predict components for the entire dataset
+comp_df <- silv_predict_biomass_components(
+  species  = inventory$species,
+  diameter = inventory$dbh_cm,
+  height   = inventory$height_m,
+  model_fn = "ruiz-peinado-2011"
+)
+
+# Combine and display results (excluding repeated identifier columns)
+inventory_with_components <- cbind(
+  inventory, 
+  comp_df[, -(1:3)]
+)
+print(inventory_with_components)
+#>   tree_id        species dbh_cm height_m     stem thick and medium branches
+#> 1       1 Pinus pinaster   18.5     14.0  67.9861                  3.640084
+#> 2       2 Pinus pinaster   22.1     16.5 109.6073                  6.362988
+#> 3       3 Pinus pinaster   29.4     19.0 218.7102                 15.595667
+#>   small branches and leaves    roots
+#> 1                  11.23125 15.86838
+#> 2                  16.96601 26.12516
+#> 3                  32.89694 58.16060
 ```

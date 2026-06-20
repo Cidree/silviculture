@@ -127,8 +127,8 @@ MITECO. 3rd Spanish National Forest Inventory - SIG database codes.
 ## Examples
 
 ``` r
-# Single tree: Pinus radiata in Alava (province 1), code 28
-silv_predict_snfi_volume(
+# 1. Vector-based calculation: single tree (Pinus radiata in Alava, province 1, code 28)
+single_tree <- silv_predict_snfi_volume(
   province = 1,
   species  = 28,
   dbh      = 20,
@@ -136,19 +136,51 @@ silv_predict_snfi_volume(
   dnm      = 23
 )
 #> ℹ SNFI4 data used. Cite: MITECO SNFI4 SIG codes - <https://www.miteco.gob.es/content/dam/miteco/es/biodiversidad/temas/inventarios-nacionales/documentador_sig_tcm30-536622.pdf>
+print(single_tree)
 #>        vcc      vsc     iavc      vle snfi_version
 #> 1 201.3054 146.1138 23.45224 13.60531        SNFI4
 
-# Mixed inputs: province and species by name
-silv_predict_snfi_volume(
-  province = c(1, 39),
+# 2. Vector-based calculation: multiple trees with province and species by name
+multi_trees <- silv_predict_snfi_volume(
+  province = c("Araba/Álava", "Cantabria"),
   species  = c("Pinus radiata", "Pinus radiata"),
   dbh      = c(20, 25),
   h        = c(15, 18),
   dnm      = c(23, 26)
 )
 #> ℹ SNFI4 data used. Cite: MITECO SNFI4 SIG codes - <https://www.miteco.gob.es/content/dam/miteco/es/biodiversidad/temas/inventarios-nacionales/documentador_sig_tcm30-536622.pdf>
+print(multi_trees)
 #>        vcc      vsc     iavc      vle snfi_version
 #> 1 201.3054 146.1138 23.45224 13.60531        SNFI4
 #> 2 342.0875 268.9089 20.02038 31.51750        SNFI4
+
+# 3. Dataset-based tutorial: apply to a forest inventory data frame
+inventory <- data.frame(
+  tree_id   = 1:3,
+  province  = c("Cantabria", "Cantabria", "Araba/Álava"),
+  species   = c("Pinus radiata", "Pinus radiata", "Pinus sylvestris"),
+  dbh_cm    = c(20.5, 28.0, 18.2),
+  height_m  = c(15.2, 18.5, 12.0)
+)
+
+# Apply the SNFI volume estimation functions row-wise across the dataset
+volume_results <- silv_predict_snfi_volume(
+  province = inventory$province,
+  species  = inventory$species,
+  dbh      = inventory$dbh_cm,
+  h        = inventory$height_m
+)
+#> ℹ SNFI4 data used. Cite: MITECO SNFI4 SIG codes - <https://www.miteco.gob.es/content/dam/miteco/es/biodiversidad/temas/inventarios-nacionales/documentador_sig_tcm30-536622.pdf>
+
+# Combine and display results
+inventory_with_volume <- cbind(inventory, volume_results)
+print(inventory_with_volume)
+#>   tree_id    province          species dbh_cm height_m      vcc      vsc
+#> 1       1   Cantabria    Pinus radiata   20.5     15.2 209.4953 162.6728
+#> 2       2   Cantabria    Pinus radiata   28.0     18.5 430.8241 340.2425
+#> 3       3 Araba/Álava Pinus sylvestris   18.2     12.0 143.2249 108.9774
+#>        iavc      vle snfi_version
+#> 1 14.199498 22.05411        SNFI4
+#> 2 24.359884 38.46379        SNFI4
+#> 3  5.968649  8.47490        SNFI4
 ```

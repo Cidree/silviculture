@@ -38,7 +38,8 @@ eq_biomass_dieguez_aranda_2009(
 
 ## Value
 
-A S7 list of parameters
+A ModelBiomass object containing the configured model parameters and
+expressions.
 
 ## Details
 

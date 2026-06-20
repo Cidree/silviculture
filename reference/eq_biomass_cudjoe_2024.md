@@ -29,7 +29,8 @@ eq_biomass_cudjoe_2024(species, component = "AGB", return_rmse = FALSE)
 
 ## Value
 
-A S7 list of parameters
+A ModelBiomass object containing the configured model parameters and
+expressions.
 
 ## Details
 

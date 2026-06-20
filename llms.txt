@@ -111,15 +111,15 @@ Functions for estimating forest variables from models or equations
 
 - [`silv_predict_biomass()`](https://cidree.github.io/silviculture/reference/silv_predict_biomass.md)
   : Calculate Tree Biomass
-- [`silv_predict_carbon()`](https://cidree.github.io/silviculture/reference/predict_carbon.md)
-  [`silv_predict_carbon_auto()`](https://cidree.github.io/silviculture/reference/predict_carbon.md)
-  : Predict carbon content from biomass
 - [`silv_predict_biomass_auto()`](https://cidree.github.io/silviculture/reference/silv_predict_biomass_auto.md)
   : Automatically Predict Biomass Using the Best Available Model
 - [`silv_predict_biomass_components()`](https://cidree.github.io/silviculture/reference/silv_predict_biomass_components.md)
   : Predict All Individual Biomass Components for Trees
+- [`silv_predict_carbon()`](https://cidree.github.io/silviculture/reference/predict_carbon.md)
+  [`silv_predict_carbon_auto()`](https://cidree.github.io/silviculture/reference/predict_carbon.md)
+  : Predict carbon content from biomass
 - [`silv_predict_height()`](https://cidree.github.io/silviculture/reference/silv_predict_height.md)
-  : Estimates tree height from DBH
+  : Estimates tree height (m) from DBH (cm)
 - [`silv_predict_snfi_volume()`](https://cidree.github.io/silviculture/reference/silv_predict_snfi_volume.md)
   : Predict tree volume using Spanish National Forest Inventory
   equations
@@ -135,7 +135,7 @@ Functions for estimating forest variables from models or equations
 Models and equations used in silv_predict\_\* functions
 
 - [`eq_hd_vazquez_veloso_2025()`](https://cidree.github.io/silviculture/reference/eq_hd_vazquez_veloso_2025.md)
-  : Estimates tree height from DBH
+  : Height-diameter equations from Vázquez-Veloso et al. (2025)
 - [`eq_biomass_cudjoe_2024()`](https://cidree.github.io/silviculture/reference/eq_biomass_cudjoe_2024.md)
   : Biomass equations for 2 species in Castille and León (Spain)
 - [`eq_biomass_dieguez_aranda_2009()`](https://cidree.github.io/silviculture/reference/eq_biomass_dieguez_aranda_2009.md)
@@ -219,8 +219,6 @@ Calculate and explore forest inventory sample size
 - [`silv_sample_size()`](https://cidree.github.io/silviculture/reference/silv_sample_size.md)
   **\[deprecated\]** : Calculates sample size for a random sampling
   inventory
-- [`plot_SimpleSampleSize`](https://cidree.github.io/silviculture/reference/SimpleSampleSize.md)
-  : Plot Sample Size vs Error
 
 ## Treatments
 
