@@ -1,17 +1,68 @@
 
 # Development version
 
+## New functions
+
+- `silv_predict_carbon()`: converts biomass estimates to carbon stock for a given
+  species, component, and carbon model.
+
+- `silv_predict_carbon_auto()`: automatically selects the best available carbon
+  model for a species, with genus-level fallback when species-level data are
+  unavailable.
+
+- `silv_predict_snfi_volume()`: predicts tree volume using allometric coefficients
+  from the Spanish National Forest Inventory (SNFI3 and SNFI4) by province and
+  species.
+
+- `silv_snfi_provinces()`: returns a lookup table of SNFI province codes and
+  names.
+
+- `silv_snfi_species()`: returns a lookup table of SNFI species codes and names
+  for a given inventory version (`"SNFI3"` or `"SNFI4"`).
+
+- `silv_predict_biomass_auto()`: automatically selects the best available biomass
+  model for a given species and computes above- and below-ground biomass.
+
+- `silv_predict_biomass_components()`: returns a per-component biomass breakdown
+  (e.g. stem, bark, branches, roots) for a given species and model.
+
+## Enhancements
+
+- `silv_predict_biomass()`: extended to support all 7 allometric models. New
+  `rcd` (root collar diameter) and `bp` (bark proportion) arguments added;
+  `rcd` defaults to `diameter` when not supplied.
+
+- `eq_biomass_cudjoe_2024()`: fixed `equation` slot returning `"cudjoe-2017"`
+  instead of `"cudjoe-2024"`.
+
+## Bug fixes
+
+- `silv_predict_biomass_components()`: AGB/BGB column names are now correctly
+  capitalised; the function now aborts with a clear message when the requested
+  species is not supported by the chosen model.
+
+- `silv_predict_biomass_components()`: informative error messages added when
+  BGB or total-tree components are missing for a given species/model combination.
+
+- `eq_biomass_ruiz_peinado_2012()`: the `equation` slot was incorrectly returning
+  `"ruiz-peinado-2011"` instead of `"ruiz-peinado-2012"`.
+
 ## Data updates
+
+- New datasets `snfi3_volume_coefficients` and `snfi4_volume_coefficients` with
+  allometric volume coefficients from the 3rd and 4th Spanish National Forest
+  Inventories, stored as compressed `.rda` files.
 
 - New dataset `carbon_models` (264 x 13), with full documentation.
 
 - `biomass_models` rebuilt (427 × 15, 0 parse errors) from corrected source spreadsheet.
 
+## Testing
 
-## Bug fixes
-
-- `eq_biomass_ruiz_peinado_2012()`: the `equation` slot was incorrectly returning
-  `"ruiz-peinado-2011"` instead of `"ruiz-peinado-2012"`.
+- Test suite modularised: the monolithic `test-dendrometry.R` has been split into
+  focused files (`test-tree-level.R`, `test-stand-level.R`, `test-stand-density.R`,
+  `test-lidar.R`, `test-sample-size.R`, `test-summary-thinning.R`) with
+  comprehensive new coverage and fixed S7 class checks.
 
 # silviculture 0.2.0
 
