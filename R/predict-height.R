@@ -15,15 +15,14 @@ ModelHD <- S7::new_class(
 
 
 
-#' Estimates tree height from DBH
+#' Estimates tree height (m) from DBH (cm)
 #'
-#' Estimates total tree height using height-diameter (h-d) equations. Currently, only models developed 
+#' Estimates total tree height (m) using height-diameter (h-d) equations. Currently, only models developed 
 #' for Spain are available.
 #'
-#' @param diameter Numeric vector with diameters in cm
-#' @param model A function. A function with the structure \code{eq_hd_*()} with
-#' additional arguments depending on the specific model. Currently only [eq_hd_vazquez_veloso_2025()] 
-#' is available.
+#' @param diameter Numeric vector with diameters in cm (DBH).
+#' @param model A ModelHD object. An object configured via the \code{eq_hd_*()} family of functions.
+#' Defaults to \code{eq_hd_vazquez_veloso_2025("All the species")}.
 #' @param quiet A logical value. If TRUE, suppresses any informational messages.
 #'
 #' @details
@@ -37,13 +36,37 @@ ModelHD <- S7::new_class(
 #' 
 #' @seealso [eq_hd_vazquez_veloso_2025()]
 #'
-#' @return A numeric vector with predicted heights
+#' @return A numeric vector with predicted heights (m).
 #' @export
 #'
 #' @examples
-#' 1 + 1 #TODO
+#' # 1. Predict height using the default model (Vázquez-Veloso 2025 generic model)
+#' predicted_heights_default <- silv_predict_height(diameter = c(20, 25, 30))
+#' print(predicted_heights_default)
+#'
+#' # 2. Load the S7 ModelHD object for Pinus pinaster
+#' model <- eq_hd_vazquez_veloso_2025("Pinus pinaster")
+#' 
+#' # 3. Vector-based calculation: predict tree heights from diameters
+#' diameters <- c(20, 25, 30)
+#' predicted_heights <- silv_predict_height(diameter = diameters, model = model)
+#' print(predicted_heights)
+#' 
+#' # 4. Dataset-based tutorial: apply to a forest inventory data frame
+#' inventory <- data.frame(
+#'   tree_id = 1:3,
+#'   species = c("Pinus pinaster", "Pinus pinaster", "Pinus pinaster"),
+#'   dbh_cm  = c(18.5, 22.1, 29.4)
+#' )
+#' 
+#' # Apply prediction and append a new column to the dataset
+#' inventory$height_m <- silv_predict_height(
+#'   diameter = inventory$dbh_cm,
+#'   model    = model
+#' )
+#' print(inventory)
 silv_predict_height <- function(diameter,
-                                model,
+                                model = eq_hd_vazquez_veloso_2025("All the species"),
                                 quiet = FALSE) {
   
   # 0. Handle errors
@@ -76,7 +99,7 @@ silv_predict_height <- function(diameter,
 
 
 
-#' Estimates tree height from DBH
+#' Height-diameter equations from Vázquez-Veloso et al. (2025)
 #'
 #' This function is intended to be used in [silv_predict_height()]. It implements the h-d equations
 #' developed in Vázquez-Veloso et al. (2025). These equations have been developed using the Spanish
@@ -110,7 +133,7 @@ silv_predict_height <- function(diameter,
 #' 
 #' @seealso [silv_predict_height()]
 #'
-#' @return A numeric vector with predicted height
+#' @return A ModelHD object containing the configured model parameters and metadata.
 #' @export
 #'
 #' @examples

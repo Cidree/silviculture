@@ -23,6 +23,8 @@ reference:
     desc: Functions for estimating forest variables from models or equations
     contents:
     - silv_predict_biomass
+    - silv_predict_biomass_auto
+    - silv_predict_biomass_components
     - silv_predict_carbon
     - silv_predict_carbon_auto
     - silv_predict_biomass_auto
@@ -84,7 +86,6 @@ reference:
     - silv_sample_size_simple
     - silv_sample_size_stratified
     - silv_sample_size
-    - plot_SimpleSampleSize
   
   - title: "Treatments"
     desc: Functions for forest treatments

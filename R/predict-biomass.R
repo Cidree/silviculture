@@ -37,7 +37,7 @@ ModelBiomass <- S7::new_class(
 #' \emph{Evergreen broadleaves}).
 #' @param quiet A logical value. If \code{TRUE}, suppresses any informational messages.
 #'
-#' @return A numeric vector
+#' @return A numeric vector with predicted tree biomass (kg).
 #'
 #' @export
 #'
@@ -66,12 +66,48 @@ ModelBiomass <- S7::new_class(
 #' [eq_biomass_menendez_2022()], [eq_biomass_cudjoe_2024()] 
 #'
 #' @examples
-#' # Calculate biomass for a single tree
-#' silv_predict_biomass(
-#'   diameter = 45,
-#'   height   = 22,
-#'   model    = eq_biomass_ruiz_peinado_2011("Pinus pinaster")
+#' # 1. Vector-based calculation: predict stem/tree biomass for Pinus pinaster
+#' model <- eq_biomass_ruiz_peinado_2011("Pinus pinaster")
+#' predicted_biomass <- silv_predict_biomass(
+#'   diameter = c(20, 25, 30),
+#'   height   = c(15, 17, 18),
+#'   model    = model
 #' )
+#' print(predicted_biomass)
+#' 
+#' # 2. Dataset-based tutorial: apply to a forest inventory data frame
+#' inventory <- data.frame(
+#'   tree_id  = 1:3,
+#'   species  = c("Pinus pinaster", "Pinus pinaster", "Pinus pinaster"),
+#'   dbh_cm   = c(18.5, 22.1, 29.4),
+#'   height_m = c(14.0, 16.5, 19.0)
+#' )
+#' 
+#' # Apply prediction and append a new column to the dataset
+#' inventory$biomass_kg <- silv_predict_biomass(
+#'   diameter = inventory$dbh_cm,
+#'   height   = inventory$height_m,
+#'   model    = model
+#' )
+#' print(inventory)
+#' 
+#' # 3. Young plantation example (Menendez 2022 model) using rcd and bp
+#' # Menendez 2022 equations use root collar diameter (rcd) and/or biomass packing (bp)
+#' model_menendez <- eq_biomass_menendez_2022("Pinus pinaster")
+#' predicted_young_pinaster <- silv_predict_biomass(
+#'   rcd      = c(5.2, 7.1, 9.4),   # Root collar diameter in cm
+#'   height   = c(2.1, 3.2, 4.5),   # Height in m
+#'   model    = model_menendez
+#' )
+#' print(predicted_young_pinaster)
+#' 
+#' # For Pinus halepensis, Menendez 2022 requires biomass packing (bp)
+#' model_halepensis <- eq_biomass_menendez_2022("Pinus halepensis")
+#' predicted_young_halepensis <- silv_predict_biomass(
+#'   bp     = c(0.005, 0.012),     # Biomass packing in m3
+#'   model  = model_halepensis
+#' )
+#' print(predicted_young_halepensis)
 silv_predict_biomass <- function(
     diameter = NULL,
     height   = NULL,
@@ -82,12 +118,24 @@ silv_predict_biomass <- function(
     quiet  = FALSE) {
 
   # 0. Handle errors and setup
+  ## 0.0. Determine vector length based on inputs
+  n <- if (!is.null(diameter)) {
+    length(diameter)
+  } else if (!is.null(rcd)) {
+    length(rcd)
+  } else if (!is.null(bp)) {
+    length(bp)
+  } else {
+    0
+  }
+
+  if (is.null(diameter)) diameter <- rep(NA_real_, n)
   ## 0.1. Default rcd to diameter if not provided
   if (is.null(rcd)) rcd <- diameter
   ## 0.2. Ensure ntrees = 1 when ntrees = NULL
-  if (is.null(ntrees)) ntrees <- rep(1, length(diameter))
+  if (is.null(ntrees)) ntrees <- rep(1, n)
   ## 0.3. Default height to NA_real_ if NULL
-  if (is.null(height)) height <- rep(NA_real_, length(diameter))
+  if (is.null(height)) height <- rep(NA_real_, n)
 
   # 1. Define a helper function to calculate biomass for a single tree
   calc_biomass <- function(d, h, n, sp, rcd_val, bp_val) {
@@ -179,7 +227,7 @@ silv_predict_biomass <- function(
 #' @param return_rmse A logical value. If TRUE, the function returns the root
 #' mean squared error (RMSE) of the selected model instead of the biomass value.
 #'
-#' @return A S7 list of parameters
+#' @return A ModelBiomass object containing the configured model parameters and expressions.
 #'
 #' @export
 #' 
@@ -291,7 +339,7 @@ eq_biomass_ruiz_peinado_2011 <- function(species, component = "stem", return_rms
 #' @param return_rmse A logical value. If TRUE, the function returns the root
 #' mean squared error (RMSE) of the selected model instead of the biomass value.
 #'
-#' @return A S7 list of parameters
+#' @return A ModelBiomass object containing the configured model parameters and expressions.
 #'
 #' @export
 #' 
@@ -411,7 +459,7 @@ eq_biomass_ruiz_peinado_2012 <- function(species, component = "stem", return_rms
 #' @param return_rmse A logical value. If TRUE, the function returns the root
 #' mean squared error (RMSE) of the selected model instead of the biomass value.
 #'
-#' @return A S7 list of parameters
+#' @return A ModelBiomass object containing the configured model parameters and expressions.
 #'
 #' @export
 #' 
@@ -534,7 +582,7 @@ eq_biomass_dieguez_aranda_2009 <- function(species, component = "stem", return_r
 #' @param return_r2 A logical value. If TRUE, the function returns the root
 #' mean squared error (RMSE) of the selected model instead of the biomass value.
 #'
-#' @return A S7 list of parameters
+#' @return A ModelBiomass object containing the configured model parameters and expressions.
 #'
 #' @export
 #' 
@@ -667,7 +715,7 @@ eq_biomass_montero_2005 <- function(species, component = "stem", return_r2 = FAL
 #' @param return_rmse A logical value. If TRUE, the function returns the root
 #' mean squared error (RMSE) of the selected model instead of the biomass value.
 #'
-#' @return A S7 list of parameters
+#' @return A ModelBiomass object containing the configured model parameters and expressions.
 #'
 #' @export
 #' 
@@ -775,7 +823,7 @@ eq_biomass_manrique_2017 <- function(species, component = "AGB", return_r2 = FAL
 #' @param return_rmse A logical value. If TRUE, the function returns the root
 #' mean squared error (RMSE) of the selected model instead of the biomass value.
 #'
-#' @return A S7 list of parameters
+#' @return A ModelBiomass object containing the configured model parameters and expressions.
 #'
 #' @export
 #' 
@@ -873,7 +921,7 @@ eq_biomass_menendez_2022 <- function(species, return_r2 = FALSE, return_rmse = F
 #' @param return_rmse A logical value. If TRUE, the function returns the root
 #' mean squared error (RMSE) of the selected model instead of the biomass value.
 #'
-#' @return A S7 list of parameters
+#' @return A ModelBiomass object containing the configured model parameters and expressions.
 #'
 #' @export
 #' 
@@ -998,14 +1046,34 @@ eq_biomass_cudjoe_2024 <- function(species, component = "AGB", return_rmse = FAL
 #' @export
 #'
 #' @examples
-#' # Predict biomass using default priorities
+#' # 1. Vector-based calculation: automatic model selection for mixed species
 #' species_vec <- c("Pinus pinaster", "Quercus petraea")
 #' d_vec <- c(20, 25)
 #' h_vec <- c(12, 14)
-#' silv_predict_biomass_auto(species_vec, d_vec, h_vec)
+#' auto_results <- silv_predict_biomass_auto(species_vec, d_vec, h_vec)
+#' print(auto_results)
 #'
-#' # Fallback to Montero 2005 when height is missing
-#' silv_predict_biomass_auto(species_vec, d_vec, height = NULL)
+#' # 2. Vector-based calculation: fallback to Montero 2005 when height is missing
+#' fallback_results <- silv_predict_biomass_auto(species_vec, d_vec, height = NULL)
+#' print(fallback_results)
+#' 
+#' # 3. Dataset-based tutorial: apply to a mixed-species forest inventory data frame
+#' inventory <- data.frame(
+#'   tree_id  = 1:3,
+#'   species  = c("Pinus pinaster", "Quercus petraea", "Pinus sylvestris"),
+#'   dbh_cm   = c(22.5, 18.0, 31.2),
+#'   height_m = c(15.0, 11.5, 18.0)
+#' )
+#' 
+#' # Run auto-selection and bind the results directly
+#' biomass_data <- silv_predict_biomass_auto(
+#'   species  = inventory$species,
+#'   diameter = inventory$dbh_cm,
+#'   height   = inventory$height_m
+#' )
+#' 
+#' inventory_with_biomass <- cbind(inventory, biomass_data)
+#' print(inventory_with_biomass)
 silv_predict_biomass_auto <- function(
     species,
     diameter,
@@ -1167,20 +1235,44 @@ silv_predict_biomass_auto <- function(
 #' @param bp An optional numeric vector of biomass packing values (in m\ifelse{html}{\out{<sup>3</sup>}}{$^3$}).
 #' @param quiet A logical value. If \code{TRUE}, suppresses any informational messages.
 #'
-#' @return A \code{data.frame} with the columns \code{species}, \code{diameter},
-#'   \code{height} (if provided), and one additional column for each individual biomass
-#'   component available for the selected species and model.
+#' @return A \code{data.frame} with the columns \code{species}, \code{diameter} (cm),
+#'   \code{height} (m, if provided), and one additional numeric column (in kg) for each
+#'   individual biomass component available for the selected species and model.
 #'
 #' @export
 #'
 #' @examples
-#' # Predict all components using Ruiz-Peinado 2011
-#' silv_predict_biomass_components(
-#'   species = "Pinus pinaster",
-#'   diameter = 25,
-#'   height = 15,
+#' # 1. Vector-based calculation: predict all components for Pinus pinaster
+#' comp_results <- silv_predict_biomass_components(
+#'   species = c("Pinus pinaster", "Pinus pinaster"),
+#'   diameter = c(20, 25),
+#'   height = c(12, 15),
 #'   model_fn = eq_biomass_ruiz_peinado_2011
 #' )
+#' print(comp_results)
+#'
+#' # 2. Dataset-based tutorial: apply to a forest inventory data frame
+#' inventory <- data.frame(
+#'   tree_id  = 1:3,
+#'   species  = c("Pinus pinaster", "Pinus pinaster", "Pinus pinaster"),
+#'   dbh_cm   = c(18.5, 22.1, 29.4),
+#'   height_m = c(14.0, 16.5, 19.0)
+#' )
+#' 
+#' # Predict components for the entire dataset
+#' comp_df <- silv_predict_biomass_components(
+#'   species  = inventory$species,
+#'   diameter = inventory$dbh_cm,
+#'   height   = inventory$height_m,
+#'   model_fn = "ruiz-peinado-2011"
+#' )
+#' 
+#' # Combine and display results (excluding repeated identifier columns)
+#' inventory_with_components <- cbind(
+#'   inventory, 
+#'   comp_df[, -(1:3)]
+#' )
+#' print(inventory_with_components)
 silv_predict_biomass_components <- function(
     species,
     diameter,

@@ -37,7 +37,7 @@ for a subset of species in \code{\link{eq_biomass_menendez_2022}} (e.g.
 \item{quiet}{A logical value. If \code{TRUE}, suppresses any informational messages.}
 }
 \value{
-A numeric vector
+A numeric vector with predicted tree biomass (kg).
 }
 \description{
 Computes the biomass of a tree species using species-specific allometric
@@ -65,12 +65,48 @@ in \link{biomass_models}.
 If you would like to suggest additional models, please open a new issue on GitHub.
 }
 \examples{
-# Calculate biomass for a single tree
-silv_predict_biomass(
-  diameter = 45,
-  height   = 22,
-  model    = eq_biomass_ruiz_peinado_2011("Pinus pinaster")
+# 1. Vector-based calculation: predict stem/tree biomass for Pinus pinaster
+model <- eq_biomass_ruiz_peinado_2011("Pinus pinaster")
+predicted_biomass <- silv_predict_biomass(
+  diameter = c(20, 25, 30),
+  height   = c(15, 17, 18),
+  model    = model
 )
+print(predicted_biomass)
+
+# 2. Dataset-based tutorial: apply to a forest inventory data frame
+inventory <- data.frame(
+  tree_id  = 1:3,
+  species  = c("Pinus pinaster", "Pinus pinaster", "Pinus pinaster"),
+  dbh_cm   = c(18.5, 22.1, 29.4),
+  height_m = c(14.0, 16.5, 19.0)
+)
+
+# Apply prediction and append a new column to the dataset
+inventory$biomass_kg <- silv_predict_biomass(
+  diameter = inventory$dbh_cm,
+  height   = inventory$height_m,
+  model    = model
+)
+print(inventory)
+
+# 3. Young plantation example (Menendez 2022 model) using rcd and bp
+# Menendez 2022 equations use root collar diameter (rcd) and/or biomass packing (bp)
+model_menendez <- eq_biomass_menendez_2022("Pinus pinaster")
+predicted_young_pinaster <- silv_predict_biomass(
+  rcd      = c(5.2, 7.1, 9.4),   # Root collar diameter in cm
+  height   = c(2.1, 3.2, 4.5),   # Height in m
+  model    = model_menendez
+)
+print(predicted_young_pinaster)
+
+# For Pinus halepensis, Menendez 2022 requires biomass packing (bp)
+model_halepensis <- eq_biomass_menendez_2022("Pinus halepensis")
+predicted_young_halepensis <- silv_predict_biomass(
+  bp     = c(0.005, 0.012),     # Biomass packing in m3
+  model  = model_halepensis
+)
+print(predicted_young_halepensis)
 }
 \seealso{
 \link{biomass_models}, \code{\link[=eq_biomass_montero_2005]{eq_biomass_montero_2005()}}, \code{\link[=eq_biomass_dieguez_aranda_2009]{eq_biomass_dieguez_aranda_2009()}},

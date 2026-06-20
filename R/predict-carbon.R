@@ -29,6 +29,46 @@
 #'   - `carbon_model`: The model and species level used (e.g., `"montero-2005"` or `"montero-2005 (genus fallback)"`).
 #'
 #' @name predict_carbon
+#'
+#' @examples
+#' # 1. Vector-based calculation: calculate stem carbon for Pinus pinaster
+#' biomass_vector <- c(120.5, 230.1, 85.4)
+#' species_vector <- c("Pinus pinaster", "Pinus pinaster", "Pinus pinaster")
+#' 
+#' carbon_vector <- silv_predict_carbon(
+#'   biomass = biomass_vector,
+#'   species = species_vector,
+#'   component = "stem",
+#'   model = "montero-2005"
+#' )
+#' print(carbon_vector)
+#' 
+#' # 2. Vector-based calculation with row-wise auto-selection & genus fallback
+#' carbon_df <- silv_predict_carbon_auto(
+#'   biomass = c(120.5, 95.0),
+#'   species = c("Pinus pinaster", "Pinus radiata"), # Pinus radiata triggers genus fallback
+#'   component = c("stem", "roots")
+#' )
+#' print(carbon_df)
+#' 
+#' # 3. Dataset-based tutorial: apply to a forest inventory data frame
+#' inventory <- data.frame(
+#'   tree_id   = 1:3,
+#'   species   = c("Pinus pinaster", "Pinus sylvestris", "Quercus robur"),
+#'   biomass_kg = c(150.0, 180.5, 220.0),
+#'   component = c("stem", "roots", "stem")
+#' )
+#' 
+#' # Apply row-wise auto-selection to the entire dataset
+#' carbon_results <- silv_predict_carbon_auto(
+#'   biomass   = inventory$biomass_kg,
+#'   species   = inventory$species,
+#'   component = inventory$component
+#' )
+#' 
+#' # Combine and display results
+#' inventory_with_carbon <- cbind(inventory, carbon_results)
+#' print(inventory_with_carbon)
 NULL
 
 #' @rdname predict_carbon

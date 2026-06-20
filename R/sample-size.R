@@ -538,16 +538,20 @@ silv_sample_size_simple <- function(
 #'
 #' @param x Object to plot.
 #' @param ... Other arguments passed to methods.
+#' @param min_error A numeric value specifying the minimum relative error to consider (default is 0.01).
+#' @param max_error A numeric value specifying the maximum relative error to consider (default is 0.5).
 #'
 #' @return Usually called for side-effects (producing a plot).
 #' @export
-plot <- S7::new_generic("plot", "x")
+plot <- S7::new_generic("plot", "x", function(x, ..., min_error = .01, max_error = .5) {
+  S7::S7_dispatch()
+})
 
 
 
 
-#' @describeIn plot Plot a `SimpleSampleSize` object showing how sample size
-#'   varies with the maximum allowed relative error.
+#' @rdname plot
+#'
 #' @param min_error A numeric value specifying the minimum relative error to consider (default is 0.01).
 #' @param max_error A numeric value specifying the maximum relative error to consider (default is 0.5).
 #'
