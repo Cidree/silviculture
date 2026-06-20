@@ -60,3 +60,50 @@
 #' Monografías INIA: Serie Forestal n.º 13. Instituto Nacional de
 #' Investigación y Tecnología Agraria y Alimentaria, Madrid.
 "carbon_models"
+
+
+#' SNFI3 tree volume coefficients
+#'
+#' Allometric equation coefficients for tree volume and increment from the 3rd
+#' Spanish National Forest Inventory (SNFI3/IFN3), as documented by MITECO.
+#'
+#' @format A `tibble` with 37,730 rows and 16 variables:
+#' \describe{
+#'   \item{Codigo_provincia}{Integer. Province numeric code.}
+#'   \item{Nombre_provincia}{Character. Province name.}
+#'   \item{Codigo_especie}{Integer. Species numeric code.}
+#'   \item{Especie}{Character. Species scientific name.}
+#'   \item{Parametro}{Character. Volume component: VCC (merchantable volume with bark), VSC (merchantable volume without bark), IAVC (annual volume increment with bark), or VLE (coarse firewood volume).}
+#'   \item{F.c.}{Integer. Tree quality class (calidad del árbol), from 1 (healthy and straight tree) to 6 (dead tree).}
+#'   \item{Par_esp}{Character. Special parameter metadata.}
+#'   \item{Modelo}{Integer. Equation model index.}
+#'   \item{a, b, c, d, p, q, r}{Numeric. Equation coefficients (NA where not applicable).}
+#'   \item{R2}{Numeric. Coefficient of determination of the model.}
+#' }
+#' @references
+#' MITECO. 3rd Spanish National Forest Inventory - SIG database codes.
+#' \url{https://www.miteco.gob.es/content/dam/miteco/es/biodiversidad/servicios/banco-datos-naturaleza/documentador_bdcampo_ifn3_tcm30-282240.pdf}
+"snfi3_volume_coefficients"
+
+
+#' SNFI4 tree volume coefficients
+#'
+#' Allometric equation coefficients for tree volume and increment from the 4th
+#' Spanish National Forest Inventory (SNFI4/IFN4), as documented by MITECO.
+#'
+#' @format A `tibble` with 20,925 rows and 15 variables:
+#' \describe{
+#'   \item{Codigo_provincia}{Integer. Province numeric code.}
+#'   \item{Nombre_provincia}{Character. Province name.}
+#'   \item{Codigo_especie}{Integer. Species numeric code.}
+#'   \item{Especie}{Character. Species scientific name.}
+#'   \item{Parametro}{Character. Volume component: VCC (merchantable volume with bark), VSC (merchantable volume without bark), IAVC (annual volume increment with bark), or VLE (coarse firewood volume).}
+#'   \item{F.c.}{Integer. Tree quality class (calidad del árbol), from 1 (healthy and straight tree) to 6 (dead tree).}
+#'   \item{Modelo}{Integer. Equation model index.}
+#'   \item{a, b, c, d, p, q, r}{Numeric. Equation coefficients (NA where not applicable).}
+#'   \item{D.n.m.}{Character. Mean plot diameter metadata (diámetro normal medio), required for IAVC equation model 13.}
+#' }
+#' @references
+#' MITECO. 4th Spanish National Forest Inventory - SIG database codes.
+#' \url{https://www.miteco.gob.es/content/dam/miteco/es/biodiversidad/temas/inventarios-nacionales/documentador_sig_tcm30-536622.pdf}
+"snfi4_volume_coefficients"
