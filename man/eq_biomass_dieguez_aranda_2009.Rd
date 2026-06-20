@@ -32,34 +32,42 @@ A S7 list of parameters
 Allometric equations adjusted for Galician (Spain) species
 }
 \details{
-There are seven species included in this model: \emph{Pinus pinaster, Pinaster radiata, Pinus}
-\emph{sylvestris, Eucalyptus globulus, Eucalyptus nitens, Quercus robur}, and \emph{Betula alba}
+\strong{Supported species (7):}
 
-The tree components are divided into groups, and any of them can be introduced in the
-component argument:
+\emph{Betula alba}, \emph{Eucalyptus globulus}, \emph{Eucalyptus nitens}, \emph{Pinus pinaster},
+\emph{Pinus radiata}, \emph{Pinus sylvestris}, \emph{Quercus robur}
+
+\strong{Available components:}
+
+Aboveground / belowground groups (summed automatically):
 \itemize{
-\item \strong{AGB}: all aboveground biomass components
-\item \strong{BGB}: all belowground biomass compoponents
-\item \strong{tree}: total tree biomass includying AGB and BGB
+\item \code{"AGB"} — total aboveground biomass
+\item \code{"BGB"} — total belowground biomass (roots)
 }
 
-Then we have the second group of components, which are related to tree groups:
+Tree structural groups:
 \itemize{
-\item \strong{stem}: includes the stem and bark
-\item \strong{branches}: includes all branches
-\item \strong{roots}: includes the roots (same as BGB)
+\item \code{"stem"} — stem fraction(s)
+\item \code{"branches"} — all branch fractions combined
+\item \code{"roots"} — roots (equivalent to BGB)
 }
 
-Finally, we have the last level, which includes tree components (not all of them
-are available for all species): stem, bark, thick branches (>7cm), medium branches (2-7cm),
-thin branches (0.5-2cm), twigs (<0.5cm), dry branches, leaves, roots. In some species,
-there's "stem and thick branches", instead of two groups.
+Individual tree components (species availability varies):
+\itemize{
+\item \code{"stem and thick branches"} — stem together with thickest branches
+\item \code{"thick branches"} — branches > 7 cm
+\item \code{"medium branches"} — branches 2–7 cm
+\item \code{"small branches"} — branches 0.5–2 cm
+\item \code{"twigs"} — branches < 0.5 cm
+\item \code{"dry branches"} — dead attached branches
+\item \code{"leaves"} — foliage (including needles)
+\item \code{"roots"} — coarse roots
+}
 
-Users can check the list of supported species and their corresponding components
-in \link{biomass_models}.
+Users can check the full species–component matrix in \link{biomass_models}.
 }
 \examples{
-## get model parameters for silv_predict_biomass
+## Aboveground biomass for Pinus pinaster
 eq_biomass_dieguez_aranda_2009("Pinus pinaster", "AGB")
 }
 \seealso{

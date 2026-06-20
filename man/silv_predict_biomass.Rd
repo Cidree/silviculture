@@ -9,11 +9,13 @@ silv_predict_biomass(
   height = NULL,
   model,
   ntrees = NULL,
+  rcd = NULL,
+  bp = NULL,
   quiet = FALSE
 )
 }
 \arguments{
-\item{diameter}{A numeric vector of tree diameters (in cm).}
+\item{diameter}{A numeric vector of tree diameters at breast height (in cm).}
 
 \item{height}{A numeric vector of tree heights (in m).}
 
@@ -22,6 +24,15 @@ additional arguments depending on the model used.}
 
 \item{ntrees}{An optional numeric value indicating the number of trees in
 this diameter-height class. Defaults to 1 if \code{NULL}.}
+
+\item{rcd}{An optional numeric vector of root collar diameters (in cm). Required
+for \code{\link{eq_biomass_menendez_2022}}, which uses root collar diameter
+instead of diameter at breast height. Defaults to \code{diameter} if \code{NULL}.}
+
+\item{bp}{An optional numeric vector of biomass packing values (in m\ifelse{html}{\out{<sup>3</sup>}}{$^3$}). Required
+for a subset of species in \code{\link{eq_biomass_menendez_2022}} (e.g.
+\emph{Pinus halepensis}, \emph{Pinus nigra}, \emph{Quercus suber},
+\emph{Evergreen broadleaves}).}
 
 \item{quiet}{A logical value. If \code{TRUE}, suppresses any informational messages.}
 }
@@ -38,6 +49,14 @@ dataset \link{biomass_models}. The available models include:
 \itemize{
 \item \strong{\code{\link[=eq_biomass_ruiz_peinado_2011]{eq_biomass_ruiz_peinado_2011()}}}: Developed for softwood species in Spain.
 \item \strong{\code{\link[=eq_biomass_ruiz_peinado_2012]{eq_biomass_ruiz_peinado_2012()}}}: Developed for hardwood species in Spain.
+\item \strong{\code{\link[=eq_biomass_montero_2005]{eq_biomass_montero_2005()}}}: Developed for 35 Spanish species.
+\item \strong{\code{\link[=eq_biomass_dieguez_aranda_2009]{eq_biomass_dieguez_aranda_2009()}}}: Developed for 7 Galician species.
+\item \strong{\code{\link[=eq_biomass_manrique_2017]{eq_biomass_manrique_2017()}}}: Developed for \emph{Quercus petraea} and \emph{Quercus pyrenaica}.
+\item \strong{\code{\link[=eq_biomass_menendez_2022]{eq_biomass_menendez_2022()}}}: Developed for young plantations (< 30 years) of 18
+Spanish species. Uses \code{rcd} (root collar diameter) instead of \code{diameter}; some species
+require \code{bp} (biomass packing) instead of \code{rcd}.
+\item \strong{\code{\link[=eq_biomass_cudjoe_2024]{eq_biomass_cudjoe_2024()}}}: Developed for \emph{Pinus sylvestris} and \emph{Quercus petraea}
+in Castille and León, Spain.
 }
 
 Users can check the list of supported species and their corresponding components
