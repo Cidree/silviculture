@@ -42,36 +42,46 @@ A S7 list of parameters
 
 ## Details
 
-There are seven species included in this model: *Pinus pinaster,
-Pinaster radiata, Pinus* *sylvestris, Eucalyptus globulus, Eucalyptus
-nitens, Quercus robur*, and *Betula alba*
+**Supported species (7):**
 
-The tree components are divided into groups, and any of them can be
-introduced in the component argument:
+*Betula alba*, *Eucalyptus globulus*, *Eucalyptus nitens*, *Pinus
+pinaster*, *Pinus radiata*, *Pinus sylvestris*, *Quercus robur*
 
-- **AGB**: all aboveground biomass components
+**Available components:**
 
-- **BGB**: all belowground biomass compoponents
+Aboveground / belowground groups (summed automatically):
 
-- **tree**: total tree biomass includying AGB and BGB
+- `"AGB"` — total aboveground biomass
 
-Then we have the second group of components, which are related to tree
-groups:
+- `"BGB"` — total belowground biomass (roots)
 
-- **stem**: includes the stem and bark
+Tree structural groups:
 
-- **branches**: includes all branches
+- `"stem"` — stem fraction(s)
 
-- **roots**: includes the roots (same as BGB)
+- `"branches"` — all branch fractions combined
 
-Finally, we have the last level, which includes tree components (not all
-of them are available for all species): stem, bark, thick branches
-(\>7cm), medium branches (2-7cm), thin branches (0.5-2cm), twigs
-(\<0.5cm), dry branches, leaves, roots. In some species, there's "stem
-and thick branches", instead of two groups.
+- `"roots"` — roots (equivalent to BGB)
 
-Users can check the list of supported species and their corresponding
-components in
+Individual tree components (species availability varies):
+
+- `"stem and thick branches"` — stem together with thickest branches
+
+- `"thick branches"` — branches \> 7 cm
+
+- `"medium branches"` — branches 2–7 cm
+
+- `"small branches"` — branches 0.5–2 cm
+
+- `"twigs"` — branches \< 0.5 cm
+
+- `"dry branches"` — dead attached branches
+
+- `"leaves"` — foliage (including needles)
+
+- `"roots"` — coarse roots
+
+Users can check the full species–component matrix in
 [biomass_models](https://cidree.github.io/silviculture/reference/biomass_models.md).
 
 ## See also
@@ -88,7 +98,7 @@ components in
 ## Examples
 
 ``` r
-## get model parameters for silv_predict_biomass
+## Aboveground biomass for Pinus pinaster
 eq_biomass_dieguez_aranda_2009("Pinus pinaster", "AGB")
 #> <silviculture::ModelBiomass>
 #>  @ equation  : chr "dieguez-aranda-2009"

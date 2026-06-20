@@ -71,20 +71,35 @@ mean squared error (RMSE) of the selected model instead of the biomass value.</p
     </div>
     <div class="section level2">
     <h2 id="details">Details<a class="anchor" aria-label="anchor" href="#details"></a></h2>
-    <p>There are 15 species in this model, including generic equations for <em>Conifers</em>,
-<em>Deciduous broadleaves</em>, and <em>Evergreen broadleaves</em>.</p>
-<p>All the models measure only aboveground biomass.</p>
+    <p><strong>Supported species (18):</strong></p>
+<p><em>Betula</em> sp., <em>Fagus sylvatica</em>, <em>Juniperus thurifera</em>, <em>Pinus halepensis</em>,
+<em>Pinus nigra</em>, <em>Pinus pinaster</em>, <em>Pinus pinea</em>, <em>Pinus radiata</em>, <em>Pinus sylvestris</em>,
+<em>Quercus faginea</em>, <em>Quercus ilex</em>, <em>Quercus petraea</em>, <em>Quercus pyrenaica</em>,
+<em>Quercus robur</em>, <em>Quercus suber</em></p>
+<p>Generic equations are also available for functional groups:</p><ul><li><p><code>"Conifers"</code> — generic equation for conifer species</p></li>
+<li><p><code>"Deciduous broadleaves"</code> — generic equation for deciduous broadleaf species</p></li>
+<li><p><code>"Evergreen broadleaves"</code> — generic equation for evergreen broadleaf species</p></li>
+</ul><p><strong>Available components:</strong></p><ul><li><p><code>"AGB"</code> — aboveground biomass (only component available; no <code>component</code> argument needed)</p></li>
+</ul><p><strong>Important — non-standard input variables:</strong></p>
+<p>Unlike other biomass models, these equations were fitted on <strong>young plantations
+(&lt; 30 years)</strong> and use different predictor variables:</p><ul><li><p>Most species use <code>rcd</code> = root collar diameter (cm), <strong>not</strong> diameter at breast
+height. Pass it via the <code>rcd</code> argument of <code><a href="silv_predict_biomass.html">silv_predict_biomass()</a></code>.</p></li>
+<li><p>Some species (<em>Pinus halepensis</em>, <em>Pinus nigra</em>, <em>Quercus suber</em>,
+<em>Evergreen broadleaves</em>) use <code>bp</code> = biomass packing (m<sup>3</sup>). Pass it via the
+<code>bp</code> argument of <code><a href="silv_predict_biomass.html">silv_predict_biomass()</a></code>.</p></li>
+<li><p><em>Betula</em> sp. uses only <code>h</code> (total height).</p></li>
+</ul><p>Users can check the full species–component matrix in <a href="biomass_models.html">biomass_models</a>.</p>
     </div>
     <div class="section level2">
     <h2 id="see-also">See also<a class="anchor" aria-label="anchor" href="#see-also"></a></h2>
-    <div class="dont-index"><p><code><a href="silv_predict_biomass.html">silv_predict_biomass()</a></code>, <a href="biomass_models.html">biomass_models</a>, <code><a href="eq_biomass_montero_2005.html">eq_biomass_montero_2005()</a></code>, <code><a href="eq_biomass_dieguez_aranda_2009.html">eq_biomass_dieguez_aranda_2009()</a></code>
+    <div class="dont-index"><p><code><a href="silv_predict_biomass.html">silv_predict_biomass()</a></code>, <a href="biomass_models.html">biomass_models</a>, <code><a href="eq_biomass_montero_2005.html">eq_biomass_montero_2005()</a></code>, <code><a href="eq_biomass_dieguez_aranda_2009.html">eq_biomass_dieguez_aranda_2009()</a></code>,
 <code><a href="eq_biomass_ruiz_peinado_2011.html">eq_biomass_ruiz_peinado_2011()</a></code>, <code><a href="eq_biomass_ruiz_peinado_2012.html">eq_biomass_ruiz_peinado_2012()</a></code>, <code><a href="eq_biomass_manrique_2017.html">eq_biomass_manrique_2017()</a></code>,
 <code><a href="eq_biomass_cudjoe_2024.html">eq_biomass_cudjoe_2024()</a></code></p></div>
     </div>
 
     <div class="section level2">
     <h2 id="ref-examples">Examples<a class="anchor" aria-label="anchor" href="#ref-examples"></a></h2>
-    <div class="sourceCode"><pre class="sourceCode r"><code><span class="r-in"><span><span class="co">## get model parameters for silv_predict_biomass</span></span></span>
+    <div class="sourceCode"><pre class="sourceCode r"><code><span class="r-in"><span><span class="co">## AGB for Fagus sylvatica using root collar diameter</span></span></span>
 <span class="r-in"><span><span class="fu">eq_biomass_menendez_2022</span><span class="op">(</span><span class="st">"Fagus sylvatica"</span><span class="op">)</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> &lt;silviculture::ModelBiomass&gt;</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>  @ equation  : chr "menendez-2022"</span>

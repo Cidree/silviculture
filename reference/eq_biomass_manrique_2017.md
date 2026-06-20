@@ -43,26 +43,35 @@ A S7 list of parameters
 
 ## Details
 
-There are two species in this model: *Quercus petraea* and *Quercus
-pyrenaica*
+**Supported species (2):**
 
-The tree components include:
+- *Quercus petraea*
 
-- **stem**: includes stem and the thickest branches
+- *Quercus pyrenaica*
 
-- **medium branches**
+**Available components:**
 
-- **thin branches**
+Aboveground group (summed automatically):
 
-- **AGB**: total biomass, results of summing the previous three
-  components
+- `"AGB"` — total aboveground biomass (sum of all components below)
+
+Individual tree components:
+
+- `"stem and thick branches"` — stem together with branches \> 7 cm
+
+- `"medium branches"` — branches 2–7 cm
+
+- `"small branches"` — branches \< 2 cm
+
+Users can check the full species–component matrix in
+[biomass_models](https://cidree.github.io/silviculture/reference/biomass_models.md).
 
 ## See also
 
 [`silv_predict_biomass()`](https://cidree.github.io/silviculture/reference/silv_predict_biomass.md),
 [biomass_models](https://cidree.github.io/silviculture/reference/biomass_models.md),
 [`eq_biomass_montero_2005()`](https://cidree.github.io/silviculture/reference/eq_biomass_montero_2005.md),
-[`eq_biomass_dieguez_aranda_2009()`](https://cidree.github.io/silviculture/reference/eq_biomass_dieguez_aranda_2009.md)
+[`eq_biomass_dieguez_aranda_2009()`](https://cidree.github.io/silviculture/reference/eq_biomass_dieguez_aranda_2009.md),
 [`eq_biomass_ruiz_peinado_2011()`](https://cidree.github.io/silviculture/reference/eq_biomass_ruiz_peinado_2011.md),
 [`eq_biomass_ruiz_peinado_2012()`](https://cidree.github.io/silviculture/reference/eq_biomass_ruiz_peinado_2012.md),
 [`eq_biomass_menendez_2022()`](https://cidree.github.io/silviculture/reference/eq_biomass_menendez_2022.md),
@@ -71,7 +80,7 @@ The tree components include:
 ## Examples
 
 ``` r
-## get model parameters for silv_predict_biomass
+## Aboveground biomass for Quercus petraea
 eq_biomass_manrique_2017("Quercus petraea", "AGB")
 #> <silviculture::ModelBiomass>
 #>  @ equation  : chr "manrique-2017"

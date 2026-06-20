@@ -33,32 +33,40 @@ A S7 list of parameters
 
 ## Details
 
-There are three species options in this model:
+**Supported species (3):**
 
-- ***Quercus petraea***
+- *Pinus sylvestris*
 
-- ***Pinus sylvestris***
+- *Quercus petraea*
 
-- **Mixed**: stands with *Quercus petraea* and *Pinus sylvestris*
+- `"mixed"` — mixed stand of *Pinus sylvestris* × *Quercus petraea*
 
-The tree components include some AGB components:
+**Available components:**
 
-- **leaves**: only for *P. sylvestris*
+Aboveground group (summed automatically):
 
-- **stem**: for all species
+- `"AGB"` — total aboveground biomass (sum of all components below)
 
-- **medium branches and small brances**: for all species
+Individual tree components (species availability varies):
 
-- **thick branches**: for all species
+- `"stem"` — stem wood (all species)
 
-- **AGB**: total biomass, results of summing the previous components
+- `"thick branches"` — branches \> 7 cm (all species)
+
+- `"medium branches and small branches"` — branches \< 7 cm (all
+  species)
+
+- `"leaves"` — foliage/needles (*Pinus sylvestris* only)
+
+Users can check the full species–component matrix in
+[biomass_models](https://cidree.github.io/silviculture/reference/biomass_models.md).
 
 ## See also
 
 [`silv_predict_biomass()`](https://cidree.github.io/silviculture/reference/silv_predict_biomass.md),
 [biomass_models](https://cidree.github.io/silviculture/reference/biomass_models.md),
 [`eq_biomass_montero_2005()`](https://cidree.github.io/silviculture/reference/eq_biomass_montero_2005.md),
-[`eq_biomass_dieguez_aranda_2009()`](https://cidree.github.io/silviculture/reference/eq_biomass_dieguez_aranda_2009.md)
+[`eq_biomass_dieguez_aranda_2009()`](https://cidree.github.io/silviculture/reference/eq_biomass_dieguez_aranda_2009.md),
 [`eq_biomass_ruiz_peinado_2011()`](https://cidree.github.io/silviculture/reference/eq_biomass_ruiz_peinado_2011.md),
 [`eq_biomass_ruiz_peinado_2012()`](https://cidree.github.io/silviculture/reference/eq_biomass_ruiz_peinado_2012.md),
 [`eq_biomass_manrique_2017()`](https://cidree.github.io/silviculture/reference/eq_biomass_manrique_2017.md),
@@ -67,10 +75,10 @@ The tree components include some AGB components:
 ## Examples
 
 ``` r
-## get model parameters for silv_predict_biomass
+## Aboveground biomass for a mixed stand
 eq_biomass_cudjoe_2024("mixed", "AGB")
 #> <silviculture::ModelBiomass>
-#>  @ equation  : chr "cudjoe-2017"
+#>  @ equation  : chr "cudjoe-2024"
 #>  @ species   : chr "Pinus sylvestris x Quercus petraea"
 #>  @ component : chr "AGB"
 #>  @ expression:'data.frame':  3 obs. of  2 variables:

@@ -71,28 +71,30 @@ mean squared error (RMSE) of the selected model instead of the biomass value.</p
     </div>
     <div class="section level2">
     <h2 id="details">Details<a class="anchor" aria-label="anchor" href="#details"></a></h2>
-    <p>There are three species options in this model:</p><ul><li><p><em><strong>Quercus petraea</strong></em></p></li>
-<li><p><em><strong>Pinus sylvestris</strong></em></p></li>
-<li><p><strong>Mixed</strong>: stands with <em>Quercus petraea</em> and <em>Pinus sylvestris</em></p></li>
-</ul><p>The tree components include some AGB components:</p><ul><li><p><strong>leaves</strong>: only for <em>P. sylvestris</em></p></li>
-<li><p><strong>stem</strong>: for all species</p></li>
-<li><p><strong>medium branches and small brances</strong>: for all species</p></li>
-<li><p><strong>thick branches</strong>: for all species</p></li>
-<li><p><strong>AGB</strong>: total biomass, results of summing the previous components</p></li>
-</ul></div>
+    <p><strong>Supported species (3):</strong></p><ul><li><p><em>Pinus sylvestris</em></p></li>
+<li><p><em>Quercus petraea</em></p></li>
+<li><p><code>"mixed"</code> — mixed stand of <em>Pinus sylvestris</em> × <em>Quercus petraea</em></p></li>
+</ul><p><strong>Available components:</strong></p>
+<p>Aboveground group (summed automatically):</p><ul><li><p><code>"AGB"</code> — total aboveground biomass (sum of all components below)</p></li>
+</ul><p>Individual tree components (species availability varies):</p><ul><li><p><code>"stem"</code> — stem wood (all species)</p></li>
+<li><p><code>"thick branches"</code> — branches &gt; 7 cm (all species)</p></li>
+<li><p><code>"medium branches and small branches"</code> — branches &lt; 7 cm (all species)</p></li>
+<li><p><code>"leaves"</code> — foliage/needles (<em>Pinus sylvestris</em> only)</p></li>
+</ul><p>Users can check the full species–component matrix in <a href="biomass_models.html">biomass_models</a>.</p>
+    </div>
     <div class="section level2">
     <h2 id="see-also">See also<a class="anchor" aria-label="anchor" href="#see-also"></a></h2>
-    <div class="dont-index"><p><code><a href="silv_predict_biomass.html">silv_predict_biomass()</a></code>, <a href="biomass_models.html">biomass_models</a>, <code><a href="eq_biomass_montero_2005.html">eq_biomass_montero_2005()</a></code>, <code><a href="eq_biomass_dieguez_aranda_2009.html">eq_biomass_dieguez_aranda_2009()</a></code>
+    <div class="dont-index"><p><code><a href="silv_predict_biomass.html">silv_predict_biomass()</a></code>, <a href="biomass_models.html">biomass_models</a>, <code><a href="eq_biomass_montero_2005.html">eq_biomass_montero_2005()</a></code>, <code><a href="eq_biomass_dieguez_aranda_2009.html">eq_biomass_dieguez_aranda_2009()</a></code>,
 <code><a href="eq_biomass_ruiz_peinado_2011.html">eq_biomass_ruiz_peinado_2011()</a></code>, <code><a href="eq_biomass_ruiz_peinado_2012.html">eq_biomass_ruiz_peinado_2012()</a></code>, <code><a href="eq_biomass_manrique_2017.html">eq_biomass_manrique_2017()</a></code>,
 <code><a href="eq_biomass_menendez_2022.html">eq_biomass_menendez_2022()</a></code></p></div>
     </div>
 
     <div class="section level2">
     <h2 id="ref-examples">Examples<a class="anchor" aria-label="anchor" href="#ref-examples"></a></h2>
-    <div class="sourceCode"><pre class="sourceCode r"><code><span class="r-in"><span><span class="co">## get model parameters for silv_predict_biomass</span></span></span>
+    <div class="sourceCode"><pre class="sourceCode r"><code><span class="r-in"><span><span class="co">## Aboveground biomass for a mixed stand</span></span></span>
 <span class="r-in"><span><span class="fu">eq_biomass_cudjoe_2024</span><span class="op">(</span><span class="st">"mixed"</span>, <span class="st">"AGB"</span><span class="op">)</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> &lt;silviculture::ModelBiomass&gt;</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>  @ equation  : chr "cudjoe-2017"</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>  @ equation  : chr "cudjoe-2024"</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>  @ species   : chr "Pinus sylvestris x Quercus petraea"</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>  @ component : chr "AGB"</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>  @ expression:'data.frame':	3 obs. of  2 variables:</span>

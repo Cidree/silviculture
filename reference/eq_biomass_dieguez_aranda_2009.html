@@ -78,21 +78,24 @@ mean squared error (RMSE) of the selected model instead of the biomass value.</p
     </div>
     <div class="section level2">
     <h2 id="details">Details<a class="anchor" aria-label="anchor" href="#details"></a></h2>
-    <p>There are seven species included in this model: <em>Pinus pinaster, Pinaster radiata, Pinus</em>
-<em>sylvestris, Eucalyptus globulus, Eucalyptus nitens, Quercus robur</em>, and <em>Betula alba</em></p>
-<p>The tree components are divided into groups, and any of them can be introduced in the
-component argument:</p><ul><li><p><strong>AGB</strong>: all aboveground biomass components</p></li>
-<li><p><strong>BGB</strong>: all belowground biomass compoponents</p></li>
-<li><p><strong>tree</strong>: total tree biomass includying AGB and BGB</p></li>
-</ul><p>Then we have the second group of components, which are related to tree groups:</p><ul><li><p><strong>stem</strong>: includes the stem and bark</p></li>
-<li><p><strong>branches</strong>: includes all branches</p></li>
-<li><p><strong>roots</strong>: includes the roots (same as BGB)</p></li>
-</ul><p>Finally, we have the last level, which includes tree components (not all of them
-are available for all species): stem, bark, thick branches (&gt;7cm), medium branches (2-7cm),
-thin branches (0.5-2cm), twigs (&lt;0.5cm), dry branches, leaves, roots. In some species,
-there's "stem and thick branches", instead of two groups.</p>
-<p>Users can check the list of supported species and their corresponding components
-in <a href="biomass_models.html">biomass_models</a>.</p>
+    <p><strong>Supported species (7):</strong></p>
+<p><em>Betula alba</em>, <em>Eucalyptus globulus</em>, <em>Eucalyptus nitens</em>, <em>Pinus pinaster</em>,
+<em>Pinus radiata</em>, <em>Pinus sylvestris</em>, <em>Quercus robur</em></p>
+<p><strong>Available components:</strong></p>
+<p>Aboveground / belowground groups (summed automatically):</p><ul><li><p><code>"AGB"</code> — total aboveground biomass</p></li>
+<li><p><code>"BGB"</code> — total belowground biomass (roots)</p></li>
+</ul><p>Tree structural groups:</p><ul><li><p><code>"stem"</code> — stem fraction(s)</p></li>
+<li><p><code>"branches"</code> — all branch fractions combined</p></li>
+<li><p><code>"roots"</code> — roots (equivalent to BGB)</p></li>
+</ul><p>Individual tree components (species availability varies):</p><ul><li><p><code>"stem and thick branches"</code> — stem together with thickest branches</p></li>
+<li><p><code>"thick branches"</code> — branches &gt; 7 cm</p></li>
+<li><p><code>"medium branches"</code> — branches 2–7 cm</p></li>
+<li><p><code>"small branches"</code> — branches 0.5–2 cm</p></li>
+<li><p><code>"twigs"</code> — branches &lt; 0.5 cm</p></li>
+<li><p><code>"dry branches"</code> — dead attached branches</p></li>
+<li><p><code>"leaves"</code> — foliage (including needles)</p></li>
+<li><p><code>"roots"</code> — coarse roots</p></li>
+</ul><p>Users can check the full species–component matrix in <a href="biomass_models.html">biomass_models</a>.</p>
     </div>
     <div class="section level2">
     <h2 id="see-also">See also<a class="anchor" aria-label="anchor" href="#see-also"></a></h2>
@@ -103,7 +106,7 @@ in <a href="biomass_models.html">biomass_models</a>.</p>
 
     <div class="section level2">
     <h2 id="ref-examples">Examples<a class="anchor" aria-label="anchor" href="#ref-examples"></a></h2>
-    <div class="sourceCode"><pre class="sourceCode r"><code><span class="r-in"><span><span class="co">## get model parameters for silv_predict_biomass</span></span></span>
+    <div class="sourceCode"><pre class="sourceCode r"><code><span class="r-in"><span><span class="co">## Aboveground biomass for Pinus pinaster</span></span></span>
 <span class="r-in"><span><span class="fu">eq_biomass_dieguez_aranda_2009</span><span class="op">(</span><span class="st">"Pinus pinaster"</span>, <span class="st">"AGB"</span><span class="op">)</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> &lt;silviculture::ModelBiomass&gt;</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>  @ equation  : chr "dieguez-aranda-2009"</span>

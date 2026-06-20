@@ -32,41 +32,61 @@ A S7 list of parameters
 
 ## Details
 
-There are 35 species included in the model.
+**Supported species (35):**
 
-The tree components are divided into groups, and any of them can be
-introduced in the component argument:
+*Abies alba*, *Abies pinsapo*, *Alnus glutinosa*, *Betula* spp.,
+*Castanea sativa*, *Ceratonia siliqua*, *Erica arborea*, *Eucalyptus*
+spp., *Fagus sylvatica*, *Fraxinus* spp., *Ilex canariensis*, *Juniperus
+oxycedrus*, *Juniperus phoenicea*, *Juniperus thurifera*, *Laurus
+azorica*, *Myrica faya*, *Olea europaea* var. *sylvestris*, *Other
+broadleaves*, *Other conifers*, *Other laurel species*, *Pinus
+canariensis*, *Pinus halepensis*, *Pinus nigra*, *Pinus pinaster*,
+*Pinus pinea*, *Pinus radiata*, *Pinus sylvestris*, *Pinus uncinata*,
+*Populus x euramericana*, *Quercus canariensis*, *Quercus faginea*,
+*Quercus ilex*, *Quercus pyrenaica*, *Quercus robur*, *Quercus suber*
 
-- **AGB**: all aboveground biomass components
+**Available components:**
 
-- **BGB**: all belowground biomass compoponents
+Aboveground / belowground groups (summed automatically):
 
-- **tree** or **all**: total tree biomass includying AGB and BGB
+- `"AGB"` — total aboveground biomass
 
-Then we have the second group of components, which are related to tree
-groups:
+- `"BGB"` — total belowground biomass (roots)
 
-- **stem**: includes the stem and bark
+- `"all"` or `"tree"` — total tree biomass (AGB + BGB)
 
-- **branches**: includes all branches
+Tree structural groups:
 
-- **roots**: includes the roots (same as BGB)
+- `"stem"` — stem fraction(s)
 
-Finally, we have the last level, which includes tree components (not all
-of them are available for all species): stem, bark, thick branches
-(\>7cm), medium branches (2-7cm), thin branches (0.5-2cm), leaves
-(include needles), roots. In some species, there's "stem and thick
-branches", instead of two groups.
+- `"branches"` — all branch fractions combined
 
-Users can check the list of supported species and their corresponding
-components in
+- `"roots"` — roots (equivalent to BGB)
+
+Individual tree components (species availability varies):
+
+- `"stem"` — stem wood
+
+- `"stem and thick branches"` — stem together with branches \> 7 cm
+
+- `"thick branches"` — branches \> 7 cm
+
+- `"medium branches"` — branches 2–7 cm
+
+- `"small branches"` — branches \< 2 cm
+
+- `"leaves"` — foliage (including needles)
+
+- `"roots"` — coarse roots
+
+Users can check the full species–component matrix in
 [biomass_models](https://cidree.github.io/silviculture/reference/biomass_models.md).
 
 ## See also
 
 [`silv_predict_biomass()`](https://cidree.github.io/silviculture/reference/silv_predict_biomass.md),
 [biomass_models](https://cidree.github.io/silviculture/reference/biomass_models.md),
-[`eq_biomass_dieguez_aranda_2009()`](https://cidree.github.io/silviculture/reference/eq_biomass_dieguez_aranda_2009.md)
+[`eq_biomass_dieguez_aranda_2009()`](https://cidree.github.io/silviculture/reference/eq_biomass_dieguez_aranda_2009.md),
 [`eq_biomass_ruiz_peinado_2011()`](https://cidree.github.io/silviculture/reference/eq_biomass_ruiz_peinado_2011.md),
 [`eq_biomass_ruiz_peinado_2012()`](https://cidree.github.io/silviculture/reference/eq_biomass_ruiz_peinado_2012.md),
 [`eq_biomass_manrique_2017()`](https://cidree.github.io/silviculture/reference/eq_biomass_manrique_2017.md),
@@ -76,7 +96,7 @@ components in
 ## Examples
 
 ``` r
-## get model parameters for silv_predict_biomass
+## Aboveground biomass for Pinus pinaster
 eq_biomass_montero_2005("Pinus pinaster", "AGB")
 #> <silviculture::ModelBiomass>
 #>  @ equation  : chr "montero-2005"

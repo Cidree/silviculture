@@ -11,6 +11,8 @@ silv_predict_biomass(
   height = NULL,
   model,
   ntrees = NULL,
+  rcd = NULL,
+  bp = NULL,
   quiet = FALSE
 )
 ```
@@ -19,7 +21,7 @@ silv_predict_biomass(
 
 - diameter:
 
-  A numeric vector of tree diameters (in cm).
+  A numeric vector of tree diameters at breast height (in cm).
 
 - height:
 
@@ -34,6 +36,22 @@ silv_predict_biomass(
 
   An optional numeric value indicating the number of trees in this
   diameter-height class. Defaults to 1 if `NULL`.
+
+- rcd:
+
+  An optional numeric vector of root collar diameters (in cm). Required
+  for
+  [`eq_biomass_menendez_2022`](https://cidree.github.io/silviculture/reference/eq_biomass_menendez_2022.md),
+  which uses root collar diameter instead of diameter at breast height.
+  Defaults to `diameter` if `NULL`.
+
+- bp:
+
+  An optional numeric vector of biomass packing values (in m³). Required
+  for a subset of species in
+  [`eq_biomass_menendez_2022`](https://cidree.github.io/silviculture/reference/eq_biomass_menendez_2022.md)
+  (e.g. *Pinus halepensis*, *Pinus nigra*, *Quercus suber*, *Evergreen
+  broadleaves*).
 
 - quiet:
 
@@ -55,6 +73,24 @@ The available models include:
 
 - **[`eq_biomass_ruiz_peinado_2012()`](https://cidree.github.io/silviculture/reference/eq_biomass_ruiz_peinado_2012.md)**:
   Developed for hardwood species in Spain.
+
+- **[`eq_biomass_montero_2005()`](https://cidree.github.io/silviculture/reference/eq_biomass_montero_2005.md)**:
+  Developed for 35 Spanish species.
+
+- **[`eq_biomass_dieguez_aranda_2009()`](https://cidree.github.io/silviculture/reference/eq_biomass_dieguez_aranda_2009.md)**:
+  Developed for 7 Galician species.
+
+- **[`eq_biomass_manrique_2017()`](https://cidree.github.io/silviculture/reference/eq_biomass_manrique_2017.md)**:
+  Developed for *Quercus petraea* and *Quercus pyrenaica*.
+
+- **[`eq_biomass_menendez_2022()`](https://cidree.github.io/silviculture/reference/eq_biomass_menendez_2022.md)**:
+  Developed for young plantations (\< 30 years) of 18 Spanish species.
+  Uses `rcd` (root collar diameter) instead of `diameter`; some species
+  require `bp` (biomass packing) instead of `rcd`.
+
+- **[`eq_biomass_cudjoe_2024()`](https://cidree.github.io/silviculture/reference/eq_biomass_cudjoe_2024.md)**:
+  Developed for *Pinus sylvestris* and *Quercus petraea* in Castille and
+  León, Spain.
 
 Users can check the list of supported species and their corresponding
 components in

@@ -32,8 +32,42 @@ A S7 list of parameters
 
 ## Details
 
-Users can check the list of supported species and their corresponding
-components in
+**Supported species (10):**
+
+*Abies alba*, *Abies pinsapo*, *Juniperus thurifera*, *Pinus
+canariensis*, *Pinus halepensis*, *Pinus nigra*, *Pinus pinaster*,
+*Pinus pinea*, *Pinus sylvestris*, *Pinus uncinata*
+
+**Available components:**
+
+Aboveground / belowground groups (summed automatically):
+
+- `"AGB"` — total aboveground biomass
+
+- `"BGB"` — total belowground biomass (roots)
+
+- `"tree"` — total tree biomass (AGB + BGB)
+
+Tree structural groups:
+
+- `"stem"` — stem wood
+
+- `"branches"` — all branch fractions combined
+
+- `"roots"` — roots (equivalent to BGB)
+
+Individual tree components (species availability varies):
+
+- `"thick branches"` — branches \> 7 cm
+
+- `"thick and medium branches"` — branches \> 2 cm
+
+- `"medium branches"` — branches 2–7 cm
+
+- `"small branches and leaves"` — branches \< 2 cm including
+  leaves/needles
+
+Users can check the full species–component matrix in
 [biomass_models](https://cidree.github.io/silviculture/reference/biomass_models.md).
 
 ## See also
@@ -50,19 +84,19 @@ components in
 ## Examples
 
 ``` r
-## get model parameters for silv_predict_biomass
-eq_biomass_ruiz_peinado_2011("Pinus pinaster")
+## Aboveground biomass for Pinus pinaster
+eq_biomass_ruiz_peinado_2011("Pinus pinaster", "AGB")
 #> <silviculture::ModelBiomass>
 #>  @ equation  : chr "ruiz-peinado-2011"
 #>  @ species   : chr "Pinus pinaster"
-#>  @ component : chr "stem"
-#>  @ expression:'data.frame':  1 obs. of  2 variables:
-#>  .. $ expression: chr "0.0278 * d^2.115 * h^0.618"
-#>  .. $ species   : chr "Pinus pinaster"
+#>  @ component : chr "AGB"
+#>  @ expression:'data.frame':  3 obs. of  2 variables:
+#>  .. $ expression: chr  "0.0278 * d^2.115 * h^0.618" "0.000381 * d^3.141" "0.0129 * d^2.320"
+#>  .. $ species   : chr  "Pinus pinaster" "Pinus pinaster" "Pinus pinaster"
 #>  @ url       : chr "https://doi.org/10.5424/fs/2011201-11643"
 #>  @ obs       : chr "Diameter is assumed to in centimeters, and height is assumed to be in meters"
 #>  @ params    :List of 3
 #>  .. $ return_rmse: logi FALSE
-#>  .. $ comp       : chr "stem"
-#>  .. $ rmse       : num 14.5
+#>  .. $ comp       : chr [1:3] "stem" "thick and medium branches" "small branches and leaves"
+#>  .. $ rmse       : num [1:3] 14.47 7.04 7.67
 ```

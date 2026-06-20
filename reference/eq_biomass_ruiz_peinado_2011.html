@@ -68,8 +68,22 @@ mean squared error (RMSE) of the selected model instead of the biomass value.</p
     </div>
     <div class="section level2">
     <h2 id="details">Details<a class="anchor" aria-label="anchor" href="#details"></a></h2>
-    <p>Users can check the list of supported species and their corresponding components
-in <a href="biomass_models.html">biomass_models</a>.</p>
+    <p><strong>Supported species (10):</strong></p>
+<p><em>Abies alba</em>, <em>Abies pinsapo</em>, <em>Juniperus thurifera</em>, <em>Pinus canariensis</em>,
+<em>Pinus halepensis</em>, <em>Pinus nigra</em>, <em>Pinus pinaster</em>, <em>Pinus pinea</em>,
+<em>Pinus sylvestris</em>, <em>Pinus uncinata</em></p>
+<p><strong>Available components:</strong></p>
+<p>Aboveground / belowground groups (summed automatically):</p><ul><li><p><code>"AGB"</code> — total aboveground biomass</p></li>
+<li><p><code>"BGB"</code> — total belowground biomass (roots)</p></li>
+<li><p><code>"tree"</code> — total tree biomass (AGB + BGB)</p></li>
+</ul><p>Tree structural groups:</p><ul><li><p><code>"stem"</code> — stem wood</p></li>
+<li><p><code>"branches"</code> — all branch fractions combined</p></li>
+<li><p><code>"roots"</code> — roots (equivalent to BGB)</p></li>
+</ul><p>Individual tree components (species availability varies):</p><ul><li><p><code>"thick branches"</code> — branches &gt; 7 cm</p></li>
+<li><p><code>"thick and medium branches"</code> — branches &gt; 2 cm</p></li>
+<li><p><code>"medium branches"</code> — branches 2–7 cm</p></li>
+<li><p><code>"small branches and leaves"</code> — branches &lt; 2 cm including leaves/needles</p></li>
+</ul><p>Users can check the full species–component matrix in <a href="biomass_models.html">biomass_models</a>.</p>
     </div>
     <div class="section level2">
     <h2 id="see-also">See also<a class="anchor" aria-label="anchor" href="#see-also"></a></h2>
@@ -79,21 +93,21 @@ in <a href="biomass_models.html">biomass_models</a>.</p>
 
     <div class="section level2">
     <h2 id="ref-examples">Examples<a class="anchor" aria-label="anchor" href="#ref-examples"></a></h2>
-    <div class="sourceCode"><pre class="sourceCode r"><code><span class="r-in"><span><span class="co">## get model parameters for silv_predict_biomass</span></span></span>
-<span class="r-in"><span><span class="fu">eq_biomass_ruiz_peinado_2011</span><span class="op">(</span><span class="st">"Pinus pinaster"</span><span class="op">)</span></span></span>
+    <div class="sourceCode"><pre class="sourceCode r"><code><span class="r-in"><span><span class="co">## Aboveground biomass for Pinus pinaster</span></span></span>
+<span class="r-in"><span><span class="fu">eq_biomass_ruiz_peinado_2011</span><span class="op">(</span><span class="st">"Pinus pinaster"</span>, <span class="st">"AGB"</span><span class="op">)</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> &lt;silviculture::ModelBiomass&gt;</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>  @ equation  : chr "ruiz-peinado-2011"</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>  @ species   : chr "Pinus pinaster"</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>  @ component : chr "stem"</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>  @ expression:'data.frame':	1 obs. of  2 variables:</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>  .. $ expression: chr "0.0278 * d^2.115 * h^0.618"</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>  .. $ species   : chr "Pinus pinaster"</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>  @ component : chr "AGB"</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>  @ expression:'data.frame':	3 obs. of  2 variables:</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>  .. $ expression: chr  "0.0278 * d^2.115 * h^0.618" "0.000381 * d^3.141" "0.0129 * d^2.320"</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>  .. $ species   : chr  "Pinus pinaster" "Pinus pinaster" "Pinus pinaster"</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>  @ url       : chr "https://doi.org/10.5424/fs/2011201-11643"</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>  @ obs       : chr "Diameter is assumed to in centimeters, and height is assumed to be in meters"</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>  @ params    :List of 3</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>  .. $ return_rmse: logi FALSE</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>  .. $ comp       : chr "stem"</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>  .. $ rmse       : num 14.5</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>  .. $ comp       : chr [1:3] "stem" "thick and medium branches" "small branches and leaves"</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>  .. $ rmse       : num [1:3] 14.47 7.04 7.67</span>
 </code></pre></div>
     </div>
   </main><aside class="col-md-3"><nav id="toc" aria-label="Table of contents"><h2>On this page</h2>

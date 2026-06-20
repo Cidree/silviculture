@@ -81,22 +81,25 @@ mean squared error (RMSE) of the selected model instead of the biomass value.</p
     </div>
     <div class="section level2">
     <h2 id="details">Details<a class="anchor" aria-label="anchor" href="#details"></a></h2>
-    <p>There are two species in this model: <em>Quercus petraea</em> and <em>Quercus pyrenaica</em></p>
-<p>The tree components include:</p><ul><li><p><strong>stem</strong>: includes stem and the thickest branches</p></li>
-<li><p><strong>medium branches</strong></p></li>
-<li><p><strong>thin branches</strong></p></li>
-<li><p><strong>AGB</strong>: total biomass, results of summing the previous three components</p></li>
-</ul></div>
+    <p><strong>Supported species (2):</strong></p><ul><li><p><em>Quercus petraea</em></p></li>
+<li><p><em>Quercus pyrenaica</em></p></li>
+</ul><p><strong>Available components:</strong></p>
+<p>Aboveground group (summed automatically):</p><ul><li><p><code>"AGB"</code> — total aboveground biomass (sum of all components below)</p></li>
+</ul><p>Individual tree components:</p><ul><li><p><code>"stem and thick branches"</code> — stem together with branches &gt; 7 cm</p></li>
+<li><p><code>"medium branches"</code> — branches 2–7 cm</p></li>
+<li><p><code>"small branches"</code> — branches &lt; 2 cm</p></li>
+</ul><p>Users can check the full species–component matrix in <a href="biomass_models.html">biomass_models</a>.</p>
+    </div>
     <div class="section level2">
     <h2 id="see-also">See also<a class="anchor" aria-label="anchor" href="#see-also"></a></h2>
-    <div class="dont-index"><p><code><a href="silv_predict_biomass.html">silv_predict_biomass()</a></code>, <a href="biomass_models.html">biomass_models</a>, <code><a href="eq_biomass_montero_2005.html">eq_biomass_montero_2005()</a></code>, <code><a href="eq_biomass_dieguez_aranda_2009.html">eq_biomass_dieguez_aranda_2009()</a></code>
+    <div class="dont-index"><p><code><a href="silv_predict_biomass.html">silv_predict_biomass()</a></code>, <a href="biomass_models.html">biomass_models</a>, <code><a href="eq_biomass_montero_2005.html">eq_biomass_montero_2005()</a></code>, <code><a href="eq_biomass_dieguez_aranda_2009.html">eq_biomass_dieguez_aranda_2009()</a></code>,
 <code><a href="eq_biomass_ruiz_peinado_2011.html">eq_biomass_ruiz_peinado_2011()</a></code>, <code><a href="eq_biomass_ruiz_peinado_2012.html">eq_biomass_ruiz_peinado_2012()</a></code>, <code><a href="eq_biomass_menendez_2022.html">eq_biomass_menendez_2022()</a></code>,
 <code><a href="eq_biomass_cudjoe_2024.html">eq_biomass_cudjoe_2024()</a></code></p></div>
     </div>
 
     <div class="section level2">
     <h2 id="ref-examples">Examples<a class="anchor" aria-label="anchor" href="#ref-examples"></a></h2>
-    <div class="sourceCode"><pre class="sourceCode r"><code><span class="r-in"><span><span class="co">## get model parameters for silv_predict_biomass</span></span></span>
+    <div class="sourceCode"><pre class="sourceCode r"><code><span class="r-in"><span><span class="co">## Aboveground biomass for Quercus petraea</span></span></span>
 <span class="r-in"><span><span class="fu">eq_biomass_manrique_2017</span><span class="op">(</span><span class="st">"Quercus petraea"</span>, <span class="st">"AGB"</span><span class="op">)</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> &lt;silviculture::ModelBiomass&gt;</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>  @ equation  : chr "manrique-2017"</span>

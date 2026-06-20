@@ -47,6 +47,8 @@ equations (in kg). Currently, only equations for Spain are available.</p>
 <span>  height <span class="op">=</span> <span class="cn">NULL</span>,</span>
 <span>  <span class="va">model</span>,</span>
 <span>  ntrees <span class="op">=</span> <span class="cn">NULL</span>,</span>
+<span>  rcd <span class="op">=</span> <span class="cn">NULL</span>,</span>
+<span>  bp <span class="op">=</span> <span class="cn">NULL</span>,</span>
 <span>  quiet <span class="op">=</span> <span class="cn">FALSE</span></span>
 <span><span class="op">)</span></span></code></pre></div>
     </div>
@@ -56,7 +58,7 @@ equations (in kg). Currently, only equations for Spain are available.</p>
 
 
 <dl><dt id="arg-diameter">diameter<a class="anchor" aria-label="anchor" href="#arg-diameter"></a></dt>
-<dd><p>A numeric vector of tree diameters (in cm).</p></dd>
+<dd><p>A numeric vector of tree diameters at breast height (in cm).</p></dd>
 
 
 <dt id="arg-height">height<a class="anchor" aria-label="anchor" href="#arg-height"></a></dt>
@@ -73,6 +75,19 @@ additional arguments depending on the model used.</p></dd>
 this diameter-height class. Defaults to 1 if <code>NULL</code>.</p></dd>
 
 
+<dt id="arg-rcd">rcd<a class="anchor" aria-label="anchor" href="#arg-rcd"></a></dt>
+<dd><p>An optional numeric vector of root collar diameters (in cm). Required
+for <code><a href="eq_biomass_menendez_2022.html">eq_biomass_menendez_2022</a></code>, which uses root collar diameter
+instead of diameter at breast height. Defaults to <code>diameter</code> if <code>NULL</code>.</p></dd>
+
+
+<dt id="arg-bp">bp<a class="anchor" aria-label="anchor" href="#arg-bp"></a></dt>
+<dd><p>An optional numeric vector of biomass packing values (in m<sup>3</sup>). Required
+for a subset of species in <code><a href="eq_biomass_menendez_2022.html">eq_biomass_menendez_2022</a></code> (e.g.
+<em>Pinus halepensis</em>, <em>Pinus nigra</em>, <em>Quercus suber</em>,
+<em>Evergreen broadleaves</em>).</p></dd>
+
+
 <dt id="arg-quiet">quiet<a class="anchor" aria-label="anchor" href="#arg-quiet"></a></dt>
 <dd><p>A logical value. If <code>TRUE</code>, suppresses any informational messages.</p></dd>
 
@@ -86,6 +101,14 @@ this diameter-height class. Defaults to 1 if <code>NULL</code>.</p></dd>
     <p>The function estimates biomass using validated allometric models available in the
 dataset <a href="biomass_models.html">biomass_models</a>. The available models include:</p><ul><li><p><strong><code><a href="eq_biomass_ruiz_peinado_2011.html">eq_biomass_ruiz_peinado_2011()</a></code></strong>: Developed for softwood species in Spain.</p></li>
 <li><p><strong><code><a href="eq_biomass_ruiz_peinado_2012.html">eq_biomass_ruiz_peinado_2012()</a></code></strong>: Developed for hardwood species in Spain.</p></li>
+<li><p><strong><code><a href="eq_biomass_montero_2005.html">eq_biomass_montero_2005()</a></code></strong>: Developed for 35 Spanish species.</p></li>
+<li><p><strong><code><a href="eq_biomass_dieguez_aranda_2009.html">eq_biomass_dieguez_aranda_2009()</a></code></strong>: Developed for 7 Galician species.</p></li>
+<li><p><strong><code><a href="eq_biomass_manrique_2017.html">eq_biomass_manrique_2017()</a></code></strong>: Developed for <em>Quercus petraea</em> and <em>Quercus pyrenaica</em>.</p></li>
+<li><p><strong><code><a href="eq_biomass_menendez_2022.html">eq_biomass_menendez_2022()</a></code></strong>: Developed for young plantations (&lt; 30 years) of 18
+Spanish species. Uses <code>rcd</code> (root collar diameter) instead of <code>diameter</code>; some species
+require <code>bp</code> (biomass packing) instead of <code>rcd</code>.</p></li>
+<li><p><strong><code><a href="eq_biomass_cudjoe_2024.html">eq_biomass_cudjoe_2024()</a></code></strong>: Developed for <em>Pinus sylvestris</em> and <em>Quercus petraea</em>
+in Castille and León, Spain.</p></li>
 </ul><p>Users can check the list of supported species and their corresponding components
 in <a href="biomass_models.html">biomass_models</a>.</p>
 <p>If you would like to suggest additional models, please open a new issue on GitHub.</p>

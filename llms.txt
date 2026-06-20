@@ -6,6 +6,14 @@ common silvicultural analysis. It aims to support forest management and
 research by providing a flexible toolkit for data manipulation and
 summary.
 
+### Suggested companion reading
+
+If you want a visual overview before diving into the API, use the
+supporting poster:
+
+- [Poster on R
+  silviculture](https://doi.org/10.13140/RG.2.2.28098.75205)
+
 ## Installation
 
 You can install the development version of `silviculture` from

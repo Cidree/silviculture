@@ -33,17 +33,53 @@ A S7 list of parameters
 
 ## Details
 
-There are 15 species in this model, including generic equations for
-*Conifers*, *Deciduous broadleaves*, and *Evergreen broadleaves*.
+**Supported species (18):**
 
-All the models measure only aboveground biomass.
+*Betula* sp., *Fagus sylvatica*, *Juniperus thurifera*, *Pinus
+halepensis*, *Pinus nigra*, *Pinus pinaster*, *Pinus pinea*, *Pinus
+radiata*, *Pinus sylvestris*, *Quercus faginea*, *Quercus ilex*,
+*Quercus petraea*, *Quercus pyrenaica*, *Quercus robur*, *Quercus suber*
+
+Generic equations are also available for functional groups:
+
+- `"Conifers"` — generic equation for conifer species
+
+- `"Deciduous broadleaves"` — generic equation for deciduous broadleaf
+  species
+
+- `"Evergreen broadleaves"` — generic equation for evergreen broadleaf
+  species
+
+**Available components:**
+
+- `"AGB"` — aboveground biomass (only component available; no
+  `component` argument needed)
+
+**Important — non-standard input variables:**
+
+Unlike other biomass models, these equations were fitted on **young
+plantations (\< 30 years)** and use different predictor variables:
+
+- Most species use `rcd` = root collar diameter (cm), **not** diameter
+  at breast height. Pass it via the `rcd` argument of
+  [`silv_predict_biomass()`](https://cidree.github.io/silviculture/reference/silv_predict_biomass.md).
+
+- Some species (*Pinus halepensis*, *Pinus nigra*, *Quercus suber*,
+  *Evergreen broadleaves*) use `bp` = biomass packing (m³). Pass it via
+  the `bp` argument of
+  [`silv_predict_biomass()`](https://cidree.github.io/silviculture/reference/silv_predict_biomass.md).
+
+- *Betula* sp. uses only `h` (total height).
+
+Users can check the full species–component matrix in
+[biomass_models](https://cidree.github.io/silviculture/reference/biomass_models.md).
 
 ## See also
 
 [`silv_predict_biomass()`](https://cidree.github.io/silviculture/reference/silv_predict_biomass.md),
 [biomass_models](https://cidree.github.io/silviculture/reference/biomass_models.md),
 [`eq_biomass_montero_2005()`](https://cidree.github.io/silviculture/reference/eq_biomass_montero_2005.md),
-[`eq_biomass_dieguez_aranda_2009()`](https://cidree.github.io/silviculture/reference/eq_biomass_dieguez_aranda_2009.md)
+[`eq_biomass_dieguez_aranda_2009()`](https://cidree.github.io/silviculture/reference/eq_biomass_dieguez_aranda_2009.md),
 [`eq_biomass_ruiz_peinado_2011()`](https://cidree.github.io/silviculture/reference/eq_biomass_ruiz_peinado_2011.md),
 [`eq_biomass_ruiz_peinado_2012()`](https://cidree.github.io/silviculture/reference/eq_biomass_ruiz_peinado_2012.md),
 [`eq_biomass_manrique_2017()`](https://cidree.github.io/silviculture/reference/eq_biomass_manrique_2017.md),
@@ -52,7 +88,7 @@ All the models measure only aboveground biomass.
 ## Examples
 
 ``` r
-## get model parameters for silv_predict_biomass
+## AGB for Fagus sylvatica using root collar diameter
 eq_biomass_menendez_2022("Fagus sylvatica")
 #> <silviculture::ModelBiomass>
 #>  @ equation  : chr "menendez-2022"
