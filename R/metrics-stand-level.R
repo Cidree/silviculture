@@ -58,10 +58,10 @@ silv_stand_basal_area <- function(
 
   # 1. Calculate basal area
   switch(units,
-    "mm" = (pi / 4) * (diameter / 1000)**2,
-    "cm" = (pi / 4) * (diameter / 100)**2,
-    "dm" = (pi / 4) * (diameter / 10)**2,
-    "m"  = (pi / 4) * diameter**2,
+    "mm" = (pi / 4) * (diameter / 1000)**2 * ntrees,
+    "cm" = (pi / 4) * (diameter / 100)**2 * ntrees,
+    "dm" = (pi / 4) * (diameter / 10)**2 * ntrees,
+    "m"  = (pi / 4) * diameter**2 * ntrees,
     cli::cli_abort("Invalid `units`. Use one of {.val {c('mm', 'cm', 'dm', 'm')}}")
   )
 
@@ -126,7 +126,7 @@ silv_stand_dominant_height <- function(
   # 0. Validate inputs
   dh_method <- match.arg(which)
   assert_positive_numeric(diameter, "diameter")
-  assert_positive_numeric(diameter, "height")
+  assert_positive_numeric(height, "height")
 
 
   # 1. Create a data frame with input variables
