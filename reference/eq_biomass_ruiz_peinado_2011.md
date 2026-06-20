@@ -67,8 +67,13 @@ Individual tree components (species availability varies):
 - `"small branches and leaves"` — branches \< 2 cm including
   leaves/needles
 
-Users can check the full species–component matrix in
-[biomass_models](https://cidree.github.io/silviculture/reference/biomass_models.md).
+Note that *Abies pinsapo* does not have a separate BGB equation
+(requesting `"BGB"` or `"roots"` will fail, though `"tree"` still works
+via its pre-summed formula).
+
+Users can check all available species and components in the
+[biomass_models](https://cidree.github.io/silviculture/reference/biomass_models.md)
+dataset provided by the library.
 
 ## See also
 

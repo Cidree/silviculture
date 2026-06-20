@@ -91,7 +91,10 @@ mean squared error (RMSE) of the selected model instead of the biomass value.</p
 <li><p><code>"small branches"</code> — branches &lt; 2 cm</p></li>
 <li><p><code>"leaves"</code> — foliage (including needles)</p></li>
 <li><p><code>"roots"</code> — coarse roots</p></li>
-</ul><p>Users can check the full species–component matrix in <a href="biomass_models.html">biomass_models</a>.</p>
+</ul><p>Note that for this model, <code>"tree"</code> (or <code>"all"</code>) is an independent regression equation fitted to total-tree data. It was <strong>not</strong> derived by summing the AGB and BGB equations.
+Consequently, there is a numerical discrepancy between the direct <code>"tree"</code> estimation and the sum of separate <code>"AGB"</code> and <code>"BGB"</code> estimations (e.g. for <em>Pinus sylvestris</em> at diameter = 20 cm and height = 10 m, the direct total is 89.1 kg, while AGB + BGB is 115.9 kg, a 24% difference).</p>
+<p>Also, the following 6 species have no BGB/roots equations in this model: <em>Abies pinsapo</em>, <em>Erica arborea</em>, <em>Eucalyptus</em> spp., <em>Ilex canariensis</em>, <em>Laurus azorica</em>, <em>Myrica faya</em> (requesting <code>"BGB"</code> or <code>"roots"</code> will fail).</p>
+<p>Users can check all available species and components in the <a href="biomass_models.html">biomass_models</a> dataset provided by the library.</p>
     </div>
     <div class="section level2">
     <h2 id="see-also">See also<a class="anchor" aria-label="anchor" href="#see-also"></a></h2>

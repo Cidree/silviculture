@@ -63,8 +63,12 @@ Individual tree components:
 
 - `"small branches"` — branches \< 2 cm
 
-Users can check the full species–component matrix in
-[biomass_models](https://cidree.github.io/silviculture/reference/biomass_models.md).
+Note that no belowground biomass (BGB / roots) or total-tree equations
+are available in the source paper.
+
+Users can check all available species and components in the
+[biomass_models](https://cidree.github.io/silviculture/reference/biomass_models.md)
+dataset provided by the library.
 
 ## See also
 

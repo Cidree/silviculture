@@ -79,8 +79,22 @@ Individual tree components (species availability varies):
 
 - `"roots"` — coarse roots
 
-Users can check the full species–component matrix in
-[biomass_models](https://cidree.github.io/silviculture/reference/biomass_models.md).
+Note that for this model, `"tree"` (or `"all"`) is an independent
+regression equation fitted to total-tree data. It was **not** derived by
+summing the AGB and BGB equations. Consequently, there is a numerical
+discrepancy between the direct `"tree"` estimation and the sum of
+separate `"AGB"` and `"BGB"` estimations (e.g. for *Pinus sylvestris* at
+diameter = 20 cm and height = 10 m, the direct total is 89.1 kg, while
+AGB + BGB is 115.9 kg, a 24% difference).
+
+Also, the following 6 species have no BGB/roots equations in this model:
+*Abies pinsapo*, *Erica arborea*, *Eucalyptus* spp., *Ilex canariensis*,
+*Laurus azorica*, *Myrica faya* (requesting `"BGB"` or `"roots"` will
+fail).
+
+Users can check all available species and components in the
+[biomass_models](https://cidree.github.io/silviculture/reference/biomass_models.md)
+dataset provided by the library.
 
 ## See also
 

@@ -81,8 +81,14 @@ Individual tree components (species availability varies):
 
 - `"roots"` — coarse roots
 
-Users can check the full species–component matrix in
-[biomass_models](https://cidree.github.io/silviculture/reference/biomass_models.md).
+Note that total-tree equations (`"tree"` / `"all"`) are not available
+for this model. Also, *Eucalyptus globulus*, *Eucalyptus nitens*, and
+*Pinus pinaster* lack BGB equations (requesting `"BGB"` or `"roots"`
+will fail).
+
+Users can check all available species and components in the
+[biomass_models](https://cidree.github.io/silviculture/reference/biomass_models.md)
+dataset provided by the library.
 
 ## See also
 
