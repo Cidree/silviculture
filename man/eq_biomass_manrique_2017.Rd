@@ -53,7 +53,9 @@ Individual tree components:
 \item \code{"small branches"} — branches < 2 cm
 }
 
-Users can check the full species–component matrix in \link{biomass_models}.
+Note that no belowground biomass (BGB / roots) or total-tree equations are available in the source paper.
+
+Users can check all available species and components in the \link{biomass_models} dataset provided by the library.
 }
 \examples{
 ## Aboveground biomass for Quercus petraea

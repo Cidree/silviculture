@@ -57,7 +57,9 @@ height. Pass it via the \code{rcd} argument of \code{\link[=silv_predict_biomass
 \item \emph{Betula} sp. uses only \code{h} (total height).
 }
 
-Users can check the full species–component matrix in \link{biomass_models}.
+Note that no belowground biomass (BGB / roots) or total-tree equations are available in the source paper for this model.
+
+Users can check all available species and components in the \link{biomass_models} dataset provided by the library.
 }
 \examples{
 ## AGB for Fagus sylvatica using root collar diameter

@@ -64,7 +64,10 @@ Individual tree components (species availability varies):
 \item \code{"roots"} — coarse roots
 }
 
-Users can check the full species–component matrix in \link{biomass_models}.
+Note that total-tree equations (\code{"tree"} / \code{"all"}) are not available for this model.
+Also, \emph{Eucalyptus globulus}, \emph{Eucalyptus nitens}, and \emph{Pinus pinaster} lack BGB equations (requesting \code{"BGB"} or \code{"roots"} will fail).
+
+Users can check all available species and components in the \link{biomass_models} dataset provided by the library.
 }
 \examples{
 ## Aboveground biomass for Pinus pinaster
