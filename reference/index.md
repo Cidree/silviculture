@@ -6,6 +6,9 @@ Functions for estimating forest variables from models or equations
 
 - [`silv_predict_biomass()`](https://cidree.github.io/silviculture/reference/silv_predict_biomass.md)
   : Calculate Tree Biomass
+- [`silv_predict_carbon()`](https://cidree.github.io/silviculture/reference/predict_carbon.md)
+  [`silv_predict_carbon_auto()`](https://cidree.github.io/silviculture/reference/predict_carbon.md)
+  : Predict carbon content from biomass
 - [`silv_predict_biomass_auto()`](https://cidree.github.io/silviculture/reference/silv_predict_biomass_auto.md)
   : Automatically Predict Biomass Using the Best Available Model
 - [`silv_predict_biomass_components()`](https://cidree.github.io/silviculture/reference/silv_predict_biomass_components.md)
