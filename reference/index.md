@@ -15,6 +15,13 @@ Functions for estimating forest variables from models or equations
   : Predict All Individual Biomass Components for Trees
 - [`silv_predict_height()`](https://cidree.github.io/silviculture/reference/silv_predict_height.md)
   : Estimates tree height from DBH
+- [`silv_predict_snfi_volume()`](https://cidree.github.io/silviculture/reference/silv_predict_snfi_volume.md)
+  : Predict tree volume using Spanish National Forest Inventory
+  equations
+- [`silv_snfi_provinces()`](https://cidree.github.io/silviculture/reference/silv_snfi_provinces.md)
+  : List provinces supported by SNFI volume equations
+- [`silv_snfi_species()`](https://cidree.github.io/silviculture/reference/silv_snfi_species.md)
+  : List species supported by SNFI volume equations
 - [`silv_biomass()`](https://cidree.github.io/silviculture/reference/silv_biomass.md)
   **\[deprecated\]** : Calculate Tree Biomass
 
@@ -134,6 +141,10 @@ Datasets included in the package
   : Biomass models
 - [`carbon_models`](https://cidree.github.io/silviculture/reference/carbon_models.md)
   : Carbon content models
+- [`snfi3_volume_coefficients`](https://cidree.github.io/silviculture/reference/snfi3_volume_coefficients.md)
+  : SNFI3 tree volume coefficients
+- [`snfi4_volume_coefficients`](https://cidree.github.io/silviculture/reference/snfi4_volume_coefficients.md)
+  : SNFI4 tree volume coefficients
 - [`inventory_samples`](https://cidree.github.io/silviculture/reference/inventory_samples.md)
   : Forest inventory samples
 

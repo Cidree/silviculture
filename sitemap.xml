@@ -43,9 +43,12 @@
 <url><loc>https://cidree.github.io/silviculture/reference/silv_predict_biomass_auto.html</loc></url>
 <url><loc>https://cidree.github.io/silviculture/reference/silv_predict_biomass_components.html</loc></url>
 <url><loc>https://cidree.github.io/silviculture/reference/silv_predict_height.html</loc></url>
+<url><loc>https://cidree.github.io/silviculture/reference/silv_predict_snfi_volume.html</loc></url>
 <url><loc>https://cidree.github.io/silviculture/reference/silv_sample_size.html</loc></url>
 <url><loc>https://cidree.github.io/silviculture/reference/silv_sample_size_simple.html</loc></url>
 <url><loc>https://cidree.github.io/silviculture/reference/silv_sample_size_stratified.html</loc></url>
+<url><loc>https://cidree.github.io/silviculture/reference/silv_snfi_provinces.html</loc></url>
+<url><loc>https://cidree.github.io/silviculture/reference/silv_snfi_species.html</loc></url>
 <url><loc>https://cidree.github.io/silviculture/reference/silv_spacing_index.html</loc></url>
 <url><loc>https://cidree.github.io/silviculture/reference/silv_sqrmean_diameter.html</loc></url>
 <url><loc>https://cidree.github.io/silviculture/reference/silv_stand_basal_area.html</loc></url>
@@ -60,6 +63,8 @@
 <url><loc>https://cidree.github.io/silviculture/reference/silv_tree_volume.html</loc></url>
 <url><loc>https://cidree.github.io/silviculture/reference/silv_volume.html</loc></url>
 <url><loc>https://cidree.github.io/silviculture/reference/silviculture-package.html</loc></url>
+<url><loc>https://cidree.github.io/silviculture/reference/snfi3_volume_coefficients.html</loc></url>
+<url><loc>https://cidree.github.io/silviculture/reference/snfi4_volume_coefficients.html</loc></url>
 <url><loc>https://cidree.github.io/silviculture/reference/weighted_median.html</loc></url>
 <url><loc>https://cidree.github.io/silviculture/reference/weighted_sd.html</loc></url>
 </urlset>
