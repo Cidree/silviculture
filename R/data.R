@@ -109,10 +109,10 @@
 "snfi4_volume_coefficients"
 
 
-#' SDI beta models
+#' SDI beta coefficients
 #'
 #' Specific beta coefficients for Reineke's Stand Density Index (SDI) per
-#' species and region.
+#' species, country, and region.
 #'
 #' @format A `tibble`
 #' \describe{
@@ -124,4 +124,4 @@
 #'   \item{species}{Character. Scientific name of the tree species.}
 #'   \item{beta}{Numeric. Beta coefficient for SDI calculation.}
 #' }
-"sdi_models"
+"sdi_coefficients"

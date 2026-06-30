@@ -93,89 +93,166 @@ silv_density_sdi <- function(
 # --- Internal Auto Selector Helper ---
 
 #' @noRd
-.auto_select_sdi_beta <- function(species, region = NULL) {
+.auto_select_sdi_beta <- function(species, country = NULL, region = NULL) {
   
-  sdi_models <- silviculture::sdi_models
+  sdi_coefficients <- silviculture::sdi_coefficients
   
-  # 1. Try exact species + region match
-  if (!is.null(region)) {
-    sel <- sdi_models[sdi_models$species == species & sdi_models$region == region, ]
+  # 1. Try exact species + country + region match
+  if (!is.null(country) && !is.null(region)) {
+    sel <- sdi_coefficients[sdi_coefficients$species == species & 
+                            sdi_coefficients$country == country & 
+                            sdi_coefficients$region == region, ]
     if (nrow(sel) > 0) {
       return(list(
         model = sel$article_id[1], 
         beta = sel$beta[1], 
         matched_species = species, 
+        matched_country = country,
         matched_region = region,
         is_fallback = FALSE,
         fallback_type = NA_character_,
-        model_desc = paste0(sel$article_id[1], " (", region, ")")
+        model_desc = paste0(sel$article_id[1], " (", country, ", ", region, ")")
       ))
     }
   }
   
-  # 2. Try species + "all" regions fallback
-  sel <- sdi_models[sdi_models$species == species & sdi_models$region == "all", ]
+  # 2. Try species + country + "all" regions match
+  if (!is.null(country)) {
+    sel <- sdi_coefficients[sdi_coefficients$species == species & 
+                            sdi_coefficients$country == country & 
+                            sdi_coefficients$region == "all", ]
+    if (nrow(sel) > 0) {
+      return(list(
+        model = sel$article_id[1], 
+        beta = sel$beta[1], 
+        matched_species = species, 
+        matched_country = country,
+        matched_region = "all",
+        is_fallback = !is.null(region),
+        fallback_type = "region",
+        model_desc = paste0(sel$article_id[1], " (", country, ", all regions)")
+      ))
+    }
+  }
+
+  # 3. Fallback when country is not found/specified, but we find the species in some other country
+  sel <- sdi_coefficients[sdi_coefficients$species == species, ]
   if (nrow(sel) > 0) {
+    if (!is.null(region)) {
+      sel_reg <- sel[sel$region == region, ]
+      if (nrow(sel_reg) > 0) {
+        return(list(
+          model = sel_reg$article_id[1], 
+          beta = sel_reg$beta[1], 
+          matched_species = species, 
+          matched_country = sel_reg$country[1],
+          matched_region = region,
+          is_fallback = TRUE,
+          fallback_type = "country",
+          model_desc = paste0(sel_reg$article_id[1], " (", sel_reg$country[1], ", ", region, ")")
+        ))
+      }
+    }
+    
+    sel_all <- sel[sel$region == "all", ]
+    if (nrow(sel_all) > 0) {
+      return(list(
+        model = sel_all$article_id[1], 
+        beta = sel_all$beta[1], 
+        matched_species = species, 
+        matched_country = sel_all$country[1],
+        matched_region = "all",
+        is_fallback = TRUE,
+        fallback_type = "region",
+        model_desc = paste0(sel_all$article_id[1], " (", sel_all$country[1], ", all regions)")
+      ))
+    }
+    
     return(list(
       model = sel$article_id[1], 
       beta = sel$beta[1], 
       matched_species = species, 
-      matched_region = "all",
-      is_fallback = !is.null(region),
+      matched_country = sel$country[1],
+      matched_region = sel$region[1],
+      is_fallback = TRUE,
       fallback_type = "region",
-      model_desc = paste0(sel$article_id[1], " (all regions)")
+      model_desc = paste0(sel$article_id[1], " (", sel$country[1], ", ", sel$region[1], ")")
     ))
   }
   
-  # 3. Try genus fallback (genus spp.)
+  # 4. Try genus fallback (genus spp.)
   genus <- strsplit(species, " ")[[1]][1]
   genus_spp <- paste0(genus, " spp.")
   
-  if (!is.null(region)) {
-    sel <- sdi_models[sdi_models$species == genus_spp & sdi_models$region == region, ]
+  if (!is.null(country)) {
+    if (!is.null(region)) {
+      sel <- sdi_coefficients[sdi_coefficients$species == genus_spp & 
+                              sdi_coefficients$country == country & 
+                              sdi_coefficients$region == region, ]
+      if (nrow(sel) > 0) {
+        return(list(
+          model = sel$article_id[1], 
+          beta = sel$beta[1], 
+          matched_species = genus_spp, 
+          matched_country = country,
+          matched_region = region,
+          is_fallback = TRUE,
+          fallback_type = "genus",
+          model_desc = paste0(sel$article_id[1], " (genus fallback: ", country, ", ", region, ")")
+        ))
+      }
+    }
+    
+    sel <- sdi_coefficients[sdi_coefficients$species == genus_spp & 
+                            sdi_coefficients$country == country & 
+                            sdi_coefficients$region == "all", ]
     if (nrow(sel) > 0) {
       return(list(
         model = sel$article_id[1], 
         beta = sel$beta[1], 
         matched_species = genus_spp, 
-        matched_region = region,
+        matched_country = country,
+        matched_region = "all",
         is_fallback = TRUE,
         fallback_type = "genus",
-        model_desc = paste0(sel$article_id[1], " (genus fallback)")
+        model_desc = paste0(sel$article_id[1], " (genus fallback: ", country, ", all regions)")
       ))
     }
   }
   
-  sel <- sdi_models[sdi_models$species == genus_spp & sdi_models$region == "all", ]
+  sel <- sdi_coefficients[sdi_coefficients$species == genus_spp, ]
   if (nrow(sel) > 0) {
     return(list(
       model = sel$article_id[1], 
       beta = sel$beta[1], 
       matched_species = genus_spp, 
-      matched_region = "all",
+      matched_country = sel$country[1],
+      matched_region = sel$region[1],
       is_fallback = TRUE,
       fallback_type = "genus",
-      model_desc = paste0(sel$article_id[1], " (genus fallback)")
+      model_desc = paste0(sel$article_id[1], " (genus fallback: ", sel$country[1], ", ", sel$region[1], ")")
     ))
   }
   
-  # 4. Total fallback (default)
-  sel <- sdi_models[sdi_models$species == "default", ]
+  # 5. Total fallback (default)
+  sel <- sdi_coefficients[sdi_coefficients$species == "default", ]
   if (nrow(sel) == 0) {
-    # Absolute safety fallback in case dataset is malformed
-    default_beta <- 1.605
+    default_beta <- -1.605
+    default_desc <- "reineke-1933 (-1.605)"
   } else {
     default_beta <- sel$beta[1]
+    default_desc <- paste0(sel$article_id[1], " (", default_beta, ")")
   }
   
   return(list(
-    model = "default", 
+    model = sel$article_id[1], 
     beta = default_beta, 
     matched_species = "default", 
+    matched_country = "default",
     matched_region = "default",
     is_fallback = TRUE,
     fallback_type = "default",
-    model_desc = paste0("default (", default_beta, ")")
+    model_desc = default_desc
   ))
 }
 
@@ -184,23 +261,27 @@ silv_density_sdi <- function(
 #' @description
 #' `silv_density_sdi_auto()` is a vectorized function that automatically selects
 #' the best available Stand Density Index exponent (\code{beta}) for each row
-#' based on a provided species and region from the internal \code{sdi_models} database.
+#' based on a provided species, country, and region from the internal \code{sdi_coefficients} database.
 #' 
-#' If an exact species and region match is not found, the function falls back to a 
-#' country-wide species model (\code{region = "all"}), then to a genus-level fallback 
-#' (e.g., "Pinus spp."), and finally to the default SDI exponent (\code{beta = 1.605}).
+#' If an exact species, country, and region match is not found, the function falls back to a 
+#' country-wide species model (\code{region = "all"}), then searches other countries, then falls
+#' back to a genus-level fallback (e.g., "Pinus spp."), and finally to the default SDI exponent 
+#' (\code{beta = -1.605} from Reineke 1933).
 #'
 #' @template ntrees
 #' @template dg
 #' @param species A character string or vector of tree species (e.g., `"Pinus sylvestris"`).
-#' @param region A character string or vector of the region (e.g., `"Castilla y Leon"`).
+#' @param country A character string or vector of the country (e.g., `"Spain"`).
+#'   Defaults to `NULL` (no country specified).
+#' @param region A character string or vector of the region (e.g., `"Castilla y León"`).
 #'   Defaults to `NULL` (no region specified).
 #' @param quiet Logical. If `FALSE`, informs the user about fallbacks to genus or default models.
 #'
-#' @return A `data.frame` with two columns:
+#' @return A `data.frame` with three columns:
 #'   - `sdi`: The computed absolute Stand Density Index.
-#'   - `sdi_model`: The model used (e.g., `"del-rio-2006 (Castilla y Leon)"`, 
-#'     `"aguirre-2017 (genus fallback)"`, or `"default (1.605)"`).
+#'   - `beta`: The beta exponent used for the calculation.
+#'   - `sdi_model`: The model used (e.g., `"del-rio-2006 (Spain, Castilla y León)"`, 
+#'     `"reineke-1933 (-1.605)"`, etc.).
 #'
 #' @name silv_density_sdi_auto
 #'
@@ -210,7 +291,7 @@ silv_density_sdi <- function(
 #'   ntrees = 800,
 #'   dg = 23.4,
 #'   species = "Pinus sylvestris",
-#'   region = "Castilla y Leon"
+#'   region = "Castilla y León"
 #' )
 #'
 #' # Fallback to default
@@ -225,6 +306,7 @@ silv_density_sdi_auto <- function(
   ntrees,
   dg,
   species,
+  country = NULL,
   region = NULL,
   quiet = FALSE
 ) {
@@ -240,6 +322,14 @@ silv_density_sdi_auto <- function(
     cli::cli_abort("{.arg species} must be of length 1 or the same length as {.arg ntrees}.")
   }
 
+  if (is.null(country)) {
+    country <- rep(NA_character_, n_trees)
+  } else if (length(country) == 1) {
+    country <- rep(country, n_trees)
+  } else if (length(country) != n_trees) {
+    cli::cli_abort("{.arg country} must be of length 1 or the same length as {.arg ntrees}.")
+  }
+
   if (is.null(region)) {
     region <- rep(NA_character_, n_trees)
   } else if (length(region) == 1) {
@@ -249,28 +339,42 @@ silv_density_sdi_auto <- function(
   }
 
   sdi_values <- rep(NA_real_, n_trees)
+  beta_values <- rep(NA_real_, n_trees)
   sdi_models_used <- rep(NA_character_, n_trees)
   
   unique_combos <- unique(data.frame(
     species = species, 
+    country = country,
     region = region, 
     stringsAsFactors = FALSE
   ))
   
   for (i in seq_len(nrow(unique_combos))) {
     sp <- unique_combos$species[i]
+    cnt <- unique_combos$country[i]
     reg <- unique_combos$region[i]
     
-    # Handle NA in region
+    idx_sp <- species == sp
+    
+    if (is.na(cnt)) {
+      idx_cnt <- is.na(country)
+      cnt_arg <- NULL
+    } else {
+      idx_cnt <- country == cnt
+      cnt_arg <- cnt
+    }
+    
     if (is.na(reg)) {
-      idx <- which(species == sp & is.na(region))
+      idx_reg <- is.na(region)
       reg_arg <- NULL
     } else {
-      idx <- which(species == sp & region == reg)
+      idx_reg <- region == reg
       reg_arg <- reg
     }
     
-    best_model_info <- .auto_select_sdi_beta(sp, reg_arg)
+    idx <- which(idx_sp & idx_cnt & idx_reg)
+    
+    best_model_info <- .auto_select_sdi_beta(sp, cnt_arg, reg_arg)
     
     if (best_model_info$is_fallback && !quiet) {
       if (best_model_info$fallback_type == "default") {
@@ -279,15 +383,19 @@ silv_density_sdi_auto <- function(
          cli::cli_alert_info("Exact species {.val {sp}} not found. Using genus fallback {.val {best_model_info$matched_species}} from {.val {best_model_info$model}}.")
       } else if (best_model_info$fallback_type == "region") {
          cli::cli_alert_info("Exact region {.val {reg_arg}} not found for {.val {sp}}. Using fallback region {.val {best_model_info$matched_region}} from {.val {best_model_info$model}}.")
+      } else if (best_model_info$fallback_type == "country") {
+         cli::cli_alert_info("Exact country {.val {cnt_arg}} not found for {.val {sp}}. Using fallback country {.val {best_model_info$matched_country}} from {.val {best_model_info$model}}.")
       }
     }
     
     sdi_values[idx] <- silv_density_sdi(ntrees[idx], dg[idx], beta = best_model_info$beta)
+    beta_values[idx] <- best_model_info$beta
     sdi_models_used[idx] <- best_model_info$model_desc
   }
   
   return(data.frame(
     sdi = sdi_values,
+    beta = beta_values,
     sdi_model = sdi_models_used,
     stringsAsFactors = FALSE
   ))

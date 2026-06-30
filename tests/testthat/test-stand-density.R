@@ -139,17 +139,20 @@ test_that("Errors work in silv_density_sdi_class", {
 test_that("silv_density_sdi_auto calculates and falls back correctly", {
   
   # Exact match
-  res1 <- silv_density_sdi_auto(800, 23.4, "Pinus sylvestris", "Castilla y León", quiet = TRUE)
-  expect_equal(res1$sdi_model, "del-rio-2006 (Castilla y León)")
+  res1 <- silv_density_sdi_auto(800, 23.4, "Pinus sylvestris", country = "Spain", region = "Castilla y León", quiet = TRUE)
+  expect_equal(res1$sdi_model, "del-rio-2006 (Spain, Castilla y León)")
+  expect_equal(res1$beta, -1.75)
   expect_true(is.numeric(res1$sdi))
   
   # Region fallback ("all")
-  res2 <- silv_density_sdi_auto(800, 23.4, "Pinus pinaster", "Unknown region", quiet = TRUE)
-  expect_equal(res2$sdi_model, "aguirre-2017 (all regions)")
+  res2 <- silv_density_sdi_auto(800, 23.4, "Pinus pinaster", country = "Spain", region = "Unknown region", quiet = TRUE)
+  expect_equal(res2$sdi_model, "aguirre-2017 (Spain, all regions)")
+  expect_equal(res2$beta, -1.9477)
   
   # Default fallback
   res3 <- silv_density_sdi_auto(800, 23.4, "Unknown species", quiet = TRUE)
-  expect_equal(res3$sdi_model, "default (-1.605)")
+  expect_equal(res3$sdi_model, "reineke-1933 (-1.605)")
+  expect_equal(res3$beta, -1.605)
   
 })
 

@@ -4,7 +4,14 @@
 \alias{silv_density_sdi_auto}
 \title{Predict Stand Density Index automatically}
 \usage{
-silv_density_sdi_auto(ntrees, dg, species, region = NULL, quiet = FALSE)
+silv_density_sdi_auto(
+  ntrees,
+  dg,
+  species,
+  country = NULL,
+  region = NULL,
+  quiet = FALSE
+)
 }
 \arguments{
 \item{ntrees}{Numeric vector with number of trees of the diameter class per
@@ -15,27 +22,32 @@ corresponds to only one tree}
 
 \item{species}{A character string or vector of tree species (e.g., \code{"Pinus sylvestris"}).}
 
-\item{region}{A character string or vector of the region (e.g., \code{"Castilla y Leon"}).
+\item{country}{A character string or vector of the country (e.g., \code{"Spain"}).
+Defaults to \code{NULL} (no country specified).}
+
+\item{region}{A character string or vector of the region (e.g., \code{"Castilla y León"}).
 Defaults to \code{NULL} (no region specified).}
 
 \item{quiet}{Logical. If \code{FALSE}, informs the user about fallbacks to genus or default models.}
 }
 \value{
-A \code{data.frame} with two columns:
+A \code{data.frame} with three columns:
 \itemize{
 \item \code{sdi}: The computed absolute Stand Density Index.
-\item \code{sdi_model}: The model used (e.g., \code{"del-rio-2006 (Castilla y Leon)"},
-\code{"aguirre-2017 (genus fallback)"}, or \code{"default (1.605)"}).
+\item \code{beta}: The beta exponent used for the calculation.
+\item \code{sdi_model}: The model used (e.g., \code{"del-rio-2006 (Spain, Castilla y León)"},
+\code{"reineke-1933 (-1.605)"}, etc.).
 }
 }
 \description{
 \code{silv_density_sdi_auto()} is a vectorized function that automatically selects
 the best available Stand Density Index exponent (\code{beta}) for each row
-based on a provided species and region from the internal \code{sdi_models} database.
+based on a provided species, country, and region from the internal \code{sdi_coefficients} database.
 
-If an exact species and region match is not found, the function falls back to a
-country-wide species model (\code{region = "all"}), then to a genus-level fallback
-(e.g., "Pinus spp."), and finally to the default SDI exponent (\code{beta = 1.605}).
+If an exact species, country, and region match is not found, the function falls back to a
+country-wide species model (\code{region = "all"}), then searches other countries, then falls
+back to a genus-level fallback (e.g., "Pinus spp."), and finally to the default SDI exponent
+(\code{beta = -1.605} from Reineke 1933).
 }
 \examples{
 # Calculate SDI with automatic selection
@@ -43,7 +55,7 @@ silv_density_sdi_auto(
   ntrees = 800,
   dg = 23.4,
   species = "Pinus sylvestris",
-  region = "Castilla y Leon"
+  region = "Castilla y León"
 )
 
 # Fallback to default
