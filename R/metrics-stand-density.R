@@ -1,5 +1,3 @@
-
-
 #' Calculates number of trees per hectare
 #'
 #' Calculates number of trees per hectare for a given plot size and shape
@@ -28,12 +26,11 @@
 #'       n,
 #'       plot_size = c(10, 15),
 #'       plot_shape = "rectangular"
-#'      )
+#'     )
 #'   )
 silv_density_ntrees_ha <- function(ntrees,
-                           plot_size,
-                           plot_shape = "circular") {
-
+                                   plot_size,
+                                   plot_shape = "circular") {
   # 0. Handle errors
   stopifnot(plot_shape %in% c("circular", "rectangular"))
   if (length(plot_size) == 1 && plot_size <= 0) cli::cli_abort("`plot_size` has to be greater than 0")
@@ -44,8 +41,6 @@ silv_density_ntrees_ha <- function(ntrees,
   } else {
     ntrees * 10000 / prod(plot_size)
   }
-
-
 }
 
 
@@ -71,7 +66,7 @@ silv_density_ntrees_ha <- function(ntrees,
 #' adjustments for different species or mixed stands.
 #'
 #' @references Reineke, L. H. (1933). Perfecting a stand-density index for even-aged forests.
-#'   Journal of Agricultural Research, 46(7), 627-638.
+#'   Journal of Agricultural Research, 46(7), 627-638. URL: https://research.fs.usda.gov/download/treesearch/60134.pdf
 #'
 #' @examples
 #' ## calculate SDI for a Pinus sylvestris stand (beta = 1.605)
@@ -91,7 +86,7 @@ silv_density_sdi <- function(
   assert_same_length(ntrees, dg, names = c("ntrees", "dg"))
 
   # 1. calculate sdi
-  sdi <- ntrees * ((25.4 / dg) ** -abs(beta))  # note: abs() avoids errors with signs
+  sdi <- ntrees * ((25.4 / dg)**-abs(beta)) # note: abs() avoids errors with signs
   return(sdi)
 }
 
@@ -111,8 +106,8 @@ silv_density_sdi <- function(
 #' @export
 #'
 #' @details
-#' The option \code{classify = TRUE} will use the \code{max_sdi} value to classify the SDI into 
-#' four competitive and growth conditions: low density (<24%), moderate density (24-35%), 
+#' The option \code{classify = TRUE} will use the \code{max_sdi} value to classify the SDI into
+#' four competitive and growth conditions: low density (<24%), moderate density (24-35%),
 #' high density (34-55%), and extremely high density (>55%).
 #'
 #' @references USDA Forest Service. (n.d.). Stand Density Index.
@@ -156,9 +151,6 @@ silv_density_sdi_class <- function(
 }
 
 
-
-
-
 #' Hart or Hart-Becking spacing index
 #'
 #' Calculates the Hart Index or the Hart-Becking Index for even-aged stands
@@ -200,7 +192,6 @@ silv_density_hart <- function(
   ntrees,
   which = c("hart", "hart-becking")
 ) {
-
   # 0. Validate inputs
   assert_positive_numeric(h0, "h0")
   assert_positive_numeric(ntrees, "ntrees")
@@ -213,9 +204,4 @@ silv_density_hart <- function(
     "hart-becking" = sqrt(20000 / (ntrees * sqrt(3))) / h0 * 100,
     cli::cli_abort("`which` must be either <hart> or <hart-becking>")
   )
-
 }
-
-
-
-

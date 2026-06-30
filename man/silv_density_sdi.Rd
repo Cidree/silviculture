@@ -37,5 +37,5 @@ silv_density_sdi(ntrees = 800, dg = 23.4, beta = 1.7)
 }
 \references{
 Reineke, L. H. (1933). Perfecting a stand-density index for even-aged forests.
-Journal of Agricultural Research, 46(7), 627-638.
+Journal of Agricultural Research, 46(7), 627-638. URL: https://research.fs.usda.gov/download/treesearch/60134.pdf
 }
