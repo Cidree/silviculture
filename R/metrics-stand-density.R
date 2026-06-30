@@ -180,5 +180,113 @@ silv_density_hart <- function(
 }
 
 
+#' Calculates the Maximum Stand Density Index (SDImax)
+#'
+#' The Maximum Stand Density Index (SDImax) represents the maximum stand carrying capacity,
+#' calculated using coefficients from Rodríguez de Prado (2020) by default.
+#'
+#' @param species Character vector. Scientific names of the tree species.
+#' @param model Character. The source article or model database (default is \code{"rodriguez-prado-2020"}).
+#' @param climatic_model Character. The specific climate-dependent model name (e.g. \code{"P1"}, \code{"MXT3"}).
+#'   Required if \code{clim_value} is provided, and must not be \code{"basic"}.
+#' @param clim_value Numeric vector. Values of the climatic variable corresponding to the selected
+#'   climate model. If \code{NULL} (default), the reference model (\code{"basic"}) is calculated.
+#'
+#' @return A numeric vector representing the SDImax for each species.
+#' @export
+#'
+#' @details
+#' If \code{clim_value} is \code{NULL}, the function computes the reference SDImax (SDImaxREF)
+#' based on the "basic" model parameters:
+#' \deqn{SDImaxREF = exp(a0 + b0 * log(25.4))}
+#' If \code{clim_value} is provided, a climate-dependent model must be specified in \code{climatic_model},
+#' and the climate-dependent SDImax is calculated as:
+#' \deqn{SDImax(Clim) = exp((a0 + a1 * log(clim_value)) + (b0 + b1 * clim_value) * log(25.4))}
+#'
+#' @references
+#' Rodríguez-de-Prado, M., et al. (2020). Potential climatic influence on maximum stand carrying capacity for 15 Mediterranean coniferous and broadleaf species. Forest Ecology and Management, 458, 117824.
+#'
+#' @examples
+#' ## Calculate reference SDImax for Pinus sylvestris
+#' silv_density_sdimax("Pinus sylvestris")
+#'
+#' ## Calculate climate-dependent SDImax for Pinus canariensis using model P1
+#' silv_density_sdimax("Pinus canariensis", climatic_model = "P1", clim_value = 400)
+silv_density_sdimax <- function(
+  species,
+  model = "rodriguez-prado-2020",
+  climatic_model = NULL,
+  clim_value = NULL
+) {
+  # 0. Validate inputs
+  if (!is.character(species)) {
+    cli::cli_abort("{.arg species} must be a character vector.")
+  }
+  if (!is.character(model) || length(model) != 1) {
+    cli::cli_abort("{.arg model} must be a single character string.")
+  }
+  if (!is.null(climatic_model) && (!is.character(climatic_model) || length(climatic_model) != 1)) {
+    cli::cli_abort("{.arg climatic_model} must be a single character string.")
+  }
+  if (!is.null(clim_value) && !is.numeric(clim_value)) {
+    cli::cli_abort("{.arg clim_value} must be a numeric vector.")
+  }
+
+  # 1. Determine target climatic model name
+  if (is.null(clim_value)) {
+    if (!is.null(climatic_model) && climatic_model != "basic") {
+      cli::cli_abort("Argument {.arg clim_value} is required when using climate-dependent models.")
+    }
+    target_model <- "basic"
+  } else {
+    if (is.null(climatic_model) || climatic_model == "basic") {
+      cli::cli_abort("Argument {.arg climatic_model} must be specified and cannot be 'basic' when {.arg clim_value} is provided.")
+    }
+    target_model <- climatic_model
+  }
+
+  # If clim_value is provided, align lengths with species vector (if necessary)
+  if (!is.null(clim_value)) {
+    if (length(clim_value) == 1 && length(species) > 1) {
+      clim_value <- rep(clim_value, length(species))
+    }
+    if (length(species) != length(clim_value)) {
+      cli::cli_abort("{.arg species} and {.arg clim_value} must have the same length.")
+    }
+  }
+
+  # 2. Get coefficients from internal dataset
+  coefs_tbl <- sdimax_models[sdimax_models$article_id == model & sdimax_models$model_name == target_model, ]
+
+  if (nrow(coefs_tbl) == 0) {
+    cli::cli_abort("No coefficients found for model {.val {model}} and climatic_model {.val {target_model}}.")
+  }
+
+  # Check that all requested species are supported
+  missing_species <- species[!species %in% coefs_tbl$species]
+  if (length(missing_species) > 0) {
+    cli::cli_abort("The following species are not supported by this model: {.val {unique(missing_species)}}.")
+  }
+
+  # Match species to extract coefficients
+  matched_indices <- match(species, coefs_tbl$species)
+  a0 <- coefs_tbl$a0[matched_indices]
+  a1 <- coefs_tbl$a1[matched_indices]
+  b0 <- coefs_tbl$b0[matched_indices]
+  b1 <- coefs_tbl$b1[matched_indices]
+
+  # 3. Calculate SDImax
+  if (target_model == "basic") {
+    # Reference SDImax
+    sdimax <- exp(a0 + (b0 * log(25.4)))
+  } else {
+    # Climate-dependent SDImax
+    sdimax <- exp((a0 + (a1 * log(clim_value))) + ((b0 + (b1 * clim_value)) * log(25.4)))
+  }
+
+  return(sdimax)
+}
+
+
 
 
