@@ -77,5 +77,58 @@ test_that("Errors work", {
   )
   expect_error(silv_density_hart("17.8", 400))
   expect_error(silv_density_hart(17.8, "400"))
-  expect_error(silv_density_hart(c(17.8, 20.5), 400))
+  expect_error(
+    silv_density_hart(c(17.8, 20.5), 400)
+  )
+})
+
+
+# 3. silv_density_sdi ----------------------------------------------------
+
+## Tests
+test_that("Stand Density Index is well calculated", {
+  # default beta (1.605)
+  expect_equal(
+    silv_density_sdi(ntrees = 800, dg = 23.4),
+    702.40,
+    tolerance = 0.01
+  )
+
+  # custom beta
+  expect_equal(
+    silv_density_sdi(ntrees = 800, dg = 23.4, beta = 1.7),
+    692.68,
+    tolerance = 0.01
+  )
+
+  # negative beta
+  expect_equal(
+    silv_density_sdi(ntrees = 800, dg = 23.4, beta = -1.605),
+    702.40,
+    tolerance = 0.01
+  )
+
+  # with max_sdi (returns percentage) using silv_density_sdi_class
+  sdi_val <- silv_density_sdi(ntrees = 800, dg = 23.4)
+  expect_equal(
+    silv_density_sdi_class(sdi = sdi_val, max_sdi = 990, classify = FALSE),
+    70.95,
+    tolerance = 0.01
+  )
+
+  # with classification using silv_density_sdi_class
+  expect_equal(
+    silv_density_sdi_class(sdi = sdi_val, max_sdi = 990),
+    "Extremely high density"
+  )
+})
+
+## Test errors
+test_that("Errors work in silv_density_sdi", {
+  expect_error(silv_density_sdi(800, 23.4, beta = "1.605"))
+})
+
+test_that("Errors work in silv_density_sdi_class", {
+  expect_error(silv_density_sdi_class(700, "990"))
+  expect_error(silv_density_sdi_class(700, 990, classify = "TRUE"))
 })

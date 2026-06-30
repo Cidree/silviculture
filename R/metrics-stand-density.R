@@ -54,68 +54,105 @@ silv_density_ntrees_ha <- function(ntrees,
 
 #' Calculates the Stand Density Index
 #'
-#' The Stand Density Index (SDI) is relationship between the average tree size and 
+#' The Stand Density Index (SDI) is the relationship between the average tree size and
 #' density of trees per hectare.
 #'
 #' @template ntrees
 #' @template dg
-#' @param classify whether to classify the values using USDA thresholds
-#' @param max_sdi used when \code{classify = TRUE}. The maximum SDi, which depends
-#' on the species, stand type, and site
-#' 
-#' @return A numeric vector
+#' @param beta The Stand Density Index exponent (default is \code{1.605}).
+#'
+#' @return A numeric vector representing the absolute SDI.
 #' @export
-#' 
+#'
 #' @details
-#' The SDI has different interpretation depending on the species, location, and also
+#' The SDI has different interpretations depending on the species, location, and also
 #' the management type (even-aged, uneven-aged...). The value of maximum SDI must
-#' be determined from the literature and used carefully. The option \code{classify = TRUE}
-#' will use this value to classify the SDI in low density (<24%), moderate density (24-35%),
-#' high density (34-55%), and extremely high density (>55%).
+#' be determined from the literature and used carefully. The \code{beta} exponent allows
+#' adjustments for different species or mixed stands.
+#'
+#' @references Reineke, L. H. (1933). Perfecting a stand-density index for even-aged forests.
+#'   Journal of Agricultural Research, 46(7), 627-638.
 #'
 #' @examples
-#' ## calculate SDI for a Pinus sulvestris stand (max 990)
-#' silv_density_sdi(ntrees = 800, dg = 23.4, max_sdi = 990)
-#' 
-#' ## check base classification (other can be used)
-#' silv_density_sdi(ntrees = 800, dg = 23.4, classify = TRUE, max_sdi = 990)
+#' ## calculate SDI for a Pinus sylvestris stand (beta = 1.605)
+#' silv_density_sdi(ntrees = 800, dg = 23.4)
+#'
+#' ## calculate SDI with custom beta
+#' silv_density_sdi(ntrees = 800, dg = 23.4, beta = 1.7)
 silv_density_sdi <- function(
-  ntrees, 
-  dg, 
-  classify = FALSE, 
-  max_sdi = NULL
+  ntrees,
+  dg,
+  beta = 1.605
 ) {
-
-  # 0. Validate inputs
+  # 0. validate inputs
   assert_positive_numeric(ntrees, "ntrees")
   assert_positive_numeric(dg, "dg")
-  assert_logical(classify, "classify")
+  if (!is.numeric(beta)) cli::cli_abort("{.arg beta} has to be a numeric vector.")
   assert_same_length(ntrees, dg, names = c("ntrees", "dg"))
 
-
-  # 1. Calculate SDI
-  sdi <- ntrees * ((dg / 25.4)) ** 1.605
-
-  # 2. Classify?
-  if (classify) {
-
-    ## assert inputs
-    if (is.null(max_sdi)) cli::cli_abort("You must specify <max_sdi> when <classify = TRUE>")
-    assert_positive_numeric(max_sdi, "max_sdi")
-
-    ## calculate
-    sdi <- (sdi / max_sdi) * 100
-    sdi <- dplyr::case_when(
-      sdi <= 24            ~ "Low density",
-      sdi > 24 & sdi <= 34 ~ "Moderate density",
-      sdi > 34 & sdi <= 55 ~ "High density",
-      sdi > 55             ~ "Extremely high density" 
-    )
-  } else if (!is.null(max_sdi)) {
-    sdi <- (sdi / max_sdi) * 100
-  }
+  # 1. calculate sdi
+  sdi <- ntrees * ((25.4 / dg) ** -abs(beta))  # note: abs() avoids errors with signs
   return(sdi)
+}
 
+
+#' Classifies the Stand Density Index
+#'
+#' Classifies the Stand Density Index (SDI) into density classes or calculates the relative SDI
+#' percentage based on USDA thresholds.
+#'
+#' @param sdi A numeric vector representing the Stand Density Index.
+#' @param max_sdi A numeric vector representing the maximum SDI for the species/site.
+#' @param classify A logical value indicating whether to classify the values into density classes
+#'   (default is \code{TRUE}). If \code{FALSE}, it returns the relative SDI as a percentage.
+#'
+#' @return A character vector with the density classes if \code{classify = TRUE}, or a numeric vector
+#'   with the relative SDI percentage if \code{classify = FALSE}.
+#' @export
+#'
+#' @details
+#' The option \code{classify = TRUE} will use the \code{max_sdi} value to classify the SDI into 
+#' four competitive and growth conditions: low density (<24%), moderate density (24-35%), 
+#' high density (34-55%), and extremely high density (>55%).
+#'
+#' @references USDA Forest Service. (n.d.). Stand Density Index.
+#'   https://www.fs.usda.gov/Internet/FSE_DOCUMENTS/stelprdb5270993.pdf
+#'
+#' @examples
+#' ## calculate SDI for a Pinus sylvestris stand (max 990)
+#' sdi_val <- silv_density_sdi(ntrees = 800, dg = 23.4)
+#'
+#' ## check base classification
+#' silv_density_sdi_class(sdi = sdi_val, max_sdi = 990)
+#'
+#' ## get relative SDI percentage
+#' silv_density_sdi_class(sdi = sdi_val, max_sdi = 990, classify = FALSE)
+silv_density_sdi_class <- function(
+  sdi,
+  max_sdi,
+  classify = TRUE
+) {
+  # 0. validate inputs
+  assert_positive_numeric(sdi, "sdi")
+  assert_positive_numeric(max_sdi, "max_sdi")
+  assert_logical(classify, "classify")
+  assert_same_length(sdi, max_sdi, names = c("sdi", "max_sdi"))
+
+  # 1. calculate relative sdi
+  rel_sdi <- (sdi / max_sdi) * 100
+
+  # 2. classify or return percentage
+  if (classify) {
+    res <- dplyr::case_when(
+      rel_sdi <= 24 ~ "Low density",
+      rel_sdi > 24 & rel_sdi <= 34 ~ "Moderate density",
+      rel_sdi > 34 & rel_sdi <= 55 ~ "High density",
+      rel_sdi > 55 ~ "Extremely high density"
+    )
+  } else {
+    res <- rel_sdi
+  }
+  return(res)
 }
 
 

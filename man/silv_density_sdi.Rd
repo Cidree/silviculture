@@ -4,7 +4,7 @@
 \alias{silv_density_sdi}
 \title{Calculates the Stand Density Index}
 \usage{
-silv_density_sdi(ntrees, dg, classify = FALSE, max_sdi = NULL)
+silv_density_sdi(ntrees, dg, beta = 1.605)
 }
 \arguments{
 \item{ntrees}{Numeric vector with number of trees of the diameter class per
@@ -13,29 +13,29 @@ corresponds to only one tree}
 
 \item{dg}{Numeric vector of quadratic mean diameters}
 
-\item{classify}{whether to classify the values using USDA thresholds}
-
-\item{max_sdi}{used when \code{classify = TRUE}. The maximum SDi, which depends
-on the species, stand type, and site}
+\item{beta}{The Stand Density Index exponent (default is \code{1.605}).}
 }
 \value{
-A numeric vector
+A numeric vector representing the absolute SDI.
 }
 \description{
-The Stand Density Index (SDI) is relationship between the average tree size and
+The Stand Density Index (SDI) is the relationship between the average tree size and
 density of trees per hectare.
 }
 \details{
-The SDI has different interpretation depending on the species, location, and also
+The SDI has different interpretations depending on the species, location, and also
 the management type (even-aged, uneven-aged...). The value of maximum SDI must
-be determined from the literature and used carefully. The option \code{classify = TRUE}
-will use this value to classify the SDI in low density (<24\%), moderate density (24-35\%),
-high density (34-55\%), and extremely high density (>55\%).
+be determined from the literature and used carefully. The \code{beta} exponent allows
+adjustments for different species or mixed stands.
 }
 \examples{
-## calculate SDI for a Pinus sulvestris stand (max 990)
-silv_density_sdi(ntrees = 800, dg = 23.4, max_sdi = 990)
+## calculate SDI for a Pinus sylvestris stand (beta = 1.605)
+silv_density_sdi(ntrees = 800, dg = 23.4)
 
-## check base classification (other can be used)
-silv_density_sdi(ntrees = 800, dg = 23.4, classify = TRUE, max_sdi = 990)
+## calculate SDI with custom beta
+silv_density_sdi(ntrees = 800, dg = 23.4, beta = 1.7)
+}
+\references{
+Reineke, L. H. (1933). Perfecting a stand-density index for even-aged forests.
+Journal of Agricultural Research, 46(7), 627-638.
 }
