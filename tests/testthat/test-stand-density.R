@@ -132,3 +132,28 @@ test_that("Errors work in silv_density_sdi_class", {
   expect_error(silv_density_sdi_class(700, "990"))
   expect_error(silv_density_sdi_class(700, 990, classify = "TRUE"))
 })
+
+
+# 4. silv_density_sdi_auto -----------------------------------------------
+
+test_that("silv_density_sdi_auto calculates and falls back correctly", {
+  
+  # Exact match
+  res1 <- silv_density_sdi_auto(800, 23.4, "Pinus sylvestris", "Castilla y León", quiet = TRUE)
+  expect_equal(res1$sdi_model, "del-rio-2006 (Castilla y León)")
+  expect_true(is.numeric(res1$sdi))
+  
+  # Region fallback ("all")
+  res2 <- silv_density_sdi_auto(800, 23.4, "Pinus pinaster", "Unknown region", quiet = TRUE)
+  expect_equal(res2$sdi_model, "aguirre-2017 (all regions)")
+  
+  # Default fallback
+  res3 <- silv_density_sdi_auto(800, 23.4, "Unknown species", quiet = TRUE)
+  expect_equal(res3$sdi_model, "default (-1.605)")
+  
+})
+
+test_that("Errors work in silv_density_sdi_auto", {
+  expect_error(silv_density_sdi_auto(800, 23.4, species = 123))
+  expect_error(silv_density_sdi_auto(c(800, 700), c(23.4, 25.1), species = c("Pinus sylvestris", "Pinus pinaster", "Quercus robur")))
+})
