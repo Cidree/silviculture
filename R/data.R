@@ -107,3 +107,21 @@
 #' MITECO. 4th Spanish National Forest Inventory - SIG database codes.
 #' \url{https://www.miteco.gob.es/content/dam/miteco/es/biodiversidad/temas/inventarios-nacionales/documentador_sig_tcm30-536622.pdf}
 "snfi4_volume_coefficients"
+
+
+#' SDI beta coefficients
+#'
+#' Specific beta coefficients for Reineke's Stand Density Index (SDI) per
+#' species, country, and region.
+#'
+#' @format A `tibble`
+#' \describe{
+#'   \item{article_id}{Character. Short identifier of the source article.}
+#'   \item{title}{Character. Full title of the source article.}
+#'   \item{doi_url}{Character. DOI URL of the source article.}
+#'   \item{country}{Character. Country where the study was conducted.}
+#'   \item{region}{Character. Region within the country.}
+#'   \item{species}{Character. Scientific name of the tree species.}
+#'   \item{beta}{Numeric. Beta coefficient for SDI calculation.}
+#' }
+"sdi_coefficients"
