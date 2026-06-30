@@ -27,8 +27,6 @@ reference:
     - silv_predict_biomass_components
     - silv_predict_carbon
     - silv_predict_carbon_auto
-    - silv_predict_biomass_auto
-    - silv_predict_biomass_components
     - silv_predict_height
     - silv_predict_snfi_volume
     - silv_snfi_provinces
@@ -78,7 +76,6 @@ reference:
     - silv_density_hart
     - silv_density_sdi
     - silv_spacing_index
-    - silv_ntrees_ha
 
   - title: "Inventory Sample Size"
     desc: Calculate and explore forest inventory sample size
