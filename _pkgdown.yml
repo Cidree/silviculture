@@ -77,6 +77,7 @@ reference:
     - silv_density_ntrees_ha
     - silv_density_hart
     - silv_density_sdi
+    - silv_density_sdimax
     - silv_spacing_index
     - silv_ntrees_ha
 
@@ -103,6 +104,7 @@ reference:
     contents:
     - biomass_models
     - carbon_models
+    - sdimax_models
     - snfi3_volume_coefficients
     - snfi4_volume_coefficients
     - inventory_samples
