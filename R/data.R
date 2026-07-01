@@ -107,3 +107,47 @@
 #' MITECO. 4th Spanish National Forest Inventory - SIG database codes.
 #' \url{https://www.miteco.gob.es/content/dam/miteco/es/biodiversidad/temas/inventarios-nacionales/documentador_sig_tcm30-536622.pdf}
 "snfi4_volume_coefficients"
+
+
+#' SDI beta coefficients
+#'
+#' Specific beta coefficients for Reineke's Stand Density Index (SDI) per
+#' species, country, and region.
+#'
+#' @format A `tibble`
+#' \describe{
+#'   \item{article_id}{Character. Short identifier of the source article.}
+#'   \item{title}{Character. Full title of the source article.}
+#'   \item{doi_url}{Character. DOI URL of the source article.}
+#'   \item{country}{Character. Country where the study was conducted.}
+#'   \item{region}{Character. Region within the country.}
+#'   \item{species}{Character. Scientific name of the tree species.}
+#'   \item{beta}{Numeric. Beta coefficient for SDI calculation.}
+#' }
+"sdi_coefficients"
+
+
+#' Maximum stand density index (SDImax) models
+#'
+#' Coefficients for calculating maximum stand density index (SDImax) from
+#' Rodríguez de Prado (2020).
+#'
+#' @format A `tibble` with 88 rows and 13 variables:
+#' \describe{
+#'   \item{article_id}{Character. Identifier of the article.}
+#'   \item{title}{Character. Title of the article.}
+#'   \item{doi_url}{Character. DOI URL of the article.}
+#'   \item{country}{Character. Country where the study was conducted.}
+#'   \item{species}{Character. Tree species scientific name.}
+#'   \item{model_name}{Character. Name of the model/equation variant (e.g. "basic", "P1", "MXT3").}
+#'   \item{a0}{Numeric. Coeffient a0.}
+#'   \item{a1}{Numeric. Coeffient a1 (0 if not used/applicable).}
+#'   \item{b0}{Numeric. Coeffient b0.}
+#'   \item{b1}{Numeric. Coeffient b1 (0 if not used/applicable).}
+#'   \item{aic}{Numeric. Akaike Information Criterion.}
+#'   \item{pseudo_r2}{Numeric. Pseudo R-squared value.}
+#'   \item{q_index}{Numeric. Q index value.}
+#' }
+#' @references
+#' Rodríguez-de-Prado, M., et al. (2020). Potential climatic influence on maximum stand carrying capacity for 15 Mediterranean coniferous and broadleaf species. Forest Ecology and Management, 458, 117824.
+"sdimax_models"
