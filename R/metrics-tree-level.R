@@ -226,3 +226,401 @@ silv_tree_volume <- function(
   volume_vec
 }
 
+
+#' Calculate Mean DBH or derive it from Perimeter
+#'
+#' Calculates the mean diameter at breast height (DBH) from two perpendicular
+#' measurements or derives it from the perimeter.
+#'
+#' @param dbh1 A numeric vector with the first DBH measurement.
+#' @param dbh2 A numeric vector with the second DBH measurement.
+#' @param perimeter A numeric vector with the perimeter measurement.
+#' @param units The units of the inputs (one of `mm`, `cm`, `dm`, or `m`).
+#'
+#' @return A numeric vector with the mean DBH.
+#' @export
+#'
+#' @examples
+#' silv_tree_mean_dbh(dbh1 = 20, dbh2 = 22)
+#' silv_tree_mean_dbh(perimeter = 65)
+silv_tree_mean_dbh <- function(
+  dbh1 = NULL,
+  dbh2 = NULL,
+  perimeter = NULL,
+  units = "cm"
+) {
+  
+  if (!is.null(perimeter)) {
+    assert_positive_numeric(perimeter, "perimeter")
+    # Convert from perimeter to DBH (units remain the same)
+    return(perimeter / pi)
+  }
+  
+  if (!is.null(dbh1) && !is.null(dbh2)) {
+    assert_positive_numeric(dbh1, "dbh1")
+    assert_positive_numeric(dbh2, "dbh2")
+    return((dbh1 + dbh2) / 2)
+  }
+  
+  cli::cli_abort("You must provide either {.arg perimeter} or both {.arg dbh1} and {.arg dbh2}.")
+}
+
+#' Calculate Tree Circumference
+#'
+#' @template diameter
+#' @param units The units of the diameter (one of `mm`, `cm`, `dm`, or `m`).
+#'
+#' @return A numeric vector with the circumference in the same units.
+#' @export
+#'
+#' @examples
+#' silv_tree_circumference(20)
+silv_tree_circumference <- function(
+  diameter,
+  units = "cm"
+) {
+  assert_positive_numeric(diameter, "diameter")
+  return(diameter * pi)
+}
+
+#' Calculate Tree Basal Area per Hectare
+#'
+#' Calculates the tree basal area expanded to hectare.
+#'
+#' @param diameter A numeric vector of tree DBH. Optional if `basal_area` is provided.
+#' @param basal_area A numeric vector of tree basal area in m2. Optional if `diameter` is provided.
+#' @param expansion_factor A numeric vector representing the tree expansion factor.
+#' @param units The units of the diameter (one of `mm`, `cm`, `dm`, or `m`).
+#'
+#' @return A numeric vector with the basal area per hectare (m2/ha).
+#' @export
+#'
+#' @examples
+#' silv_tree_basal_area_ha(diameter = 20, expansion_factor = 127)
+silv_tree_basal_area_ha <- function(
+  diameter = NULL,
+  basal_area = NULL,
+  expansion_factor,
+  units = "cm"
+) {
+  assert_positive_numeric(expansion_factor, "expansion_factor")
+  
+  if (is.null(basal_area)) {
+    if (is.null(diameter)) {
+      cli::cli_abort("You must provide either {.arg diameter} or {.arg basal_area}.")
+    }
+    basal_area <- silv_tree_basal_area(diameter, units = units)
+  } else {
+    assert_positive_numeric(basal_area, "basal_area")
+  }
+  
+  return(basal_area * expansion_factor)
+}
+
+#' Calculate Basal Area Larger (BAL)
+#'
+#' Calculates the Basal Area Larger (BAL) for each tree in each plot.
+#'
+#' @param data A data frame containing tree measurements.
+#' @param plot_id Unquoted column name with the plot identifier.
+#' @param tree_id Unquoted column name with the tree identifier.
+#' @param diameter Unquoted column name with the DBH (optional).
+#' @param expansion_factor Unquoted column name with the expansion factor (optional).
+#' @param basal_area_ha Unquoted column name with the basal area per hectare. If provided, `diameter` and `expansion_factor` are ignored.
+#' @param units The units of the diameter.
+#'
+#' @return A numeric vector with the BAL for each tree. 
+#' @export
+#'
+#' @importFrom rlang enquo as_name !! sym quo_is_null
+#' @importFrom dplyr group_by arrange mutate desc ungroup select bind_cols n row_number left_join pull
+#' @examples
+#' \dontrun{
+#' inventory_samples |>
+#'   dplyr::mutate(bal = silv_tree_bal(
+#'     inventory_samples, plot_id, tree_id, diameter, exp_factor))
+#' }
+silv_tree_bal <- function(
+  data,
+  plot_id,
+  tree_id,
+  diameter = NULL,
+  expansion_factor = NULL,
+  basal_area_ha = NULL,
+  units = "cm"
+) {
+  
+  plot_id_q <- rlang::enquo(plot_id)
+  tree_id_q <- rlang::enquo(tree_id)
+  diameter_q <- rlang::enquo(diameter)
+  expansion_factor_q <- rlang::enquo(expansion_factor)
+  basal_area_ha_q <- rlang::enquo(basal_area_ha)
+  
+  if (rlang::quo_is_null(basal_area_ha_q)) {
+    if (rlang::quo_is_null(diameter_q) || rlang::quo_is_null(expansion_factor_q)) {
+      cli::cli_abort("You must provide either {.arg basal_area_ha} or both {.arg diameter} and {.arg expansion_factor}.")
+    }
+    data <- data |>
+      dplyr::mutate(.g_ha_temp = silv_tree_basal_area_ha(
+        diameter = !!diameter_q,
+        expansion_factor = !!expansion_factor_q,
+        units = units
+      ))
+    g_ha_col <- rlang::sym(".g_ha_temp")
+    sort_col <- diameter_q
+  } else {
+    g_ha_col <- basal_area_ha_q
+    sort_col <- if (!rlang::quo_is_null(diameter_q)) diameter_q else basal_area_ha_q
+  }
+
+  res <- data |>
+    dplyr::mutate(.row_id = dplyr::row_number())
+    
+  sorted_data <- res |>
+    dplyr::group_by(!!plot_id_q) |>
+    dplyr::arrange(dplyr::desc(!!sort_col), .by_group = TRUE) |>
+    dplyr::mutate(
+      .bal = cumsum(!!g_ha_col) - !!g_ha_col
+    ) |>
+    dplyr::ungroup()
+    
+  res <- res |> 
+    dplyr::left_join(sorted_data |> dplyr::select(!!tree_id_q, .bal), by = rlang::as_name(tree_id_q)) |>
+    dplyr::pull(.bal)
+
+  return(res)
+}
+
+#' Calculate Basal Area Smaller (BAS)
+#'
+#' Calculates the Basal Area Smaller (BAS) for each tree in each plot.
+#'
+#' @inheritParams silv_tree_bal
+#'
+#' @return A numeric vector with the BAS for each tree.
+#' @export
+silv_tree_bas <- function(
+  data,
+  plot_id,
+  tree_id,
+  diameter = NULL,
+  expansion_factor = NULL,
+  basal_area_ha = NULL,
+  units = "cm"
+) {
+  
+  plot_id_q <- rlang::enquo(plot_id)
+  tree_id_q <- rlang::enquo(tree_id)
+  diameter_q <- rlang::enquo(diameter)
+  expansion_factor_q <- rlang::enquo(expansion_factor)
+  basal_area_ha_q <- rlang::enquo(basal_area_ha)
+  
+  if (rlang::quo_is_null(basal_area_ha_q)) {
+    if (rlang::quo_is_null(diameter_q) || rlang::quo_is_null(expansion_factor_q)) {
+      cli::cli_abort("You must provide either {.arg basal_area_ha} or both {.arg diameter} and {.arg expansion_factor}.")
+    }
+    data <- data |>
+      dplyr::mutate(.g_ha_temp = silv_tree_basal_area_ha(
+        diameter = !!diameter_q,
+        expansion_factor = !!expansion_factor_q,
+        units = units
+      ))
+    g_ha_col <- rlang::sym(".g_ha_temp")
+    sort_col <- diameter_q
+  } else {
+    g_ha_col <- basal_area_ha_q
+    sort_col <- if (!rlang::quo_is_null(diameter_q)) diameter_q else basal_area_ha_q
+  }
+
+  res <- data |>
+    dplyr::mutate(.row_id = dplyr::row_number())
+    
+  sorted_data <- res |>
+    dplyr::group_by(!!plot_id_q) |>
+    dplyr::arrange(!!sort_col, .by_group = TRUE) |>
+    dplyr::mutate(
+      .bas = cumsum(!!g_ha_col) - !!g_ha_col
+    ) |>
+    dplyr::ungroup()
+    
+  res <- res |> 
+    dplyr::left_join(sorted_data |> dplyr::select(!!tree_id_q, .bas), by = rlang::as_name(tree_id_q)) |>
+    dplyr::pull(.bas)
+
+  return(res)
+}
+
+#' Calculate Tree Slenderness
+#'
+#' @param diameter A numeric vector of tree DBH.
+#' @param height A numeric vector of tree height.
+#' @param d_units Units of the diameter.
+#' @param h_units Units of the height.
+#'
+#' @return A numeric vector with the tree slenderness.
+#' @export
+#'
+#' @examples
+#' silv_tree_slenderness(diameter = 20, height = 15)
+silv_tree_slenderness <- function(
+  diameter,
+  height,
+  d_units = "cm",
+  h_units = "m"
+) {
+  assert_positive_numeric(diameter, "diameter")
+  assert_positive_numeric(height, "height")
+  
+  h_cm <- switch(h_units,
+    "mm" = height / 10,
+    "cm" = height,
+    "dm" = height * 10,
+    "m"  = height * 100,
+    cli::cli_abort("Invalid {.arg h_units}. Use one of {.val {c('mm', 'cm', 'dm', 'm')}}")
+  )
+  
+  d_cm <- switch(d_units,
+    "mm" = diameter / 10,
+    "cm" = diameter,
+    "dm" = diameter * 10,
+    "m"  = diameter * 100,
+    cli::cli_abort("Invalid {.arg d_units}. Use one of {.val {c('mm', 'cm', 'dm', 'm')}}")
+  )
+  
+  return(h_cm / d_cm)
+}
+
+#' Calculate Tree Expansion Factor
+#'
+#' Calculates the tree expansion factor according to the plot type (fixed area or SNFI concentric plots).
+#'
+#' @param type Plot type, either `"fixed_area"` or `"snfi"`.
+#' @param plot_area Plot area (required for `"fixed_area"`).
+#' @param diameter Tree DBH (required for `"snfi"`).
+#' @param d_units Units of the diameter.
+#' @param a_units Units of the plot area (one of `m2` or `ha`).
+#'
+#' @return A numeric vector with the expansion factor.
+#' @export
+#'
+#' @examples
+#' silv_tree_expansion_factor(type = "fixed_area", plot_area = 500)
+#' silv_tree_expansion_factor(type = "snfi", diameter = 15)
+silv_tree_expansion_factor <- function(
+  type = c("fixed_area", "snfi"),
+  plot_area = NULL,
+  diameter = NULL,
+  d_units = "cm",
+  a_units = "m2"
+) {
+  type <- match.arg(type)
+  
+  if (type == "fixed_area") {
+    if (is.null(plot_area)) cli::cli_abort("You must provide {.arg plot_area} for fixed area plots.")
+    assert_positive_numeric(plot_area, "plot_area")
+    
+    if (a_units == "ha") plot_area <- plot_area * 10000
+    else if (a_units != "m2") cli::cli_abort("Invalid {.arg a_units}. Use one of {.val {c('m2', 'ha')}}")
+    
+    return(10000 / plot_area)
+  }
+  
+  if (type == "snfi") {
+    if (is.null(diameter)) cli::cli_abort("You must provide {.arg diameter} for SNFI plots.")
+    assert_positive_numeric(diameter, "diameter")
+    
+    d_cm <- switch(d_units,
+      "mm" = diameter / 10,
+      "cm" = diameter,
+      "dm" = diameter * 10,
+      "m"  = diameter * 100,
+      cli::cli_abort("Invalid {.arg d_units}. Use one of {.val {c('mm', 'cm', 'dm', 'm')}}")
+    )
+    
+    res <- rep(0, length(d_cm))
+    res[d_cm >= 7.5 & d_cm < 12.5] <- 10000 / (pi * (5^2))
+    res[d_cm >= 12.5 & d_cm < 22.5] <- 10000 / (pi * (10^2))
+    res[d_cm >= 22.5 & d_cm < 42.5] <- 10000 / (pi * (15^2))
+    res[d_cm >= 42.5] <- 10000 / (pi * (25^2))
+    return(res)
+  }
+}
+
+#' Calculate Relative and Absolute Tree Coordinates
+#'
+#' @param distance Distance from plot center.
+#' @param bearing Bearing from plot center.
+#' @param x_center Plot center X coordinate (optional).
+#' @param y_center Plot center Y coordinate (optional).
+#' @param dist_units Units of the distance (one of `mm`, `cm`, `dm`, `m`).
+#' @param bearing_units Units of the bearing (`degree`, `grad`, `radian`).
+#'
+#' @return A data frame with relative coordinates (`x_rel`, `y_rel`) and, if plot 
+#' centers are provided, absolute coordinates (`x_abs`, `y_abs`).
+#' @export
+#' @importFrom tibble tibble
+#'
+#' @examples
+#' silv_tree_coordinates(distance = 10, bearing = 100)
+silv_tree_coordinates <- function(
+  distance,
+  bearing,
+  x_center = NULL,
+  y_center = NULL,
+  dist_units = "m",
+  bearing_units = "grad"
+) {
+  if (!is.numeric(distance)) cli::cli_abort("{.arg distance} has to be a numeric vector.")
+  if (!is.numeric(bearing)) cli::cli_abort("{.arg bearing} has to be a numeric vector.")
+  
+  d_m <- switch(dist_units,
+    "mm" = distance / 1000,
+    "cm" = distance / 100,
+    "dm" = distance / 10,
+    "m"  = distance,
+    cli::cli_abort("Invalid {.arg dist_units}. Use one of {.val {c('mm', 'cm', 'dm', 'm')}}")
+  )
+  
+  b_rad <- switch(bearing_units,
+    "degree" = bearing * pi / 180,
+    "grad"   = bearing * pi / 200,
+    "radian" = bearing,
+    cli::cli_abort("Invalid {.arg bearing_units}. Use one of {.val {c('degree', 'grad', 'radian')}}")
+  )
+  
+  x_rel <- d_m * cos(b_rad)
+  y_rel <- d_m * sin(b_rad)
+  
+  res <- tibble::tibble(x_rel = x_rel, y_rel = y_rel)
+  
+  if (!is.null(x_center) && !is.null(y_center)) {
+    res$x_abs <- res$x_rel + x_center
+    res$y_abs <- res$y_rel + y_center
+  }
+  
+  return(res)
+}
+
+#' Calculate Tree Crown Ratio
+#'
+#' @param height Total tree height.
+#' @param height_base_crown Height to the base of the live crown.
+#'
+#' @return A numeric vector with the crown ratio.
+#' @export
+#'
+#' @examples
+#' silv_tree_crown_ratio(height = 20, height_base_crown = 8)
+silv_tree_crown_ratio <- function(
+  height,
+  height_base_crown
+) {
+  assert_positive_numeric(height, "height")
+  assert_positive_numeric(height_base_crown, "height_base_crown")
+  
+  if (any(height_base_crown > height, na.rm = TRUE)) {
+    cli::cli_abort("{.arg height_base_crown} cannot be greater than {.arg height}.")
+  }
+  
+  return((height - height_base_crown) / height)
+}

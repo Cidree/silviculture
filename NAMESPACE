@@ -45,14 +45,44 @@ export(silv_stand_lorey_height)
 export(silv_stand_qmean_diameter)
 export(silv_summary)
 export(silv_treatment_thinning)
+export(silv_tree_bal)
+export(silv_tree_bas)
 export(silv_tree_basal_area)
+export(silv_tree_basal_area_ha)
+export(silv_tree_circumference)
+export(silv_tree_coordinates)
+export(silv_tree_crown_ratio)
 export(silv_tree_dclass)
+export(silv_tree_expansion_factor)
+export(silv_tree_mean_dbh)
+export(silv_tree_slenderness)
 export(silv_tree_volume)
 export(silv_volume)
+importFrom(dplyr,
+  arrange,
+  bind_cols,
+  desc,
+  group_by,
+  left_join,
+  mutate,
+  n,
+  pull,
+  row_number,
+  select,
+  ungroup
+)
 importFrom(lifecycle,deprecated)
+importFrom(rlang,
+  "!!",
+  as_name,
+  enquo,
+  quo_is_null,
+  sym
+)
 importFrom(stats,
   qt,
   sd,
   var
 )
+importFrom(tibble,tibble)
 importFrom(utils,tail)

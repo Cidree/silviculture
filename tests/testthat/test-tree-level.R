@@ -104,3 +104,71 @@ test_that("silv_tree_volume calculates volumes correctly", {
   expect_equal(v_smalian, 0.09817478, tolerance = 1e-4)
 })
 
+
+# 4. silv_tree_mean_dbh --------------------------------------------------------
+test_that("silv_tree_mean_dbh works", {
+  expect_equal(silv_tree_mean_dbh(dbh1 = 20, dbh2 = 22), 21)
+  expect_equal(silv_tree_mean_dbh(perimeter = 20*pi), 20)
+  expect_error(silv_tree_mean_dbh(dbh1 = 20))
+})
+
+# 5. silv_tree_circumference ---------------------------------------------------
+test_that("silv_tree_circumference works", {
+  expect_equal(silv_tree_circumference(20), 20 * pi)
+  expect_error(silv_tree_circumference(-5))
+})
+
+# 6. silv_tree_basal_area_ha ---------------------------------------------------
+test_that("silv_tree_basal_area_ha works", {
+  expect_equal(silv_tree_basal_area_ha(diameter = 20, expansion_factor = 100), 0.03141593 * 100, tolerance = 1e-4)
+  expect_equal(silv_tree_basal_area_ha(basal_area = 0.05, expansion_factor = 100), 0.05 * 100)
+  expect_error(silv_tree_basal_area_ha(expansion_factor = 100))
+})
+
+# 7. silv_tree_bal & silv_tree_bas ---------------------------------------------
+test_that("silv_tree_bal and silv_tree_bas works", {
+  df <- data.frame(
+    plot = c(1, 1, 1, 2, 2),
+    tree = 1:5,
+    dbh = c(10, 20, 30, 15, 25),
+    expan = c(100, 100, 100, 100, 100)
+  )
+  
+  bal_res <- silv_tree_bal(df, plot, tree, dbh, expan)
+  expect_length(bal_res, 5)
+  expect_true(bal_res[3] == 0) # tree 3 is largest in plot 1
+  expect_true(bal_res[1] > bal_res[2]) 
+  
+  bas_res <- silv_tree_bas(df, plot, tree, dbh, expan)
+  expect_true(bas_res[1] == 0) # tree 1 is smallest in plot 1
+})
+
+# 8. silv_tree_slenderness -----------------------------------------------------
+test_that("silv_tree_slenderness works", {
+  expect_equal(silv_tree_slenderness(20, 15), 1500 / 20)
+  expect_error(silv_tree_slenderness(-20, 15))
+})
+
+# 9. silv_tree_expansion_factor ------------------------------------------------
+test_that("silv_tree_expansion_factor works", {
+  expect_equal(silv_tree_expansion_factor(type = "fixed_area", plot_area = 500), 20)
+  expect_equal(silv_tree_expansion_factor(type = "snfi", diameter = 10), 10000 / (pi * 25))
+  expect_error(silv_tree_expansion_factor(type = "fixed_area"))
+})
+
+# 10. silv_tree_coordinates ----------------------------------------------------
+test_that("silv_tree_coordinates works", {
+  coords <- silv_tree_coordinates(10, 0, bearing_units = "radian")
+  expect_equal(coords$x_rel, 10)
+  expect_equal(coords$y_rel, 0)
+  
+  coords_abs <- silv_tree_coordinates(10, 0, x_center = 100, y_center = 200, bearing_units = "radian")
+  expect_equal(coords_abs$x_abs, 110)
+  expect_equal(coords_abs$y_abs, 200)
+})
+
+# 11. silv_tree_crown_ratio ----------------------------------------------------
+test_that("silv_tree_crown_ratio works", {
+  expect_equal(silv_tree_crown_ratio(20, 10), 0.5)
+  expect_error(silv_tree_crown_ratio(10, 20))
+})
