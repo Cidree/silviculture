@@ -59,6 +59,7 @@ export(silv_tree_dclass)
 export(silv_tree_expansion_factor)
 export(silv_tree_mean_dbh)
 export(silv_tree_slenderness)
+export(silv_tree_summary)
 export(silv_tree_volume)
 export(silv_volume)
 importFrom(dplyr,

@@ -11,6 +11,10 @@ silv_summary_species(
   expan = NULL,
   g = NULL,
   diameter = NULL,
+  volume = NULL,
+  volume_units = "dm3",
+  biomass = NULL,
+  carbon = NULL,
   top_n = 3
 )
 }
@@ -27,14 +31,22 @@ silv_summary_species(
 
 \item{diameter}{Unquoted column name with the diameter (cm). Used to calculate basal area if \code{g} is \code{NULL}.}
 
+\item{volume}{Unquoted column name with individual tree volume, optional.}
+
+\item{volume_units}{Character. Units of the individual tree volume (\code{"dm3"} or \code{"m3"}). Default is \code{"dm3"}.}
+
+\item{biomass}{Unquoted column name with individual tree biomass (kg), optional.}
+
+\item{carbon}{Unquoted column name with individual tree carbon (kg), optional.}
+
 \item{top_n}{Number of top species to pivot into columns (default: 3). If \code{0}, no pivoting is performed.}
 }
 \value{
 A tibble with species-level summaries.
 }
 \description{
-Calculates the number of trees and basal area per hectare for each species
-in a plot, and optionally provides the top species by basal area.
+Calculates the number of trees, basal area, and optional volume, biomass, and carbon per hectare
+for each species in a plot, and optionally provides the top species formatted into columns.
 }
 \examples{
 library(dplyr)
