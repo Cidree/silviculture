@@ -33,6 +33,7 @@ export(silv_predict_snfi_volume)
 export(silv_sample_size)
 export(silv_sample_size_simple)
 export(silv_sample_size_stratified)
+export(silv_site_factor)
 export(silv_snfi_provinces)
 export(silv_snfi_species)
 export(silv_spacing_index)
@@ -49,7 +50,9 @@ export(silv_tree_dclass)
 export(silv_tree_volume)
 export(silv_volume)
 importFrom(lifecycle,deprecated)
-importFrom(stats,qt)
-importFrom(stats,sd)
-importFrom(stats,var)
+importFrom(stats,
+  qt,
+  sd,
+  var
+)
 importFrom(utils,tail)

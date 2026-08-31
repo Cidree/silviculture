@@ -65,6 +65,7 @@ reference:
     - silv_stand_dominant_height
     - silv_stand_lorey_height
     - silv_stand_qmean_diameter
+    - silv_site_factor
     - silv_summary
     - silv_dominant_height
     - silv_lorey_height
@@ -108,6 +109,7 @@ reference:
     - carbon_models
     - sdi_coefficients
     - sdimax_models
+    - site_factor_models
     - snfi3_volume_coefficients
     - snfi4_volume_coefficients
     - inventory_samples

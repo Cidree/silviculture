@@ -151,3 +151,24 @@
 #' @references
 #' Rodríguez-de-Prado, M., et al. (2020). Potential climatic influence on maximum stand carrying capacity for 15 Mediterranean coniferous and broadleaf species. Forest Ecology and Management, 458, 117824.
 "sdimax_models"
+
+
+#' Site Factor models
+#'
+#' Coefficients for calculating the Site Factor (SF) based on Aguirre et al. (2022).
+#' The site factor is a variable that can be used in growth equations and is based on
+#' the dominant height and dominant dbh.
+#'
+#' @format A `tibble` with 24 rows and 7 variables:
+#' \describe{
+#'   \item{species}{Character. Scientific name of the tree species.}
+#'   \item{species_code}{Numeric. Species numeric code.}
+#'   \item{d_ref}{Numeric. Reference diameter (Dref).}
+#'   \item{model}{Character. Model shape and expanded parameter.}
+#'   \item{param_a}{Numeric. Parameter a.}
+#'   \item{param_b}{Numeric. Parameter b.}
+#'   \item{param_c}{Numeric. Parameter c.}
+#' }
+#' @references
+#' Aguirre, A. et al. (2022).
+"site_factor_models"
