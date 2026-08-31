@@ -74,8 +74,11 @@ reference:
     - silv_stand_dominant_height
     - silv_stand_lorey_height
     - silv_stand_qmean_diameter
+    - silv_stand_slenderness
     - silv_site_factor
     - silv_summary
+    - silv_summary_species
+    - silv_summary_mortality
     - silv_dominant_height
     - silv_lorey_height
     - silv_ntrees_ha
