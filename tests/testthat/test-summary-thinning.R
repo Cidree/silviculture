@@ -17,8 +17,35 @@ test_that("silv_summary calculates a full inventory summary without errors", {
   expect_true(is.data.frame(gm))
   expect_true(nrow(gm) > 0)
   
-  expected_cols <- c("plot_id", "species", "ntrees_ha", "h0", "g_ha", "dg", "spacing", "h_lorey")
+  expected_cols <- c("plot_id", "species", "ntrees_ha", "h0", "g_ha", "dg", "spacing", "h_lorey", "slenderness")
   expect_true(all(expected_cols %in% names(gm)))
+})
+
+test_that("silv_summary_species calculates top species correctly", {
+  df <- inventory_samples |> 
+    dplyr::mutate(expan = silv_density_ntrees_ha(1, 10))
+    
+  res <- silv_summary_species(df, plot_id, species, expan, diameter = diameter, top_n = 3)
+  
+  expect_true(is.data.frame(res))
+  expect_true("sp1" %in% names(res))
+  expect_true("G_sp1" %in% names(res))
+  expect_true("N_sp1" %in% names(res))
+})
+
+test_that("silv_summary_mortality calculates dead vs alive correctly", {
+  set.seed(42)
+  df <- inventory_samples |> 
+    dplyr::mutate(expan = silv_density_ntrees_ha(1, 10)) |>
+    dplyr::mutate(is_dead = sample(c(TRUE, FALSE), dplyr::n(), replace = TRUE, prob = c(0.1, 0.9)))
+    
+  res <- silv_summary_mortality(df, plot_id, is_dead, expan, diameter = diameter)
+  
+  expect_true(is.data.frame(res))
+  expect_true("N_alive" %in% names(res))
+  expect_true("G_alive" %in% names(res))
+  expect_true("N_dead" %in% names(res))
+  expect_true("G_dead" %in% names(res))
 })
 
 test_that("silv_treatment_thinning simulates thinning correctly", {

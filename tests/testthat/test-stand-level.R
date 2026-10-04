@@ -189,3 +189,25 @@ test_that("Errors work", {
   expect_error(silv_stand_basal_area(20, units = "km"))
   expect_error(silv_stand_basal_area(c(20, 40), c(10)))
 })
+
+# 5. silv_stand_slenderness ----------------------------------------------------
+
+test_that("Stand slenderness is well calculated", {
+  expect_equal(
+    silv_stand_slenderness(height = 18, diameter = 25),
+    72,
+    tolerance = .001
+  )
+
+  expect_equal(
+    silv_stand_slenderness(height = c(18, 20), diameter = c(25, 25)),
+    c(72, 80),
+    tolerance = .001
+  )
+})
+
+test_that("Errors in stand slenderness work", {
+  expect_error(silv_stand_slenderness(height = c(18, 20), diameter = c(25, 30, 35)))
+  expect_error(silv_stand_slenderness(height = -18, diameter = 25))
+  expect_error(silv_stand_slenderness(height = 18, diameter = "25"))
+})
