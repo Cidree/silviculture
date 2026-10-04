@@ -133,3 +133,19 @@
 #' @references
 #' Rodríguez-de-Prado, M., et al. (2020). Potential climatic influence on maximum stand carrying capacity for 15 Mediterranean coniferous and broadleaf species. Forest Ecology and Management, 458, 117824.
 "sdimax_models"
+#' SDI beta coefficients
+#'
+#' Specific beta coefficients for Reineke's Stand Density Index (SDI) per
+#' species, country, and region.
+#'
+#' @format A `tibble`
+#' \describe{
+#'   \item{article_id}{Character. Short identifier of the source article.}
+#'   \item{title}{Character. Full title of the source article.}
+#'   \item{doi_url}{Character. DOI URL of the source article.}
+#'   \item{country}{Character. Country where the study was conducted.}
+#'   \item{region}{Character. Region within the country.}
+#'   \item{species}{Character. Scientific name of the tree species.}
+#'   \item{beta}{Numeric. Beta coefficient for SDI calculation.}
+#' }
+"sdi_coefficients"

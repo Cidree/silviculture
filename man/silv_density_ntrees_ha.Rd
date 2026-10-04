@@ -37,6 +37,6 @@ inventory_samples |>
       n,
       plot_size = c(10, 15),
       plot_shape = "rectangular"
-     )
+    )
   )
 }
