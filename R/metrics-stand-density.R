@@ -275,13 +275,20 @@ silv_density_sdi <- function(
 #'   Defaults to `NULL` (no country specified).
 #' @param region A character string or vector of the region (e.g., `"Castilla y León"`).
 #'   Defaults to `NULL` (no region specified).
+#' @param classify A logical value indicating whether to automatically calculate `SDImax` 
+#'   and classify the values (default is `FALSE`).
+#' @param climatic_model Character. The specific climate-dependent model name (e.g. `"P1"`, `"MXT3"`).
+#'   Passed to \code{\link{silv_density_sdimax}} when \code{classify = TRUE}.
+#' @param clim_value Numeric vector. Values of the climatic variable corresponding to the selected
+#'   climate model. Passed to \code{\link{silv_density_sdimax}} when \code{classify = TRUE}.
 #' @param quiet Logical. If `FALSE`, informs the user about fallbacks to genus or default models.
 #'
-#' @return A `data.frame` with three columns:
+#' @return A `data.frame` with the columns:
 #'   - `sdi`: The computed absolute Stand Density Index.
 #'   - `beta`: The beta exponent used for the calculation.
-#'   - `sdi_model`: The model used (e.g., `"del-rio-2006 (Spain, Castilla y León)"`, 
-#'     `"reineke-1933 (-1.605)"`, etc.).
+#'   - `sdi_model`: The model used for beta exponent.
+#'   - `sdimax`: (If `classify = TRUE`) The maximum SDI for the species.
+#'   - `sdi_class`: (If `classify = TRUE`) The density classification.
 #'
 #' @name silv_density_sdi_auto
 #'
@@ -294,6 +301,12 @@ silv_density_sdi <- function(
 #'   region = "Castilla y León"
 #' )
 #'
+#' # With automatic classification
+#' silv_density_sdi_auto(
+#'   ntrees = 800,
+#'   dg = 23.4,
+#'   species = "Pinus sylvestris",
+#'   classify = TRUE
 #' # Fallback to default
 #' silv_density_sdi_auto(
 #'   ntrees = 800,
@@ -308,6 +321,9 @@ silv_density_sdi_auto <- function(
   species,
   country = NULL,
   region = NULL,
+  classify = FALSE,
+  climatic_model = NULL,
+  clim_value = NULL,
   quiet = FALSE
 ) {
   # Validations
@@ -342,6 +358,11 @@ silv_density_sdi_auto <- function(
   beta_values <- rep(NA_real_, n_trees)
   sdi_models_used <- rep(NA_character_, n_trees)
   
+  if (classify) {
+    sdimax_values <- rep(NA_real_, n_trees)
+    sdi_class_values <- rep(NA_character_, n_trees)
+  }
+
   unique_combos <- unique(data.frame(
     species = species, 
     country = country,
@@ -388,17 +409,49 @@ silv_density_sdi_auto <- function(
       }
     }
     
-    sdi_values[idx] <- silv_density_sdi(ntrees[idx], dg[idx], beta = best_model_info$beta)
+    current_sdi <- silv_density_sdi(ntrees[idx], dg[idx], beta = best_model_info$beta)
+    sdi_values[idx] <- current_sdi
     beta_values[idx] <- best_model_info$beta
     sdi_models_used[idx] <- best_model_info$model_desc
+    
+    if (classify) {
+      # Handle SDImax per species
+      tryCatch({
+        current_clim_value <- if(!is.null(clim_value)) clim_value[idx] else NULL
+        current_sdimax <- silv_density_sdimax(
+          species = rep(sp, length(idx)),
+          climatic_model = climatic_model,
+          clim_value = current_clim_value
+        )
+        sdimax_values[idx] <- current_sdimax
+        sdi_class_values[idx] <- silv_density_sdi_class(current_sdi, current_sdimax, classify = TRUE)
+      }, error = function(e) {
+        if (!quiet) {
+          cli::cli_warn("SDImax classification failed for {.val {sp}}: {e$message}")
+        }
+        sdimax_values[idx] <- NA_real_
+        sdi_class_values[idx] <- NA_character_
+      })
+    }
   }
   
-  return(data.frame(
-    sdi = sdi_values,
-    beta = beta_values,
-    sdi_model = sdi_models_used,
-    stringsAsFactors = FALSE
-  ))
+  if (classify) {
+    return(data.frame(
+      sdi = sdi_values,
+      beta = beta_values,
+      sdi_model = sdi_models_used,
+      sdimax = sdimax_values,
+      sdi_class = sdi_class_values,
+      stringsAsFactors = FALSE
+    ))
+  } else {
+    return(data.frame(
+      sdi = sdi_values,
+      beta = beta_values,
+      sdi_model = sdi_models_used,
+      stringsAsFactors = FALSE
+    ))
+  }
 }
 
 
@@ -517,7 +570,6 @@ silv_density_hart <- function(
   )
 }
 
-
 #' Calculates the Maximum Stand Density Index (SDImax)
 #'
 #' The Maximum Stand Density Index (SDImax) represents the maximum stand carrying capacity,
@@ -624,7 +676,3 @@ silv_density_sdimax <- function(
 
   return(sdimax)
 }
-
-
-
-

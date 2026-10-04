@@ -10,6 +10,9 @@ silv_density_sdi_auto(
   species,
   country = NULL,
   region = NULL,
+  classify = FALSE,
+  climatic_model = NULL,
+  clim_value = NULL,
   quiet = FALSE
 )
 }
@@ -28,6 +31,25 @@ Defaults to \code{NULL} (no country specified).}
 \item{region}{A character string or vector of the region (e.g., \code{"Castilla y León"}).
 Defaults to \code{NULL} (no region specified).}
 
+\item{classify}{A logical value indicating whether to automatically calculate \code{SDImax}
+and classify the values (default is \code{FALSE}).}
+
+\item{climatic_model}{Character. The specific climate-dependent model name (e.g. \code{"P1"}, \code{"MXT3"}).
+Passed to \code{\link{silv_density_sdimax}} when \code{classify = TRUE}.}
+
+\item{clim_value}{Numeric vector. Values of the climatic variable corresponding to the selected
+climate model. Passed to \code{\link{silv_density_sdimax}} when \code{classify = TRUE}.}
+
+\item{quiet}{Logical. If \code{FALSE}, informs the user about fallbacks to genus or default models.}
+}
+\value{
+A \code{data.frame} with the columns:
+\itemize{
+\item \code{sdi}: The computed absolute Stand Density Index.
+\item \code{beta}: The beta exponent used for the calculation.
+\item \code{sdi_model}: The model used for beta exponent.
+\item \code{sdimax}: (If \code{classify = TRUE}) The maximum SDI for the species.
+\item \code{sdi_class}: (If \code{classify = TRUE}) The density classification.
 \item{quiet}{Logical. If \code{FALSE}, informs the user about fallbacks to genus or default models.}
 }
 \value{
@@ -58,6 +80,12 @@ silv_density_sdi_auto(
   region = "Castilla y León"
 )
 
+# With automatic classification
+silv_density_sdi_auto(
+  ntrees = 800,
+  dg = 23.4,
+  species = "Pinus sylvestris",
+  classify = TRUE
 # Fallback to default
 silv_density_sdi_auto(
   ntrees = 800,
