@@ -43,15 +43,25 @@
 <span>  <span class="va">data</span>,</span>
 <span>  <span class="va">diameter</span>,</span>
 <span>  <span class="va">height</span>,</span>
-<span>  <span class="va">plot_size</span>,</span>
+<span>  plot_size <span class="op">=</span> <span class="cn">NULL</span>,</span>
 <span>  .groups <span class="op">=</span> <span class="cn">NULL</span>,</span>
-<span>  plot_shape <span class="op">=</span> <span class="st">"circular"</span>,</span>
+<span>  plot_shape <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"circular"</span>, <span class="st">"rectangular"</span>, <span class="st">"snfi"</span><span class="op">)</span>,</span>
 <span>  dmin <span class="op">=</span> <span class="fl">7.5</span>,</span>
 <span>  dmax <span class="op">=</span> <span class="cn">NULL</span>,</span>
 <span>  class_length <span class="op">=</span> <span class="fl">5</span>,</span>
 <span>  include_lowest <span class="op">=</span> <span class="cn">TRUE</span>,</span>
 <span>  which_h0 <span class="op">=</span> <span class="st">"assman"</span>,</span>
-<span>  which_spacing <span class="op">=</span> <span class="st">"hart"</span></span>
+<span>  which_spacing <span class="op">=</span> <span class="st">"hart"</span>,</span>
+<span>  volume <span class="op">=</span> <span class="cn">NULL</span>,</span>
+<span>  volume_units <span class="op">=</span> <span class="st">"dm3"</span>,</span>
+<span>  biomass <span class="op">=</span> <span class="cn">NULL</span>,</span>
+<span>  carbon <span class="op">=</span> <span class="cn">NULL</span>,</span>
+<span>  predict_volume <span class="op">=</span> <span class="cn">FALSE</span>,</span>
+<span>  province <span class="op">=</span> <span class="cn">NULL</span>,</span>
+<span>  species <span class="op">=</span> <span class="cn">NULL</span>,</span>
+<span>  predict_biomass <span class="op">=</span> <span class="cn">FALSE</span>,</span>
+<span>  biomass_component <span class="op">=</span> <span class="st">"tree"</span>,</span>
+<span>  predict_carbon <span class="op">=</span> <span class="cn">FALSE</span></span>
 <span><span class="op">)</span></span></code></pre></div>
     </div>
 
@@ -111,6 +121,46 @@ are greater than <code>dmax</code> are included in the greatest class</p></dd>
 <dd><p>A character with the name of the index (either <code>hart</code> or <code>hart-brecking</code>).
 See <code><a href="silv_density_hart.html">silv_density_hart()</a></code></p></dd>
 
+
+<dt id="arg-volume">volume<a class="anchor" aria-label="anchor" href="#arg-volume"></a></dt>
+<dd><p>Unquoted column name with individual tree volume, optional.</p></dd>
+
+
+<dt id="arg-volume-units">volume_units<a class="anchor" aria-label="anchor" href="#arg-volume-units"></a></dt>
+<dd><p>Character. Units of the individual tree volume (<code>"dm3"</code> or <code>"m3"</code>). Default is <code>"dm3"</code>.</p></dd>
+
+
+<dt id="arg-biomass">biomass<a class="anchor" aria-label="anchor" href="#arg-biomass"></a></dt>
+<dd><p>Unquoted column name with individual tree biomass (kg), optional.</p></dd>
+
+
+<dt id="arg-carbon">carbon<a class="anchor" aria-label="anchor" href="#arg-carbon"></a></dt>
+<dd><p>Unquoted column name with individual tree carbon (kg), optional.</p></dd>
+
+
+<dt id="arg-predict-volume">predict_volume<a class="anchor" aria-label="anchor" href="#arg-predict-volume"></a></dt>
+<dd><p>Logical. If TRUE, predicts tree volume using <code><a href="silv_predict_snfi_volume.html">silv_predict_snfi_volume()</a></code> (default: FALSE).</p></dd>
+
+
+<dt id="arg-province">province<a class="anchor" aria-label="anchor" href="#arg-province"></a></dt>
+<dd><p>Unquoted column name or scalar string/integer with the province code/name.</p></dd>
+
+
+<dt id="arg-species">species<a class="anchor" aria-label="anchor" href="#arg-species"></a></dt>
+<dd><p>Unquoted column name with tree species identifier.</p></dd>
+
+
+<dt id="arg-predict-biomass">predict_biomass<a class="anchor" aria-label="anchor" href="#arg-predict-biomass"></a></dt>
+<dd><p>Logical. If TRUE, predicts tree biomass using <code><a href="silv_predict_biomass_auto.html">silv_predict_biomass_auto()</a></code> (default: FALSE).</p></dd>
+
+
+<dt id="arg-biomass-component">biomass_component<a class="anchor" aria-label="anchor" href="#arg-biomass-component"></a></dt>
+<dd><p>Character. Tree component to predict for biomass (default: <code>"tree"</code>).</p></dd>
+
+
+<dt id="arg-predict-carbon">predict_carbon<a class="anchor" aria-label="anchor" href="#arg-predict-carbon"></a></dt>
+<dd><p>Logical. If TRUE, predicts tree carbon using <code><a href="predict_carbon.html">silv_predict_carbon_auto()</a></code> (default: FALSE).</p></dd>
+
 </dl></div>
     <div class="section level2">
     <h2 id="value">Value<a class="anchor" aria-label="anchor" href="#value"></a></h2>
@@ -120,7 +170,9 @@ See <code><a href="silv_density_hart.html">silv_density_hart()</a></code></p></d
     <h2 id="details">Details<a class="anchor" aria-label="anchor" href="#details"></a></h2>
     <p>The function calculates many inventory parameters and returns two tibbles:</p><ul><li><p><b>dclass_metrics</b>: metrics summarized by .groups and diametric classes</p></li>
 <li><p><b>group_metrics</b>: metrics summarized by .groups</p></li>
-</ul></div>
+</ul><p>Volume is reported at stand level in \(m^3/\text{ha}\) (<code>v_ha</code>).
+Biomass and carbon are reported at stand level in \(t/\text{ha}\) (<code>w_ha</code>, <code>c_ha</code>).</p>
+    </div>
 
     <div class="section level2">
     <h2 id="ref-examples">Examples<a class="anchor" aria-label="anchor" href="#ref-examples"></a></h2>

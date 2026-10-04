@@ -1,7 +1,7 @@
 # Summarize plot data by mortality status
 
-Calculates the number of trees and basal area per hectare for live and
-dead trees in a plot.
+Calculates the number of trees, basal area, and optional volume,
+biomass, and carbon per hectare for live and dead trees in a plot.
 
 ## Usage
 
@@ -12,7 +12,11 @@ silv_summary_mortality(
   dead,
   expan = NULL,
   g = NULL,
-  diameter = NULL
+  diameter = NULL,
+  volume = NULL,
+  volume_units = "dm3",
+  biomass = NULL,
+  carbon = NULL
 )
 ```
 
@@ -45,6 +49,23 @@ silv_summary_mortality(
 
   Unquoted column name with the diameter (cm). Used to calculate basal
   area if `g` is `NULL`.
+
+- volume:
+
+  Unquoted column name with individual tree volume, optional.
+
+- volume_units:
+
+  Character. Units of the individual tree volume (`"dm3"` or `"m3"`).
+  Default is `"dm3"`.
+
+- biomass:
+
+  Unquoted column name with individual tree biomass (kg), optional.
+
+- carbon:
+
+  Unquoted column name with individual tree carbon (kg), optional.
 
 ## Value
 

@@ -1,8 +1,8 @@
 # Summarize plot data by species
 
-Calculates the number of trees and basal area per hectare for each
-species in a plot, and optionally provides the top species by basal
-area.
+Calculates the number of trees, basal area, and optional volume,
+biomass, and carbon per hectare for each species in a plot, and
+optionally provides the top species formatted into columns.
 
 ## Usage
 
@@ -14,6 +14,10 @@ silv_summary_species(
   expan = NULL,
   g = NULL,
   diameter = NULL,
+  volume = NULL,
+  volume_units = "dm3",
+  biomass = NULL,
+  carbon = NULL,
   top_n = 3
 )
 ```
@@ -46,6 +50,23 @@ silv_summary_species(
 
   Unquoted column name with the diameter (cm). Used to calculate basal
   area if `g` is `NULL`.
+
+- volume:
+
+  Unquoted column name with individual tree volume, optional.
+
+- volume_units:
+
+  Character. Units of the individual tree volume (`"dm3"` or `"m3"`).
+  Default is `"dm3"`.
+
+- biomass:
+
+  Unquoted column name with individual tree biomass (kg), optional.
+
+- carbon:
+
+  Unquoted column name with individual tree carbon (kg), optional.
 
 - top_n:
 

@@ -9,15 +9,25 @@ silv_summary(
   data,
   diameter,
   height,
-  plot_size,
+  plot_size = NULL,
   .groups = NULL,
-  plot_shape = "circular",
+  plot_shape = c("circular", "rectangular", "snfi"),
   dmin = 7.5,
   dmax = NULL,
   class_length = 5,
   include_lowest = TRUE,
   which_h0 = "assman",
-  which_spacing = "hart"
+  which_spacing = "hart",
+  volume = NULL,
+  volume_units = "dm3",
+  biomass = NULL,
+  carbon = NULL,
+  predict_volume = FALSE,
+  province = NULL,
+  species = NULL,
+  predict_biomass = FALSE,
+  biomass_component = "tree",
+  predict_carbon = FALSE
 )
 ```
 
@@ -81,6 +91,54 @@ silv_summary(
   `hart-brecking`). See
   [`silv_density_hart()`](https://cidree.github.io/silviculture/reference/silv_density_hart.md)
 
+- volume:
+
+  Unquoted column name with individual tree volume, optional.
+
+- volume_units:
+
+  Character. Units of the individual tree volume (`"dm3"` or `"m3"`).
+  Default is `"dm3"`.
+
+- biomass:
+
+  Unquoted column name with individual tree biomass (kg), optional.
+
+- carbon:
+
+  Unquoted column name with individual tree carbon (kg), optional.
+
+- predict_volume:
+
+  Logical. If TRUE, predicts tree volume using
+  [`silv_predict_snfi_volume()`](https://cidree.github.io/silviculture/reference/silv_predict_snfi_volume.md)
+  (default: FALSE).
+
+- province:
+
+  Unquoted column name or scalar string/integer with the province
+  code/name.
+
+- species:
+
+  Unquoted column name with tree species identifier.
+
+- predict_biomass:
+
+  Logical. If TRUE, predicts tree biomass using
+  [`silv_predict_biomass_auto()`](https://cidree.github.io/silviculture/reference/silv_predict_biomass_auto.md)
+  (default: FALSE).
+
+- biomass_component:
+
+  Character. Tree component to predict for biomass (default: `"tree"`).
+
+- predict_carbon:
+
+  Logical. If TRUE, predicts tree carbon using
+  [`silv_predict_carbon_auto()`](https://cidree.github.io/silviculture/reference/predict_carbon.md)
+  (default: FALSE).
+
 ## Value
 
 an S7 `Inventory` list with 2 `tibbles`
@@ -94,6 +152,10 @@ tibbles:
   classes
 
 - **group_metrics**: metrics summarized by .groups
+
+Volume is reported at stand level in \\m^3/\text{ha}\\ (`v_ha`). Biomass
+and carbon are reported at stand level in \\t/\text{ha}\\ (`w_ha`,
+`c_ha`).
 
 ## Examples
 
