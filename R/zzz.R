@@ -19,6 +19,7 @@ utils::globalVariables(
     "ntrees",
     "ntrees_ha",
     "remaining_to_extract",
+    "sdimax_models",
     "weighted.mean",
     ".cumtrees",
     ".data",
