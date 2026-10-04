@@ -388,3 +388,93 @@ silv_stand_qmean_diameter <- function(
   }
 
 }
+
+
+#' Calculates the Site Factor (SF)
+#'
+#' The site factor is a variable used in growth equations based on the
+#' dominant height and dominant dbh.
+#'
+#' @param species Character vector. Scientific names of the tree species.
+#' @param d0 Numeric vector. Dominant diameter.
+#' @param h0 Numeric vector. Dominant height.
+#'
+#' @return A numeric vector representing the Site Factor. `NA` for unsupported species.
+#' @export
+#'
+#' @references
+#' Aguirre, A., et al. (2022).
+#'
+#' @examples
+#' silv_site_factor(species = "Pinus sylvestris", d0 = 25, h0 = 15)
+silv_site_factor <- function(species, d0, h0) {
+  # 0. Validate inputs
+  assert_positive_numeric(d0, "d0")
+  assert_positive_numeric(h0, "h0")
+  if (!is.character(species)) {
+    cli::cli_abort("{.arg species} must be a character vector.")
+  }
+
+  n_trees <- max(length(d0), length(h0), length(species))
+  
+  if (length(d0) == 1) d0 <- rep(d0, n_trees)
+  if (length(h0) == 1) h0 <- rep(h0, n_trees)
+  if (length(species) == 1) species <- rep(species, n_trees)
+  
+  assert_same_length(d0, h0, names = c("d0", "h0"))
+  assert_same_length(d0, species, names = c("d0", "species"))
+
+  sf_values <- rep(NA_real_, n_trees)
+  
+  # 1. Get coefficients
+  coefs_tbl <- silviculture::site_factor_models
+  
+  for (i in seq_len(n_trees)) {
+    sp <- species[i]
+    Do <- d0[i]
+    Ho <- h0[i]
+    
+    if (is.na(sp) || is.na(Do) || is.na(Ho)) next
+    
+    sp_data <- coefs_tbl[coefs_tbl$species == sp, ]
+    
+    if (nrow(sp_data) == 0) {
+      cli::cli_warn("Species {.val {sp}} not found in Site Factor models.")
+      next
+    }
+    
+    sp_data <- sp_data[1, ]
+    model <- sp_data$model
+    a <- sp_data$param_a
+    b <- sp_data$param_b
+    c <- sp_data$param_c
+    Do_ref <- sp_data$d_ref
+    
+    if (Ho <= 1.3) {
+      cli::cli_warn("Dominant height {.val {Ho}} must be greater than 1.3 m for species {.val {sp}}.")
+      next
+    }
+    
+    if (model == "Hossfeld II - a") {
+      denominator <- (Do / sqrt(Ho - 1.3)) + b * (Do_ref - Do)
+      sf_values[i] <- 1.3 + (Do_ref^2) / (denominator^2)
+    } else if (model == "Hossfeld II - b") {
+      inner_term <- (Do / sqrt(Ho - 1.3)) - a
+      denominator <- a + inner_term * (Do_ref / Do)
+      sf_values[i] <- 1.3 + (Do_ref^2) / (denominator^2)
+    } else if (model == "Bertalanffy-Richards - a") {
+      numerator <- 1 - exp(-b * Do_ref)
+      denominator <- 1 - exp(-b * Do)
+      sf_values[i] <- 1.3 + (Ho - 1.3) * (numerator / denominator)^c
+    } else if (model == "Bertalanffy-Richards - b") {
+      inner_val <- 1 - ((Ho - 1.3) / a)^(1 / c)
+      if (inner_val <= 0) {
+        cli::cli_warn("Invalid inputs for Bertalanffy-Richards - b log calculation for species {.val {sp}}.")
+        next
+      }
+      sf_values[i] <- 1.3 + a * ((exp(log(inner_val) * (Do_ref / Do)))^c)
+    }
+  }
+  
+  return(sf_values)
+}

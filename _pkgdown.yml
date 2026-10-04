@@ -51,6 +51,15 @@ reference:
     - silv_tree_dclass
     - silv_tree_basal_area
     - silv_tree_volume
+    - silv_tree_mean_dbh
+    - silv_tree_circumference
+    - silv_tree_basal_area_ha
+    - silv_tree_bal
+    - silv_tree_bas
+    - silv_tree_slenderness
+    - silv_tree_expansion_factor
+    - silv_tree_coordinates
+    - silv_tree_crown_ratio
     - silv_basal_area
     - silv_diametric_class
     - silv_volume
@@ -63,6 +72,7 @@ reference:
     - silv_stand_dominant_height
     - silv_stand_lorey_height
     - silv_stand_qmean_diameter
+    - silv_site_factor
     - silv_summary
     - silv_dominant_height
     - silv_lorey_height
@@ -106,6 +116,7 @@ reference:
     - carbon_models
     - sdi_coefficients
     - sdimax_models
+    - site_factor_models
     - sdi_coefficients
     - snfi3_volume_coefficients
     - snfi4_volume_coefficients
