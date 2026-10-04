@@ -50,6 +50,15 @@ A \code{data.frame} with the columns:
 \item \code{sdi_model}: The model used for beta exponent.
 \item \code{sdimax}: (If \code{classify = TRUE}) The maximum SDI for the species.
 \item \code{sdi_class}: (If \code{classify = TRUE}) The density classification.
+\item{quiet}{Logical. If \code{FALSE}, informs the user about fallbacks to genus or default models.}
+}
+\value{
+A \code{data.frame} with three columns:
+\itemize{
+\item \code{sdi}: The computed absolute Stand Density Index.
+\item \code{beta}: The beta exponent used for the calculation.
+\item \code{sdi_model}: The model used (e.g., \code{"del-rio-2006 (Spain, Castilla y León)"},
+\code{"reineke-1933 (-1.605)"}, etc.).
 }
 }
 \description{
@@ -77,6 +86,11 @@ silv_density_sdi_auto(
   dg = 23.4,
   species = "Pinus sylvestris",
   classify = TRUE
+# Fallback to default
+silv_density_sdi_auto(
+  ntrees = 800,
+  dg = 23.4,
+  species = "Unknown species"
 )
 
 }
