@@ -63,7 +63,7 @@ inventory_samples |>
       n,
       plot_size = c(10, 15),
       plot_shape = "rectangular"
-     )
+    )
   )
 #> # A tibble: 14 × 4
 #>    plot_id species     n ntrees_ha
