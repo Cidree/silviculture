@@ -104,8 +104,6 @@ Stand density and competition metrics
   : Classifies the Stand Density Index
 - [`silv_spacing_index()`](https://cidree.github.io/silviculture/reference/silv_spacing_index.md)
   **\[deprecated\]** : Hart or Hart-Becking spacing index
-- [`silv_ntrees_ha()`](https://cidree.github.io/silviculture/reference/silv_ntrees_ha.md)
-  **\[deprecated\]** : Calculates number of trees per hectare
 
 ## Inventory Sample Size
 
