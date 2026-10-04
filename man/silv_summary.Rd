@@ -8,15 +8,25 @@ silv_summary(
   data,
   diameter,
   height,
-  plot_size,
+  plot_size = NULL,
   .groups = NULL,
-  plot_shape = "circular",
+  plot_shape = c("circular", "rectangular", "snfi"),
   dmin = 7.5,
   dmax = NULL,
   class_length = 5,
   include_lowest = TRUE,
   which_h0 = "assman",
-  which_spacing = "hart"
+  which_spacing = "hart",
+  volume = NULL,
+  volume_units = "dm3",
+  biomass = NULL,
+  carbon = NULL,
+  predict_volume = FALSE,
+  province = NULL,
+  species = NULL,
+  predict_biomass = FALSE,
+  biomass_component = "tree",
+  predict_carbon = FALSE
 )
 }
 \arguments{
@@ -49,6 +59,26 @@ are greater than \code{dmax} are included in the greatest class}
 
 \item{which_spacing}{A character with the name of the index (either \code{hart} or \code{hart-brecking}).
 See \code{\link[=silv_density_hart]{silv_density_hart()}}}
+
+\item{volume}{Unquoted column name with individual tree volume, optional.}
+
+\item{volume_units}{Character. Units of the individual tree volume (\code{"dm3"} or \code{"m3"}). Default is \code{"dm3"}.}
+
+\item{biomass}{Unquoted column name with individual tree biomass (kg), optional.}
+
+\item{carbon}{Unquoted column name with individual tree carbon (kg), optional.}
+
+\item{predict_volume}{Logical. If TRUE, predicts tree volume using \code{\link[=silv_predict_snfi_volume]{silv_predict_snfi_volume()}} (default: FALSE).}
+
+\item{province}{Unquoted column name or scalar string/integer with the province code/name.}
+
+\item{species}{Unquoted column name with tree species identifier.}
+
+\item{predict_biomass}{Logical. If TRUE, predicts tree biomass using \code{\link[=silv_predict_biomass_auto]{silv_predict_biomass_auto()}} (default: FALSE).}
+
+\item{biomass_component}{Character. Tree component to predict for biomass (default: \code{"tree"}).}
+
+\item{predict_carbon}{Logical. If TRUE, predicts tree carbon using \code{\link[=silv_predict_carbon_auto]{silv_predict_carbon_auto()}} (default: FALSE).}
 }
 \value{
 an S7 \code{Inventory} list with 2 \code{tibbles}
@@ -62,6 +92,9 @@ The function calculates many inventory parameters and returns two tibbles:
 \item \bold{dclass_metrics}: metrics summarized by .groups and diametric classes
 \item \bold{group_metrics}: metrics summarized by .groups
 }
+
+Volume is reported at stand level in \eqn{m^3/\text{ha}} (\code{v_ha}).
+Biomass and carbon are reported at stand level in \eqn{t/\text{ha}} (\code{w_ha}, \code{c_ha}).
 }
 \examples{
 silv_summary(

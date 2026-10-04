@@ -10,7 +10,11 @@ silv_summary_mortality(
   dead,
   expan = NULL,
   g = NULL,
-  diameter = NULL
+  diameter = NULL,
+  volume = NULL,
+  volume_units = "dm3",
+  biomass = NULL,
+  carbon = NULL
 )
 }
 \arguments{
@@ -25,12 +29,21 @@ silv_summary_mortality(
 \item{g}{Unquoted column name with the basal area per tree (m²/ha). If \code{NULL}, \code{diameter} must be provided.}
 
 \item{diameter}{Unquoted column name with the diameter (cm). Used to calculate basal area if \code{g} is \code{NULL}.}
+
+\item{volume}{Unquoted column name with individual tree volume, optional.}
+
+\item{volume_units}{Character. Units of the individual tree volume (\code{"dm3"} or \code{"m3"}). Default is \code{"dm3"}.}
+
+\item{biomass}{Unquoted column name with individual tree biomass (kg), optional.}
+
+\item{carbon}{Unquoted column name with individual tree carbon (kg), optional.}
 }
 \value{
 A tibble with plot-level mortality summaries.
 }
 \description{
-Calculates the number of trees and basal area per hectare for live and dead trees in a plot.
+Calculates the number of trees, basal area, and optional volume, biomass, and carbon per hectare
+for live and dead trees in a plot.
 }
 \examples{
 library(dplyr)

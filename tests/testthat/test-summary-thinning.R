@@ -48,6 +48,75 @@ test_that("silv_summary_mortality calculates dead vs alive correctly", {
   expect_true("G_dead" %in% names(res))
 })
 
+test_that("silv_summary aggregates and predicts volume, biomass, and carbon", {
+  df <- inventory_samples |> dplyr::filter(plot_id == 8, species == 28) |> dplyr::mutate(province = 1)
+
+  # With automatic predictions
+  res <- silv_summary(
+    data            = df,
+    diameter        = diameter,
+    height          = height,
+    plot_size       = 10,
+    .groups         = "plot_id",
+    species         = species,
+    province        = province,
+    predict_volume  = TRUE,
+    predict_biomass = TRUE,
+    predict_carbon  = TRUE
+  )
+
+  gm <- S7::prop(res, "group_metrics")
+  expect_true(all(c("v_ha", "w_ha", "c_ha") %in% names(gm)))
+  expect_true(gm$v_ha > 0)
+  expect_true(gm$w_ha > 0)
+  expect_true(gm$c_ha > 0)
+
+  # With pre-calculated columns
+  df_pre <- df |>
+    dplyr::mutate(
+      vol = 150, # dm3
+      w   = 100, # kg
+      c   = 50   # kg
+    )
+
+  res_pre <- silv_summary(
+    data      = df_pre,
+    diameter  = diameter,
+    height    = height,
+    plot_size = 10,
+    .groups   = "plot_id",
+    volume    = vol,
+    biomass   = w,
+    carbon    = c
+  )
+  gm_pre <- S7::prop(res_pre, "group_metrics")
+  expect_true(all(c("v_ha", "w_ha", "c_ha") %in% names(gm_pre)))
+})
+
+test_that("silv_summary_species and silv_summary_mortality support volume, biomass, carbon", {
+  set.seed(42)
+  df <- inventory_samples |>
+    dplyr::mutate(
+      expan   = silv_density_ntrees_ha(1, 10),
+      is_dead = sample(c(TRUE, FALSE), dplyr::n(), replace = TRUE, prob = c(0.1, 0.9)),
+      vol     = 100,
+      w       = 80,
+      c       = 40
+    )
+
+  res_sp <- silv_summary_species(
+    df, plot_id, species, expan,
+    diameter = diameter, volume = vol, biomass = w, carbon = c, top_n = 3
+  )
+  expect_true(all(c("V_sp1", "W_sp1", "C_sp1") %in% names(res_sp)))
+
+  res_mort <- silv_summary_mortality(
+    df, plot_id, is_dead, expan,
+    diameter = diameter, volume = vol, biomass = w, carbon = c
+  )
+  expect_true(all(c("V_alive", "V_dead", "W_alive", "W_dead", "C_alive", "C_dead") %in% names(res_mort)))
+})
+
 test_that("silv_treatment_thinning simulates thinning correctly", {
   df <- inventory_samples |> 
     dplyr::filter(plot_id == 8) |>

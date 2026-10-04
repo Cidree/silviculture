@@ -46,6 +46,7 @@ Collate:
     'sample-size.R'
     'silviculture-package.R'
     'treatment-thinning.R'
+    'tree-summary.R'
     'utils-assert.R'
     'zzz.R'
 Config/roxygen2/version: 8.1.0

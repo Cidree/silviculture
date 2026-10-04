@@ -60,6 +60,7 @@ reference:
     - silv_tree_expansion_factor
     - silv_tree_coordinates
     - silv_tree_crown_ratio
+    - silv_tree_summary
     - silv_basal_area
     - silv_diametric_class
     - silv_volume

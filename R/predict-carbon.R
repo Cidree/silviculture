@@ -188,6 +188,10 @@ silv_predict_carbon_auto <- function(biomass, species, component, priority = c("
 }
 
 .auto_select_carbon_model <- function(species, component, priority) {
+  species <- as.character(species)
+  if (length(species) == 0 || is.na(species) || !nzchar(species)) {
+    return(list(model = NA_character_, pct = NA_real_, matched_species = NA_character_, is_fallback = FALSE))
+  }
   
   # 1. Try exact species
   for (mod in priority) {
@@ -198,13 +202,16 @@ silv_predict_carbon_auto <- function(biomass, species, component, priority = c("
   }
   
   # 2. Try genus fallback
-  genus <- strsplit(species, " ")[[1]][1]
-  genus_spp <- paste0(genus, " spp.")
-  
-  for (mod in priority) {
-    pct <- .lookup_carbon_pct(genus_spp, component, mod)
-    if (!is.na(pct)) {
-      return(list(model = mod, pct = pct, matched_species = genus_spp, is_fallback = TRUE))
+  parts <- strsplit(species, " ")[[1]]
+  if (length(parts) > 0) {
+    genus <- parts[1]
+    genus_spp <- paste0(genus, " spp.")
+    
+    for (mod in priority) {
+      pct <- .lookup_carbon_pct(genus_spp, component, mod)
+      if (!is.na(pct)) {
+        return(list(model = mod, pct = pct, matched_species = genus_spp, is_fallback = TRUE))
+      }
     }
   }
   
