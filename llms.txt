@@ -200,10 +200,16 @@ Metrics to be calculated per stand or plot of trees
   : Calculates Lorey's Height
 - [`silv_stand_qmean_diameter()`](https://cidree.github.io/silviculture/reference/silv_stand_qmean_diameter.md)
   : Calculates the quadratic mean diameter (QMD)
+- [`silv_stand_slenderness()`](https://cidree.github.io/silviculture/reference/silv_stand_slenderness.md)
+  : Calculates the Stand Slenderness Index
 - [`silv_site_factor()`](https://cidree.github.io/silviculture/reference/silv_site_factor.md)
   : Calculates the Site Factor (SF)
 - [`silv_summary()`](https://cidree.github.io/silviculture/reference/silv_summary.md)
   : Calculates a bunch of forest metrics
+- [`silv_summary_species()`](https://cidree.github.io/silviculture/reference/silv_summary_species.md)
+  : Summarize plot data by species
+- [`silv_summary_mortality()`](https://cidree.github.io/silviculture/reference/silv_summary_mortality.md)
+  : Summarize plot data by mortality status
 - [`silv_dominant_height()`](https://cidree.github.io/silviculture/reference/silv_dominant_height.md)
   **\[deprecated\]** : Calculates the dominant height
 - [`silv_lorey_height()`](https://cidree.github.io/silviculture/reference/silv_lorey_height.md)
