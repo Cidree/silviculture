@@ -307,6 +307,11 @@ silv_density_sdi <- function(
 #'   dg = 23.4,
 #'   species = "Pinus sylvestris",
 #'   classify = TRUE
+#' # Fallback to default
+#' silv_density_sdi_auto(
+#'   ntrees = 800,
+#'   dg = 23.4,
+#'   species = "Unknown species"
 #' )
 #'
 #' @export
