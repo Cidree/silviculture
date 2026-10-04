@@ -60,6 +60,7 @@ reference:
     - silv_tree_expansion_factor
     - silv_tree_coordinates
     - silv_tree_crown_ratio
+    - silv_tree_summary
     - silv_basal_area
     - silv_diametric_class
     - silv_volume
@@ -72,8 +73,11 @@ reference:
     - silv_stand_dominant_height
     - silv_stand_lorey_height
     - silv_stand_qmean_diameter
+    - silv_stand_slenderness
     - silv_site_factor
     - silv_summary
+    - silv_summary_species
+    - silv_summary_mortality
     - silv_dominant_height
     - silv_lorey_height
     - silv_ntrees_ha

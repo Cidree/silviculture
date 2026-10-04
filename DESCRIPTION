@@ -18,7 +18,9 @@ Imports:
     dplyr,
     lifecycle,
     rlang,
-    S7
+    S7,
+    tibble,
+    tidyr
 Depends: 
     R (>= 4.1.0)
 Suggests: 
@@ -44,6 +46,7 @@ Collate:
     'sample-size.R'
     'silviculture-package.R'
     'treatment-thinning.R'
+    'tree-summary.R'
     'utils-assert.R'
     'zzz.R'
 Config/roxygen2/version: 8.1.0

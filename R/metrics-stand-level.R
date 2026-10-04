@@ -478,3 +478,38 @@ silv_site_factor <- function(species, d0, h0) {
   
   return(sf_values)
 }
+
+
+#' Calculates the Stand Slenderness Index
+#'
+#' The Stand Slenderness Index is defined as the ratio of height to diameter,
+#' multiplied by 100. It can be applied to mean height and quadratic mean diameter,
+#' or dominant height and dominant diameter.
+#'
+#' @template height
+#' @template diameter
+#'
+#' @return A numeric vector representing the slenderness index.
+#' @export
+#'
+#' @details
+#' The formula used is:
+#' \deqn{Slenderness = \frac{H}{D} \times 100}
+#' where H is the height in meters and D is the diameter in centimeters.
+#'
+#' @examples
+#' ## Calculate slenderness using mean height and quadratic mean diameter
+#' silv_stand_slenderness(height = 18, diameter = 25)
+silv_stand_slenderness <- function(height, diameter) {
+  # 0. Validate inputs
+  assert_positive_numeric(height, "height")
+  assert_positive_numeric(diameter, "diameter")
+  
+  if (length(height) != length(diameter) && length(height) != 1 && length(diameter) != 1) {
+    cli::cli_abort("{.arg height} and {.arg diameter} must have the same length or length 1.")
+  }
+  
+  # 1. Calculate slenderness
+  slenderness <- (height / diameter) * 100
+  return(slenderness)
+}
