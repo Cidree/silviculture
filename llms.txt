@@ -161,6 +161,24 @@ Metrics to be calculated tree by tree
   : Calculates Basal Area
 - [`silv_tree_volume()`](https://cidree.github.io/silviculture/reference/silv_tree_volume.md)
   : Calculate Tree Volume
+- [`silv_tree_mean_dbh()`](https://cidree.github.io/silviculture/reference/silv_tree_mean_dbh.md)
+  : Calculate Mean DBH or derive it from Perimeter
+- [`silv_tree_circumference()`](https://cidree.github.io/silviculture/reference/silv_tree_circumference.md)
+  : Calculate Tree Circumference
+- [`silv_tree_basal_area_ha()`](https://cidree.github.io/silviculture/reference/silv_tree_basal_area_ha.md)
+  : Calculate Tree Basal Area per Hectare
+- [`silv_tree_bal()`](https://cidree.github.io/silviculture/reference/silv_tree_bal.md)
+  : Calculate Basal Area Larger (BAL)
+- [`silv_tree_bas()`](https://cidree.github.io/silviculture/reference/silv_tree_bas.md)
+  : Calculate Basal Area Smaller (BAS)
+- [`silv_tree_slenderness()`](https://cidree.github.io/silviculture/reference/silv_tree_slenderness.md)
+  : Calculate Tree Slenderness
+- [`silv_tree_expansion_factor()`](https://cidree.github.io/silviculture/reference/silv_tree_expansion_factor.md)
+  : Calculate Tree Expansion Factor
+- [`silv_tree_coordinates()`](https://cidree.github.io/silviculture/reference/silv_tree_coordinates.md)
+  : Calculate Relative and Absolute Tree Coordinates
+- [`silv_tree_crown_ratio()`](https://cidree.github.io/silviculture/reference/silv_tree_crown_ratio.md)
+  : Calculate Tree Crown Ratio
 - [`silv_basal_area()`](https://cidree.github.io/silviculture/reference/silv_basal_area.md)
   **\[deprecated\]** : Calculates Basal Area
 - [`silv_diametric_class()`](https://cidree.github.io/silviculture/reference/silv_diametric_class.md)
@@ -182,6 +200,8 @@ Metrics to be calculated per stand or plot of trees
   : Calculates Lorey's Height
 - [`silv_stand_qmean_diameter()`](https://cidree.github.io/silviculture/reference/silv_stand_qmean_diameter.md)
   : Calculates the quadratic mean diameter (QMD)
+- [`silv_site_factor()`](https://cidree.github.io/silviculture/reference/silv_site_factor.md)
+  : Calculates the Site Factor (SF)
 - [`silv_summary()`](https://cidree.github.io/silviculture/reference/silv_summary.md)
   : Calculates a bunch of forest metrics
 - [`silv_dominant_height()`](https://cidree.github.io/silviculture/reference/silv_dominant_height.md)
@@ -252,6 +272,8 @@ Datasets included in the package
   : SDI beta coefficients
 - [`sdimax_models`](https://cidree.github.io/silviculture/reference/sdimax_models.md)
   : Maximum stand density index (SDImax) models
+- [`site_factor_models`](https://cidree.github.io/silviculture/reference/site_factor_models.md)
+  : Site Factor models
 - [`snfi3_volume_coefficients`](https://cidree.github.io/silviculture/reference/snfi3_volume_coefficients.md)
   : SNFI3 tree volume coefficients
 - [`snfi4_volume_coefficients`](https://cidree.github.io/silviculture/reference/snfi4_volume_coefficients.md)
