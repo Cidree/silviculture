@@ -203,6 +203,8 @@ Stand density and competition metrics
   : Hart or Hart-Becking spacing index
 - [`silv_density_sdi()`](https://cidree.github.io/silviculture/reference/silv_density_sdi.md)
   : Calculates the Stand Density Index
+- [`silv_density_sdimax()`](https://cidree.github.io/silviculture/reference/silv_density_sdimax.md)
+  : Calculates the Maximum Stand Density Index (SDImax)
 - [`silv_density_sdi_auto()`](https://cidree.github.io/silviculture/reference/silv_density_sdi_auto.md)
   : Predict Stand Density Index automatically
 - [`silv_density_sdi_class()`](https://cidree.github.io/silviculture/reference/silv_density_sdi_class.md)
@@ -246,6 +248,8 @@ Datasets included in the package
   : Biomass models
 - [`carbon_models`](https://cidree.github.io/silviculture/reference/carbon_models.md)
   : Carbon content models
+- [`sdimax_models`](https://cidree.github.io/silviculture/reference/sdimax_models.md)
+  : Maximum stand density index (SDImax) models
 - [`sdi_coefficients`](https://cidree.github.io/silviculture/reference/sdi_coefficients.md)
   : SDI beta coefficients
 - [`snfi3_volume_coefficients`](https://cidree.github.io/silviculture/reference/snfi3_volume_coefficients.md)
